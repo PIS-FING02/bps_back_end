@@ -2,13 +2,13 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="postgresUnit" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>DAOService.Display</class>
-		<class>DAOService.Funcionario</class>
-		<class>DAOService.Numero</class>
-		<class>DAOService.Puesto</class>
-		<class>DAOService.Rol</class>
-		<class>DAOService.Sector</class>
-		<class>DAOService.Tramite</class>
+		<class>src.DAOService.Display</class>
+		<class>src.DAOService.Funcionario</class>
+		<class>src.DAOService.Numero</class>
+		<class>src.DAOService.Puesto</class>
+		<class>src.DAOService.Rol</class>
+		<class>src.DAOService.Sector</class>
+		<class>src.DAOService.Tramite</class>
 		<properties>
 	      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dbSARP"/>
 	      <property name="javax.persistence.jdbc.user" value="postgres"/>

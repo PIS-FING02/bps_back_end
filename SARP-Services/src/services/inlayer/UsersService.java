@@ -27,15 +27,13 @@ public class UsersService {
 	
 	@GET
 	@Path("{login}-{nombre}-{apellido}-{password}-{email}")
-	public String Login(@PathParam("login") String login,@PathParam("nombre") String nombre,
+	public String AltaFuncionario(@PathParam("login") String login,@PathParam("nombre") String nombre,
 			@PathParam("apellido") String apellido,@PathParam("password") String password,
 			@PathParam("email") String email){
-		
-		factory = Persistence.createEntityManagerFactory("postgresUnit");
-        EntityManager em = factory.createEntityManager();     
-        //FuncionarioService funcionarioService = new FuncionarioService(em);
-		//Funcionario func = funcionarioService.crearFuncionario(login, nombre, apellido, password, email);
-		return "el user es: " + login + " y la contraseña:" + password;
+		    
+        FuncionarioService funcionarioService = new FuncionarioService();
+		funcionarioService.crearFuncionario(login, nombre, apellido, password, email);
+		return "se creo el funcionario: " + login + " y la contraseña:" + password;
 	}
 	
 	//@GET

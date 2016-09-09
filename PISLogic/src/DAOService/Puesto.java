@@ -1,4 +1,4 @@
-package DAOService;
+package src.DAOService;
 
 import java.io.Serializable;
 import javax.persistence.*;

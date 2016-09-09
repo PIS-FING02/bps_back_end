@@ -1,12 +1,12 @@
-package ModelEntitiesController;
+package src.ModelEntitiesController;
 
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import DAOService.Funcionario;
-import DAOService.Puesto;
+import src.DAOService.Funcionario;
+import src.DAOService.Puesto;
 
 public class PuestoService {
 	protected EntityManager em;

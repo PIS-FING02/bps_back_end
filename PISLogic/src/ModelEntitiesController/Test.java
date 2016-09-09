@@ -1,4 +1,4 @@
-package ModelEntitiesController;
+package src.ModelEntitiesController;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import DAOService.Funcionario;
-import DAOService.Puesto;
-import ModelEntitiesController.FuncionarioService;
-import ModelEntitiesController.PuestoService;
+import src.DAOService.Funcionario;
+import src.DAOService.Puesto;
+import src.ModelEntitiesController.FuncionarioService;
+import src.ModelEntitiesController.PuestoService;
 
 public class Test {
      private static EntityManagerFactory factory;
@@ -17,7 +17,7 @@ public class Test {
      public static void main(String[] args) {
           factory = Persistence.createEntityManagerFactory("postgresUnit");
           EntityManager em = factory.createEntityManager();               
-          FuncionarioService funcionarioService = new FuncionarioService(em);
+          FuncionarioService funcionarioService = new FuncionarioService();
           PuestoService puestoService = new PuestoService(em);      
           em.getTransaction().begin();
           

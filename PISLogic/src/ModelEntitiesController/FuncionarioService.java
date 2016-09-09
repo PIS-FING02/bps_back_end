@@ -1,21 +1,22 @@
-package ModelEntitiesController;
+package src.ModelEntitiesController;
 
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import DAOService.Funcionario;
-import DAOService.Puesto;
+import src.DAOService.Funcionario;
+
 
 public class FuncionarioService {
-	protected EntityManager em;
 	
-	public FuncionarioService(EntityManager em) {
-		this.em = em;
-	}
+	@PersistenceContext
+	private EntityManager em;
 	
-    public Funcionario crearFuncionario(String login, String nombre, String apellido, String password, String correoelectronico) {
+	
+	
+    public void crearFuncionario(String login, String nombre, String apellido, String password, String correoelectronico) {
     	Funcionario f = new Funcionario();
     	f.setLogin(login);
     	f.setNombre(nombre);
@@ -23,7 +24,6 @@ public class FuncionarioService {
     	f.setPassword(password);
     	f.setCorreoelectronico(correoelectronico);
     	em.persist(f);
-    	return f;
 	}
     
     public Funcionario obtenerFuncionario(String login){

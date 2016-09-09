@@ -1,14 +1,14 @@
-package ModelEntitiesController;
+package src.ModelEntitiesController;
 
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import DAOService.Funcionario;
-import DAOService.Numero;
-import DAOService.Puesto;
-import DAOService.Display;
+import src.DAOService.Funcionario;
+import src.DAOService.Numero;
+import src.DAOService.Puesto;
+import src.DAOService.Display;
 
 public class NumeroService {
 	protected EntityManager em;
