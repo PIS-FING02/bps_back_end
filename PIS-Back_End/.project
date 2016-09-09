@@ -3,9 +3,9 @@
 	<name>PIS-Back_End</name>
 	<comment></comment>
 	<projects>
-		<project>PISLogic</project>
 		<project>PISEjb</project>
 		<project>PISEjbClient</project>
+		<project>SARPDataLayer</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
