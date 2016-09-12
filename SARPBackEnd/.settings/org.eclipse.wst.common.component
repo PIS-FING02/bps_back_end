@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="SARPBackEnd">
+        <dependent-module archiveName="SARPService.war" deploy-path="/" handle="module:/resource/SARPService/SARPService">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SARPBusiness.jar" deploy-path="/lib" handle="module:/resource/SARPBusiness/SARPBusiness">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SARPEjbClient.jar" deploy-path="/lib" handle="module:/resource/SARPEjbClient/SARPEjbClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SARPDAO.jar" deploy-path="/lib" handle="module:/resource/SARPDAO/SARPDAO">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SARPEjb.jar" deploy-path="/" handle="module:/resource/SARPEjb/SARPEjb">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SARPDAOService.jar" deploy-path="/lib" handle="module:/resource/SARPDAOService/SARPDAOService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javax.persistence_2.1.0.v201304241213.jar" deploy-path="/lib" handle="module:/classpath/lib/SARPDAO/src/META-INF/jar/javax.persistence_2.1.0.v201304241213.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="postgresql-9.4.1209.jre6.jar" deploy-path="/lib" handle="module:/classpath/lib/SARPDAO/src/META-INF/jar/postgresql-9.4.1209.jre6.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="eclipselink.jar" deploy-path="/lib" handle="module:/classpath/lib/SARPDAO/src/META-INF/jar/eclipselink.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SARPDataTypes.jar" deploy-path="/lib" handle="module:/resource/SARPDataTypes/SARPDataTypes">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
