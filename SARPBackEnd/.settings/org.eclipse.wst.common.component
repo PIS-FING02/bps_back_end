@@ -32,5 +32,8 @@
         <dependent-module archiveName="SARPDataTypes.jar" deploy-path="/lib" handle="module:/resource/SARPDataTypes/SARPDataTypes">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="WsGAFUProxy.jar" deploy-path="/lib" handle="module:/classpath/lib/SARPProxy/GAFU/WsGAFUProxy.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>
