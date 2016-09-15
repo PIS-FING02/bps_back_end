@@ -28,6 +28,7 @@ public class SectorControlador {
 		RepositoryFactory factory = RepositoryFactory.getInstance();
 		SectorRepository sectorRepository = factory.getSectorRepositoryInstance();
 		List<Sector> list = sectorRepository.listarSectores();
+		
 		List<Sector> ret = new LinkedList<Sector>();
 		for (Sector s : list){
 			Sector dt = new Sector(s.getSectorid(),s.getNombre());
