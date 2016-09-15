@@ -10,4 +10,11 @@
   <module>
     <ejb>SARPEjb.jar</ejb>
   </module>
+  <module>
+    <java>postgresql-9.4.1209.jre6.jar</java>
+  </module>
+  <module>
+    <java>eclipselink.jar</java>
+  </module>
+  <library-directory></library-directory>
 </application>

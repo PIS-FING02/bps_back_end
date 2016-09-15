@@ -4,12 +4,12 @@
 	<comment></comment>
 	<projects>
 		<project>SARPService</project>
+		<project>SARPEjb</project>
+		<project>SARPDataTypes</project>
 		<project>SARPBusiness</project>
 		<project>SARPEjbClient</project>
 		<project>SARPDAO</project>
-		<project>SARPEjb</project>
 		<project>SARPDAOService</project>
-		<project>SARPDataTypes</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

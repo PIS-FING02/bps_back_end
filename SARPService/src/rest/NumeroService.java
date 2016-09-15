@@ -22,7 +22,7 @@ public class NumeroService {
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Numero> listAllMembers() {
-		org.controllers.NumeroControlador ctrl = new NumeroControlador();
+		NumeroControlador ctrl = new NumeroControlador();
 		return ctrl.listarNumeros();
     }
 	
@@ -57,6 +57,6 @@ public class NumeroService {
 	public String bajaNumero(@PathParam("id") int id){
 		org.controllers.NumeroControlador ctrl = new NumeroControlador();
 		ctrl.eliminarNumero(id);
-		return "El número " + id + "ha sido dado de baja"; 
+		return "El nï¿½mero " + id + "ha sido dado de baja"; 
 	}
 }
