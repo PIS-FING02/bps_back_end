@@ -33,7 +33,7 @@ public class NumeroService {
 			@PathParam("tram") int tram,
 			@PathParam("nombre") String nombre){
 		System.out.println("hola desde altaNumero");
-		org.controllers.NumeroControlador ctrl = new NumeroControlador();
+		NumeroControlador ctrl = new NumeroControlador();
 		try {
 			ctrl.crearNumero(sec,tram, nombre);
 			return "OK";
@@ -55,7 +55,7 @@ public class NumeroService {
 	@DELETE
 	@Path("{id:[0-9][0-9]*}/")
 	public String bajaNumero(@PathParam("id") int id){
-		org.controllers.NumeroControlador ctrl = new NumeroControlador();
+		NumeroControlador ctrl = new NumeroControlador();
 		ctrl.eliminarNumero(id);
 		return "El n�mero " + id + "ha sido dado de baja"; 
 	}
