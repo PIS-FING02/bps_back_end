@@ -14,7 +14,7 @@ import org.controllers.NumeroControlador;
 import org.controllers.SectorControlador;
 import org.controllers.TramiteControlador;
 
-import dataTypes.DtTramite;
+import dataTypes.Tramite;
 import model.Numero;
 import model.Sector;
 import model.Tramite;
@@ -26,7 +26,7 @@ public class TramiteService {
 	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<DtTramite> listAllMembers() {
+    public List<Tramite> listAllMembers() {
 		org.controllers.TramiteControlador ctrl = new TramiteControlador();
 		return ctrl.listarTramites();
     }

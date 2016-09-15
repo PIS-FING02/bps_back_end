@@ -8,7 +8,7 @@ import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
 import dao.repository.NumeroRepository;
 import dao.repository.SectorRepository;
 import dao.repository.TramiteRepository;
-import dataTypes.DtSector;
+import dataTypes.Sector;
 import model.Numero;
 import model.Sector;
 import model.Tramite;
@@ -24,13 +24,13 @@ public class SectorControlador {
 		sectorRepository.crearSector(nom);
 	}
 
-	public List<DtSector> listarSectores() {
+	public List<Sector> listarSectores() {
 		RepositoryFactory factory = RepositoryFactory.getInstance();
 		SectorRepository sectorRepository = factory.getSectorRepositoryInstance();
 		List<Sector> list = sectorRepository.listarSectores();
-		List<DtSector> ret = new LinkedList<DtSector>();
+		List<Sector> ret = new LinkedList<Sector>();
 		for (Sector s : list){
-			DtSector dt = new DtSector(s.getSectorid(),s.getNombre());
+			Sector dt = new Sector(s.getSectorid(),s.getNombre());
 			ret.add(dt);
 		}
 		

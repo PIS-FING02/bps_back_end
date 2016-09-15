@@ -1,6 +1,6 @@
 package dataTypes;
 
-public class DtNumero {
+public class Numero {
 	private Integer numero;
 
 	private String emitido;
@@ -24,9 +24,9 @@ public class DtNumero {
 	private Integer sector;
 
 	
-	public DtNumero() {
+	public Numero() {
 	}
-	public DtNumero(int id,int t,int sec) {
+	public Numero(int id,int t,int sec) {
 		
 		this.numero = id;
 		this.emitido = "E";

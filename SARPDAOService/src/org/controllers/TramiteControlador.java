@@ -8,8 +8,8 @@ import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
 import dao.repository.NumeroRepository;
 import dao.repository.SectorRepository;
 import dao.repository.TramiteRepository;
-import dataTypes.DtSector;
-import dataTypes.DtTramite;
+import dataTypes.Sector;
+import dataTypes.Tramite;
 import model.Numero;
 import model.Sector;
 import model.Tramite;
@@ -28,13 +28,13 @@ public class TramiteControlador {
 		System.out.println("hola desde crearTramite2" + s.getNombre());
 		tramiteRepository.crearTramite(s, nom);
 	}
-	public List<DtTramite> listarTramites() {
+	public List<Tramite> listarTramites() {
 		RepositoryFactory factory = RepositoryFactory.getInstance();
 		TramiteRepository tramiteRepository = factory.getTramiteRepositoryInstance();
 		List<Tramite> list = tramiteRepository.listarTramites();
-		List<DtTramite> ret = new LinkedList<DtTramite>();
+		List<Tramite> ret = new LinkedList<Tramite>();
 		for (Tramite t : list){
-			DtTramite dt = new DtTramite(t.getCodigo(), t.getNombre());
+			Tramite dt = new Tramite(t.getCodigo(), t.getNombre());
 			ret.add(dt);
 		}
 		
