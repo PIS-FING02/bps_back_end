@@ -1,11 +1,10 @@
-package dataTypes;
+package classes;
 
-import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class DtSector implements Serializable {
+public class Sector  {
 	private Integer sectorid;
 
 	private String nombre;
@@ -26,7 +25,7 @@ public class DtSector implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public DtSector(Integer sectorid, String nombre) {
+	public Sector(Integer sectorid, String nombre) {
 		super();
 		this.sectorid = sectorid;
 		this.nombre = nombre;

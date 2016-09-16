@@ -13,9 +13,9 @@ import javax.ws.rs.core.MediaType;
 import org.controllers.NumeroControlador;
 import org.controllers.SectorControlador;
 
-import dataTypes.DtSector;
-import model.Numero;
-import model.Sector;
+import classes.Sector;
+import classes.Numero;
+import classes.Sector;
 
 
 @RequestScoped
@@ -24,7 +24,7 @@ public class SectorService {
 	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<DtSector> listAllMembers() {
+    public List<Sector> listAllMembers() {
 		org.controllers.SectorControlador ctrl = new SectorControlador();
 		return ctrl.listarSectores();
     }

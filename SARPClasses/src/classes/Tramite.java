@@ -1,7 +1,7 @@
-package dataTypes;
+package classes;
 
-public class DtTramite {
-	public DtTramite(Integer codigo, String nombre) {
+public class Tramite {
+	public Tramite(Integer codigo, String nombre) {
 		super();
 		this.codigo = codigo;
 		this.nombre = nombre;
