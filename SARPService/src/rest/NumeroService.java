@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.controllers.NumeroControlador;
 
-import model.Numero;
+import classes.Numero;
 
 
 @RequestScoped

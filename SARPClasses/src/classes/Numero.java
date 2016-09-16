@@ -1,4 +1,4 @@
-package dataTypes;
+package classes;
 
 public class Numero {
 	private Integer numero;

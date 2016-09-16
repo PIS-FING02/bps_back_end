@@ -1,4 +1,4 @@
-package dataTypes;
+package classes;
 
 public class Tramite {
 	public Tramite(Integer codigo, String nombre) {

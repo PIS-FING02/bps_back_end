@@ -3,16 +3,10 @@ package org.controllers;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
-
-import dao.repository.NumeroRepository;
+import classes.Sector;
+import classes.Tramite;
 import dao.repository.SectorRepository;
 import dao.repository.TramiteRepository;
-import dataTypes.Sector;
-import dataTypes.Tramite;
-import model.Numero;
-import model.Sector;
-import model.Tramite;
 
 //import org.dao.repository.NumeroRepository;
 

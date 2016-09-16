@@ -14,10 +14,10 @@ import org.controllers.NumeroControlador;
 import org.controllers.SectorControlador;
 import org.controllers.TramiteControlador;
 
-import dataTypes.Tramite;
-import model.Numero;
-import model.Sector;
-import model.Tramite;
+import classes.Tramite;
+import classes.Numero;
+import classes.Sector;
+import classes.Tramite;
 
 
 @RequestScoped

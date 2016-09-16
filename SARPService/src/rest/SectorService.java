@@ -13,9 +13,9 @@ import javax.ws.rs.core.MediaType;
 import org.controllers.NumeroControlador;
 import org.controllers.SectorControlador;
 
-import dataTypes.Sector;
-import model.Numero;
-import model.Sector;
+import classes.Sector;
+import classes.Numero;
+import classes.Sector;
 
 
 @RequestScoped

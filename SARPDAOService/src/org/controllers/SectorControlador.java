@@ -8,10 +8,9 @@ import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
 import dao.repository.NumeroRepository;
 import dao.repository.SectorRepository;
 import dao.repository.TramiteRepository;
-import dataTypes.Sector;
-import model.Numero;
-import model.Sector;
-import model.Tramite;
+import classes.Numero;
+import classes.Sector;
+import classes.Tramite;
 
 //import org.dao.repository.NumeroRepository;
 

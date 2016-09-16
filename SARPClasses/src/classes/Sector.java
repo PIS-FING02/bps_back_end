@@ -1,11 +1,10 @@
-package dataTypes;
+package classes;
 
-import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Sector implements Serializable {
+public class Sector  {
 	private Integer sectorid;
 
 	private String nombre;
