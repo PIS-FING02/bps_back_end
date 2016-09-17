@@ -1,10 +1,13 @@
 package com.sarp.logic;
 
-import classes.Sector;
-import classes.Tramite;
+import com.sarp.services.NumeroService;
+
+import classes.Numero;
+
 
 public class AtentionsController {
-	public void SolicitarNumero(Sector sec, Tramite tram ,String nombre){
-		
+	public void SolicitarNumero(Numero num){
+		NumeroService serv = new NumeroService();
+		serv.SolicitarNumero(num);
 	}
 }

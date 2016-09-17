@@ -22,6 +22,8 @@ public class Numero {
 	private Integer tramite;
 	
 	private Integer sector;
+	
+	private DatoComplementario datoComplementario;
 
 	
 	public Numero() {
