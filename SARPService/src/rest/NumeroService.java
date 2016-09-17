@@ -2,6 +2,7 @@ package rest;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,7 +13,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.controllers.NumeroControlador;
 
+import com.sarp.logic.AtentionsController;
+import com.sarp.logic.Factory;
+
 import classes.Numero;
+import classes.Sector;
+import classes.Tramite;
 
 
 @RequestScoped
@@ -36,6 +42,22 @@ public class NumeroService {
 		NumeroControlador ctrl = new NumeroControlador();
 		try {
 			ctrl.crearNumero(sec,tram, nombre);
+			return "OK";
+		} catch (Exception e) {
+			return e.toString();
+		}
+	}
+	
+	
+	@POST
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String SolicitarNumero(Sector sec,Tramite tram){
+		//System.out.println("hola desde altaNumero");
+		Factory fac = Factory.GetInstance();
+		AtentionsController ctrl = fac.GetAtentionsController();
+		try {
+			//ctrl.SolicitarNumero(sec,tram, nombre);
 			return "OK";
 		} catch (Exception e) {
 			return e.toString();
