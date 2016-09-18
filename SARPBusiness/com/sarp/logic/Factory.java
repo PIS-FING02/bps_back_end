@@ -1,9 +1,10 @@
 package com.sarp.logic;
 
+
 public class Factory {
 	private static Factory instancia;
 	
-	public static Factory GetInstance(){
+	public static Factory getInstance(){
 		if (instancia == null){
 			instancia = new Factory();
 			return instancia;
@@ -13,9 +14,13 @@ public class Factory {
 	}
 	private Factory(){}
 	
-	public AtentionsController GetAtentionsController(){
+	public AtentionsController getAtentionsController(){
 		return null;
 	}
 	
+	public Admin_ActionsController getAdminActionsController(){
+		
+		return new Admin_ActionsController();
+	}
 	
 }

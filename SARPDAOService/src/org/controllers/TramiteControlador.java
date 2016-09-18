@@ -3,8 +3,9 @@ package org.controllers;
 import java.util.LinkedList;
 import java.util.List;
 
-import classes.Sector;
-import classes.Tramite;
+import com.sarp.clases.Sector;
+import com.sarp.clases.Tramite;
+
 import dao.repository.SectorRepository;
 import dao.repository.TramiteRepository;
 

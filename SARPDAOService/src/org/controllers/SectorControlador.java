@@ -3,14 +3,14 @@ package org.controllers;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.sarp.clases.Numero;
+import com.sarp.clases.Sector;
+import com.sarp.clases.Tramite;
 import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
 
 import dao.repository.NumeroRepository;
 import dao.repository.SectorRepository;
 import dao.repository.TramiteRepository;
-import classes.Numero;
-import classes.Sector;
-import classes.Tramite;
 
 //import org.dao.repository.NumeroRepository;
 

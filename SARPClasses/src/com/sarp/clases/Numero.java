@@ -1,4 +1,4 @@
-package classes;
+package com.sarp.clases;
 
 public class Numero {
 	private Integer numero;
@@ -23,7 +23,9 @@ public class Numero {
 	
 	private Integer sector;
 	
+
 	private DatoComplementario datoComplementario;
+
 
 	
 	public Numero() {
