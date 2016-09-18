@@ -30,12 +30,6 @@ public class Admin_ActionsController {
 		adminService.modificarEstadoPuesto(nombreMaquina,estado);
 	}
 	
-	public void actualizarFechaModificacionPuesto(String nombreMaquina) throws Exception{
-		//Se delega a AdminService la implementacion
-		AdminService adminService = new AdminService();
-		adminService.actualizarFechaModificacionPuesto(nombreMaquina);
-	}
-	
 	public List<Puesto> listarPuestos(String sector) throws Exception{
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();

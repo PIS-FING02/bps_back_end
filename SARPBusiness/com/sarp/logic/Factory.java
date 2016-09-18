@@ -1,5 +1,6 @@
 package com.sarp.logic;
 
+
 public class Factory {
 	private static Factory instancia;
 	
@@ -17,5 +18,9 @@ public class Factory {
 		return null;
 	}
 	
+	public Admin_ActionsController getAdminActionsController(){
+		
+		return new Admin_ActionsController();
+	}
 	
 }
