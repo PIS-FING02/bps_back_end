@@ -30,7 +30,7 @@ public class Admin_ActionsController {
 		adminService.modificarEstadoPuesto(nombreMaquina,estado);
 	}
 	
-	public List<Puesto> listarPuestos(String sector) throws Exception{
+	public List<BusinessPuesto> listarPuestos(String sector) throws Exception{
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
 		return adminService.listarPuestos(sector);

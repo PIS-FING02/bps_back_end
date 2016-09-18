@@ -10,8 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.controllers.NumeroControlador;
-
+import com.sarp.dao.controllers.NumeroControlador;
 import com.sarp.logic.AtentionsController;
 import com.sarp.logic.Factory;
 

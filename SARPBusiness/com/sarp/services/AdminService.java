@@ -4,7 +4,7 @@ package com.sarp.services;
 import java.util.List;
 
 import com.sarp.controladores;
-import com.sarp.clases.Puesto;
+import com.sarp.classes.BusinessPuesto;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.logic.Estado;
 
@@ -15,7 +15,7 @@ public class AdminService {
 	public void altaPuesto(String nombreMaquina) throws Exception{	
 		Factory factoryServices = Factory.getInstance();
 		PuestoControlador controladorPuesto =factoryServices.getPuestoControlador();
-		Puesto puesto = new Puesto(nombreMaquina);
+		BusinessPuesto puesto = new BusinessPuesto(nombreMaquina);
 		//INSERT en DaoService
 		controladorPuesto.insertPuesto(puesto);
 		
@@ -31,7 +31,7 @@ public class AdminService {
 	public void modificarUsuarioPuesto(String nombreMaquina,String usuarioId) throws Exception{
 		Factory factoryServices = Factory.getInstance();
 		PuestoControlador controladorPuesto =factoryServices.getPuestoControlador();
-		Puesto puesto = controladorPuesto.selectPuesto(nombreMaquina);
+		BusinessPuesto puesto = controladorPuesto.selectPuesto(nombreMaquina);
 		puesto.setUsuarioId(usuarioId);
 		//UPDATE en DaoService
 		controladorPuesto.updatePuesto(puesto);
@@ -40,7 +40,7 @@ public class AdminService {
 	public void modificarEstadoPuesto(String nombreMaquina, EstadoPuesto estado) throws Exception{
 		Factory factoryServices = Factory.getInstance();
 		PuestoControlador controladorPuesto =factoryServices.getPuestoControlador();
-		Puesto puesto = controladorPuesto.selectPuesto(nombreMaquina);
+		BusinessPuesto puesto = controladorPuesto.selectPuesto(nombreMaquina);
 		puesto.setEstado(estado);
 		//UPDATE en DaoService
 		controladorPuesto.updatePuesto(puesto);
@@ -48,10 +48,10 @@ public class AdminService {
 	}
 	
 	
-	public List<Puesto> listarPuestos(Sector sector) throws Exception{
+	public List<BusinessPuesto> listarPuestos(BusinessSector sector) throws Exception{
 		Factory factoryServices = Factory.getInstance();
 		PuestoControlador controladorPuesto =factoryServices.getPuestoControlador();
-		List<Puesto> puestos;
+		List<BusinessPuesto> puestos;
 		//Traigo los puestos de un sector desde DaoService
 		//si sector es null entonces traigo todos los puestos del sistema		
 		if(sector != null){

@@ -1,16 +1,19 @@
-package org.controllers;
+package com.sarp.dao.controllers;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
-import com.sarp.clases.Numero;
-import com.sarp.clases.Sector;
-import com.sarp.clases.Tramite;
+import com.sarp.classes.BusinessNumero;
+import com.sarp.classes.BusinessTramite;
 import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
 
 import dao.repository.NumeroRepository;
 import dao.repository.SectorRepository;
 import dao.repository.TramiteRepository;
+import model.Numero;
+import model.Sector;
+import model.Tramite;
 
 //import org.dao.repository.NumeroRepository;
 
@@ -43,11 +46,19 @@ public class NumeroControlador {
 		}
 	}
 	
-	public List<Numero> listarNumeros(){
+	public List<BusinessNumero> listarNumeros(){
 		RepositoryFactory factory = RepositoryFactory.getInstance();
 		NumeroRepository numeroRepository = factory.getNumeroRepositoryInstance();
-		return numeroRepository.listarNumeros();
+		
+		List<Numero> list = numeroRepository.listarNumeros();
+		List<BusinessNumero> ret = new LinkedList<BusinessNumero>();
+		for (Numero numero : list){
+			BusinessNumero businessNumero = new BusinessNumero(numero.getInternalId(), numero.getTramite().getCodigo(), 1); // VER BIEN ACA QUE SE LE PASA
+			ret.add(businessNumero);
+		}
+		return ret;
 	}
+	
 	public boolean existeNumero(int id){
 		RepositoryFactory factory = RepositoryFactory.getInstance();
 		NumeroRepository numeroRepository = factory.getNumeroRepositoryInstance();

@@ -1,13 +1,15 @@
-package org.controllers;
+package com.sarp.dao.controllers;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import com.sarp.clases.Sector;
-import com.sarp.clases.Tramite;
+import com.sarp.classes.BusinessSector;
+import com.sarp.classes.BusinessTramite;
 
 import dao.repository.SectorRepository;
 import dao.repository.TramiteRepository;
+import model.Sector;
+import model.Tramite;
 
 //import org.dao.repository.NumeroRepository;
 
@@ -23,13 +25,13 @@ public class TramiteControlador {
 		System.out.println("hola desde crearTramite2" + s.getNombre());
 		tramiteRepository.crearTramite(s, nom);
 	}
-	public List<Tramite> listarTramites() {
+	public List<BusinessTramite> listarTramites() {
 		RepositoryFactory factory = RepositoryFactory.getInstance();
 		TramiteRepository tramiteRepository = factory.getTramiteRepositoryInstance();
 		List<Tramite> list = tramiteRepository.listarTramites();
-		List<Tramite> ret = new LinkedList<Tramite>();
+		List<BusinessTramite> ret = new LinkedList<BusinessTramite>();
 		for (Tramite t : list){
-			Tramite dt = new Tramite(t.getCodigo(), t.getNombre());
+			BusinessTramite dt = new BusinessTramite(t.getCodigo(), t.getNombre());
 			ret.add(dt);
 		}
 		

@@ -1,9 +1,9 @@
-package com.sarp.clases;
+package com.sarp.classes;
 
 import java.util.Date;
 
-public class Tramite {
-	public Tramite(Integer codigo, String nombre) {
+public class BusinessTramite {
+	public BusinessTramite(Integer codigo, String nombre) {
 		this.codigo = codigo;
 		this.nombre = nombre;
 		Date fechaCreado = new Date();

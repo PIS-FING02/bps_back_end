@@ -10,9 +10,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.controllers.NumeroControlador;
-import org.controllers.SectorControlador;
-import org.controllers.TramiteControlador;
+import com.sarp.dao.controllers.NumeroControlador;
+import com.sarp.dao.controllers.SectorControlador;
+import com.sarp.dao.controllers.TramiteControlador;
 
 import classes.Tramite;
 import classes.Numero;
@@ -27,7 +27,7 @@ public class TramiteService {
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Tramite> listAllMembers() {
-		org.controllers.TramiteControlador ctrl = new TramiteControlador();
+		com.sarp.dao.controllers.TramiteControlador ctrl = new TramiteControlador();
 		return ctrl.listarTramites();
     }
 	
@@ -37,7 +37,7 @@ public class TramiteService {
 			@PathParam("sector") int sector,
 			@PathParam("nombre") String nombre){
 		System.out.println("hola desde altaTramite");
-		org.controllers.TramiteControlador ctrl = new TramiteControlador();
+		com.sarp.dao.controllers.TramiteControlador ctrl = new TramiteControlador();
 		try {
 			ctrl.crearTramite(sector,nombre);
 			return "OK";

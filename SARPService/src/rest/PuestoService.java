@@ -13,9 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Context ;
 
-import org.controllers.NumeroControlador;
-
-import com.sarp.clases.Puesto;
+import com.sarp.classes.BusinessPuesto;
+import com.sarp.dao.controllers.NumeroControlador;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.logic.Admin_ActionsController;
 import com.sarp.logic.AtentionsController;
@@ -109,12 +108,12 @@ public class PuestoService {
 	@GET
 	@Path("/listarPuestos")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Puesto> listarPuestos(Sector sector, String rol) {
+    public List<BusinessPuesto> listarPuestos(Sector sector, String rol) {
 		Factory fac = Factory.getInstance();
 		Admin_ActionsController ctrl = fac.getAdminActionsController();
 		if(rol== "ResponsableSector"){
 			try{
-				List<Puesto> listaPuestos = ctrl.modificarEstadoPuesto(nombreMaquina,estado);
+				List<BusinessPuesto> listaPuestos = ctrl.modificarEstadoPuesto(nombreMaquina,estado);
 				return listaPuestos;
 				
 			}catch(Exception e){

@@ -1,4 +1,4 @@
-package org.resources;
+package com.sarp.dao.resources;
 
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;

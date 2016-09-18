@@ -1,10 +1,10 @@
-package com.sarp.clases;
+package com.sarp.classes;
 
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Sector  {
+public class BusinessSector  {
 	private Integer sectorid;
 
 	private String nombre;
@@ -25,7 +25,7 @@ public class Sector  {
 		this.nombre = nombre;
 	}
 
-	public Sector(Integer sectorid, String nombre) {
+	public BusinessSector(Integer sectorid, String nombre) {
 		super();
 		this.sectorid = sectorid;
 		this.nombre = nombre;

@@ -1,8 +1,8 @@
-package classes;
+package com.sarp.classes;
 
 import java.util.Date;
 
-public class DatoComplementario {
+public class BusinessDatoComplementario {
 	private String doc_identidad;
 	private String nombre_completo;
 	private String tipo_doc;
@@ -38,7 +38,7 @@ public class DatoComplementario {
 	public void setLast_update(Date last_update) {
 		this.last_update = last_update;
 	}
-	public DatoComplementario(String doc_identidad, String nombre_completo, String tipo_doc, Date date_create,
+	public BusinessDatoComplementario(String doc_identidad, String nombre_completo, String tipo_doc, Date date_create,
 			Date last_update) {
 		super();
 		this.doc_identidad = doc_identidad;

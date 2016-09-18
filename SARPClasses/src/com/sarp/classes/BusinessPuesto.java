@@ -1,12 +1,12 @@
-package com.sarp.clases;
+package com.sarp.classes;
 import java.util.Date;
 
 import com.sarp.enumerados.EstadoPuesto;
 
-public class Puesto {
+public class BusinessPuesto {
 	
 	//Constructor
-	public Puesto(String nombreMaquina) {
+	public BusinessPuesto(String nombreMaquina) {
 		
 		this.nombreMaquina = nombreMaquina;
 		this.usuarioId = null;

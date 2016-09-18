@@ -1,6 +1,6 @@
-package com.sarp.clases;
+package com.sarp.classes;
 
-public class Numero {
+public class BusinessNumero {
 	private Integer numero;
 
 	private String emitido;
@@ -24,13 +24,13 @@ public class Numero {
 	private Integer sector;
 	
 
-	private DatoComplementario datoComplementario;
+	private BusinessDatoComplementario datoComplementario;
 
 
 	
-	public Numero() {
+	public BusinessNumero() {
 	}
-	public Numero(int id,int t,int sec) {
+	public BusinessNumero(int id,int t,int sec) {
 		
 		this.numero = id;
 		this.emitido = "E";
