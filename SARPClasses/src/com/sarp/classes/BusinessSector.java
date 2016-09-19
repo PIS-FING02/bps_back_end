@@ -5,16 +5,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class BusinessSector  {
-	private Integer sectorid;
 
+	private Integer sectorId;
 	private String nombre;
 
-	public Integer getSectorid() {
-		return sectorid;
+	public BusinessSector(Integer sectorid, String nombre) {
+		this.sectorId = sectorid;
+		this.nombre = nombre;
+	}
+	
+	public BusinessSector() {}
+	
+	public Integer getSectorId() {
+		return sectorId;
 	}
 
-	public void setSectorid(Integer sectorid) {
-		this.sectorid = sectorid;
+	public void setSectorId(Integer sectorId) {
+		this.sectorId = sectorId;
 	}
 
 	public String getNombre() {
@@ -24,12 +31,5 @@ public class BusinessSector  {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public BusinessSector(Integer sectorid, String nombre) {
-		super();
-		this.sectorid = sectorid;
-		this.nombre = nombre;
-	}
-	
 	
 }

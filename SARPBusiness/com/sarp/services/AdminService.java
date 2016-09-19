@@ -5,8 +5,9 @@ import java.util.List;
 
 import com.sarp.controladores;
 import com.sarp.classes.BusinessPuesto;
+import com.sarp.classes.BusinessSector;
+import com.sarp.controllers.Estado;
 import com.sarp.enumerados.EstadoPuesto;
-import com.sarp.logic.Estado;
 
 
 public class AdminService {
@@ -50,7 +51,7 @@ public class AdminService {
 	
 	public List<BusinessPuesto> listarPuestos(BusinessSector sector) throws Exception{
 		Factory factoryServices = Factory.getInstance();
-		PuestoControlador controladorPuesto =factoryServices.getPuestoControlador();
+		PuestoControlador controladorPuesto = factoryServices.getPuestoControlador();
 		List<BusinessPuesto> puestos;
 		//Traigo los puestos de un sector desde DaoService
 		//si sector es null entonces traigo todos los puestos del sistema		
