@@ -1,5 +1,6 @@
 package com.sarp.dao.factory;
 
+import com.sarp.dao.repository.DAODisplay;
 import com.sarp.dao.repository.DAONumero;
 import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
@@ -14,6 +15,7 @@ public class DAOFactory {
 	private DAOSector sectorRepository;
 	private DAOTramite tramiteRepository;
 	private DAOPuesto puestoRepository;
+	private DAODisplay displayRepository;
 	
 	private DAOFactory(){ }
 	   
@@ -40,6 +42,13 @@ public class DAOFactory {
 			tramiteRepository = new com.sarp.dao.repository.DAOTramite();
 		}
 		return tramiteRepository;
+	}
+	
+	public DAODisplay getDisplayReository(){
+		if(displayRepository == null){
+			displayRepository = new com.sarp.dao.repository.DAODisplay();
+		}
+		return displayRepository;
 	}
 	
 }

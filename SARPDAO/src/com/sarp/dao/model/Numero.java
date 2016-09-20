@@ -2,9 +2,8 @@ package com.sarp.dao.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -13,17 +12,17 @@ import java.util.Date;
  */
 @Entity
 @NamedQuery(name="Numero.findAll", query="SELECT n FROM Numero n")
-@XmlRootElement
 public class Numero implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue( strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="internal_id")
 	private Integer internalId;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
-	private Integer dateCreated;
+	private Date dateCreated;
 
 	@Column(name="es_sae")
 	private Boolean esSae;
@@ -33,26 +32,29 @@ public class Numero implements Serializable {
 	@Column(name="external_id")
 	private String externalId;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date hora;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_updated")
+	private Date lastUpdated;
 
 	private Integer prioridad;
 
-	private Integer puestoid;
-	
-	//bi-directional many-to-one association to DatosComplementario
-	@ManyToOne
-	@JoinColumn(name="datos_complementariosid")
+	//bi-directional one-to-one association to DatosComplementario
+	@OneToOne(mappedBy="numero", fetch=FetchType.EAGER)
 	private DatosComplementario datosComplementario;
 
 	//bi-directional many-to-one association to Tramite
 	@ManyToOne
-	@JoinColumn(name="tramiteid")
+	@JoinColumn(name="codigo_tramite")
 	private Tramite tramite;
-	
-	public Numero(){}
-	public Numero(Tramite t) {
-		this.tramite = t;
+
+	//bi-directional many-to-many association to Puesto
+	@ManyToMany(mappedBy="numeros")
+	private List<Puesto> puestos;
+
+	public Numero() {
 	}
 
 	public Integer getInternalId() {
@@ -63,11 +65,11 @@ public class Numero implements Serializable {
 		this.internalId = internalId;
 	}
 
-	public Integer getDateCreated() {
+	public Date getDateCreated() {
 		return this.dateCreated;
 	}
 
-	public void setDateCreated(Integer dateCreated) {
+	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
@@ -103,20 +105,20 @@ public class Numero implements Serializable {
 		this.hora = hora;
 	}
 
+	public Date getLastUpdated() {
+		return this.lastUpdated;
+	}
+
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
 	public Integer getPrioridad() {
 		return this.prioridad;
 	}
 
 	public void setPrioridad(Integer prioridad) {
 		this.prioridad = prioridad;
-	}
-
-	public Integer getPuestoid() {
-		return this.puestoid;
-	}
-
-	public void setPuestoid(Integer puestoid) {
-		this.puestoid = puestoid;
 	}
 
 	public DatosComplementario getDatosComplementario() {
@@ -133,6 +135,14 @@ public class Numero implements Serializable {
 
 	public void setTramite(Tramite tramite) {
 		this.tramite = tramite;
+	}
+
+	public List<Puesto> getPuestos() {
+		return this.puestos;
+	}
+
+	public void setPuestos(List<Puesto> puestos) {
+		this.puestos = puestos;
 	}
 
 }

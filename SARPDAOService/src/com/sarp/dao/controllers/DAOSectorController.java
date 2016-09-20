@@ -12,11 +12,10 @@ import com.sarp.dao.repository.DAOSector;
 
 public class DAOSectorController {
 	
-	public void crearSector(String nom) throws Exception{
-		System.out.println("hola desde crearSector");
+	public void crearSector(Integer codigo, String nom) throws Exception{
 		DAOFactory factory = DAOFactory.getInstance();
 		DAOSector sectorRepository = factory.getSectorRepository();
-		sectorRepository.crearSector(nom);
+		sectorRepository.crearSector(codigo, nom);
 	}
 
 	public List<BusinessSector> listarSectores() {
@@ -26,7 +25,7 @@ public class DAOSectorController {
 		
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for (Sector s : list){
-			BusinessSector dt = new BusinessSector(s.getSectorid(),s.getNombre());
+			BusinessSector dt = new BusinessSector(s.getCodigo(),s.getNombre());
 			ret.add(dt);
 		}
 		return ret;

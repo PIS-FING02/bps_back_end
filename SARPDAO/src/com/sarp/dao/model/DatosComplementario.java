@@ -3,7 +3,6 @@ package com.sarp.dao.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -17,16 +16,17 @@ public class DatosComplementario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="doc_identidad")
-	private String docIdentidad;
+	private Integer docIdentidad;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
 	private Date dateCreated;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="last_update")
-	private Date lastUpdate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_updated")
+	private Date lastUpdated;
 
 	@Column(name="nombre_completo")
 	private String nombreCompleto;
@@ -34,21 +34,19 @@ public class DatosComplementario implements Serializable {
 	@Column(name="tipo_doc")
 	private String tipoDoc;
 
-	//bi-directional many-to-one association to Numero
-	@OneToMany(mappedBy="datosComplementario")
-	private List<Numero> numeros;
+	//bi-directional one-to-one association to Numero
+	@OneToOne
+	@JoinColumn(name="internal_id")
+	private Numero numero;
 
 	public DatosComplementario() {
 	}
-	public DatosComplementario(Numero n) {
-		this.numeros.add(n);
-	}
 
-	public String getDocIdentidad() {
+	public Integer getDocIdentidad() {
 		return this.docIdentidad;
 	}
 
-	public void setDocIdentidad(String docIdentidad) {
+	public void setDocIdentidad(Integer docIdentidad) {
 		this.docIdentidad = docIdentidad;
 	}
 
@@ -60,12 +58,12 @@ public class DatosComplementario implements Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getLastUpdate() {
-		return this.lastUpdate;
+	public Date getLastUpdated() {
+		return this.lastUpdated;
 	}
 
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 
 	public String getNombreCompleto() {
@@ -84,26 +82,12 @@ public class DatosComplementario implements Serializable {
 		this.tipoDoc = tipoDoc;
 	}
 
-	public List<Numero> getNumeros() {
-		return this.numeros;
+	public Numero getNumero() {
+		return this.numero;
 	}
 
-	public void setNumeros(List<Numero> numeros) {
-		this.numeros = numeros;
-	}
-
-	public Numero addNumero(Numero numero) {
-		getNumeros().add(numero);
-		numero.setDatosComplementario(this);
-
-		return numero;
-	}
-
-	public Numero removeNumero(Numero numero) {
-		getNumeros().remove(numero);
-		numero.setDatosComplementario(null);
-
-		return numero;
+	public void setNumero(Numero numero) {
+		this.numero = numero;
 	}
 
 }

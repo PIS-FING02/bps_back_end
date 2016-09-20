@@ -19,26 +19,22 @@ import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
 
 public class DAONumeroController {
 	
-	public void crearNumero(int sec,int tram, String nombre) throws Exception{
-		System.out.println("hola desde crearNumero");
+	public void crearNumero(int sec,int tram, String nombre, Integer codigo) throws Exception{
 		DAOFactory factory = DAOFactory.getInstance();
 		DAONumero numeroRepository = factory.getNumeroRepository();
 		DAOSector sectorRepository = factory.getSectorRepository();
 		DAOTramite tramiteRepository = factory.getTramiteRepository();
-		System.out.println("hola desde crearNumero2");
 		Sector s = sectorRepository.obtenerSector(sec);
 		if(s != null){
 			List<Tramite> tList = s.getTramites();
 			boolean existe = false;
 			for (Tramite t:tList){
 				if (t.getCodigo() == tram){
-					System.out.println("hola desde crearNumero3");
-					numeroRepository.crearNumero(t, nombre);
+					numeroRepository.crearNumero(t, nombre, codigo);
 					existe = true;
 				}
 			}
 			if (!existe) {
-				System.out.println("hola desde crearNumero4");
 				throw new Exception("El sector no contiene al tramite con el codigo solicitado");
 			}			
 		}else{

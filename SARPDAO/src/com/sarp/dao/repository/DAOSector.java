@@ -24,9 +24,10 @@ public class DAOSector {
 		return em;
 	}
 	
-	public void crearSector(String nombre){
+	public void crearSector(Integer codigo, String nombre){
 		EntityManager em = getEntityManagerInstance();
 		Sector s = new Sector();
+		s.setCodigo(codigo);
 		s.setNombre(nombre);
 		em.getTransaction().begin();
 		em.persist(s);
