@@ -1,5 +1,6 @@
 package com.sarp.dao.factory;
 
+import com.sarp.dao.controllers.DAODisplayController;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
@@ -27,7 +28,11 @@ public class DAOServiceFactory {
 		return new  DAOSectorController();
 	}
 	
-	public DAOTramiteController getDAOTremiteController(){
+	public DAOTramiteController getDAOTramiteController(){
 		return new  DAOTramiteController();
+	}
+	
+	public DAODisplayController getDAODisplayController(){
+		return new DAODisplayController();
 	}
 }

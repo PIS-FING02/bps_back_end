@@ -28,15 +28,16 @@ public class NumberService {
     }
 	
 	@POST
-	@Path("/{sec}/{tram}/{nombre}")
+	@Path("/{sec}/{tram}/{nombre}/{codigo}")
 	public String altaNumero(
 			@PathParam("sec") int sec,
 			@PathParam("tram") int tram,
-			@PathParam("nombre") String nombre){
+			@PathParam("nombre") String nombre,
+			@PathParam("codigo") Integer codigo){
 		System.out.println("hola desde altaNumero");
 		DAONumeroController ctrl = new DAONumeroController();
 		try {
-			ctrl.crearNumero(sec,tram, nombre);
+			ctrl.crearNumero(sec,tram, nombre, codigo);
 			return "OK";
 		} catch (Exception e) {
 			return e.toString();

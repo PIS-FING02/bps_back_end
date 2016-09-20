@@ -24,21 +24,21 @@ public class DAONumero {
 	}
 	
 	
-	public void crearNumero(Tramite tramite,String nombre){
-		System.out.println("hola desde crearNumero1.1");
+	public void crearNumero(Tramite t,String nombre, Integer id){
 		EntityManager em = getEntityManagerInstance();
-		Numero n = new Numero(tramite);
-		System.out.println("hola desde crearNumero1.2");
-		DatosComplementario dat = new DatosComplementario();
-		System.out.println("hola desde crearNumero1.25");
-		//dat.addNumero(n);
-		System.out.println("hola desde crearNumero1.3");
-		//dat.setNombreCompleto(nombre);
-		System.out.println("hola desde crearNumero1.4");
-		//n.setDatosComplementario(dat);
+		
+		Numero n = new Numero();		
+		n.setExternalId(nombre); //TODO revisar
+		t.addNumero(n);
+		n.setInternalId(id);
+		DatosComplementario d = new DatosComplementario();
+		d.setNumero(n);
+		d.setDocIdentidad(id);
+		n.setDatosComplementario(d);
+		
 		em.getTransaction().begin();
 		em.persist(n);
-		//em.persist(dat);
+		em.persist(d);
 		em.getTransaction().commit();
 	}
 	
@@ -67,17 +67,5 @@ public class DAONumero {
     	em.remove(n);
 		em.getTransaction().commit();
     }
-	
-	
-	/*public static void main(String[] args){
-		 System.out.println("1");
-		 EntityManagerFactory factory = Persistence.createEntityManagerFactory("postgresUnit");
-    	 System.out.println("2");
-         EntityManager em = factory.createEntityManager();       
-         System.out.println("3");
-         
-         CrearNumero(9, "estado9");
-         System.out.println("4");
-	}*/
 	
 }

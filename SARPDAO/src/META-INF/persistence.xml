@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="postgresUnit" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>com.sarp.dao.model.Sector</class>
+		<class>com.sarp.dao.model.Display</class>
+		<class>com.sarp.dao.model.Puesto</class>
 		<class>com.sarp.dao.model.Numero</class>
-        <class>com.sarp.dao.model.DatosComplementario</class>
-        <class>com.sarp.dao.model.Sector</class>
-        <class>com.sarp.dao.model.Tramite</class>
+		<class>com.sarp.dao.model.Tramite</class>
+		<class>com.sarp.dao.model.DatosComplementario</class>
 		<properties>
-	      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://52.52.100.160:5432/dbSARP"/>
+	      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dbSARP"/>
 	      <property name="javax.persistence.jdbc.user" value="postgres"/>
 	      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 	      <property name="javax.persistence.jdbc.password" value="admin"/>
