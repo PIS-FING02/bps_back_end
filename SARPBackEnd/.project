@@ -5,11 +5,11 @@
 	<projects>
 		<project>SARPService</project>
 		<project>SARPEjb</project>
-		<project>SARPBusiness</project>
 		<project>SARPEjbClient</project>
 		<project>SARPDAO</project>
 		<project>SARPDAOService</project>
 		<project>SARPClasses</project>
+		<project>SARPBusiness</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
