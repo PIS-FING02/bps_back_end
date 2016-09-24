@@ -6,6 +6,7 @@ import com.sarp.controllers.AtentionsController;
 import com.sarp.controllers.QueueController;
 import com.sarp.controllers.UserController;
 import com.sarp.controllers.WaitingController;
+import com.sarp.controllers.GAFUController;
 
 public class Factory {
 	private static Factory instancia;
@@ -43,6 +44,10 @@ public class Factory {
 	
 	public AssignmentController getAssignmentController(){
 		return new AssignmentController();
+	}
+	
+	public GAFUController GAFUController(){
+		return new GAFUController();
 	}
 	
 }
