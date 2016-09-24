@@ -24,7 +24,9 @@ public class BusinessNumero {
 	private Integer sector;
 	
 
+
 	private BusinessDatoComplementario datoComplementario;
+
 
 
 	

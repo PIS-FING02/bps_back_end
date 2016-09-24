@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -31,98 +32,78 @@ public class AdminService {
 	@Context ServletContext context;
 
 	@POST
-	@Path("/altaPuesto")
+	@Path("/puesto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String altaPuesto(JSONPuesto puesto){
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(puesto.getRol() == "ResponsableSector"){
+		if(puesto.getRol().equals("ResponsableSector")){
 			try{
 				ctrl.altaPuesto(puesto.getNombreMaquina());
 				return "Puesto "+puesto.getNombreMaquina()+" dado de alta satisfactoriamente";
 			}catch(Exception e){
-				return "404";
+				throw new BadRequestException("Error al crear el Puesto");
 			}
 		}else{
-			return "404";//ver como mandar bad request
+			throw new BadRequestException("No tiene permisos suficientes.");
 		}
-		
 	}
 	
 	@DELETE
-	@Path("/bajaPuesto")
+	@Path("/puesto")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String bajaPuesto(JSONPuesto puesto){	//hay que cambiar para que no tire string
+	public String bajaPuesto(JSONPuesto puesto){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(puesto.getRol() == "ResponsableSector"){
+		if(puesto.getRol().equals("ResponsableSector")){
 			try{
 				ctrl.bajaPuesto(puesto.getNombreMaquina());
 				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
 			}catch(Exception e){
-				return "404";
+				throw new BadRequestException("Error al dar de baja el Puesto.");
 			}
 		}else{
-			return "404";//ver como mandar bad request
+			throw new BadRequestException("No tiene permisos suficientes.");
 		}
 		
 	}
 	
-	@POST
-	@Path("/modificarUsuarioPuesto")
+	@PUT
+	@Path("/puesto")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String modificarUsuarioPuesto(JSONPuesto puesto){	//hay que cambiar para que no tire string
+	public String modificarPuesto(JSONPuesto puesto){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(puesto.getRol() == "ResponsableSector"){
+		if(puesto.getRol().equals("ResponsableSector")){
 			try{
-				ctrl.modificarUsuarioPuesto(puesto.getNombreMaquina(), puesto.getUsuarioId());
+				
+				ctrl.modificarPuesto(puesto.getNombreMaquina(),puesto.getEstado(),puesto.getUsuarioId());
 				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
 			}catch(Exception e){
-				return "404";
+				throw new BadRequestException("Error al modificar Puesto.");
 			}
 		}else{
-			return "404";//ver como mandar bad request
+			throw new BadRequestException("No tiene permisos suficientes.");
 		}
 		
 	}
-	
-	@POST
-	@Path("/modificarEstadoPuesto")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public String modificarEstadoPuesto(JSONPuesto puesto){	//hay que cambiar para que no tire string
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(puesto.getRol() == "ResponsableSector"){
-			try{
-				ctrl.modificarEstadoPuesto(puesto.getNombreMaquina(),puesto.getEstado());
-				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
-			}catch(Exception e){
-				return "404";
-			}
-		}else{
-			return "404";//ver como mandar bad request
-		}
-		
-	}
-	
 	
 	@GET
-	@Path("/listarPuestos")
+	@Path("/puestos")
     @Produces(MediaType.APPLICATION_JSON)
     public List<BusinessPuesto> listarPuestos(JSONPuesto puesto) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(puesto.getRol() == "ResponsableSector"){
+		if(puesto.getRol().equals( "ResponsableSector")){
 			try{
 				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(puesto.getSectorId());
 				return listaPuestos;
 				
 			}catch(Exception e){
-				return null;
+				throw new BadRequestException("Error al listar Puestos.");
 			}
 		}else{
-			return null;//ver como mandar bad request
+			throw new BadRequestException("No tiene permisos suficientes.");
 		}
     }
 

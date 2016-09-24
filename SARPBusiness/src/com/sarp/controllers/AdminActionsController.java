@@ -22,16 +22,10 @@ public class AdminActionsController {
 		adminService.bajaPuesto(nombreMaquina);
 	}
 	
-	public void modificarUsuarioPuesto(String nombreMaquina, String usuarioId) throws Exception{
+	public void modificarPuesto(String nombreMaquina,String estado, String usuarioId) throws Exception{
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
-		adminService.modificarUsuarioPuesto(nombreMaquina, usuarioId);
-	}
-
-	public void modificarEstadoPuesto(String nombreMaquina, EstadoPuesto estado) throws Exception{
-		//Se delega a AdminService la implementacion
-		AdminService adminService = new AdminService();
-		adminService.modificarEstadoPuesto(nombreMaquina,estado);
+		adminService.modificarPuesto(nombreMaquina, estado, usuarioId);
 	}
 	
 	public List<BusinessPuesto> listarPuestos(Integer sectorId) throws Exception{
