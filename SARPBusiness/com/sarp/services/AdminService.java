@@ -47,6 +47,19 @@ public class AdminService {
 		
 	}
 	
+<<<<<<< HEAD
+=======
+	public void actualizarFechaModificacionPuesto(String nombreMaquina) throws Exception{
+		Factory factoryServices = Factory.getInstance();
+		PuestoControlador controladorPuesto =factoryServices.getPuestoControlador();
+		Puesto puesto = controladorPuesto.selectPuesto(nombreMaquina);
+		//fecha del momento
+		Date fechaActual = new Date();
+		puesto.setLastUpdate(fechaActual);
+		//UPDATE en DaoService
+		controladorPuesto.updatePuesto(puesto);
+	}
+>>>>>>> be7fa8d... arreglos
 	
 	public List<Puesto> listarPuestos(Sector sector) throws Exception{
 		Factory factoryServices = Factory.getInstance();

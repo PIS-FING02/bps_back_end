@@ -1,6 +1,9 @@
 package com.sarp.logic;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> be7fa8d... arreglos
 public class Factory {
 	private static Factory instancia;
 	
@@ -18,9 +21,12 @@ public class Factory {
 		return null;
 	}
 	
+<<<<<<< HEAD
 	public Admin_ActionsController getAdminActionsController(){
 		
 		return new Admin_ActionsController();
 	}
+=======
+>>>>>>> be7fa8d... arreglos
 	
 }
