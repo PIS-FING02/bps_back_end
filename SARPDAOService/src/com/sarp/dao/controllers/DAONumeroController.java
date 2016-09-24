@@ -76,4 +76,9 @@ public class DAONumeroController {
 		numeroRepository.eliminarNumero(n);
 	}
 
+	public LinkedList<BusinessNumero> obtenerNumerosDelDia() {
+		// Retornar todos los numeros con la fecha del dia actual
+		return null;
+	}
+
 }
