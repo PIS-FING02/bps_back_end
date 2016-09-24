@@ -38,9 +38,9 @@ public class Factory {
 		return new WaitingController();
 	}
 	
-	public QueueController getQueueController(){
-		return new QueueController();
-	}
+	//public QueueController getQueueController(){
+	//	return new QueueController();
+	//}
 	
 	public AssignmentController getAssignmentController(){
 		return new AssignmentController();
