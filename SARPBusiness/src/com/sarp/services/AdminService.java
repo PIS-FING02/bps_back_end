@@ -6,7 +6,9 @@ import java.util.List;
 
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
+import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAOPuestoController;
+import com.sarp.dao.controllers.DAOTramiteController;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
@@ -22,7 +24,6 @@ public class AdminService {
 		BusinessPuesto puesto = new BusinessPuesto(nombreMaquina);
 		//INSERT en DaoService
 		controladorPuesto.insertPuesto(puesto);
-		
 	}
 	
 	public void bajaPuesto(String nombreMaquina) throws Exception{
@@ -65,6 +66,38 @@ public class AdminService {
 		
 		return puestos;
 		
+	}
+	
+	/****** Alta, Baja & Modificacion de Tramite ******/
+	
+	public void altaTramite(BusinessTramite tramite) throws Exception{	
+		/* primero se pide el controlador de tramites mediante la factory */
+		
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOTramiteController tramCtrl = factory.getDAOTramiteController();
+		
+		/* Finalmente se persiste en la base mediante el llamado del controlador */
+		tramCtrl.crearTramite(tramite);
+	}
+	
+	public void bajaTramite(int codigo){
+		/* primero se pide el controlador de tramites mediante la factory */
+		
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOTramiteController tramCtrl = factory.getDAOTramiteController();
+		
+		/* Finalmente se persiste en la base mediante el llamado del controlador */
+		tramCtrl.eliminarTramite(codigo);
+	}
+	
+	public void modificarTramite(BusinessTramite tramite){
+		/* primero se pide el controlador de tramites mediante la factory */
+		
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOTramiteController tramCtrl = factory.getDAOTramiteController();
+		
+		/* Finalmente se persiste en la base mediante el llamado del controlador */
+		tramCtrl.modificarTramite(tramite);
 	}
 	
 }

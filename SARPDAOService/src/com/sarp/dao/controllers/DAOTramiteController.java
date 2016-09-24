@@ -15,6 +15,25 @@ import com.sarp.dao.repository.DAOTramite;
 
 public class DAOTramiteController {
 	
+	public void crearTramite(BusinessTramite tramite){
+		
+		// persistencia de un tramite
+		
+	}
+	
+	public void eliminarTramite(int codigo){
+		
+		// borrado de un tramite con codigo 'codigo'
+		
+	}
+	
+	public void modificarTramite(BusinessTramite tramite){
+		
+		// se modifica el tramite
+		
+	}
+	
+	
 	public void crearTramite(int codigoSector, String nom) throws Exception{
 		System.out.println("hola desde crearTramite");
 		DAOFactory factory = DAOFactory.getInstance();

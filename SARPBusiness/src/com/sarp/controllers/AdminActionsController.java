@@ -13,7 +13,6 @@ public class AdminActionsController {
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
 		adminService.altaPuesto(nombreMaquina);
-		
 	}
 	
 	public void bajaPuesto(String nombreMaquina) throws Exception{
@@ -46,5 +45,27 @@ public class AdminActionsController {
 		
 	}
 
+	/** Alta, Baja & Modificacion Tramite **/
+	
+	public void altaTramite(BusinessTramite tramite) throws Exception {
+		/* Notar que el AdminService es el de este mismo proyecto (SARPBusiness)
+		  y no el AdminService de SARPServices */
+		AdminService adminServ = new AdminService();
+		adminServ.altaTramite(tramite);
+	}
+	
+	public void bajaTramite(int codigo) throws Exception {
+		/* Notar que el AdminService es el de este mismo proyecto (SARPBusiness)
+		  y no el AdminService de SARPServices */
+		AdminService adminServ = new AdminService();
+		adminServ.bajaTramite(codigo);
+	}
+	
+	public void modificarTramite(BusinessTramite tramite){
+		/* Notar que el AdminService es el de este mismo proyecto (SARPBusiness)
+		  y no el AdminService de SARPServices */
+		AdminService adminServ = new AdminService();
+		adminServ.modificarTramite(tramite);
+	}
 	
 }

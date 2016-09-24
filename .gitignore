@@ -4,3 +4,4 @@ RemoteSystemsTempFiles/
 .recommenders/
 .classpath
 .classes
+*.class
