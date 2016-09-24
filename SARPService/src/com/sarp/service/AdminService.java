@@ -24,6 +24,7 @@ import com.sarp.controllers.AdminActionsController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONTramite;
 
 @RequestScoped
 @Path("/adminService")
@@ -132,6 +133,66 @@ public class AdminService {
 			throw new BadRequestException("Error en alta tramite");
 		}
 	}
+	
+	/******* Alta, Baja & Modificacion de Tramites *******/
+	
+	@POST
+	@Path("/tramite")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String altaTramite(JSONTramite jsonTramite){
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if(jsonTramite.getRol().equals("Administrador")){
+			try{
+				BusinessTramite tramite = new BusinessTramite(jsonTramite.getCodigo(), jsonTramite.getNombre());				
+				ctrl.altaTramite(tramite);
+				return "El tramite con codigo: "+tramite.getCodigo()+ " y nombre: "+tramite.getNombre()+" fue dado de alta satisfactoriamente";
+			}catch(Exception e){
+				throw new BadRequestException("Error al crear el Tramite");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+		}
+		
+	}
+	
+	@DELETE
+	@Path("/tramite")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String bajaTramite(JSONTramite jsonTramite){	
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if(jsonTramite.getRol().equals("Administrador")){
+			try{
+				ctrl.bajaTramite(jsonTramite.getCodigo());
+				return "El tramite de codigo "+jsonTramite.getCodigo()+" fue dado de baja";
+			}catch(Exception e){
+				throw new BadRequestException("Error al eliminar el Tramite");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
+	@PUT
+	@Path("/tramite")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String modificarTramite(JSONTramite jsonTramite){	
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if(jsonTramite.getRol().equals("Administrador")){
+			try{
+				BusinessTramite tramite = new BusinessTramite(jsonTramite.getCodigo(), jsonTramite.getNombre());
+				ctrl.modificarTramite(tramite);
+				return "El tramite de codigo: "+tramite.getCodigo()+" fue modificado exitosamente";
+			}catch(Exception e){
+				throw new BadRequestException("Error al modificar el Tramite");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+		}
+		
+	}
 
 	/************************** SECTORES *****************************/
 
@@ -157,4 +218,11 @@ public class AdminService {
 			return e.toString();
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
 }
