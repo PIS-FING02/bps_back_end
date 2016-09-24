@@ -17,6 +17,7 @@ public class QueueController {
 		this.cola = QueuesManager.getInstance().obtenerColaSector(idSector);
 	}
 	
+	//
 	public void agregarNumero(BusinessNumero numero){
 		//Este metodo agrega un nuevo numero a la cola.
 		this.cola.agregarNumeroCola(numero);

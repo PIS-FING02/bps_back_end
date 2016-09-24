@@ -16,6 +16,10 @@ public class DAOPuestoController {
 		// TODO Auto-generated method stub
 		
 	}
+	public void updatePuesto(BusinessPuesto puesto) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public BusinessPuesto selectPuesto(String nombreMaquina) {
 		// TODO Auto-generated method stub
@@ -26,6 +30,7 @@ public class DAOPuestoController {
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 	public List<BusinessPuesto> selectPuestoSector(BusinessSector sector) {
 		// TODO Auto-generated method stub

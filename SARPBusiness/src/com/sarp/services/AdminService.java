@@ -31,27 +31,26 @@ public class AdminService {
 		//DELETE en DaoService
 		controladorPuesto.deletePuesto(nombreMaquina);
 	}
-		
-	public void modificarUsuarioPuesto(String nombreMaquina,String usuarioId) throws Exception{
-		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
-		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-		BusinessPuesto puesto = controladorPuesto.selectPuesto(nombreMaquina);
-		puesto.setUsuarioId(usuarioId);
-		//UPDATE en DaoService
-		controladorPuesto.deletePuesto(puesto);
-	}
-
-	public void modificarEstadoPuesto(String nombreMaquina, EstadoPuesto estado) throws Exception{
-		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
-		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-		BusinessPuesto puesto = controladorPuesto.selectPuesto(nombreMaquina);
-		puesto.setEstado(estado);
-		//UPDATE en DaoService
-		controladorPuesto.deletePuesto(puesto);
-		
-	}
 	
-	
+	public void modificarPuesto(String nombreMaquina,String estado,String usuarioId) throws Exception {
+		//Si se modifico algun campo del puesto entonces se llama a DaoService y se hace Update
+		if(estado != null || usuarioId != null){
+			DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+			DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
+			BusinessPuesto puesto = controladorPuesto.selectPuesto(nombreMaquina);
+		
+			if(estado != null){
+				EstadoPuesto estonuevo = EstadoPuesto.getEnum(estado);
+				puesto.setEstado(estonuevo);
+			}
+			if(usuarioId != null){
+				puesto.setUsuarioId(usuarioId);
+			}
+			//Se delega a DaoService
+			controladorPuesto.updatePuesto(puesto);
+		}
+	}
+		
 	public List<BusinessPuesto> listarPuestos(BusinessSector sector) throws Exception{
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
