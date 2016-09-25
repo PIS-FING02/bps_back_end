@@ -12,7 +12,7 @@ public class DAODisplay {
 	/* Dada una ruta, creo en la base una entidad Display con esa ruta
 	 * ID autogenerado
 	 */
-	public void insertDisplay(String rutaArchivo){
+	public Integer insertDisplay(String rutaArchivo){
 		EntityManager em = EMFactory.getEntityManager();
 		
 		Display d = new Display();
@@ -23,6 +23,7 @@ public class DAODisplay {
 		em.getTransaction().begin();
 		em.persist(d);
 		em.getTransaction().commit();
+		return d.getCodigo();
 	}
 	
 	/* Obtengo la entidad de Display en la bd con su codigo */

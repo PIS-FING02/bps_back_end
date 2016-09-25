@@ -66,7 +66,7 @@ public class AdminService {
 		//si sector es null entonces traigo todos los puestos del sistema		
 		if(sector != null){
 			DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
-			puestos = controladorSector.selectPuestoSector(sector);
+			puestos = controladorSector.selectPuestosSector(sector.getSectorId());
 		}else{
 			puestos = controladorPuesto.listarPuestos();
 		}

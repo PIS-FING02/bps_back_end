@@ -5,10 +5,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+
+import com.sarp.dao.factory.DAOFactory;
+
 import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Numero;
+import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
 
@@ -19,21 +23,22 @@ import java.util.List;
 public class DAOTramite {
 	
 
-	public void insertTramite(Sector s,String nombre){
+
+	public Integer insertTramite(String nombre) throws Exception{
 		EntityManager em = EMFactory.getEntityManager();
 		
 		Tramite t = new Tramite();
-		s.getTramites().add(t);
 		t.setNombre(nombre);
-		t.getSectors().add(s);
+		t.setDateCreated(new Date());
+		t.setLastUpdated(new Date());
 		
-		em.getTransaction().begin();
-		em.persist(s);
+		em.getTransaction().begin();	
 		em.persist(t);
 		em.getTransaction().commit();
 		em.close();
+		return t.getCodigo();
 	}
-	
+		
 	public Tramite selectTramite(int codigo) throws Exception{
 		EntityManager em = EMFactory.getEntityManager();
 		
@@ -45,6 +50,7 @@ public class DAOTramite {
 		EntityManager em = EMFactory.getEntityManager();
 		
 		em.close();
+
 		return (List<Tramite>) em.createQuery("select t from Tramite t").getResultList();
 	}
 	
@@ -84,6 +90,35 @@ public class DAOTramite {
 			throw new Exception("No existe el Tramite con código " + codigo);
 		}
     }
+
+	public void asociarTramitePuesto(Puesto puesto, Tramite tramite) {
+		EntityManager em = EMFactory.getEntityManager();
+		
+		tramite.getPuestos().add(puesto);
+		//puesto.getTramites().add(tramite);
+		tramite.setLastUpdated(new Date());	
+		puesto.setLastUpdated(new Date());
+		
+		em.getTransaction().begin();
+		em.persist(tramite);
+		//em.persist(puesto);
+		em.getTransaction().commit();
+		em.close();
+		
+	}
+	
+	public void asociarTramiteSector(Sector sector, Tramite tramite) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		
+		tramite.getSectors().add(sector);
+		tramite.setLastUpdated(new Date());	
+		sector.setLastUpdated(new Date());
+		
+		em.getTransaction().begin();
+		em.persist(tramite);
+		em.getTransaction().commit();
+		em.close();
+	}
 	
 	
 	

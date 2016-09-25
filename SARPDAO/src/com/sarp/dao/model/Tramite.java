@@ -16,7 +16,7 @@ public class Tramite implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer codigo;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -34,9 +34,21 @@ public class Tramite implements Serializable {
 	private List<Numero> numeros;
 
 	//bi-directional many-to-many association to Puesto
-	@ManyToMany(mappedBy="tramites")
+	//@ManyToMany(mappedBy="tramites")
+	//private List<Puesto> puestos;
+	@ManyToMany
+	@JoinTable(
+		name="PUESTO_TRAMITE"
+		, joinColumns={
+			@JoinColumn(name="codigo_tramite")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="nombre_maquina")
+			}
+		)
 	private List<Puesto> puestos;
-
+	
+	
 	//bi-directional many-to-many association to Sector
 	@ManyToMany
 	@JoinTable(

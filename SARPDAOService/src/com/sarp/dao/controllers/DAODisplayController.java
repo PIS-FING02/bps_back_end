@@ -12,11 +12,12 @@ import com.sarp.dao.repository.DAONumero;
 public class DAODisplayController {
 			
 	/* Dada una ruta, creo en la base una entidad Display con esa ruta */
-	public void crearDisplay(BusinessDisplay d){
+	public Integer crearDisplay(BusinessDisplay d){
 		DAOFactory factory = DAOFactory.getInstance();
 		DAODisplay displayRepository = factory.getDisplayRepository();	
 		
-		displayRepository.insertDisplay(d.getRutaArchivo());
+		Integer id = displayRepository.insertDisplay(d.getRutaArchivo());
+		return id;
 	}
 	
 	public BusinessDisplay obtenerDisplay(int codigo) throws Exception{		

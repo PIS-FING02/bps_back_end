@@ -19,12 +19,14 @@ public class DAOSector {
 	
 	/* Creo en la base una entidad Sector
 	 */
-	public void insertSector(String rutaSector, String nombre){
+
+	public void insertSector(Integer codigo, String nombre, String ruta){
 		EntityManager em = EMFactory.getEntityManager();
 		
 		Sector s = new Sector();
+		s.setCodigo(codigo);
 		s.setNombre(nombre);
-		s.setRutaSector(rutaSector);
+		s.setRutaSector(ruta);
 		s.setDateCreated(new Date());
 		s.setLastUpdated(new Date());
 		

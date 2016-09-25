@@ -33,7 +33,7 @@ public class DAONumeroController {
 				for (Tramite t:tList){
 					if (t.getCodigo() == numero.getCodigoTramite()){
 						BusinessDatoComplementario dc = numero.getDatoComplementario();
-						numeroRepository.insertNumero(t, numero.isEsSAE(), numero.getInternalId(), numero.getExternalId(), numero.getHora(), numero.getPrioridad(), numero.getEstado(), dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
+						numeroRepository.insertNumero(t, numero.getInternalId(), numero.getExternalId(), numero.getHora(), numero.getPrioridad(), numero.getEstado(), dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
 						existe = true;
 					}
 				}
@@ -45,7 +45,8 @@ public class DAONumeroController {
 			}
 		}
 		else{
-			throw new Exception("Ya existe un n�mero con ese ID");
+
+			throw new Exception("Ya existe un numero con ese ID");
 		}
 	}
 
@@ -58,7 +59,7 @@ public class DAONumeroController {
 		for (Numero n : list){
 			DatosComplementario d = n.getDatosComplementario();
 			BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getEsSae(),n.getPrioridad(),dc);
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);
 			ret.add(numero);
 		}
 		return ret;
@@ -71,7 +72,7 @@ public class DAONumeroController {
 		Numero n = numeroRepository.selectNumero(id);
 		DatosComplementario d = n.getDatosComplementario();
 		BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
-		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getEsSae(),n.getPrioridad(),dc);
+		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);
 		return numero;
 	}
 	
@@ -79,7 +80,7 @@ public class DAONumeroController {
 		DAOFactory factory = DAOFactory.getInstance();
 		DAONumero numeroRepository = factory.getNumeroRepository();
 		
-		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.isEsSAE());
+		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad());
 	}
 	
 	public void eliminarNumero(int codigo) throws Exception{
