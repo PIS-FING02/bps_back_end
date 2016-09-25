@@ -45,7 +45,7 @@ public class DAONumeroController {
 			}
 		}
 		else{
-			throw new Exception("Ya existe un número con ese ID");
+			throw new Exception("Ya existe un nï¿½mero con ese ID");
 		}
 	}
 
@@ -87,6 +87,12 @@ public class DAONumeroController {
 		DAONumero numeroRepository = factory.getNumeroRepository();
 		
 		numeroRepository.deleteNumero(codigo);
+	}
+
+	public LinkedList<BusinessNumero> obtenerNumerosDelDia() {
+		// Hay que hacer una consulta que trae todos los numeros que fueron reservados
+		// por SAE para el dia en el cual se ejecuta.
+		return null;
 	}
 
 }

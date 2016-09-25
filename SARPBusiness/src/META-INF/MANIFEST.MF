@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Class-Path: SARPDAOService.jar 
  SARPClasses.jar 
- WsGAFUProxy.jar
+ WsGAFUProxy.jar 
+ SARPFacade.jar
 
