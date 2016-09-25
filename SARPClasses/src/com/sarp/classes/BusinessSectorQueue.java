@@ -2,7 +2,6 @@ package com.sarp.classes;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ListIterator;
 
 
@@ -33,7 +32,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.cola.listIterator();
 		while(it.hasNext()){
 			BusinessNumero numero = it.next();
-			if(numero.getNumero() == idNumero){
+			if(numero.getInternalId() == idNumero){
 				this.cola.remove(numero);
 				break;
 			}	
@@ -55,7 +54,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.atrasados.listIterator();
 		while(it.hasNext()){
 			BusinessNumero numero = it.next();
-			if(numero.getNumero() == idNumero){
+			if(numero.getInternalId() == idNumero){
 				this.atrasados.remove(numero);
 				break;
 			}	
@@ -71,7 +70,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.atrasados.listIterator();
 		while(it.hasNext()){
 			BusinessNumero numero = it.next();
-			if(numero.getNumero() == idNumero){
+			if(numero.getInternalId() == idNumero){
 				this.atrasados.remove(numero);
 				return numero;
 			}	
@@ -91,7 +90,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.pausados.listIterator();
 		while(it.hasNext()){
 			BusinessNumero numero = it.next();
-			if(numero.getNumero() == idNumero){
+			if(numero.getInternalId() == idNumero){
 				this.pausados.remove(numero);
 				break;
 			}	
@@ -106,7 +105,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.pausados.listIterator();
 		while(it.hasNext()){
 			BusinessNumero numero = it.next();
-			if(numero.getNumero() == idNumero){
+			if(numero.getInternalId() == idNumero){
 				this.pausados.remove(numero);
 				return numero;
 			}	

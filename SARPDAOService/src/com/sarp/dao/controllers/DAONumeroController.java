@@ -4,9 +4,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
+import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
@@ -19,66 +21,72 @@ import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
 
 public class DAONumeroController {
 	
-	public void crearNumero(int sec,int tram, String nombre, Integer codigo) throws Exception{
+	public void crearNumero(BusinessNumero numero, Integer sector) throws Exception{
 		DAOFactory factory = DAOFactory.getInstance();
 		DAONumero numeroRepository = factory.getNumeroRepository();
-		DAOSector sectorRepository = factory.getSectorRepository();
-		DAOTramite tramiteRepository = factory.getTramiteRepository();
-		Sector s = sectorRepository.obtenerSector(sec);
-		if(s != null){
-			List<Tramite> tList = s.getTramites();
-			boolean existe = false;
-			for (Tramite t:tList){
-				if (t.getCodigo() == tram){
-					numeroRepository.crearNumero(t, nombre, codigo);
-					existe = true;
+		if(!numeroRepository.existsNumero(numero.getInternalId())){
+			DAOSector sectorRepository = factory.getSectorRepository();		
+			Sector s = sectorRepository.selectSector(sector);
+			if(s != null){
+				List<Tramite> tList = s.getTramites();
+				boolean existe = false;
+				for (Tramite t:tList){
+					if (t.getCodigo() == numero.getCodigoTramite()){
+						BusinessDatoComplementario dc = numero.getDatoComplementario();
+						numeroRepository.insertNumero(t, numero.isEsSAE(), numero.getInternalId(), numero.getExternalId(), numero.getHora(), numero.getPrioridad(), numero.getEstado(), dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
+						existe = true;
+					}
 				}
+				if (!existe) {
+					throw new Exception("El sector no contiene al tramite con el codigo solicitado");
+				}			
+			}else{
+				throw new Exception("No se encontro el sector solicitado");
 			}
-			if (!existe) {
-				throw new Exception("El sector no contiene al tramite con el codigo solicitado");
-			}			
-		}else{
-			throw new Exception("No se encontro el sector solicitado");
+		}
+		else{
+			throw new Exception("Ya existe un número con ese ID");
 		}
 	}
-	
+
 	public List<BusinessNumero> listarNumeros(){
 		DAOFactory factory = DAOFactory.getInstance();
 		DAONumero numeroRepository = factory.getNumeroRepository();
 		
-		List<Numero> list = numeroRepository.listarNumeros();
+		List<Numero> list = numeroRepository.selectNumeros();
 		List<BusinessNumero> ret = new LinkedList<BusinessNumero>();
-		for (Numero numero : list){
-			BusinessNumero businessNumero = new BusinessNumero(numero.getInternalId(), numero.getTramite().getCodigo(), 1); // VER BIEN ACA QUE SE LE PASA
-			ret.add(businessNumero);
+		for (Numero n : list){
+			DatosComplementario d = n.getDatosComplementario();
+			BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getEsSae(),n.getPrioridad(),dc);
+			ret.add(numero);
 		}
 		return ret;
 	}
 	
-	public boolean existeNumero(int id){
+	public BusinessNumero obtenerNumero(int id) throws Exception{
 		DAOFactory factory = DAOFactory.getInstance();
 		DAONumero numeroRepository = factory.getNumeroRepository();
-		Numero n = numeroRepository.obtenerNumero(id);
-		return n != null;
+		
+		Numero n = numeroRepository.selectNumero(id);
+		DatosComplementario d = n.getDatosComplementario();
+		BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
+		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getEsSae(),n.getPrioridad(),dc);
+		return numero;
 	}
 	
-	public void modificarNumero(int codigo, String estado, int prioridad){
+	public void modificarNumero(BusinessNumero numero) throws Exception{
 		DAOFactory factory = DAOFactory.getInstance();
 		DAONumero numeroRepository = factory.getNumeroRepository();
-		Numero n = numeroRepository.obtenerNumero(codigo);
-		numeroRepository.modificarNumero(n, estado, prioridad);
+		
+		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.isEsSAE());
 	}
 	
-	public void eliminarNumero(int codigo){
+	public void eliminarNumero(int codigo) throws Exception{
 		DAOFactory factory = DAOFactory.getInstance();
 		DAONumero numeroRepository = factory.getNumeroRepository();
-		Numero n = numeroRepository.obtenerNumero(codigo);
-		numeroRepository.eliminarNumero(n);
-	}
-
-	public LinkedList<BusinessNumero> obtenerNumerosDelDia() {
-		// Retornar todos los numeros con la fecha del dia actual
-		return null;
+		
+		numeroRepository.deleteNumero(codigo);
 	}
 
 }

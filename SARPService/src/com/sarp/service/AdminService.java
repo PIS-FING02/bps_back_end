@@ -205,24 +205,17 @@ public class AdminService {
     }
 	
 	@POST
-	@Path("/altaSector/{nombre}/{codigo}")
+	@Path("/altaSector/{rutaSector}/{nombre}")
 	public String altaSector(
-			@PathParam("nombre") String nombre,
-			@PathParam("codigo") Integer codigo){
+			@PathParam("rutaSector") String rutaSector,
+			@PathParam("nombre") String nombre){
 		System.out.println("hola desde altaSector");
 		com.sarp.dao.controllers.DAOSectorController ctrl = new DAOSectorController();
 		try {
-			ctrl.crearSector(codigo, nombre);
+			ctrl.crearSector(rutaSector, nombre);
 			return "OK";
 		} catch (Exception e) {
 			return e.toString();
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
 }
