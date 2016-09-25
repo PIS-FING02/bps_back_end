@@ -3,7 +3,6 @@ package com.sarp.dao.controllers;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.model.Sector;
@@ -15,46 +14,49 @@ import com.sarp.dao.repository.DAOTramite;
 
 public class DAOTramiteController {
 	
-	public void crearTramite(BusinessTramite tramite){
-		
-		// persistencia de un tramite
-		
-	}
-	
-	public void eliminarTramite(int codigo){
-		
-		// borrado de un tramite con codigo 'codigo'
-		
-	}
-	
-	public void modificarTramite(BusinessTramite tramite){
-		
-		// se modifica el tramite
-		
-	}
-	
-	
-	public void crearTramite(int codigoSector, String nom) throws Exception{
-		System.out.println("hola desde crearTramite");
+	//TODO: pasar solo el tramite, se asocia al sector en otro metodo
+	public void crearTramite(BusinessTramite tramite, int codigoSector, String nom) throws Exception{
 		DAOFactory factory = DAOFactory.getInstance();
 		DAOTramite tramiteRepository = factory.getTramiteRepository();
 		DAOSector sectorRepository = factory.getSectorRepository();
-		System.out.println("hola desde crearTramite1");
-		Sector s = sectorRepository.obtenerSector(codigoSector);
-		System.out.println("hola desde crearTramite2" + s.getNombre());
-		tramiteRepository.crearTramite(s, nom);
+		
+		Sector s = sectorRepository.selectSector(codigoSector);
+		tramiteRepository.insertTramite(s, nom);
 	}
 	public List<BusinessTramite> listarTramites() {
 		DAOFactory factory = DAOFactory.getInstance();
 		DAOTramite tramiteRepository = factory.getTramiteRepository();
-		List<Tramite> list = tramiteRepository.listarTramites();
+		
+		List<Tramite> list = tramiteRepository.selectTramites();
 		List<BusinessTramite> ret = new LinkedList<BusinessTramite>();
 		for (Tramite t : list){
 			BusinessTramite dt = new BusinessTramite(t.getCodigo(), t.getNombre());
 			ret.add(dt);
-		}
-		
+		}	
 		return ret;
+	}
+	
+	public BusinessTramite obtenerTramite(int codigo) throws Exception{
+		DAOFactory factory = DAOFactory.getInstance();
+		DAOTramite tramiteRepository = factory.getTramiteRepository();
+		
+		Tramite t = tramiteRepository.selectTramite(codigo);
+		BusinessTramite ret = new BusinessTramite(t.getCodigo(),t.getNombre());
+		return ret;	
+	}
+	
+	public void modificarDisplay(BusinessTramite t) throws Exception{
+		DAOFactory factory = DAOFactory.getInstance();
+		DAOTramite tramiteRepository = factory.getTramiteRepository();
+		
+		tramiteRepository.updateTramite(t.getCodigo(),t.getNombre());
+	}
+	
+	public void eliminarTramite(int codigo) throws Exception{
+		DAOFactory factory = DAOFactory.getInstance();
+		DAOTramite tramiteRepository = factory.getTramiteRepository();
+		
+		tramiteRepository.deleteTramite(codigo);
 	}
 
 }

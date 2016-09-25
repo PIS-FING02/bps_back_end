@@ -1,71 +1,99 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-
+import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Tramite;
 
+import java.util.Date;
 import java.util.List;
 
 public class DAONumero {
 	
-	private static EntityManager em;
-	
-	private EntityManager getEntityManagerInstance(){
-		if(em == null){
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("postgresUnit");
-			em = factory.createEntityManager();
-		}
-		return em;
-	}
-	
-	
-	public void crearNumero(Tramite t,String nombre, Integer id){
-		EntityManager em = getEntityManagerInstance();
-		
-		Numero n = new Numero();		
-		n.setExternalId(nombre); //TODO revisar
-		t.addNumero(n);
-		n.setInternalId(id);
+	public void insertNumero(Tramite tramite, Boolean esSae, Integer internalId, String externalId, Date hora, Integer prioridad, String estado, Integer docIdentidad, String nombreCompleto, String tipoDoc){
+		EntityManager em = EMFactory.getEntityManager();
+		//Creo la nueva entidad Numero y la asocio con el Tramite
+		Numero n = new Numero();
+		n.setEsSae(esSae);
+		n.setInternalId(internalId);
+		n.setExternalId(externalId);
+		n.setHora(hora);
+		n.setPrioridad(prioridad);
+		n.setEstado(estado);
+		n.setDateCreated(new Date());
+		n.setLastUpdated(new Date());
+		tramite.addNumero(n);
+		//Creo una nueva entidad de DatoComplementario y las asocio
 		DatosComplementario d = new DatosComplementario();
 		d.setNumero(n);
-		d.setDocIdentidad(id);
+		d.setDocIdentidad(docIdentidad);
+		d.setNombreCompleto(nombreCompleto);
+		d.setTipoDoc(tipoDoc);
+		d.setDateCreated(new Date());
+		d.setLastUpdated(new Date());
 		n.setDatosComplementario(d);
 		
 		em.getTransaction().begin();
 		em.persist(n);
 		em.persist(d);
 		em.getTransaction().commit();
+		em.close();
 	}
 	
-	public Numero obtenerNumero(int codigo){
-		EntityManager em = getEntityManagerInstance();
-    	return em.find(Numero.class, codigo);
+	public Numero selectNumero(int internalId) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		Numero n = getNumero(em, internalId);
+    	return n;
     }
 	
-	public List<Numero> listarNumeros(){
-		EntityManager em = getEntityManagerInstance();
-		return (List<Numero>) em.createQuery("select n from Numero n").getResultList();
+	public List<Numero> selectNumeros(){
+		EntityManager em = EMFactory.getEntityManager();
+		List<Numero> ret = (List<Numero>) em.createQuery("select n from Numero n").getResultList();
+		return ret;
 	}
 	
-	public void modificarNumero(Numero n,String estado,int prio){
-		EntityManager em = getEntityManagerInstance();
-		n.setEstado(estado);
-		n.setPrioridad(prio);
-		em.getTransaction().begin();
-		em.persist(n);
-		em.getTransaction().commit();
-	}
-	
-	public void eliminarNumero(Numero n){
-		EntityManager em = getEntityManagerInstance();	
+	public void deleteNumero(int id) throws Exception {
+		EntityManager em = EMFactory.getEntityManager();
+		
+		Numero n = getNumero(em, id);
+		
 		em.getTransaction().begin();
     	em.remove(n);
 		em.getTransaction().commit();
-    }
+		em.close();
+	}
+
+	public void updateNumero(Integer internalId, String estado, String externalId, Date hora, Integer prioridad, Boolean esSae) throws Exception {
+		EntityManager em = EMFactory.getEntityManager();
+		Numero n = getNumero(em, internalId);
+		n.setEstado(estado);
+		n.setExternalId(externalId);
+		n.setHora(hora);
+		n.setPrioridad(prioridad);
+		n.setEsSae(esSae);
+		n.setLastUpdated(new Date());
+		
+		em.getTransaction().begin();
+		em.persist(n);
+		em.getTransaction().commit();
+		em.close();	
+	}
 	
+	public boolean existsNumero(int internalId){
+		EntityManager em = EMFactory.getEntityManager();
+		Numero n = em.find(Numero.class, internalId);
+		return n != null;
+	}
+	
+	//funcion auxuliar, usada para no usar mas de un EntityManager al obtener un Numero
+	public Numero getNumero(EntityManager em, int internalId) throws Exception{
+		Numero n = em.find(Numero.class, internalId);
+		if (n != null){
+			return n;
+		}
+		else{
+			throw new Exception("No existe el Numero con código " + internalId);
+		}
+    }
 }

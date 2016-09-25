@@ -1,21 +1,19 @@
 package com.sarp.classes;
 
-import java.util.Date;
-
 public class BusinessDisplay {
+	
+	//Constructores
+	public BusinessDisplay() {}	
+	public BusinessDisplay(Integer codigo, String rutaArchivo) {		
+		this.codigo = codigo;
+		this.rutaArchivo = rutaArchivo;		
+	}
+	
+	//Atributos
 	private Integer codigo;
 	private String rutaArchivo;
-	private Date dateCreated;;
-	private Date lastUpdated;;
 	
-	public BusinessDisplay() {
-	}
-	public BusinessDisplay(Integer codigo, String rutaArchivo, Date dateCreated, Date lastUpdated) {		
-		this.setCodigo(codigo);
-		this.setRutaArchivo(rutaArchivo);
-		this.setDateCreated(dateCreated);
-		this.setLastUpdated(lastUpdated);
-	}
+	//Operaciones
 	public Integer getCodigo() {
 		return codigo;
 	}
@@ -28,18 +26,5 @@ public class BusinessDisplay {
 	public void setRutaArchivo(String rutaArchivo) {
 		this.rutaArchivo = rutaArchivo;
 	}
-	public Date getDateCreated() {
-		return dateCreated;
-	}
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-	public Date getLastUpdated() {
-		return lastUpdated;
-	}
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
-
 	
 }

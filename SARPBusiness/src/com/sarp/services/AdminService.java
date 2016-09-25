@@ -1,3 +1,4 @@
+
 package com.sarp.services;
 
 
@@ -8,6 +9,7 @@ import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAOPuestoController;
+import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
@@ -21,16 +23,17 @@ public class AdminService {
 	public void altaPuesto(String nombreMaquina) throws Exception{	
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-		BusinessPuesto puesto = new BusinessPuesto(nombreMaquina);
+		BusinessPuesto puesto = new BusinessPuesto();
+		puesto.setNombreMaquina(nombreMaquina);
 		//INSERT en DaoService
-		controladorPuesto.insertPuesto(puesto);
+		controladorPuesto.crearPuesto(puesto);
 	}
 	
 	public void bajaPuesto(String nombreMaquina) throws Exception{
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		//DELETE en DaoService
-		controladorPuesto.deletePuesto(nombreMaquina);
+		controladorPuesto.eliminarPuesto(nombreMaquina);
 	}
 	
 	public void modificarPuesto(String nombreMaquina,String estado,String usuarioId) throws Exception {
@@ -38,7 +41,7 @@ public class AdminService {
 		if(estado != null || usuarioId != null){
 			DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 			DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-			BusinessPuesto puesto = controladorPuesto.selectPuesto(nombreMaquina);
+			BusinessPuesto puesto = controladorPuesto.obtenerPuesto(nombreMaquina);
 		
 			if(estado != null){
 				EstadoPuesto estonuevo = EstadoPuesto.getEnum(estado);
@@ -48,7 +51,7 @@ public class AdminService {
 				puesto.setUsuarioId(usuarioId);
 			}
 			//Se delega a DaoService
-			controladorPuesto.updatePuesto(puesto);
+			controladorPuesto.modificarPuesto(puesto);
 		}
 	}
 		
@@ -59,7 +62,8 @@ public class AdminService {
 		//Traigo los puestos de un sector desde DaoService
 		//si sector es null entonces traigo todos los puestos del sistema		
 		if(sector != null){
-			puestos = controladorPuesto.selectPuestoSector(sector);
+			DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
+			puestos = controladorSector.selectPuestoSector(sector);
 		}else{
 			puestos = controladorPuesto.listarPuestos();
 		}

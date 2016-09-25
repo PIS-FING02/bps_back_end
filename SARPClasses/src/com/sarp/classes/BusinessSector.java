@@ -1,21 +1,19 @@
 package com.sarp.classes;
 
-
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class BusinessSector  {
 
-	private Integer sectorId;
-	private String nombre;
-
+	//Constructores
+	public BusinessSector() {}
 	public BusinessSector(Integer sectorid, String nombre) {
 		this.sectorId = sectorid;
 		this.nombre = nombre;
 	}
+
+	//Atributos
+	private Integer sectorId;
+	private String nombre;
 	
-	public BusinessSector() {}
-	
+	//Operaciones
 	public Integer getSectorId() {
 		return sectorId;
 	}

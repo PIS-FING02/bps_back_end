@@ -5,7 +5,6 @@ import com.sarp.dao.repository.DAONumero;
 import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
-import com.sun.corba.se.spi.activation.Repository;
 
 public class DAOFactory {
 	
@@ -44,11 +43,17 @@ public class DAOFactory {
 		return tramiteRepository;
 	}
 	
-	public DAODisplay getDisplayReository(){
+	public DAOPuesto getPuestoRepository(){
+		if(puestoRepository == null){
+			puestoRepository = new com.sarp.dao.repository.DAOPuesto();
+		}
+		return puestoRepository;
+	}
+	
+	public DAODisplay getDisplayRepository(){
 		if(displayRepository == null){
 			displayRepository = new com.sarp.dao.repository.DAODisplay();
 		}
 		return displayRepository;
 	}
-	
 }

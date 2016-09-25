@@ -27,7 +27,7 @@ public class NumberService {
 		return ctrl.listarNumeros();
     }
 	
-	@POST
+	/*@POST
 	@Path("/{sec}/{tram}/{nombre}/{codigo}")
 	public String altaNumero(
 			@PathParam("sec") int sec,
@@ -42,7 +42,7 @@ public class NumberService {
 		} catch (Exception e) {
 			return e.toString();
 		}
-	}
+	} Eliminar? */
 	
 	
 	
@@ -56,7 +56,7 @@ public class NumberService {
 		Factory fac = Factory.getInstance();
 		AtentionsController ctrl = fac.getAtentionsController();
 		ctrl.solicitarNumero(num);
-		return "se recibio : "+num.getNumero().toString()+num.getEmitido().toString();
+		return "se recibio : "+num.getInternalId().toString();
 
 	}
 	
