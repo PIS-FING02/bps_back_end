@@ -4,13 +4,15 @@ package com.sarp.services;
 
 import java.util.List;
 
-
+import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
+import com.sarp.dao.controllers.DAODisplayController;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
@@ -103,5 +105,48 @@ public class AdminService {
 		/* Finalmente se persiste en la base mediante el llamado del controlador */
 		tramCtrl.modificarTramite(tramite);
 	}
+	/*** IMPLEMENTACION DE DISPLAYS****/
+			public void altaDisplay(String rutaArchivo) throws Exception{	
+				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+				BusinessDisplay display = new BusinessDisplay(0,rutaArchivo);
+				/*OJO EL CODIGO SE GENERA EN LA BASE TENGO QUE VER COMO VA*/
+				//INSERT en DaoService
+				controladorDisplay.crearDisplay(display);
+				
+			}
+			
+			public void bajaDisplay(int idDisplay) throws Exception{
+				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+				//DELETE en DaoService
+				controladorDisplay.eliminarDisplay(idDisplay);
+			}
+			
+			public List<BusinessDisplay> listarDisplays(String sector) throws Exception{
+				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+				List<BusinessDisplay> displays;
+				//Traigo los puestos de un sector desde DaoService
+				//si sector es null entonces traigo todos los puestos del sistema		
+				if(sector != null){
+					/*Falta implementar en dao*/
+					displays = controladorDisplay.ListarDisplaySector(sector);
+				}else{
+					displays = controladorDisplay.listarDisplays();
+				}
+				
+				return displays;
+			}
+			
+			public void modificarRutaDisplay(int idDisplay, String rutaArchivo) throws Exception{
+				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+				BusinessDisplay display = controladorDisplay.obtenerDisplay(idDisplay);
+				
+				display.setRutaArchivo(rutaArchivo);
+				//UPDATE en DaoService
+				controladorDisplay.modificarDisplay(display);
+			}
 	
 }
