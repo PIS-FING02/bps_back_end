@@ -66,7 +66,7 @@ public class AdminService {
 		//si sector es null entonces traigo todos los puestos del sistema		
 		if(sector != null){
 			DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
-			puestos = controladorSector.selectPuestoSector(sector);
+			puestos = controladorSector.selectPuestosSector(sector.getSectorId());
 		}else{
 			puestos = controladorPuesto.listarPuestos();
 		}
@@ -87,7 +87,7 @@ public class AdminService {
 		tramCtrl.crearTramite(tramite);
 	}
 	
-	public void bajaTramite(int codigo){
+	public void bajaTramite(int codigo) throws Exception{
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
@@ -97,7 +97,7 @@ public class AdminService {
 		tramCtrl.eliminarTramite(codigo);
 	}
 	
-	public void modificarTramite(BusinessTramite tramite){
+	public void modificarTramite(BusinessTramite tramite) throws Exception{
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();

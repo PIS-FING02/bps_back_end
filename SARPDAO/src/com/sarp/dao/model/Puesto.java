@@ -25,6 +25,8 @@ public class Puesto implements Serializable {
 	private Date dateCreated;
 
 	private String estado;
+	
+	private Integer numero_puesto;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_updated")
@@ -137,6 +139,14 @@ public class Puesto implements Serializable {
 
 	public void setTramites(List<Tramite> tramites) {
 		this.tramites = tramites;
+	}
+
+	public Integer getNumero_puesto() {
+		return numero_puesto;
+	}
+
+	public void setNumero_puesto(Integer numero_puesto) {
+		this.numero_puesto = numero_puesto;
 	}
 
 }

@@ -7,13 +7,12 @@ public class BusinessNumero {
 	//Constructores
 	public BusinessNumero() {}
 	public BusinessNumero(Integer internalId, Integer codigoTramite, String externalId, Date hora, String estado, 
-			boolean esSAE, Integer prioridad, BusinessDatoComplementario dato){
+			Integer prioridad, BusinessDatoComplementario dato){
 		this.internalId = internalId;
 		this.codigoTramite = codigoTramite;
 		this.externalId = externalId;
 		this.hora = hora;
 		this.estado = estado;
-		this.esSAE = esSAE;
 		this.prioridad = prioridad;
 		this.datoComplementario = dato;
 	}
@@ -24,7 +23,6 @@ public class BusinessNumero {
 	private String externalId;
 	private Date hora;
 	private String estado;
-	private boolean esSAE;
 	private Integer prioridad;
 	private BusinessDatoComplementario datoComplementario;
 
@@ -62,13 +60,6 @@ public class BusinessNumero {
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public boolean isEsSAE() {
-		return esSAE;
-	}
-	public void setEsSAE(boolean esSAE) {
-		this.esSAE = esSAE;
 	}
 
 	public Integer getPrioridad() {

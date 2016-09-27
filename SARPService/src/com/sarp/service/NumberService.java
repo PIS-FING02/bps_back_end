@@ -27,29 +27,8 @@ public class NumberService {
 		return ctrl.listarNumeros();
     }
 	
-	/*@POST
-	@Path("/{sec}/{tram}/{nombre}/{codigo}")
-	public String altaNumero(
-			@PathParam("sec") int sec,
-			@PathParam("tram") int tram,
-			@PathParam("nombre") String nombre,
-			@PathParam("codigo") Integer codigo){
-		System.out.println("hola desde altaNumero");
-		DAONumeroController ctrl = new DAONumeroController();
-		try {
-			ctrl.crearNumero(sec,tram, nombre, codigo);
-			return "OK";
-		} catch (Exception e) {
-			return e.toString();
-		}
-	} Eliminar? */
-	
-	
-	
-
-	
 	@POST
-	@Path("/")
+	@Path("/solicitarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String SolicitarNumero(BusinessNumero num){
 		//System.out.println("hola desde altaNumero");
@@ -59,16 +38,5 @@ public class NumberService {
 		return "se recibio : "+num.getInternalId().toString();
 
 	}
-	
-	@GET
-	@Path("/{id:[0-9][0-9]*}/{estado}")
-	public String modificacionNumero(
-			@PathParam("id") int id, 
-			@PathParam("estado") String estado){
-		//NumeroControlador ctrl = new NumeroControlador();
-		//ctrl.modificarNumero(id, estado, "serie modificada", 9);
-		return "Numero " + id + " modificado con exito"; 
-	}
-	
 
 }

@@ -24,9 +24,6 @@ public class Numero implements Serializable {
 	@Column(name="date_created")
 	private Date dateCreated;
 
-	@Column(name="es_sae")
-	private Boolean esSae;
-
 	private String estado;
 
 	@Column(name="external_id")
@@ -71,14 +68,6 @@ public class Numero implements Serializable {
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
-	}
-
-	public Boolean getEsSae() {
-		return this.esSae;
-	}
-
-	public void setEsSae(Boolean esSae) {
-		this.esSae = esSae;
 	}
 
 	public String getEstado() {

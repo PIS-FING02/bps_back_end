@@ -11,11 +11,10 @@ import java.util.List;
 
 public class DAONumero {
 	
-	public void insertNumero(Tramite tramite, Boolean esSae, Integer internalId, String externalId, Date hora, Integer prioridad, String estado, Integer docIdentidad, String nombreCompleto, String tipoDoc){
+	public void insertNumero(Tramite tramite, Integer internalId, String externalId, Date hora, Integer prioridad, String estado, Integer docIdentidad, String nombreCompleto, String tipoDoc){
 		EntityManager em = EMFactory.getEntityManager();
 		//Creo la nueva entidad Numero y la asocio con el Tramite
 		Numero n = new Numero();
-		n.setEsSae(esSae);
 		n.setInternalId(internalId);
 		n.setExternalId(externalId);
 		n.setHora(hora);
@@ -64,14 +63,13 @@ public class DAONumero {
 		em.close();
 	}
 
-	public void updateNumero(Integer internalId, String estado, String externalId, Date hora, Integer prioridad, Boolean esSae) throws Exception {
+	public void updateNumero(Integer internalId, String estado, String externalId, Date hora, Integer prioridad) throws Exception {
 		EntityManager em = EMFactory.getEntityManager();
 		Numero n = getNumero(em, internalId);
 		n.setEstado(estado);
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
-		n.setEsSae(esSae);
 		n.setLastUpdated(new Date());
 		
 		em.getTransaction().begin();
