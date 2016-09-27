@@ -65,7 +65,7 @@ public class AdminActionsController {
 		adminServ.bajaTramite(codigo);
 	}
 	
-	public void modificarTramite(BusinessTramite tramite){
+	public void modificarTramite(BusinessTramite tramite) throws Exception{
 		/* Notar que el AdminService es el de este mismo proyecto (SARPBusiness)
 		  y no el AdminService de SARPServices */
 		AdminService adminServ = new AdminService();

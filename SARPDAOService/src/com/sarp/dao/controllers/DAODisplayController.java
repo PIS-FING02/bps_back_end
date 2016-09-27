@@ -29,6 +29,14 @@ public class DAODisplayController {
 		return ret;	
 	}
 	
+	public void asignarDisplay(int codigo) throws Exception{
+		DAOFactory factory = DAOFactory.getInstance();
+		DAODisplay displayRepository = factory.getDisplayRepository();
+		
+		Display d = displayRepository.selectDisplay(codigo);
+		//return ret;
+	}
+	
 	public List<BusinessDisplay> listarDisplays(){
 		DAOFactory factory = DAOFactory.getInstance();
 		DAODisplay displayRepository = factory.getDisplayRepository();

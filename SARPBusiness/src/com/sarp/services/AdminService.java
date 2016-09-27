@@ -87,7 +87,7 @@ public class AdminService {
 		tramCtrl.crearTramite(tramite);
 	}
 	
-	public void bajaTramite(int codigo){
+	public void bajaTramite(int codigo) throws Exception{
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
@@ -97,7 +97,7 @@ public class AdminService {
 		tramCtrl.eliminarTramite(codigo);
 	}
 	
-	public void modificarTramite(BusinessTramite tramite){
+	public void modificarTramite(BusinessTramite tramite) throws Exception{
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
