@@ -20,9 +20,11 @@ import org.jboss.resteasy.spi.BadRequestException;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
+import com.sarp.classes.BusinessDisplay;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramite;
 
@@ -218,4 +220,82 @@ public class AdminService {
 			return e.toString();
 		}
 	}
+	
+	/****************************** DISPLAY ******************************/
+	
+
+
+	@POST
+	@Path("/display")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String altaDisplay(JSONDisplay display){
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if ( (display.getRol().equals("ResponsableSector")) || (display.getRol().equals("Administrador")) ) {
+			try{
+				ctrl.altaDisplay(display.getRutaArchivo());
+				return "Display dado de alta satisfactoriamente";
+			}catch(Exception e){
+				throw new BadRequestException("Error al crear el Display");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+	}
+	
+	@DELETE
+	@Path("/display")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String bajaDisplay(JSONDisplay display){	
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if ( (display.getRol().equals("ResponsableSector")) || (display.getRol().equals("Administrador")) ){
+			try{
+				ctrl.bajaPuesto(display.getRutaArchivo());
+				return "Display "+display.getDisplayId()+" fue dado de baja.";
+			}catch(Exception e){
+				throw new BadRequestException("Error al dar de baja el Display.");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+		
+	}
+	
+	@PUT
+	@Path("/display")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String modificarDisplay(JSONDisplay display){	
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if ( (display.getRol().equals("ResponsableSector")) || (display.getRol().equals("Administrador")) ){
+			try{
+				ctrl.modificarRutaDisplay(display.getDisplayId(),display.getRutaArchivo());
+				return "Display "+display.getDisplayId()+" fue dado de baja.";
+			}catch(Exception e){
+				throw new BadRequestException("Error al modificar Display.");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+		
+	}
+	
+	@GET
+	@Path("/display")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<BusinessDisplay> listarDisplay(JSONDisplay display) {
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if ( (display.getRol().equals( "ResponsableSector")) || (display.getRol().equals("Administrador")) ){
+			try{
+				return ctrl.listarDisplays(display.getSectorId());	
+			}catch(Exception e){
+				throw new BadRequestException("Error al listar Display.");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+    }
+
 }
