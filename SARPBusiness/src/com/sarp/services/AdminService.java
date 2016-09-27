@@ -2,6 +2,7 @@
 package com.sarp.services;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sarp.classes.BusinessDisplay;
@@ -116,22 +117,23 @@ public class AdminService {
 				
 			}
 			
-			public void bajaDisplay(int idDisplay) throws Exception{
+			public void bajaDisplay(Integer idDisplay) throws Exception{
 				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
 				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
 				//DELETE en DaoService
 				controladorDisplay.eliminarDisplay(idDisplay);
 			}
 			
-			public List<BusinessDisplay> listarDisplays(String sector) throws Exception{
+			public List<BusinessDisplay> listarDisplays(Integer sectorid) throws Exception{
 				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
-				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+				DAODisplayController controladorDisplay = factoryServices.getDAODisplayController();
 				List<BusinessDisplay> displays;
 				//Traigo los puestos de un sector desde DaoService
 				//si sector es null entonces traigo todos los puestos del sistema		
-				if(sector != null){
+				if(sectorid != null){
 					/*Falta implementar en dao*/
-					displays = controladorDisplay.ListarDisplaySector(sector);
+					displays = new ArrayList<BusinessDisplay> ();
+					//displays = controladorDisplay.listarDisplaySector(sectorid);
 				}else{
 					displays = controladorDisplay.listarDisplays();
 				}
@@ -139,11 +141,11 @@ public class AdminService {
 				return displays;
 			}
 			
-			public void modificarRutaDisplay(int idDisplay, String rutaArchivo) throws Exception{
+			public void modificarRutaDisplay(Integer idDisplay, String rutaArchivo) throws Exception{
 				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
 				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+				/*traigo el display con id idDisplay*/
 				BusinessDisplay display = controladorDisplay.obtenerDisplay(idDisplay);
-				
 				display.setRutaArchivo(rutaArchivo);
 				//UPDATE en DaoService
 				controladorDisplay.modificarDisplay(display);

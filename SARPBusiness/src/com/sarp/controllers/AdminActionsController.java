@@ -1,9 +1,13 @@
 package com.sarp.controllers;
 
 import java.util.List;
+
+import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
+import com.sarp.dao.controllers.DAODisplayController;
+import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.services.AdminService;
 
@@ -68,4 +72,28 @@ public class AdminActionsController {
 		adminServ.modificarTramite(tramite);
 	}
 	
+	/***********************DISPLAY***********************************/
+	public void altaDisplay(String rutaArchivo) throws Exception{	
+		AdminService adminServ = new AdminService();
+		adminServ.altaDisplay(rutaArchivo);
+		
+	}
+	
+	public void bajaDisplay(Integer idDisplay) throws Exception{
+		AdminService adminServ = new AdminService();
+		adminServ.bajaDisplay(idDisplay);
+		
+	}
+	
+	public List<BusinessDisplay> listarDisplays(Integer sectorid) throws Exception{
+		AdminService adminServ = new AdminService();
+		return adminServ.listarDisplays(sectorid);
+		
+	}
+	
+	public void modificarRutaDisplay(Integer idDisplay, String rutaArchivo) throws Exception{
+		AdminService adminServ = new AdminService();
+		adminServ.modificarRutaDisplay(idDisplay, rutaArchivo);
+	}
+
 }
