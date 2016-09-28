@@ -5,6 +5,8 @@ package com.sarp.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.RollbackException;
+
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
@@ -106,6 +108,33 @@ public class AdminService {
 		/* Finalmente se persiste en la base mediante el llamado del controlador */
 		tramCtrl.modificarTramite(tramite);
 	}
+	
+/** ABM sector **/
+	
+	public void altaModificacionSector(BusinessSector sector) throws Exception{	
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		try{
+			sectorCtrl.crearSector(sector);
+		} catch (RollbackException ex){
+			sectorCtrl.modificarSector(sector);
+		}
+	}
+	
+	public void asignarTramiteSector(Integer idTramite,Integer idSector) throws Exception{
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		
+		sectorCtrl.asociarTramiteSector(idTramite, idSector);
+	}
+	
+	public void bajaSector(int idSector) throws Exception{
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		
+		sectorCtrl.eliminarSector(idSector);
+	}
+	
 	/*** IMPLEMENTACION DE DISPLAYS****/
 			public void altaDisplay(String rutaArchivo) throws Exception{	
 				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();

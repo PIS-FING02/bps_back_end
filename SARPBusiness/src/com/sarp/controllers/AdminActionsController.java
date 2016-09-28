@@ -72,6 +72,23 @@ public class AdminActionsController {
 		adminServ.modificarTramite(tramite);
 	}
 	
+	/** Alta, Baja & Modificacion Sector **/
+	
+	public void altaModificacionSector(BusinessSector sector) throws Exception{
+		AdminService adminService = new AdminService();
+		adminService.altaModificacionSector(sector);
+	}
+	
+	public void asignarTramiteSector(Integer idSector, Integer idTramite) throws Exception {
+		AdminService adminService = new AdminService();
+		adminService.asignarTramiteSector(idSector, idTramite);
+	}
+	
+	public void bajaSector(Integer idSector) throws Exception{
+		AdminService adminService = new AdminService();
+		adminService.bajaSector(idSector);
+	}
+	
 	/***********************DISPLAY***********************************/
 	public void altaDisplay(String rutaArchivo) throws Exception{	
 		AdminService adminServ = new AdminService();
