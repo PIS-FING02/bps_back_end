@@ -2,7 +2,7 @@ package com.sarp.factory;
 
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.AssignmentController;
-import com.sarp.controllers.AtentionsController;
+import com.sarp.controllers.AttentionsController;
 import com.sarp.controllers.QueueController;
 import com.sarp.controllers.UserController;
 import com.sarp.controllers.WaitingController;
@@ -11,7 +11,7 @@ import com.sarp.controllers.GAFUController;
 public class Factory {
 	private static Factory instancia;
 	
-	private Factory(){}
+	public Factory(){}
 	
 	public static Factory getInstance(){
 		if (instancia == null){
@@ -22,7 +22,7 @@ public class Factory {
 		}
 	}
 	
-	public AtentionsController getAtentionsController(){
+	public AttentionsController getAttentionsController(){
 		return null;
 	}
 	

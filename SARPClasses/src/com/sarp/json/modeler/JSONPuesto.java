@@ -8,6 +8,7 @@ public class JSONPuesto {
 	String estado;
 	Integer sectorId;
 	
+
 	public Integer getSectorId() {
 		return sectorId;
 	}

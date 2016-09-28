@@ -1,3 +1,4 @@
+
 package com.sarp.service;
 
 import java.util.List;
@@ -34,83 +35,83 @@ public class AdminService {
 	
 	@Context ServletContext context;
 
-	@POST
-	@Path("/puesto")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public String altaPuesto(JSONPuesto puesto){
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(puesto.getRol().equals("ResponsableSector")){
-			try{
-				ctrl.altaPuesto(puesto.getNombreMaquina());
-				return "Puesto "+puesto.getNombreMaquina()+" dado de alta satisfactoriamente";
-			}catch(Exception e){
-				throw new BadRequestException("Error al crear el Puesto");
-			}
-		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
-		}
-	}
-	
-	@DELETE
-	@Path("/puesto")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public String bajaPuesto(JSONPuesto puesto){	
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(puesto.getRol().equals("ResponsableSector")){
-			try{
-				ctrl.bajaPuesto(puesto.getNombreMaquina());
-				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
-			}catch(Exception e){
-				throw new BadRequestException("Error al dar de baja el Puesto.");
-			}
-		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
-		}
-		
-	}
-	
-	@PUT
-	@Path("/puesto")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public String modificarPuesto(JSONPuesto puesto){	
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(puesto.getRol().equals("ResponsableSector")){
-			try{
-				
-				ctrl.modificarPuesto(puesto.getNombreMaquina(),puesto.getEstado(),puesto.getUsuarioId());
-				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
-			}catch(Exception e){
-				throw new BadRequestException("Error al modificar Puesto.");
-			}
-		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
-		}
-		
-	}
-	
-	@GET
-	@Path("/puestos")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<BusinessPuesto> listarPuestos(JSONPuesto puesto) {
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(puesto.getRol().equals( "ResponsableSector")){
-			try{
-				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(puesto.getSectorId());
-				return listaPuestos;
-				
-			}catch(Exception e){
-				throw new BadRequestException("Error al listar Puestos.");
-			}
-		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
-		}
-    }
+  	@POST
+  	@Path("/puesto")
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String altaPuesto(JSONPuesto puesto){
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(puesto.getRol().equals("ResponsableSector")){
+  			try{
+  				ctrl.altaPuesto(puesto.getNombreMaquina());
+  				return "Puesto "+puesto.getNombreMaquina()+" dado de alta satisfactoriamente";
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al crear el Puesto");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+  	}
+  	
+  	@DELETE
+  	@Path("/puesto")
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String bajaPuesto(JSONPuesto puesto){	
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(puesto.getRol().equals("ResponsableSector")){
+  			try{
+  				ctrl.bajaPuesto(puesto.getNombreMaquina());
+  				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al dar de baja el Puesto.");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+  		
+  	}
+  	
+  	@PUT
+  	@Path("/puesto")
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String modificarPuesto(JSONPuesto puesto){	
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(puesto.getRol().equals("ResponsableSector")){
+  			try{
+  				
+  				ctrl.modificarPuesto(puesto.getNombreMaquina(),puesto.getEstado(),puesto.getUsuarioId());
+  				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al modificar Puesto.");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+  		
+  	}
+  	
+  	@GET
+  	@Path("/puestos")
+      @Produces(MediaType.APPLICATION_JSON)
+      public List<BusinessPuesto> listarPuestos(JSONPuesto puesto) {
+  		System.out.println("entro a listar");
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(puesto.getRol().equals( "ResponsableSector")){
+  			try{
+  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(puesto.getSectorId());
+  				return listaPuestos;
+  				
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al listar Puestos.");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+      }
 
-	
 	/*************************** TRAMITES ***************************/
 	
 	@GET
