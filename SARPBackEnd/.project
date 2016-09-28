@@ -11,6 +11,7 @@
 		<project>SARPEjbClient</project>
 		<project>SARPLibraries</project>
 		<project>SARPService</project>
+		<project>SARPFacade</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

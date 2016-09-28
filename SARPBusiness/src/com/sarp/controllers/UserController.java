@@ -1,5 +1,10 @@
 package com.sarp.controllers;
 
-public class UserController {
+import com.sarp.services.UserService;
 
+public class UserController {
+	
+
+	
+	
 }

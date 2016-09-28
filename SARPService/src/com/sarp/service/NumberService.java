@@ -1,3 +1,4 @@
+
 package com.sarp.service;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.sarp.classes.BusinessNumero;
-import com.sarp.controllers.AtentionsController;
+import com.sarp.controllers.AttentionsController;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.factory.Factory;
 
@@ -33,7 +34,7 @@ public class NumberService {
 	public String SolicitarNumero(BusinessNumero num){
 		//System.out.println("hola desde altaNumero");
 		Factory fac = Factory.getInstance();
-		AtentionsController ctrl = fac.getAtentionsController();
+		AttentionsController ctrl = fac.getAttentionsController();
 		ctrl.solicitarNumero(num);
 		return "se recibio : "+num.getInternalId().toString();
 

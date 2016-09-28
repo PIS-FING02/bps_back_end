@@ -3,7 +3,6 @@
 	<name>SARPService</name>
 	<comment></comment>
 	<projects>
-		<project>SARPBusiness</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
