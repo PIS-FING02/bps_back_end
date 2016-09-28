@@ -9,67 +9,27 @@ import java.util.List;
 
 public class DAOPuesto {
 	
+	/*El EntityManager se setea desde el DAOService, para manejar cada transaccion
+	 * con un unico manager
+	 */
+	private EntityManager em;
+	public void setEM(EntityManager em) {
+		this.em = em;
+	}
+	
 	/* Creo en la base una entidad Puesto
 	 */
-	public void insertPuesto(String nombreMaquina){
-		EntityManager em = EMFactory.getEntityManager();
-		
+	public void insertPuesto(String nombreMaquina){		
 		Puesto p = new Puesto();
 		p.setNombreMaquina(nombreMaquina);
 		p.setDateCreated(new Date());
 		p.setLastUpdated(new Date());
 		
-		em.getTransaction().begin();
 		em.persist(p);
-		em.getTransaction().commit();
 	}
 	
 	/* Obtengo la entidad de Puesto en la base de datos con su nombre */
-	public Puesto selectPuesto(String nombreMaquina) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		
-		Puesto p = getPuesto(em, nombreMaquina);
-		em.close();
-		return p;
-    }
-	
-	/* Obtengo todos los Puestos en la base de datos */
-	public List<Puesto> selectPuestos(){
-		EntityManager em = EMFactory.getEntityManager();
-		
-		List<Puesto> res = em.createQuery("select p from Puesto p").getResultList();
-		em.close();
-		return res;
-	}
-	
-	/* Modifico el estado de un Puesto dado por su nombre */
-	public void updatePuesto(String nombreMaquina, String estado) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		
-		Puesto p = getPuesto(em, nombreMaquina);
-		p.setEstado(estado);
-		p.setLastUpdated(new Date());
-		
-		em.getTransaction().begin();
-		em.persist(p);
-		em.getTransaction().commit();
-		em.close();
-	}
-	
-	/* elimino un display de la base de datos */
-	public void deletePuesto(String nombreMaquina) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		
-		Puesto p = getPuesto(em, nombreMaquina);
-		
-		em.getTransaction().begin();
-    	em.remove(p);
-		em.getTransaction().commit();
-		em.close();
-    }
-	
-	//funcion auxuliar para no usar mas de un EntityManager al obtener un display
-	public Puesto getPuesto(EntityManager em, String nombreMaquina) throws Exception{
+	public Puesto selectPuesto(String nombreMaquina) throws Exception{		
 		Puesto p = em.find(Puesto.class, nombreMaquina);
 		if (p != null){
 			return p;
@@ -78,5 +38,26 @@ public class DAOPuesto {
 			throw new Exception("No existe el Puesto con nombre " + nombreMaquina);
 		}
     }
+	
+	/* Obtengo todos los Puestos en la base de datos */
+	public List<Puesto> selectPuestos(){		
+		List<Puesto> res = em.createQuery("select p from Puesto p").getResultList();
+		return res;
+	}
+	
+	/* Modifico el estado de un Puesto dado por su nombre */
+	public void updatePuesto(String nombreMaquina, String estado) throws Exception{		
+		Puesto p = selectPuesto(nombreMaquina);
+		p.setEstado(estado);
+		p.setLastUpdated(new Date());
+		
+		em.persist(p);
+	}
+	
+	/* elimino un display de la base de datos */
+	public void deletePuesto(String nombreMaquina) throws Exception{		
+		Puesto p = selectPuesto(nombreMaquina);
+    	em.remove(p);
+    }	
 	
 }

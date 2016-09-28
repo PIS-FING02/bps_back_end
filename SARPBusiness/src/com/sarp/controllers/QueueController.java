@@ -26,7 +26,7 @@ public class QueueController {
 	public void agregarNumerosBatch(){
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAONumeroController daoNumero = factory.getDAONumeroController();
-		LinkedList<BusinessNumero> numerosDiarios = daoNumero.obtenerNumerosDelDia();
+		LinkedList<BusinessNumero> numerosDiarios = daoNumero.listarNumerosDelDia();
 		this.cola.agregarNumeroColaBatch(numerosDiarios);
 		
 	}

@@ -9,6 +9,7 @@ import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Numero;
+import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
 
@@ -17,12 +18,15 @@ import java.util.List;
 
 public class DAOSector {
 	
-	/* Creo en la base una entidad Sector
+	/*El EntityManager se setea desde el DAOService, para manejar cada transaccion
+	 * con un unico manager
 	 */
+	private EntityManager em;
+	public void setEM(EntityManager em) {
+		this.em = em;
+	}
 
-	public void insertSector(Integer codigo, String nombre, String ruta){
-		EntityManager em = EMFactory.getEntityManager();
-		
+	public void insertSector(Integer codigo, String nombre, String ruta){		
 		Sector s = new Sector();
 		s.setCodigo(codigo);
 		s.setNombre(nombre);
@@ -30,58 +34,11 @@ public class DAOSector {
 		s.setDateCreated(new Date());
 		s.setLastUpdated(new Date());
 		
-		em.getTransaction().begin();
 		em.persist(s);
-		em.getTransaction().commit();
 	}
 	
 	/* Obtengo la entidad de Sector en la bd con su codigo */
-	public Sector selectSector(int codigo) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		
-		Sector s = getSector(em, codigo);
-		em.close();
-		return s;
-    }
-	
-	/* Obtengo todos los Sectores en la base de datos */
-	public List<Sector> selectSectores(){
-		EntityManager em = EMFactory.getEntityManager();
-		
-		List<Sector> res = em.createQuery("select s from Sector s").getResultList();
-		em.close();
-		return res;
-	}
-	
-	/* Modifico la ruta de un Sector dado por su codigo */
-	public void updateSector(int codigo, String nombre, String rutaSector) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		
-		Sector s = getSector(em, codigo);
-		s.setNombre(nombre);
-		s.setRutaSector(rutaSector);
-		s.setLastUpdated(new Date());
-		
-		em.getTransaction().begin();
-		em.persist(s);
-		em.getTransaction().commit();
-		em.close();
-	}
-	
-	/* elimino un Sector de la base de datos */
-	public void deleteSector(int codigo) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		
-		Sector s = getSector(em, codigo);
-		
-		em.getTransaction().begin();
-    	em.remove(s);
-		em.getTransaction().commit();
-		em.close();
-    }
-	
-	//funcion auxuliar para no usar mas de un EntityManager al obtener un Sector
-	public Sector getSector(EntityManager em, int codigo) throws Exception{
+	public Sector selectSector(int codigo) throws Exception{		
 		Sector s = em.find(Sector.class, codigo);
 		if (s != null){
 			return s;
@@ -91,5 +48,46 @@ public class DAOSector {
 		}
     }
 	
+	/* Obtengo todos los Sectores en la base de datos */
+	public List<Sector> selectSectores(){		
+		List<Sector> res = em.createQuery("select s from Sector s").getResultList();
+		return res;
+	}
+	
+	/* Modifico la ruta de un Sector dado por su codigo */
+	public void updateSector(int codigo, String nombre, String rutaSector) throws Exception{		
+		Sector s = selectSector(codigo);
+		s.setNombre(nombre);
+		s.setRutaSector(rutaSector);
+		s.setLastUpdated(new Date());
+		
+		em.persist(s);
+	}
+	
+	/* elimino un Sector de la base de datos */
+	public void deleteSector(int codigo) throws Exception{		
+		Sector s = selectSector(codigo);
+    	em.remove(s);
+    }
+
+	public void asociarSectorPuesto(Sector s, Puesto p) {
+		s.getPuestos().add(p);
+		p.getSectors().add(s);
+		s.setLastUpdated(new Date());
+		p.setLastUpdated(new Date());
+		
+		em.persist(s);
+		em.persist(p);
+	}	
+	
+	public void desasociarSectorPuesto(Sector s, Puesto p) {
+		s.getPuestos().remove(p);
+		p.getSectors().remove(s);
+		s.setLastUpdated(new Date());
+		p.setLastUpdated(new Date());
+		
+		em.persist(s);
+		em.persist(p);
+	}	
 	
 }

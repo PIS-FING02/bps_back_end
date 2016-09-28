@@ -26,7 +26,7 @@ public class Puesto implements Serializable {
 
 	private String estado;
 	
-	private Integer numero_puesto;
+	//private Integer numero_puesto;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_updated")
@@ -74,6 +74,10 @@ public class Puesto implements Serializable {
 		)
 	private List<Tramite> tramites;
 
+//	//bi-directional one-to-one association to Numero
+	@OneToOne(mappedBy="puesto", fetch=FetchType.EAGER)
+	private Numero numero_puesto;
+		
 	public Puesto() {
 	}
 
@@ -141,12 +145,14 @@ public class Puesto implements Serializable {
 		this.tramites = tramites;
 	}
 
-	public Integer getNumero_puesto() {
+	public Numero getNumero_puesto() {
 		return numero_puesto;
 	}
 
-	public void setNumero_puesto(Integer numero_puesto) {
+	public void setNumero_puesto(Numero numero_puesto) {
 		this.numero_puesto = numero_puesto;
 	}
+
+	
 
 }
