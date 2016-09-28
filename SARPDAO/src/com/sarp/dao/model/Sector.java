@@ -16,7 +16,7 @@ public class Sector implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Integer codigo;
+	private String codigo;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
@@ -47,11 +47,11 @@ public class Sector implements Serializable {
 	public Sector() {
 	}
 
-	public Integer getCodigo() {
+	public String getCodigo() {
 		return this.codigo;
 	}
 
-	public void setCodigo(Integer codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 

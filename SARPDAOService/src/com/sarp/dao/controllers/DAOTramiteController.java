@@ -80,7 +80,11 @@ public class DAOTramiteController {
 
 	/* Operaciones para la relacion Tramite-Sector */
 	
+<<<<<<< HEAD
 	public void desasociarTramiteSector(int codigoTramite, int codigoSector) throws Exception{
+=======
+	public void desasociarTramiteSector(int codigoTramite, String codigoSector) throws Exception{
+>>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -105,7 +109,11 @@ public class DAOTramiteController {
 		List<Sector> list = t.getSectors();
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for(Sector s : list){
+<<<<<<< HEAD
 			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getDisplay().getCodigo(), s.getRutaSector());
+=======
+			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
+>>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 			ret.add(bs);
 		}	
 		return ret;

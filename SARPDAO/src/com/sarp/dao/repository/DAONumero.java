@@ -1,11 +1,7 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
 
-import com.sarp.dao.factory.EMFactory;
-import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Tramite;
@@ -35,17 +31,9 @@ public class DAONumero {
 		n.setLastUpdated(new Date());
 		tramite.addNumero(n);
 		//Creo una nueva entidad de DatoComplementario y las asocio
-		DatosComplementario d = new DatosComplementario();
-		d.setNumero(n);
-		d.setDocIdentidad(docIdentidad);
-		d.setNombreCompleto(nombreCompleto);
-		d.setTipoDoc(tipoDoc);
-		d.setDateCreated(new Date());
-		d.setLastUpdated(new Date());
-		n.setDatosComplementario(d);
-		
+		//TODO hacer en otro metodo
+	
 		em.persist(n);
-		em.persist(d);
 		return n;
 	}
 	
@@ -100,7 +88,7 @@ public class DAONumero {
 
 	public void asociarNumeroPuestoActual(Numero numero, Puesto puesto) {
 		numero.setPuesto(puesto);
-		puesto.setNumero_puesto(null);
+		puesto.setNumero_puesto(numero);		
 		numero.setLastUpdated(new Date());	
 		puesto.setLastUpdated(new Date());
 		

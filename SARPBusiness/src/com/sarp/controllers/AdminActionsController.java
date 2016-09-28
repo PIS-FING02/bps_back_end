@@ -79,12 +79,12 @@ public class AdminActionsController {
 		adminService.altaModificacionSector(sector);
 	}
 	
-	public void asignarTramiteSector(Integer idSector, Integer idTramite) throws Exception {
+	public void asignarTramiteSector(String idSector, Integer idTramite) throws Exception {
 		AdminService adminService = new AdminService();
-		adminService.asignarTramiteSector(idSector, idTramite);
+		adminService.asignarTramiteSector(idTramite, idSector);
 	}
 	
-	public void bajaSector(Integer idSector) throws Exception{
+	public void bajaSector(String idSector) throws Exception{
 		AdminService adminService = new AdminService();
 		adminService.bajaSector(idSector);
 	}

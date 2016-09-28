@@ -26,7 +26,8 @@ public class DAOSector {
 		this.em = em;
 	}
 
-	public void insertSector(Integer codigo, String nombre, String ruta){		
+
+	public void insertSector(String codigo, String nombre, String ruta){		
 		Sector s = new Sector();
 		s.setCodigo(codigo);
 		s.setNombre(nombre);
@@ -38,7 +39,8 @@ public class DAOSector {
 	}
 	
 	/* Obtengo la entidad de Sector en la bd con su codigo */
-	public Sector selectSector(int codigo) throws Exception{		
+
+	public Sector selectSector(String codigo) throws Exception{		
 		Sector s = em.find(Sector.class, codigo);
 		if (s != null){
 			return s;
@@ -55,7 +57,8 @@ public class DAOSector {
 	}
 	
 	/* Modifico la ruta de un Sector dado por su codigo */
-	public void updateSector(int codigo, String nombre, String rutaSector) throws Exception{		
+
+	public void updateSector(String codigo, String nombre, String rutaSector) throws Exception{		
 		Sector s = selectSector(codigo);
 		s.setNombre(nombre);
 		s.setRutaSector(rutaSector);
@@ -65,7 +68,8 @@ public class DAOSector {
 	}
 	
 	/* elimino un Sector de la base de datos */
-	public void deleteSector(int codigo) throws Exception{		
+
+	public void deleteSector(String codigo) throws Exception{		
 		Sector s = selectSector(codigo);
     	em.remove(s);
     }

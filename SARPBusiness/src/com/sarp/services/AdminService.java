@@ -128,14 +128,14 @@ public class AdminService {
 		}
 	}
 	
-	public void asignarTramiteSector(Integer idTramite,Integer idSector) throws Exception{
+	public void asignarTramiteSector(Integer idTramite,String idSector) throws Exception{
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 		
 		sectorCtrl.asociarTramiteSector(idTramite, idSector);
 	}
 	
-	public void bajaSector(int idSector) throws Exception{
+	public void bajaSector(String idSector) throws Exception{
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 		
