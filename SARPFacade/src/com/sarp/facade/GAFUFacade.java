@@ -21,7 +21,6 @@ public class GAFUFacade {
 	private final static String endpoint = "http://52.52.100.160:8080/GAFU/WsGafuService";
 	private final static String areaFuncional = "BPS";
 	private final static String codSistema = "GAP";
-
 	
 	private static ResultObtenerArbolAreaFuncional obtenerSectoresGAFU(){
 		WsGafuServiceService service1 = new WsGafuServiceService();

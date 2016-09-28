@@ -24,6 +24,13 @@ public class DAOSectorController {
 		
 		sectorRepository.insertSector(sector.getSectorId(), sector.getNombre(),sector.getRuta());
 	}
+	
+	public void eliminarSector(int codigo) throws Exception {
+		DAOFactory factory = DAOFactory.getInstance();
+		DAOSector sectorRepository = factory.getSectorRepository();
+		
+		sectorRepository.deleteSector(codigo);
+	}
 
 	public List<BusinessSector> listarSectores() {
 		DAOFactory factory = DAOFactory.getInstance();
@@ -75,6 +82,16 @@ public class DAOSectorController {
 		Display d = s.getDisplay();
 		BusinessDisplay ret = new BusinessDisplay(d.getCodigo(), d.getRutaArchivo());
 		return ret;
+	}
+
+	public void asociarTramiteSector(Integer idTramite, Integer idSector) throws Exception {
+		// TODO CHELO
+		
+	}
+
+	public void modificarSector(BusinessSector sector) throws Exception{
+		// TODO CHELO
+		
 	}
 
 }
