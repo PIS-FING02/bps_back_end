@@ -8,6 +8,7 @@ public class BusinessNumero {
 	//Constructores
 	public BusinessNumero() {}
 	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado, 
+
 			Integer prioridad){
 		this.internalId = internalId;
 		this.externalId = externalId;

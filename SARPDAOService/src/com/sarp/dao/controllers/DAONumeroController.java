@@ -5,24 +5,26 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
-
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
-
+import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
+
+import com.sarp.dao.model.Sector;
+
 import com.sarp.dao.model.Tramite;
 import com.sarp.dao.repository.DAODisplay;
 import com.sarp.dao.repository.DAONumero;
 import com.sarp.dao.repository.DAOPuesto;
 
+import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
 
 public class DAONumeroController {
@@ -31,17 +33,16 @@ public class DAONumeroController {
 	
 
 	public Integer crearNumero(BusinessNumero numero, BusinessDatoComplementario dc, int tramite) throws Exception{
+
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
-		DAOTramite tramiteRespository = factory.getTramiteRepository(em);
-		
+		DAOTramite tramiteRespository = factory.getTramiteRepository(em);		
 		Tramite t = tramiteRespository.selectTramite(tramite);	
 		em.getTransaction().begin();
 		Numero n = numeroRepository.insertNumero(t, numero.getExternalId(), numero.getHora().getTime(), numero.getPrioridad(), numero.getEstado());
 		em.getTransaction().commit();
 		em.close();				
-		return n.getInternalId();
-		
+		return n.getInternalId();	
 	}
 
 	public List<BusinessNumero> listarNumeros(){
@@ -56,6 +57,7 @@ public class DAONumeroController {
 			GregorianCalendar c = new GregorianCalendar();
 			c.setTime(n.getHora());
 			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
+
 			ret.add(numero);
 		}
 		return ret;

@@ -106,7 +106,6 @@ public class DAOTramiteController {
 		List<Sector> list = t.getSectors();
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for(Sector s : list){
-
 			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
 			ret.add(bs);
 		}	

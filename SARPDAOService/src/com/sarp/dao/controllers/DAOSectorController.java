@@ -2,12 +2,8 @@ package com.sarp.dao.controllers;
 
 import java.util.LinkedList;
 import java.util.List;
-
-
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
-
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -77,9 +73,7 @@ public class DAOSectorController {
 	
 	public void modificarSector(BusinessSector s) throws Exception{
 		EntityManager em = EMFactory.getEntityManager();
-		DAOSector sectorRepository = factory.getSectorRepository(em);
-
-		
+		DAOSector sectorRepository = factory.getSectorRepository(em);	
 		em.getTransaction().begin();
 		sectorRepository.updateSector(s.getSectorId(), s.getNombre(), s.getRuta());
 		em.getTransaction().commit();
@@ -135,8 +129,8 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-
 	public List<BusinessTramite> obtenerTramitesSector(String sectorID) throws Exception {
+
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
@@ -163,8 +157,8 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-
 	public void asignarDisplaySector(String codigoSector, int codigoDisplay) throws Exception{
+
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -177,8 +171,8 @@ public class DAOSectorController {
 		em.close();
 	}
 	
-
 	public void asociarTramiteSector(int codigoTramite, String codigoSector) throws Exception{
+
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
