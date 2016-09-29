@@ -16,7 +16,7 @@ public class Numero implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	//@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="internal_id")
 	private Integer internalId;
 
@@ -50,6 +50,11 @@ public class Numero implements Serializable {
 	//bi-directional many-to-many association to Puesto
 	@ManyToMany(mappedBy="numeros")
 	private List<Puesto> puestos;
+	
+	//bi-directional one-to-one association to Puesto
+	@OneToOne
+	@JoinColumn(name="puesto_asignado")
+	private Puesto puesto;
 
 	public Numero() {
 	}
@@ -132,6 +137,14 @@ public class Numero implements Serializable {
 
 	public void setPuestos(List<Puesto> puestos) {
 		this.puestos = puestos;
+	}
+	
+	public Puesto getPuesto() {
+		return this.puesto;
+	}
+
+	public void setPuesto(Puesto puesto) {
+		this.puesto = puesto;
 	}
 
 }

@@ -37,7 +37,6 @@ public class NumberService {
 		AttentionsController ctrl = fac.getAttentionsController();
 		ctrl.solicitarNumero(num);
 		return "se recibio : "+num.getInternalId().toString();
-
 	}
 
 }

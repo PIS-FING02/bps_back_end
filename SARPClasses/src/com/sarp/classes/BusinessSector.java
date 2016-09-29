@@ -14,7 +14,6 @@ public class BusinessSector  {
 
 	//Atributos
 	private Integer sectorId;
-
 	private Integer codigoDisplay;
 	private String nombre;
 	private String ruta;

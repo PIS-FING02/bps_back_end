@@ -1,18 +1,29 @@
 package com.sarp.dao.controllers;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import com.sarp.classes.BusinessDatoComplementario;
+import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessNumero;
+import com.sarp.classes.BusinessPuesto;
+import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
+import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.DatosComplementario;
+import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Numero;
+import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
+import com.sarp.dao.repository.DAODisplay;
 import com.sarp.dao.repository.DAONumero;
+import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
 import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
@@ -21,40 +32,32 @@ import com.sun.corba.se.impl.orbutil.RepositoryIdFactory;
 
 public class DAONumeroController {
 	
-	public void crearNumero(BusinessNumero numero, Integer sector) throws Exception{
-		DAOFactory factory = DAOFactory.getInstance();
-		DAONumero numeroRepository = factory.getNumeroRepository();
-		if(!numeroRepository.existsNumero(numero.getInternalId())){
-			DAOSector sectorRepository = factory.getSectorRepository();		
-			Sector s = sectorRepository.selectSector(sector);
-			if(s != null){
-				List<Tramite> tList = s.getTramites();
-				boolean existe = false;
-				for (Tramite t:tList){
-					if (t.getCodigo() == numero.getCodigoTramite()){
-						BusinessDatoComplementario dc = numero.getDatoComplementario();
-						numeroRepository.insertNumero(t, numero.getInternalId(), numero.getExternalId(), numero.getHora(), numero.getPrioridad(), numero.getEstado(), dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
-						existe = true;
-					}
-				}
-				if (!existe) {
-					throw new Exception("El sector no contiene al tramite con el codigo solicitado");
-				}			
-			}else{
-				throw new Exception("No se encontro el sector solicitado");
-			}
-		}
-		else{
-
-			throw new Exception("Ya existe un numero con ese ID");
-		}
+	private DAOFactory factory = DAOFactory.getInstance();
+	
+	public Integer crearNumero(BusinessNumero numero) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		DAOSector sectorRepository = factory.getSectorRepository(em);		
+		DAOTramite tramiteRespository = factory.getTramiteRepository(em);
+		
+		Tramite t = tramiteRespository.selectTramite(numero.getCodigoTramite());
+		BusinessDatoComplementario dc = numero.getDatoComplementario();
+		
+		em.getTransaction().begin();
+		Numero n = numeroRepository.insertNumero(t, numero.getExternalId(), numero.getHora(), numero.getPrioridad(), numero.getEstado(), dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
+		em.getTransaction().commit();
+		em.close();				
+		return n.getInternalId();
+		
 	}
 
 	public List<BusinessNumero> listarNumeros(){
-		DAOFactory factory = DAOFactory.getInstance();
-		DAONumero numeroRepository = factory.getNumeroRepository();
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		List<Numero> list = numeroRepository.selectNumeros();
+		em.close();
+		
 		List<BusinessNumero> ret = new LinkedList<BusinessNumero>();
 		for (Numero n : list){
 			DatosComplementario d = n.getDatosComplementario();
@@ -66,10 +69,12 @@ public class DAONumeroController {
 	}
 	
 	public BusinessNumero obtenerNumero(int id) throws Exception{
-		DAOFactory factory = DAOFactory.getInstance();
-		DAONumero numeroRepository = factory.getNumeroRepository();
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		Numero n = numeroRepository.selectNumero(id);
+		em.close();
+		
 		DatosComplementario d = n.getDatosComplementario();
 		BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
 		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);
@@ -77,23 +82,103 @@ public class DAONumeroController {
 	}
 	
 	public void modificarNumero(BusinessNumero numero) throws Exception{
-		DAOFactory factory = DAOFactory.getInstance();
-		DAONumero numeroRepository = factory.getNumeroRepository();
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
+		em.getTransaction().begin();
 		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad());
+		em.getTransaction().commit();
+		em.close();
 	}
 	
 	public void eliminarNumero(int codigo) throws Exception{
-		DAOFactory factory = DAOFactory.getInstance();
-		DAONumero numeroRepository = factory.getNumeroRepository();
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
+		em.getTransaction().begin();
 		numeroRepository.deleteNumero(codigo);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public BusinessTramite obtenerTramiteNumero(Integer codigoNumero) throws Exception {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.close();
+		Tramite t = n.getTramite();
+		BusinessTramite res = new BusinessTramite(t.getCodigo(), t.getNombre());
+		return res;
 	}
 
-	public LinkedList<BusinessNumero> obtenerNumerosDelDia() {
-		// Hay que hacer una consulta que trae todos los numeros que fueron reservados
-		// por SAE para el dia en el cual se ejecuta.
-		return null;
+	public LinkedList<BusinessNumero> listarNumerosDelDia() {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		
+		List<Numero> list = numeroRepository.selectNumerosDelDia();
+		em.close();
+		
+		LinkedList<BusinessNumero> ret = new LinkedList<BusinessNumero>();
+		for (Numero n : list){
+			DatosComplementario d = n.getDatosComplementario();
+			BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);
+			ret.add(numero);
+		}
+		return ret;
+	}
+	
+	public void asociarNumeroPuesto(int codigoNumero, String nombreMaquina) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+		
+		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.getTransaction().begin();
+		numeroRepository.asociarNumeroPuesto(n,p);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public List<BusinessPuesto> obtenerPuestosNumero(Integer codigoNumero) throws Exception {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.close();
+		List<Puesto> list = n.getPuestos();
+		List<BusinessPuesto> ret = new LinkedList<BusinessPuesto>();
+		for(Puesto p : list){
+			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado());
+			ret.add(bp);
+		}	
+		return ret;
+	}
+	
+	public void asociarNumeroPuestoActual(int codigoNumero, String nombreMaquina) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+		
+		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.getTransaction().begin();
+		numeroRepository.asociarNumeroPuestoActual(n,p);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public BusinessPuesto obtenerPuestoActualNumero(Integer codigoNumero) throws Exception {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.close();
+		Puesto p = n.getPuesto();
+		BusinessPuesto res = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado());
+		return res;
 	}
 
 }

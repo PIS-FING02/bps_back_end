@@ -9,7 +9,9 @@ public class BusinessPuesto {
 	public BusinessPuesto(String nombreMaquina, String usuarioId, String estado) {
 		this.nombreMaquina = nombreMaquina;
 		this.usuarioId = usuarioId;
-		this.estado = EstadoPuesto.valueOf(estado);
+		if(estado != null){
+			this.estado = EstadoPuesto.valueOf(estado);
+		}
 	}
 	
 	//Atributos
