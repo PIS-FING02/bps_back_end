@@ -13,6 +13,7 @@ import com.sarp.classes.BusinessTramiteSector;
 import com.sarp.json.modeler.JSONDatosComp;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONNumero;
+import com.sarp.json.modeler.JSONNumeroPuesto;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramite;
@@ -154,6 +155,15 @@ public class ResponseMaker {
 		jsonDisplay.setSectores(createArrayAtomSectores(businessSectores));
 		
 		return jsonDisplay;
+	}
+	
+	/* JSONNUMEROPUESTO */
+	public JSONNumeroPuesto numeroPuestoResponse(BusinessNumero businessNumero, BusinessPuesto businessPuesto){
+		JSONNumeroPuesto jsonNumeroPuesto = new JSONNumeroPuesto();
+		jsonNumeroPuesto.setNumero(this.numeroAtomResponse(businessNumero));
+		jsonNumeroPuesto.setPuesto(this.puestoAtomResponse(businessPuesto));
+		
+		return jsonNumeroPuesto;
 	}
 	
 	/* UTILS */
