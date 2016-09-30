@@ -9,33 +9,33 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAODisplayController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
+import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONSector;
 import com.sarp.services.AdminService;
 
 public class AdminActionsController {
 
-	public void altaPuesto(String nombreMaquina) throws Exception{	
+	public void altaPuesto(JSONPuesto puesto) throws Exception{	
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
-		adminService.altaPuesto(nombreMaquina);
+		adminService.altaPuesto(puesto);
 	}
 	
-	public void bajaPuesto(String nombreMaquina) throws Exception{
+	public void bajaPuesto(JSONPuesto puesto) throws Exception{
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
-		adminService.bajaPuesto(nombreMaquina);
+		adminService.bajaPuesto(puesto);
 	}
 	
-	public void modificarPuesto(String nombreMaquina,String estado, String usuarioId) throws Exception{
+	public void modificarPuesto(JSONPuesto puesto) throws Exception{
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
-		adminService.modificarPuesto(nombreMaquina, estado, usuarioId);
+		adminService.modificarPuesto(puesto);
 	}
 	
-	public List<BusinessPuesto> listarPuestos(Integer sectorId) throws Exception{
+	public List<BusinessPuesto> listarPuestos(JSONSector sector) throws Exception{
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
-		BusinessSector sector = new BusinessSector();
-		sector.setSectorId(sectorId);
 		return adminService.listarPuestos(sector);
 	}
 	

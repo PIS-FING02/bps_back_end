@@ -18,74 +18,51 @@ import com.sarp.json.modeler.JSONTramiteSector;
 public class RequestMaker {
 	
 	private RequestMaker(){}
-	private static RequestMaker instance;
+	private RequestMaker instance;
 	
-	public static RequestMaker getInstance(){
+	public RequestMaker getInstance(){
 		instance = (instance!= null) ? instance : new RequestMaker();
 		return instance;
 	}
 	
 	public BusinessPuesto requestPuesto(JSONPuesto puesto){
-		return puesto!= null? new BusinessPuesto(puesto.getNombreMaquina(),puesto.getUsuarioId(),puesto.getEstado(),puesto.getNumeroPuesto()) : null;
+		return new BusinessPuesto(puesto.getNombreMaquina(),puesto.getUsuarioId(),puesto.getEstado(),puesto.getNumeroPuesto());
 	}
 	
 	public BusinessNumero requestNumero(JSONNumero numero){
 	
-		return numero != null ? new BusinessNumero(numero.getId(),numero.getExternalId(),numero.getHora(),numero.getEstado(),numero.getPrioridad()) : null;
+		return new BusinessNumero(numero.getId(),numero.getExternalId(),numero.getHora(),numero.getEstado(),numero.getPrioridad());
 	}
 	
 	public BusinessTramite requestTramite(JSONTramite tramite){
-		return tramite != null ? new BusinessTramite(tramite.getCodigo(),tramite.getNombre()) : null;
+		return new BusinessTramite(tramite.getCodigo(),tramite.getNombre());
 	}
 	
 	public BusinessSector requestSector(JSONSector sector){
-		return sector != null ? new BusinessSector(sector.getCodigo(),sector.getNombre(),sector.getRutaSector()) : null;
+		return new BusinessSector(sector.getCodigo(),sector.getNombre(),sector.getRutaSector());
 	}
 	
 	public BusinessDisplay requestDisplay(JSONDisplay display){
-		return display != null ? new BusinessDisplay(display.getDisplayId(),display.getRutaArchivo()) : null;
+		return new BusinessDisplay(display.getDisplayId(),display.getRutaArchivo());
 	}
 	public BusinessDatoComplementario requestDatoComplementario(JSONNumero numero){
-		if(numero != null){
-			JSONDatosComp dato = numero.getDatosComplementarios();
-			return (dato!=null) ? new BusinessDatoComplementario(dato.getDocId(),dato.getNombreCompleto(),dato.getTipoDoc()) : null;
-		}else{
-			return null;
-		}
+		JSONDatosComp dato = numero.getDatosComplementarios();
+		return (dato!=null) ? new BusinessDatoComplementario(dato.getDocId(),dato.getNombreCompleto(),dato.getTipoDoc()) : null;
 	}
 	
 	public BusinessSector requestSectorFromTramSec(JSONTramiteSector tramSec){
-		if(tramSec != null){
-			return (tramSec.getSector()!= null) ? requestSector(tramSec.getSector()) : null;
-		}else{
-			return null;
-		}		
+		return (tramSec.getSector()!= null) ? requestSector(tramSec.getSector()) : null;
 	}
 	
 	public BusinessTramite requestTramiteFromTramSec(JSONTramiteSector tramSec){
-		if(tramSec != null){
-			return (tramSec.getSector()!= null) ? requestTramite(tramSec.getTramite()) : null;
-		}else{
-			return null;
-		}
-		
+		return (tramSec.getSector()!= null) ? requestTramite(tramSec.getTramite()) : null;
 	}
 	
 	public BusinessNumero requestNumeroFromNumPuesto(JSONNumeroPuesto numPuesto){
-		if(numPuesto != null){
-			return (numPuesto.getNumero()!= null) ? requestNumero(numPuesto.getNumero()) : null;
-		}else{
-			return null;
-		}
-		
+		return (numPuesto.getNumero()!= null) ? requestNumero(numPuesto.getNumero()) : null;
 	}
 	public BusinessPuesto requestPuestoFromNumPuesto(JSONNumeroPuesto numPuesto){
-		if(numPuesto != null){
-			return (numPuesto.getPuesto()!= null) ? requestPuesto(numPuesto.getPuesto()) : null;
-		}else{
-			return null;
-		}
-		
+		return (numPuesto.getPuesto()!= null) ? requestPuesto(numPuesto.getPuesto()) : null;
 	}
 }
 

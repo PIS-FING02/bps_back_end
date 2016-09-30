@@ -20,55 +20,62 @@ import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONSector;
+import com.sarp.service.response.maker.RequestMaker;
 
 
 public class AdminService {
 	
 	
-	public void altaPuesto(String nombreMaquina) throws Exception{	
+	public void altaPuesto(JSONPuesto puesto) throws Exception{	
+		RequestMaker reqMaker = RequestMaker.getInstance();
+		BusinessPuesto bPuesto = reqMaker.requestPuesto(puesto);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-		BusinessPuesto puesto = new BusinessPuesto();
-		puesto.setNombreMaquina(nombreMaquina);
 		//INSERT en DaoService
-		controladorPuesto.crearPuesto(puesto);
+		controladorPuesto.crearPuesto(bPuesto);
 	}
 	
-	public void bajaPuesto(String nombreMaquina) throws Exception{
+	public void bajaPuesto(JSONPuesto puesto) throws Exception{
+		RequestMaker reqMaker = RequestMaker.getInstance();
+		BusinessPuesto bPuesto = reqMaker.requestPuesto(puesto);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		//DELETE en DaoService
-		controladorPuesto.eliminarPuesto(nombreMaquina);
+		controladorPuesto.eliminarPuesto(bPuesto.getNombreMaquina());
 	}
 	
-	public void modificarPuesto(String nombreMaquina,String estado,String usuarioId) throws Exception {
+	public void modificarPuesto(JSONPuesto puesto) throws Exception {
+		RequestMaker reqMaker = RequestMaker.getInstance();
+		BusinessPuesto bPuesto = reqMaker.requestPuesto(puesto);
 		//Si se modifico algun campo del puesto entonces se llama a DaoService y se hace Update
-		if(estado != null || usuarioId != null){
+		if(bPuesto.getEstado() != null || bPuesto.getUsuarioId() != null){
 			DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 			DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-			BusinessPuesto puesto = controladorPuesto.obtenerPuesto(nombreMaquina);
-		
-			if(estado != null){
-				EstadoPuesto estonuevo = EstadoPuesto.getEnum(estado);
-				puesto.setEstado(estonuevo);
+			BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(bPuesto.getNombreMaquina());
+			if(bPuesto.getEstado() != null){
+				puestoSend.setEstado(bPuesto.getEstado());
 			}
-			if(usuarioId != null){
-				puesto.setUsuarioId(usuarioId);
+			if(bPuesto.getUsuarioId()!= null){
+				puestoSend.setUsuarioId(bPuesto.getUsuarioId());
 			}
 			//Se delega a DaoService
-			controladorPuesto.modificarPuesto(puesto);
+			controladorPuesto.modificarPuesto(puestoSend);
 		}
 	}
 		
-	public List<BusinessPuesto> listarPuestos(BusinessSector sector) throws Exception{
+	public List<BusinessPuesto> listarPuestos(JSONSector sector) throws Exception{
+		RequestMaker reqMaker = RequestMaker.getInstance();
+		BusinessSector bSector = reqMaker.requestSector(sector);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		List<BusinessPuesto> puestos;
 		//Traigo los puestos de un sector desde DaoService
 		//si sector es null entonces traigo todos los puestos del sistema		
-		if(sector != null){
+		if(bSector != null){
 			DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
-			puestos = controladorSector.obtenerPuestosSector(sector.getSectorId());
+			puestos = controladorSector.obtenerPuestosSector(bSector.getSectorId());
 		}else{
 			puestos = controladorPuesto.listarPuestos();
 		}

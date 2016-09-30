@@ -44,7 +44,7 @@ public class AdminService {
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("ResponsableSector")){
   			try{
-  				ctrl.altaPuesto(puesto.getNombreMaquina());
+  				ctrl.altaPuesto(puesto);
   				return "Puesto "+puesto.getNombreMaquina()+" dado de alta satisfactoriamente";
   			}catch(Exception e){
   				throw new BadRequestException("Error al crear el Puesto");
@@ -62,7 +62,7 @@ public class AdminService {
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("ResponsableSector")){
   			try{
-  				ctrl.bajaPuesto(puesto.getNombreMaquina());
+  				ctrl.bajaPuesto(puesto);
   				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
   			}catch(Exception e){
   				throw new BadRequestException("Error al dar de baja el Puesto.");
@@ -82,7 +82,7 @@ public class AdminService {
   		if(userRol.equals("ResponsableSector")){
   			try{
   				
-  				ctrl.modificarPuesto(puesto.getNombreMaquina(),puesto.getEstado(),puesto.getUsuarioId());
+  				ctrl.modificarPuesto(puesto);
   				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
   			}catch(Exception e){
   				throw new BadRequestException("Error al modificar Puesto.");
@@ -102,7 +102,7 @@ public class AdminService {
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals( "ResponsableSector")){
   			try{
-  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(sector.getCodigo());
+  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(sector);
   				return listaPuestos;
   				
   			}catch(Exception e){
@@ -228,7 +228,7 @@ public class AdminService {
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ){
 			try{
-				ctrl.bajaPuesto(display.getRutaArchivo());
+				ctrl.bajaDisplay(display.getDisplayId());
 				return "Display "+display.getDisplayId()+" fue dado de baja.";
 			}catch(Exception e){
 				throw new BadRequestException("Error al dar de baja el Display.");
