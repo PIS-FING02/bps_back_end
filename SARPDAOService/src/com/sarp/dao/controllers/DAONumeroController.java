@@ -48,24 +48,13 @@ public class DAONumeroController {
 	
 	private DAOFactory factory = DAOFactory.getInstance();
 	
-<<<<<<< HEAD
-	public Integer crearNumero(BusinessNumero numero) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		DAONumero numeroRepository = factory.getNumeroRepository(em);
-		DAOSector sectorRepository = factory.getSectorRepository(em);		
-		DAOTramite tramiteRespository = factory.getTramiteRepository(em);
-		
-		Tramite t = tramiteRespository.selectTramite(numero.getCodigoTramite());
-		BusinessDatoComplementario dc = numero.getDatoComplementario();
-=======
+
 	public Integer crearNumero(BusinessNumero numero, BusinessDatoComplementario dc) throws Exception{
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		DAOTramite tramiteRespository = factory.getTramiteRepository(em);
 		
-		Tramite t = tramiteRespository.selectTramite(numero.getCodigoTramite());
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
-		
+		Tramite t = tramiteRespository.selectTramite(numero.getCodigoTramite());	
 		em.getTransaction().begin();
 		Numero n = numeroRepository.insertNumero(t, numero.getExternalId(), numero.getHora(), numero.getPrioridad(), numero.getEstado(), dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
 		em.getTransaction().commit();
@@ -96,13 +85,7 @@ public class DAONumeroController {
 		Numero n = numeroRepository.selectNumero(id);
 		em.close();
 		
-<<<<<<< HEAD
-		DatosComplementario d = n.getDatosComplementario();
-		BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
-		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);
-=======
 		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 		return numero;
 	}
 	
@@ -146,13 +129,7 @@ public class DAONumeroController {
 		
 		LinkedList<BusinessNumero> ret = new LinkedList<BusinessNumero>();
 		for (Numero n : list){
-<<<<<<< HEAD
-			DatosComplementario d = n.getDatosComplementario();
-			BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);
-=======
 			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 			ret.add(numero);
 		}
 		return ret;

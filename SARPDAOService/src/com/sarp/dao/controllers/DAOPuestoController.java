@@ -6,28 +6,19 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-<<<<<<< HEAD
-import com.sarp.classes.BusinessDatoComplementario;
-=======
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
+
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
-<<<<<<< HEAD
-import com.sarp.dao.model.DatosComplementario;
-=======
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
+
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
-<<<<<<< HEAD
-import com.sarp.dao.repository.DAONumero;
-=======
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
+
 import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
@@ -99,15 +90,7 @@ public class DAOPuestoController {
 		List<Sector> list = p.getSectors();
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for(Sector s : list){
-<<<<<<< HEAD
-			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), 0, s.getRutaSector());
-			if(s.getDisplay() != null){
-				bs.setCodigoDisplay(s.getDisplay().getCodigo());
-			}
-=======
 			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
-
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 			ret.add(bs);
 		}	
 		return ret;
@@ -122,13 +105,8 @@ public class DAOPuestoController {
 		List<Numero> list = p.getNumeros();
 		List<BusinessNumero> ret = new LinkedList<BusinessNumero>();
 		for(Numero n : list){
-<<<<<<< HEAD
-			DatosComplementario d = n.getDatosComplementario();
-			BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
-			BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);
-=======
+
 			BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 			ret.add(res);
 		}	
 		return ret;
@@ -156,13 +134,8 @@ public class DAOPuestoController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		em.close();
 		Numero n = p.getNumero_puesto();
-<<<<<<< HEAD
-		DatosComplementario d = n.getDatosComplementario();
-		BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
-		BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);		
-=======
+
 		BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());		
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 		return res;
 	}
 

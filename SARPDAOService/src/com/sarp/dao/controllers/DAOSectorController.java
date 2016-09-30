@@ -44,21 +44,6 @@ public class DAOSectorController {
 		sectorRepository.insertSector(sector.getSectorId(), sector.getNombre(),sector.getRuta());
 		em.getTransaction().commit();
 		em.close();
-<<<<<<< HEAD
-	}
-	
-	public BusinessSector obtenerSector(int codigoSector) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		DAOSector sectorRepository = factory.getSectorRepository(em);
-		
-		Sector s = sectorRepository.selectSector(codigoSector);
-		em.close();
-		BusinessSector ret = new BusinessSector(s.getCodigo(), s.getNombre(), s.getDisplay().getCodigo(), s.getRutaSector());
-		return ret;	
-	}
-	
-	public void eliminarSector(int codigo) throws Exception {
-=======
 	}
 	
 	public BusinessSector obtenerSector(String codigoSector) throws Exception{
@@ -72,7 +57,6 @@ public class DAOSectorController {
 	}
 	
 	public void eliminarSector(String codigo) throws Exception {
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 		EntityManager em = EMFactory.getEntityManager();
 		DAOFactory factory = DAOFactory.getInstance();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -101,54 +85,7 @@ public class DAOSectorController {
 	public void modificarSector(BusinessSector s) throws Exception{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
-<<<<<<< HEAD
-		
-		em.getTransaction().begin();
-		sectorRepository.updateSector(s.getSectorId(), s.getNombre(), s.getRuta());
-		em.getTransaction().commit();
-		em.close();
-	}
-	
-	public void asociarSectorPuesto(int codigoSector, String nombreMaquina) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		DAOSector sectorRepository = factory.getSectorRepository(em);
-		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
-		
-		Sector s = sectorRepository.selectSector(codigoSector);
-		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
-		
-		if(s.getPuestos().contains(p)){
-			throw new Exception("El puesto de " + nombreMaquina + " y el sector " + codigoSector + " ya estan asociados");
-		}
-		em.getTransaction().begin();
-		sectorRepository.asociarSectorPuesto(s,p);
-		em.getTransaction().commit();
-		em.close();
-	}
-	
-	public void desasociarSectorPuesto(int codigoSector, String nombreMaquina) throws Exception{
-		EntityManager em = EMFactory.getEntityManager();
-		DAOSector sectorRepository = factory.getSectorRepository(em);
-		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
-		
-		Sector s = sectorRepository.selectSector(codigoSector);
-		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
-		
-		if(!s.getPuestos().contains(p)){
-			throw new Exception("El puesto de " + nombreMaquina + " y el sector " + codigoSector + " no estan asociados");
-		}
-		em.getTransaction().begin();
-		sectorRepository.desasociarSectorPuesto(s,p);
-		em.getTransaction().commit();
-		em.close();
-	}
-	
-	public List<BusinessPuesto> obtenerPuestosSector(Integer sectorID) throws Exception {
-		EntityManager em = EMFactory.getEntityManager();
-		DAOSector sectorRepository = factory.getSectorRepository(em);
-		
-		Sector s = sectorRepository.selectSector(sectorID);
-=======
+
 		
 		em.getTransaction().begin();
 		sectorRepository.updateSector(s.getSectorId(), s.getNombre(), s.getRuta());
@@ -195,7 +132,6 @@ public class DAOSectorController {
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
 		Sector s = sectorRepository.selectSector(codigoSector);
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 		em.close();
 		List<Puesto> list = s.getPuestos();
 		List<BusinessPuesto> ret = new LinkedList<BusinessPuesto>();
@@ -206,11 +142,8 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-<<<<<<< HEAD
-	public List<BusinessTramite> obtenerTramitesSector(Integer sectorID) throws Exception {
-=======
+
 	public List<BusinessTramite> obtenerTramitesSector(String sectorID) throws Exception {
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
@@ -225,11 +158,8 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-<<<<<<< HEAD
-	public BusinessDisplay obtenerDisplaySector(Integer sectorID) throws Exception {
-=======
+
 	public BusinessDisplay obtenerDisplaySector(String sectorID) throws Exception {
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
@@ -240,11 +170,8 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-<<<<<<< HEAD
-	public void asignarDisplaySector(int codigoSector, int codigoDisplay) throws Exception{
-=======
+
 	public void asignarDisplaySector(String codigoSector, int codigoDisplay) throws Exception{
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -257,11 +184,8 @@ public class DAOSectorController {
 		em.close();
 	}
 	
-<<<<<<< HEAD
-	public void asociarTramiteSector(int codigoTramite, int codigoSector) throws Exception{
-=======
+
 	public void asociarTramiteSector(int codigoTramite, String codigoSector) throws Exception{
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
