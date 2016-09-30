@@ -12,6 +12,7 @@
 		<project>SARPLibraries</project>
 		<project>SARPService</project>
 		<project>SARPFacade</project>
+		<project>SARPTest</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

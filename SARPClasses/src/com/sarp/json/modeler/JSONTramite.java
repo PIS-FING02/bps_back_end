@@ -1,15 +1,18 @@
 package com.sarp.json.modeler;
 
+import java.util.List;
+
 public class JSONTramite {
 
-	int codigo;
+	Integer codigo;
 	String nombre;
-	String rol;
+
+	List<JSONPuesto> puestos;
+	List<JSONSector> sectores;
 	
-	public JSONTramite(int cod, String nom, String r){
+	public JSONTramite(Integer cod, String nom, String r){
 		this.codigo = cod;
 		this.nombre = nom;
-		this.rol = r;
 	}
 
 	public int getCodigo() {
@@ -26,14 +29,6 @@ public class JSONTramite {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getRol() {
-		return rol;
-	}
-
-	public void setRol(String rol) {
-		this.rol = rol;
 	}
 
 }

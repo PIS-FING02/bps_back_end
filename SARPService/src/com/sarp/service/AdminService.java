@@ -7,6 +7,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -26,6 +27,7 @@ import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramite;
 
 @RequestScoped
@@ -37,10 +39,10 @@ public class AdminService {
   	@POST
   	@Path("/puesto")
   	@Consumes(MediaType.APPLICATION_JSON)
-  	public String altaPuesto(JSONPuesto puesto){
+  	public String altaPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(puesto.getRol().equals("ResponsableSector")){
+  		if(userRol.equals("ResponsableSector")){
   			try{
   				ctrl.altaPuesto(puesto.getNombreMaquina());
   				return "Puesto "+puesto.getNombreMaquina()+" dado de alta satisfactoriamente";
@@ -55,10 +57,10 @@ public class AdminService {
   	@DELETE
   	@Path("/puesto")
   	@Consumes(MediaType.APPLICATION_JSON)
-  	public String bajaPuesto(JSONPuesto puesto){	
+  	public String bajaPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){	
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(puesto.getRol().equals("ResponsableSector")){
+  		if(userRol.equals("ResponsableSector")){
   			try{
   				ctrl.bajaPuesto(puesto.getNombreMaquina());
   				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
@@ -74,10 +76,10 @@ public class AdminService {
   	@PUT
   	@Path("/puesto")
   	@Consumes(MediaType.APPLICATION_JSON)
-  	public String modificarPuesto(JSONPuesto puesto){	
+  	public String modificarPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){	
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(puesto.getRol().equals("ResponsableSector")){
+  		if(userRol.equals("ResponsableSector")){
   			try{
   				
   				ctrl.modificarPuesto(puesto.getNombreMaquina(),puesto.getEstado(),puesto.getUsuarioId());
@@ -94,13 +96,13 @@ public class AdminService {
   	@GET
   	@Path("/puestos")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<BusinessPuesto> listarPuestos(JSONPuesto puesto) {
+      public List<BusinessPuesto> listarPuestos(@HeaderParam("user-rol") String userRol, JSONSector sector) {
   		System.out.println("entro a listar");
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(puesto.getRol().equals( "ResponsableSector")){
+  		if(userRol.equals( "ResponsableSector")){
   			try{
-  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(puesto.getSectorId());
+  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(sector.getCodigo());
   				return listaPuestos;
   				
   			}catch(Exception e){
@@ -116,7 +118,7 @@ public class AdminService {
 	@GET
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BusinessTramite> listarTramites(String rol) {
+    public List<BusinessTramite> listarTramites(@HeaderParam("user-rol") String userRol) {
 		try{
 			Factory factory = Factory.getInstance();
 			return factory.getAdminActionsController().listarTramites();
@@ -125,26 +127,16 @@ public class AdminService {
 		}
     }
 	
-	@POST
-	@Path("/{sector}/{nombre}")
-	public String altaTramite( @PathParam("sector") int sector, @PathParam("nombre") String nombre){		
-		try {
-			Factory factory = Factory.getInstance();
-			return "OK";
-		} catch (Exception e) {
-			throw new BadRequestException("Error en alta tramite");
-		}
-	}
 	
 	/******* Alta, Baja & Modificacion de Tramites *******/
 	
 	@POST
 	@Path("/tramite")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String altaTramite(JSONTramite jsonTramite){
+	public String altaTramite(@HeaderParam("user-rol") String userRol, JSONTramite jsonTramite){
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(jsonTramite.getRol().equals("Administrador")){
+		if(userRol.equals("Administrador")){
 			try{
 				BusinessTramite tramite = new BusinessTramite(jsonTramite.getCodigo(), jsonTramite.getNombre());				
 				ctrl.altaTramite(tramite);
@@ -161,10 +153,10 @@ public class AdminService {
 	@DELETE
 	@Path("/tramite")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String bajaTramite(JSONTramite jsonTramite){	
+	public String bajaTramite(@HeaderParam("user-rol") String userRol, JSONTramite jsonTramite){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(jsonTramite.getRol().equals("Administrador")){
+		if(userRol.equals("Administrador")){
 			try{
 				ctrl.bajaTramite(jsonTramite.getCodigo());
 				return "El tramite de codigo "+jsonTramite.getCodigo()+" fue dado de baja";
@@ -179,10 +171,10 @@ public class AdminService {
 	@PUT
 	@Path("/tramite")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String modificarTramite(JSONTramite jsonTramite){	
+	public String modificarTramite(@HeaderParam("user-rol") String userRol, JSONTramite jsonTramite){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(jsonTramite.getRol().equals("Administrador")){
+		if(userRol.equals("Administrador")){
 			try{
 				BusinessTramite tramite = new BusinessTramite(jsonTramite.getCodigo(), jsonTramite.getNombre());
 				ctrl.modificarTramite(tramite);
@@ -201,7 +193,7 @@ public class AdminService {
 	@GET
 	@Path("/listarSectores")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BusinessSector> listarSectores() {
+    public List<BusinessSector> listarSectores(@HeaderParam("user-rol") String userRol) {
 		com.sarp.dao.controllers.DAOSectorController ctrl = new DAOSectorController();
 		return ctrl.listarSectores();
     }
@@ -213,10 +205,10 @@ public class AdminService {
 	@POST
 	@Path("/display")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String altaDisplay(JSONDisplay display){
+	public String altaDisplay(@HeaderParam("user-rol") String userRol, JSONDisplay display){
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if ( (display.getRol().equals("ResponsableSector")) || (display.getRol().equals("Administrador")) ) {
+		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ) {
 			try{
 				ctrl.altaDisplay(display.getRutaArchivo());
 				return "Display dado de alta satisfactoriamente";
@@ -231,10 +223,10 @@ public class AdminService {
 	@DELETE
 	@Path("/display")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String bajaDisplay(JSONDisplay display){	
+	public String bajaDisplay(@HeaderParam("user-rol") String userRol, JSONDisplay display){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if ( (display.getRol().equals("ResponsableSector")) || (display.getRol().equals("Administrador")) ){
+		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ){
 			try{
 				ctrl.bajaPuesto(display.getRutaArchivo());
 				return "Display "+display.getDisplayId()+" fue dado de baja.";
@@ -250,10 +242,10 @@ public class AdminService {
 	@PUT
 	@Path("/display")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String modificarDisplay(JSONDisplay display){	
+	public String modificarDisplay(@HeaderParam("user-rol") String userRol, JSONDisplay display){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if ( (display.getRol().equals("ResponsableSector")) || (display.getRol().equals("Administrador")) ){
+		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ){
 			try{
 				ctrl.modificarRutaDisplay(display.getDisplayId(),display.getRutaArchivo());
 				return "Display "+display.getDisplayId()+" fue dado de baja.";
@@ -269,10 +261,10 @@ public class AdminService {
 	@GET
 	@Path("/display")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BusinessDisplay> listarDisplay(JSONDisplay display) {
+    public List<BusinessDisplay> listarDisplay(@HeaderParam("user-rol") String userRol, JSONDisplay display) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if ( (display.getRol().equals( "ResponsableSector")) || (display.getRol().equals("Administrador")) ){
+		if ( (userRol.equals( "ResponsableSector")) || (userRol.equals("Administrador")) ){
 			try{
 				return ctrl.listarDisplays(display.getSectorId());	
 			}catch(Exception e){

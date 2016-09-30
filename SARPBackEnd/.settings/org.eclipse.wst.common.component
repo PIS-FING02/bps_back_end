@@ -40,5 +40,8 @@
         <dependent-module archiveName="SARPFacade.jar" deploy-path="/" handle="module:/resource/SARPFacade/SARPFacade">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="SARPTest.jar" deploy-path="/" handle="module:/resource/SARPTest/SARPTest">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>
