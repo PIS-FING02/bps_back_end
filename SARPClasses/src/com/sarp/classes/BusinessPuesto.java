@@ -22,6 +22,8 @@ public class BusinessPuesto {
 	private Integer numeroPuesto;
 	private Timestamp lastUpdated;
 
+
+
 	//Operaciones
 	public String getNombreMaquina() {
 		return nombreMaquina;
@@ -53,6 +55,7 @@ public class BusinessPuesto {
 	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
+
 
 }
 
