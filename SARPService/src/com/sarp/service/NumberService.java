@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,7 +24,7 @@ public class NumberService {
 	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BusinessNumero> listAllMembers() {
+    public List<BusinessNumero> listAllMembers(@HeaderParam("user-rol") String userRol) {
 		DAONumeroController ctrl = new DAONumeroController();
 		return ctrl.listarNumeros();
     }
@@ -31,7 +32,7 @@ public class NumberService {
 	@POST
 	@Path("/solicitarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String SolicitarNumero(BusinessNumero num){
+	public String SolicitarNumero(@HeaderParam("user-rol") String userRol, BusinessNumero num){
 		//System.out.println("hola desde altaNumero");
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();

@@ -1,20 +1,16 @@
 package com.sarp.json.modeler;
 
+import java.util.List;
+
 public class JSONPuesto {
 
 	String nombreMaquina;
 	String usuarioId;
-	String rol;
+	Integer numeroPuesto;
 	String estado;
-	Integer sectorId;
+	List<JSONSector> sectores;
+	JSONNumero numeroAsignado;
 	
-
-	public Integer getSectorId() {
-		return sectorId;
-	}
-	public void setSectorId(Integer sectorId) {
-		this.sectorId = sectorId;
-	}
 	public String getEstado() {
 		return estado;
 	}
@@ -26,19 +22,31 @@ public class JSONPuesto {
 	}
 	public void setNombreMaquina(String nombreMaquina) {
 		this.nombreMaquina = nombreMaquina;
-	}
+	}  
 	
+	public Integer getNumeroPuesto() {
+		return numeroPuesto;
+	}
+	public void setNumeroPuesto(Integer numeroPuesto) {
+		this.numeroPuesto = numeroPuesto;
+	}
+	public List<JSONSector> getSectores() {
+		return sectores;
+	}
+	public void setSectores(List<JSONSector> sectores) {
+		this.sectores = sectores;
+	}
+	public JSONNumero getNumeroAsignado() {
+		return numeroAsignado;
+	}
+	public void setNumeroAsignado(JSONNumero numeroAsignado) {
+		this.numeroAsignado = numeroAsignado;
+	}
 	public String getUsuarioId() {
 		return usuarioId;
 	}
 	public void setUsuarioId(String usuarioId) {
 		this.usuarioId = usuarioId;
-	}
-	public String getRol() {
-		return rol;
-	}
-	public void setRol(String rol) {
-		this.rol = rol;
 	}
 	
 }

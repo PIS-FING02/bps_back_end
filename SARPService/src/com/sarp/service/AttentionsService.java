@@ -2,6 +2,7 @@ package com.sarp.service;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -22,10 +23,10 @@ public class AttentionsService {
 	@PUT
 	@Path("/abrirPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String abrirPuesto(JSONPuesto puesto){
+	public String abrirPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();
-		if(puesto.getRol().equals("Operador") || puesto.getRol().equals("OperadorAvanzado")){
+		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
 				ctrl.abrirPuesto(puesto.getNombreMaquina(),puesto.getUsuarioId());
 				return "Puesto "+puesto.getNombreMaquina()+" ha sido abierto con exito";
@@ -44,10 +45,10 @@ public class AttentionsService {
 	@PUT
 	@Path("/cerrarPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String cerrarPuesto(JSONPuesto puesto){
+	public String cerrarPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();
-		if(puesto.getRol().equals("Operador") || puesto.getRol().equals("OperadorAvanzado")){
+		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
 				ctrl.cerrarPuesto(puesto.getNombreMaquina());
 				return "Puesto "+puesto.getNombreMaquina()+" ha sido cerrado con exito";
