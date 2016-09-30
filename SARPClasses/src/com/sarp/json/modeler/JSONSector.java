@@ -48,5 +48,4 @@ public class JSONSector {
 		this.tramites = tramites;
 	}
 	
-	
 }

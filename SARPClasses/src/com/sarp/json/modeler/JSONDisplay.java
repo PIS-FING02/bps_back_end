@@ -1,7 +1,7 @@
 package com.sarp.json.modeler;
 
 public class JSONDisplay {
-	int displayId;
+	Integer displayId;
 	String rutaArchivo;
 	Integer sectorId;
 	
@@ -11,11 +11,14 @@ public class JSONDisplay {
 	public void setRutaArchivo(String rutaArchivo) {
 		this.rutaArchivo = rutaArchivo;
 	}
-	public int getDisplayId() {
+	public Integer getDisplayId() {
 		return displayId;
 	}
 	public Integer getSectorId() {
 		return sectorId;
+	}
+	public void setDisplayId(Integer displayId) {
+		this.displayId = displayId;
 	}
 	public void setSectorId(Integer sectorId) {
 		this.sectorId = sectorId;
