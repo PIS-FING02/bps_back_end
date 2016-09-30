@@ -17,7 +17,7 @@ public class BusinessSector  {
 	private Integer codigoDisplay;
 	private String nombre;
 	private String ruta;
-		
+	
 	//Operaciones
 	public Integer getSectorId() {
 		return sectorId;

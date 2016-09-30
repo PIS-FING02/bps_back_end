@@ -13,10 +13,10 @@ public class AttentionsController {
 		serv.solicitarNumero(num);
 	}
 	
-	public void abrirPuesto(String nombreMaquina) throws Exception{	
+	public void abrirPuesto(String nombreMaquina, String usuarioId) throws Exception{	
 		//Se delega a AttentionService la implementacion
 		AttentionService attentionService = new AttentionService();
-		attentionService.abrirPuesto(nombreMaquina);
+		attentionService.abrirPuesto(nombreMaquina,usuarioId);
 		
 	}
 	public void cerrarPuesto(String nombreMaquina) throws Exception{	
@@ -25,5 +25,17 @@ public class AttentionsController {
 		attentionService.cerrarPuesto(nombreMaquina);
 		
 	}
+	public void comenzarAtencion(String nombreMaquina) throws Exception{	
+		//Se delega a AttentionService la implementacion
+		AttentionService attentionService = new AttentionService();
+		attentionService.comenzarAtencion(nombreMaquina);
+	}
+	public void finalizarAtencion(String nombreMaquina) throws Exception{	
+		//Se delega a AttentionService la implementacion
+		AttentionService attentionService = new AttentionService();
+		attentionService.finalizarAtencion(nombreMaquina);
+		
+	}
+	
 
 }

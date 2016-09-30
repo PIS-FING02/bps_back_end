@@ -7,9 +7,10 @@ public class BusinessNumero {
 	//Constructores
 	public BusinessNumero() {}
 	public BusinessNumero(Integer internalId, Integer codigoTramite, String externalId, Date hora, String estado, 
-			Integer prioridad, BusinessDatoComplementario dato){
+			Integer prioridad, BusinessDatoComplementario dato,String codigoSector){
 		this.internalId = internalId;
 		this.codigoTramite = codigoTramite;
+		this.codigoSector = codigoSector;
 		this.externalId = externalId;
 		this.hora = hora;
 		this.estado = estado;
@@ -20,6 +21,7 @@ public class BusinessNumero {
 	//Atributos
 	private Integer internalId;
 	private Integer codigoTramite;
+	private String	codigoSector;
 	private String externalId;
 	private Date hora;
 	private String estado;
@@ -40,7 +42,13 @@ public class BusinessNumero {
 	public void setCodigoTramite(Integer codigoTramite) {
 		this.codigoTramite = codigoTramite;
 	}
-
+	
+	public String getCodigoSector() {
+		return codigoSector;
+	}
+	public void setCodigoSector(String codigoSector) {
+		this.codigoSector = codigoSector;
+	}
 	public String getExternalId() {
 		return externalId;
 	}

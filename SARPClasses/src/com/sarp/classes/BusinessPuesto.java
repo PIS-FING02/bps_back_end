@@ -18,6 +18,7 @@ public class BusinessPuesto {
 	private String nombreMaquina;
 	private String usuarioId;
 	private EstadoPuesto estado;
+	private BusinessNumero numeroAsignado; 
 	
 	//Operaciones
 	public String getNombreMaquina() {
@@ -37,6 +38,12 @@ public class BusinessPuesto {
 	}
 	public void setEstado(EstadoPuesto estado) {
 		this.estado = estado;
+	}
+	public BusinessNumero getNumeroAsignado() {
+		return numeroAsignado;
+	}
+	public void setNumeroAsignado(BusinessNumero numero) {
+		this.numeroAsignado = numero;
 	}
 
 }

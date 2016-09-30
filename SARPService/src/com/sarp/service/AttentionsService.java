@@ -27,7 +27,7 @@ public class AttentionsService {
 		AttentionsController ctrl = fac.getAttentionsController();
 		if(puesto.getRol().equals("Operador") || puesto.getRol().equals("OperadorAvanzado")){
 			try{
-				ctrl.abrirPuesto(puesto.getNombreMaquina());
+				ctrl.abrirPuesto(puesto.getNombreMaquina(),puesto.getUsuarioId());
 				return "Puesto "+puesto.getNombreMaquina()+" ha sido abierto con exito";
 			
 			}catch(ContextException e){
