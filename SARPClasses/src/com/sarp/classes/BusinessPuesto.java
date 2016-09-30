@@ -6,18 +6,18 @@ public class BusinessPuesto {
 	
 	//Constructores
 	public BusinessPuesto(){}
-	public BusinessPuesto(String nombreMaquina, String usuarioId, String estado) {
+	public BusinessPuesto(String nombreMaquina, String usuarioId, String estado, Integer numeroPuesto) {
 		this.nombreMaquina = nombreMaquina;
 		this.usuarioId = usuarioId;
-		if(estado != null){
-			this.estado = EstadoPuesto.valueOf(estado);
-		}
+		this.setNumeroPuesto(numeroPuesto);
+		this.estado = (estado != null) ? EstadoPuesto.valueOf(estado) : null;
 	}
 	
 	//Atributos
 	private String nombreMaquina;
 	private String usuarioId;
 	private EstadoPuesto estado;
+	private Integer numeroPuesto;
 	private BusinessNumero numeroAsignado; 
 	
 	//Operaciones
@@ -44,6 +44,12 @@ public class BusinessPuesto {
 	}
 	public void setNumeroAsignado(BusinessNumero numero) {
 		this.numeroAsignado = numero;
+	}
+	public Integer getNumeroPuesto() {
+		return this.numeroPuesto;
+	}
+	public void setNumeroPuesto(Integer numeroPuesto) {
+		this.numeroPuesto = numeroPuesto;
 	}
 
 }

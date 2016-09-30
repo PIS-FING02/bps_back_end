@@ -1,12 +1,13 @@
 package com.sarp.classes;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class BusinessNumero {
 	
 	//Constructores
 	public BusinessNumero() {}
-	public BusinessNumero(Integer internalId, Integer codigoTramite, String externalId, Date hora, String estado, 
+	public BusinessNumero(Integer internalId, Integer codigoTramite, String externalId, GregorianCalendar hora, String estado, 
 			Integer prioridad, BusinessDatoComplementario dato,String codigoSector){
 		this.internalId = internalId;
 		this.codigoTramite = codigoTramite;
@@ -23,7 +24,7 @@ public class BusinessNumero {
 	private Integer codigoTramite;
 	private String	codigoSector;
 	private String externalId;
-	private Date hora;
+	private GregorianCalendar hora;
 	private String estado;
 	private Integer prioridad;
 	private BusinessDatoComplementario datoComplementario;
@@ -56,10 +57,10 @@ public class BusinessNumero {
 		this.externalId = externalId;
 	}
 
-	public Date getHora() {
+	public GregorianCalendar getHora() {
 		return hora;
 	}
-	public void setHora(Date hora) {
+	public void setHora(GregorianCalendar hora) {
 		this.hora = hora;
 	}
 
