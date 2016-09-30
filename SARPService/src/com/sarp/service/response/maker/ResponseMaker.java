@@ -10,7 +10,6 @@ import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.classes.BusinessTramiteSector;
-import com.sarp.dao.model.Sector;
 import com.sarp.json.modeler.JSONDatosComp;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONNumero;
