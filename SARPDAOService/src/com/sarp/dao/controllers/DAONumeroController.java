@@ -72,6 +72,7 @@ public class DAONumeroController {
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTime(n.getHora());
 		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
+
 		return numero;
 	}
 	

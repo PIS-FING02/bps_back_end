@@ -74,6 +74,7 @@ public class DAOSectorController {
 	public void modificarSector(BusinessSector s) throws Exception{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);	
+
 		em.getTransaction().begin();
 		sectorRepository.updateSector(s.getSectorId(), s.getNombre(), s.getRuta());
 		em.getTransaction().commit();
@@ -130,7 +131,6 @@ public class DAOSectorController {
 	}
 	
 	public List<BusinessTramite> obtenerTramitesSector(String sectorID) throws Exception {
-
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
@@ -158,7 +158,6 @@ public class DAOSectorController {
 	}
 	
 	public void asignarDisplaySector(String codigoSector, int codigoDisplay) throws Exception{
-
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -172,7 +171,6 @@ public class DAOSectorController {
 	}
 	
 	public void asociarTramiteSector(int codigoTramite, String codigoSector) throws Exception{
-
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);

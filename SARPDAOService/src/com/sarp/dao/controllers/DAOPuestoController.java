@@ -4,23 +4,17 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
-
-
-import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
-import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
-import com.sarp.dao.repository.DAONumero;
 import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
@@ -110,6 +104,7 @@ public class DAOPuestoController {
 			GregorianCalendar c = new GregorianCalendar();
 			c.setTime(n.getHora());
 			BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
+
 			ret.add(res);
 		}	
 		return ret;
@@ -140,6 +135,7 @@ public class DAOPuestoController {
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTime(n.getHora());
 		BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());		
+
 		return res;
 	}
 
