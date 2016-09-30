@@ -33,6 +33,10 @@ public class JSONTramite {
 	public void setSectores(List<JSONSector> sectores) {
 		this.sectores = sectores;
 	}
+	public Integer getCodigo() {
+		return codigo;
+
+	}
 
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;

@@ -7,27 +7,23 @@ public class BusinessNumero {
 	
 	//Constructores
 	public BusinessNumero() {}
-	public BusinessNumero(Integer internalId, Integer codigoTramite, String externalId, GregorianCalendar hora, String estado, 
-			Integer prioridad, BusinessDatoComplementario dato,String codigoSector){
+	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado, 
+			Integer prioridad){
 		this.internalId = internalId;
-		this.codigoTramite = codigoTramite;
-		this.codigoSector = codigoSector;
 		this.externalId = externalId;
 		this.hora = hora;
 		this.estado = estado;
 		this.prioridad = prioridad;
-		this.datoComplementario = dato;
+
 	}
 	
 	//Atributos
 	private Integer internalId;
-	private Integer codigoTramite;
-	private String	codigoSector;
 	private String externalId;
 	private GregorianCalendar hora;
 	private String estado;
 	private Integer prioridad;
-	private BusinessDatoComplementario datoComplementario;
+
 
 	//Operaciones
 	public Integer getInternalId() {
@@ -35,21 +31,7 @@ public class BusinessNumero {
 	}
 	public void setInternalId(Integer internalId) {
 		this.internalId = internalId;
-	}
-
-	public Integer getCodigoTramite() {
-		return codigoTramite;
-	}
-	public void setCodigoTramite(Integer codigoTramite) {
-		this.codigoTramite = codigoTramite;
-	}
-	
-	public String getCodigoSector() {
-		return codigoSector;
-	}
-	public void setCodigoSector(String codigoSector) {
-		this.codigoSector = codigoSector;
-	}
+	}	
 	public String getExternalId() {
 		return externalId;
 	}
@@ -78,11 +60,5 @@ public class BusinessNumero {
 		this.prioridad = prioridad;
 	}
 
-	public BusinessDatoComplementario getDatoComplementario() {
-		return datoComplementario;
-	}
-	public void setDatoComplementario(BusinessDatoComplementario datoComplementario) {
-		this.datoComplementario = datoComplementario;
-	}
 }
 

@@ -11,14 +11,23 @@ public class BusinessPuesto {
 		this.usuarioId = usuarioId;
 		this.setNumeroPuesto(numeroPuesto);
 		this.estado = (estado != null) ? EstadoPuesto.valueOf(estado) : null;
+		this.numeroAsignado =null;
 	}
 	
+	public BusinessNumero getNumeroAsignado() {
+		return numeroAsignado;
+	}
+	public void setNumeroAsignado(BusinessNumero numeroAsignado) {
+		this.numeroAsignado = numeroAsignado;
+	}
+
 	//Atributos
 	private String nombreMaquina;
 	private String usuarioId;
 	private EstadoPuesto estado;
 	private Integer numeroPuesto;
-	private BusinessNumero numeroAsignado; 
+	private BusinessNumero numeroAsignado;
+
 	
 	//Operaciones
 	public String getNombreMaquina() {
@@ -39,18 +48,13 @@ public class BusinessPuesto {
 	public void setEstado(EstadoPuesto estado) {
 		this.estado = estado;
 	}
-	public BusinessNumero getNumeroAsignado() {
-		return numeroAsignado;
-	}
-	public void setNumeroAsignado(BusinessNumero numero) {
-		this.numeroAsignado = numero;
-	}
 	public Integer getNumeroPuesto() {
 		return this.numeroPuesto;
 	}
 	public void setNumeroPuesto(Integer numeroPuesto) {
 		this.numeroPuesto = numeroPuesto;
 	}
+
 
 }
 
