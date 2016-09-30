@@ -26,6 +26,10 @@ import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.service.response.maker.RequestMaker;
 
+import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONSector;
+
+
 import com.sarp.service.response.maker.RequestMaker;
 
 
@@ -53,7 +57,6 @@ public class AdminService {
 	}
 	
 	public void modificarPuesto(JSONPuesto puesto) throws Exception {
-
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessPuesto bPuesto = reqMaker.requestPuesto(puesto);
 		//Si se modifico algun campo del puesto entonces se llama a DaoService y se hace Update
