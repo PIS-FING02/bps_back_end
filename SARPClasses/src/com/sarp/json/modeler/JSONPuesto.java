@@ -9,6 +9,14 @@ public class JSONPuesto {
 	Integer numeroPuesto;
 	String estado;
 	List<JSONSector> sectores;
+	List<JSONTramite> tramites;
+	
+	public List<JSONTramite> getTramites() {
+		return tramites;
+	}
+	public void setTramites(List<JSONTramite> tramites) {
+		this.tramites = tramites;
+	}
 	JSONNumero numeroAsignado;
 	
 	public String getEstado() {

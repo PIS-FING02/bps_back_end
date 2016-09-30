@@ -2,6 +2,7 @@ package com.sarp.json.modeler;
 
 import java.util.List;
 
+
 public class JSONTramite {
 
 	Integer codigo;
@@ -10,16 +11,30 @@ public class JSONTramite {
 	List<JSONPuesto> puestos;
 	List<JSONSector> sectores;
 	
+	public JSONTramite(){}
+	
 	public JSONTramite(Integer cod, String nom, String r){
 		this.codigo = cod;
 		this.nombre = nom;
 	}
 
-	public int getCodigo() {
-		return codigo;
+	public List<JSONPuesto> getPuestos() {
+		return puestos;
 	}
 
-	public void setCodigo(int codigo) {
+	public void setPuestos(List<JSONPuesto> puestos) {
+		this.puestos = puestos;
+	}
+
+	public List<JSONSector> getSectores() {
+		return sectores;
+	}
+
+	public void setSectores(List<JSONSector> sectores) {
+		this.sectores = sectores;
+	}
+
+	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
 

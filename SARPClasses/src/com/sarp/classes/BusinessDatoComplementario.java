@@ -4,7 +4,7 @@ public class BusinessDatoComplementario {
 	
 	//Cnstructores
 	public BusinessDatoComplementario(){}
-	public BusinessDatoComplementario(Integer docIdentidad, String nombreCompleto, String tipoDoc) {
+	public BusinessDatoComplementario(String docIdentidad, String nombreCompleto, String tipoDoc) {
 		super();
 		this.docIdentidad = docIdentidad;
 		this.nombreCompleto = nombreCompleto;
@@ -12,15 +12,15 @@ public class BusinessDatoComplementario {
 	}
 		
 	//Atributos
-	private Integer docIdentidad;
+	private String docIdentidad;
 	private String nombreCompleto;
 	private String tipoDoc;
 	
 	//Operaciones
-	public Integer getDocIdentidad() {
+	public String getDocIdentidad() {
 		return docIdentidad;
 	}
-	public void setDocIdentidad(Integer docIdentidad) {
+	public void setDocIdentidad(String docIdentidad) {
 		this.docIdentidad = docIdentidad;
 	}
 	public String getNombreCompleto() {

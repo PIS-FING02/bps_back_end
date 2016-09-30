@@ -1,9 +1,11 @@
 package com.sarp.json.modeler;
 
+import java.util.List;
+
 public class JSONDisplay {
 	Integer displayId;
 	String rutaArchivo;
-	Integer sectorId;
+	List<JSONSector> sectores;
 	
 	public String getRutaArchivo() {
 		return rutaArchivo;
@@ -14,13 +16,14 @@ public class JSONDisplay {
 	public Integer getDisplayId() {
 		return displayId;
 	}
-	public Integer getSectorId() {
-		return sectorId;
+	public List<JSONSector> getSectores() {
+		return sectores;
+	}
+	public void setSectores(List<JSONSector> sectores) {
+		this.sectores = sectores;
 	}
 	public void setDisplayId(Integer displayId) {
 		this.displayId = displayId;
 	}
-	public void setSectorId(Integer sectorId) {
-		this.sectorId = sectorId;
-	}
+	
 }
