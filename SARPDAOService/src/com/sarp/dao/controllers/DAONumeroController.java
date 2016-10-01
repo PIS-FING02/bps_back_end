@@ -1,12 +1,14 @@
 package com.sarp.dao.controllers;
 
 import java.util.GregorianCalendar;
+
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
+
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
@@ -15,7 +17,6 @@ import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Tramite;
 import com.sarp.dao.repository.DAONumero;
-
 
 import com.sarp.dao.repository.DAOTramite;
 
@@ -27,6 +28,7 @@ public class DAONumeroController {
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		DAOTramite tramiteRespository = factory.getTramiteRepository(em);		
+
 		Tramite t = tramiteRespository.selectTramite(tramite);	
 		em.getTransaction().begin();
 		Numero n = numeroRepository.insertNumero(t, numero.getExternalId(), numero.getHora().getTime(), numero.getPrioridad(), numero.getEstado());
@@ -35,7 +37,6 @@ public class DAONumeroController {
 		}
 		em.getTransaction().commit();
 		em.close();				
-
 		return n.getInternalId();		
 	}
 
@@ -51,6 +52,7 @@ public class DAONumeroController {
 			GregorianCalendar c = new GregorianCalendar();
 			c.setTime(n.getHora());
 			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
+
 			ret.add(numero);
 		}
 		return ret;

@@ -131,6 +131,7 @@ public class DAOSectorController {
 		return ret;
 	}
 	
+
 	public List<BusinessTramite> obtenerTramitesSector(String sectorID) throws Exception {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -170,7 +171,7 @@ public class DAOSectorController {
 		em.getTransaction().commit();
 		em.close();
 	}
-	
+
 	public void asociarTramiteSector(int codigoTramite, String codigoSector) throws Exception{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);

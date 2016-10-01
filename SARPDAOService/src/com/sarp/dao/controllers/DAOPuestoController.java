@@ -5,12 +5,14 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
+
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
+
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
@@ -31,6 +33,7 @@ public class DAOPuestoController {
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);	
 		em.getTransaction().begin();
 		puestoRepository.insertPuesto(p.getNombreMaquina(),p.getUsuarioId(),p.getEstado().toString(),p.getNumeroPuesto());
+
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -76,6 +79,7 @@ public class DAOPuestoController {
 		
 		em.getTransaction().begin();
 		puestoRepository.updatePuesto(puesto.getNombreMaquina(), puesto.getEstado().toString(), puesto.getUsuarioId(),puesto.getNumeroPuesto());
+
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -135,12 +139,14 @@ public class DAOPuestoController {
 	}
 	
 	public void desasociarNumeroPuestoActual(String nombreMaquina) throws Exception{
+
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
 		
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		Numero n = p.getNumero_puesto();
+
 		em.getTransaction().begin();
 		numeroRepository.desasociarNumeroPuestoActual(n,p);
 		em.getTransaction().commit();

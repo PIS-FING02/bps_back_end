@@ -12,6 +12,7 @@ public class BusinessPuesto {
 		this.usuarioId = usuarioId;
 		this.estado = (estado != null) ? EstadoPuesto.valueOf(estado) : null;
 		this.numeroPuesto = numeroPuesto;
+
 	}
 	
 
@@ -21,6 +22,7 @@ public class BusinessPuesto {
 	private String usuarioId;
 	private EstadoPuesto estado;
 	private Integer numeroPuesto;
+
 
 
 

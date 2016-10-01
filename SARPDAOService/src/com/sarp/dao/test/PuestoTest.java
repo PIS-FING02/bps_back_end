@@ -66,6 +66,7 @@ public class PuestoTest {
 		ctrlPuesto.asociarNumeroPuestoActual(id, 9);
 		BusinessNumero a = ctrlPuesto.obtenerNumeroActualPuesto(id);
 		ctrlPuesto.desasociarNumeroPuestoActual(id);
+
 		ctrlPuesto.eliminarPuesto(id);
 		assertEquals(a.getInternalId().toString(), "9");
 		
