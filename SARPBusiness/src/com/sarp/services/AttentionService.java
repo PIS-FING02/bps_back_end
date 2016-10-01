@@ -44,6 +44,7 @@ public class AttentionService {
 			controladorPuesto.modificarPuesto(bPuesto);
 		}else{
 			throw new ContextException("YaCerrado");
+
 		}
 	}
 
@@ -60,6 +61,7 @@ public class AttentionService {
 				//Se delega a DaoService
 				controladorPuesto.modificarPuesto(puestoSend);
 				controladorPuesto.asociarNumeroPuestoActual(puestoSend.getNombreMaquina(),bNumero.getInternalId());
+
 			}else{
 				throw new ContextException("PuestoSinNumeroAsignado");
 			}
@@ -67,7 +69,6 @@ public class AttentionService {
 			throw new ContextException("PuestoNoLlamando");
 		}
 	}
-
 
 	public void finalizarAtencion(JSONPuesto puesto) throws Exception{
 		RequestMaker reqMaker = RequestMaker.getInstance();
@@ -83,5 +84,6 @@ public class AttentionService {
 		}else{
 			throw new ContextException("PuestoNoAtendiendo");
 		}
+
 	}
 }
