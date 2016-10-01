@@ -25,15 +25,26 @@ public class GAFUManager {
 		BusinessNodeGAFU nuevo = GAFUFacade.crearArbolGAFU();
 		List<BusinessSector> nuevosSectores = arbolToList(nuevo);
 		actualizarSectores(nuevosSectores, ctrl);
+		List<BusinessSector> aBorrar = ctrl.listarSectores();
+		System.out.println(aBorrar.size());
+		aBorrar.removeAll(nuevosSectores);
+		System.out.println(aBorrar.size());
+		//borrarSectores(aBorrar, ctrl);
 		this.arbol = nuevo;
 	}
 	
 
-	private void actualizarSectores(List<BusinessSector> nuevosSectores,AdminActionsController ctrl) throws Exception {
-		Iterator<BusinessSector> iterator = nuevosSectores.iterator();
+	private void actualizarSectores(List<BusinessSector> sectores, AdminActionsController ctrl) throws Exception {
+		Iterator<BusinessSector> iterator = sectores.iterator();
 		while (iterator.hasNext()) {
-			//System.out.println(iterator.next().getNombre());
 			ctrl.altaModificacionSector(iterator.next());
+		}
+	}
+	
+	private void borrarSectores(List<BusinessSector> sectores, AdminActionsController ctrl) throws Exception {
+		Iterator<BusinessSector> iterator = sectores.iterator();
+		while (iterator.hasNext()) {
+			ctrl.bajaSector(iterator.next().getSectorId());
 		}
 	}
 

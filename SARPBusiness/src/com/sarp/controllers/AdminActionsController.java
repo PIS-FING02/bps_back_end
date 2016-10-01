@@ -97,6 +97,11 @@ public class AdminActionsController {
 		adminService.bajaSector(idSector);
 	}
 	
+	public  List<BusinessSector> listarSectores() throws Exception{
+		AdminService adminService = new AdminService();
+		return adminService.listarSectores();
+	}
+	
 	/***********************DISPLAY***********************************/
 	public void altaDisplay(String rutaArchivo) throws Exception{	
 		AdminService adminServ = new AdminService();

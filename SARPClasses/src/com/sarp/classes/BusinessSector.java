@@ -1,5 +1,7 @@
 package com.sarp.classes;
 
+import java.util.Objects;
+
 public class BusinessSector  {
 
 	//Constructores
@@ -41,4 +43,21 @@ public class BusinessSector  {
 		this.ruta = ruta;
 	}
 	
+	//
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof BusinessSector)) {
+            return false;
+        }
+        BusinessSector sector = (BusinessSector) o;
+        return sectorId == sector.sectorId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sectorId,nombre,ruta);
+    }
 }
