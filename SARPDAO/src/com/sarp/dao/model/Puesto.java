@@ -75,7 +75,9 @@ public class Puesto implements Serializable {
 	private List<Tramite> tramites;
 
 //	//bi-directional one-to-one association to Numero
-	@OneToOne(mappedBy="puesto", fetch=FetchType.EAGER)
+
+	@OneToOne
+	@JoinColumn(name="numero_puesto")
 	private Numero numero_puesto;
 		
 	public Puesto() {

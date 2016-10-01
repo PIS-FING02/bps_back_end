@@ -11,12 +11,6 @@
         <dependent-module archiveName="SARPEjbClient.jar" deploy-path="/" handle="module:/resource/SARPEjbClient/SARPEjbClient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="SARPDAO.jar" deploy-path="/" handle="module:/resource/SARPDAO/SARPDAO">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="SARPDAOService.jar" deploy-path="/" handle="module:/resource/SARPDAOService/SARPDAOService">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="postgresql-9.4.1209.jre6.jar" deploy-path="/" handle="module:/classpath/lib/SARPLibraries/external_libs/postgresql-9.4.1209.jre6.jar">
             <dependent-object/>
             <dependency-type>uses</dependency-type>
@@ -41,6 +35,12 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="SARPTest.jar" deploy-path="/" handle="module:/resource/SARPTest/SARPTest">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SARPDAO.jar" deploy-path="/" handle="module:/resource/SARPDAO/SARPDAO">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SARPDAOService.jar" deploy-path="/" handle="module:/resource/SARPDAOService/SARPDAOService">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>

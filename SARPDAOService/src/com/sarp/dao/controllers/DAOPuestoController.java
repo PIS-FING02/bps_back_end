@@ -1,24 +1,25 @@
 package com.sarp.dao.controllers;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import com.sarp.classes.BusinessDatoComplementario;
+
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
-import com.sarp.dao.model.DatosComplementario;
+
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
-import com.sarp.dao.repository.DAONumero;
+
 import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
@@ -90,10 +91,7 @@ public class DAOPuestoController {
 		List<Sector> list = p.getSectors();
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for(Sector s : list){
-			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), 0, s.getRutaSector());
-			if(s.getDisplay() != null){
-				bs.setCodigoDisplay(s.getDisplay().getCodigo());
-			}
+			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
 			ret.add(bs);
 		}	
 		return ret;
@@ -108,9 +106,9 @@ public class DAOPuestoController {
 		List<Numero> list = p.getNumeros();
 		List<BusinessNumero> ret = new LinkedList<BusinessNumero>();
 		for(Numero n : list){
-			DatosComplementario d = n.getDatosComplementario();
-			BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
-			BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);
+			GregorianCalendar c = new GregorianCalendar();
+			c.setTime(n.getHora());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
 			ret.add(res);
 		}	
 		return ret;
@@ -138,9 +136,9 @@ public class DAOPuestoController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		em.close();
 		Numero n = p.getNumero_puesto();
-		DatosComplementario d = n.getDatosComplementario();
-		BusinessDatoComplementario dc = new BusinessDatoComplementario(d.getDocIdentidad(), d.getNombreCompleto(), d.getTipoDoc());
-		BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),dc);		
+		GregorianCalendar c = new GregorianCalendar();
+		c.setTime(n.getHora());
+		BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());		
 		return res;
 	}
 

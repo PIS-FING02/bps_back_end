@@ -12,10 +12,10 @@ import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
+import com.sarp.dao.controllers.DAODisplayController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
-import com.sarp.dao.controllers.DAODisplayController;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
@@ -128,14 +128,14 @@ public class AdminService {
 		}
 	}
 	
-	public void asignarTramiteSector(Integer idTramite,Integer idSector) throws Exception{
+	public void asignarTramiteSector(Integer idTramite,String idSector) throws Exception{
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 		
 		sectorCtrl.asociarTramiteSector(idTramite, idSector);
 	}
 	
-	public void bajaSector(int idSector) throws Exception{
+	public void bajaSector(String idSector) throws Exception{
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 		

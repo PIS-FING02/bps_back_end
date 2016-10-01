@@ -4,17 +4,17 @@ import java.util.List;
 
 public class JSONSector {
 	
-	Integer codigo;
+	String codigo;
 	String nombre;
 	String rutaSector;
 	List<JSONPuesto> puestos;
 	List<JSONDisplay> displays;
 	List<JSONTramite> tramites;
 	
-	public Integer getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(Integer codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 	public String getNombre() {

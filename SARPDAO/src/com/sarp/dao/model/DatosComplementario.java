@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 
+
 /**
  * The persistent class for the datos_complementarios database table.
  * 
@@ -28,6 +29,7 @@ public class DatosComplementario implements Serializable {
 	@Column(name="last_updated")
 	private Date lastUpdated;
 
+
 	@Column(name="nombre_completo")
 	private String nombreCompleto;
 
@@ -36,7 +38,7 @@ public class DatosComplementario implements Serializable {
 
 	//bi-directional one-to-one association to Numero
 	@OneToOne
-	@JoinColumn(name="internal_id")
+	@PrimaryKeyJoinColumn(name="internal_id")
 	private Numero numero;
 
 	public DatosComplementario() {
