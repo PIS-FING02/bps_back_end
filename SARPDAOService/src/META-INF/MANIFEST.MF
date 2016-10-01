@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Class-Path: SARPDAO.jar 
- postgresql-9.4.1209.jre6.jar 
+Class-Path: postgresql-9.4.1209.jre6.jar 
  javax.persistence_2.1.0.v201304241213.jar 
  eclipselink.jar 
- SARPClasses.jar
+ SARPClasses.jar 
+ SARPDAO.jar
 

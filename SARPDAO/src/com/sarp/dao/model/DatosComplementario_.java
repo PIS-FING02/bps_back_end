@@ -5,7 +5,11 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+<<<<<<< HEAD
 @Generated(value="Dali", date="2016-09-30T21:03:44.049-0300")
+=======
+@Generated(value="Dali", date="2016-09-30T20:19:21.699-0300")
+>>>>>>> 0663b99... Corrijo proyecto
 @StaticMetamodel(DatosComplementario.class)
 public class DatosComplementario_ {
 	public static volatile SingularAttribute<DatosComplementario, Integer> docIdentidad;

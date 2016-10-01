@@ -24,7 +24,7 @@ public class ValoresDePrueba {
 		DAOPuestoController ctrlPuesto = new DAOPuestoController();
 		
 		/*VALORES DE PRUEBA*/
-		Integer ci = 0;
+		String ci = "0";
 		for(int i = 1; i < 10; i++){
 			BusinessTramite t = new BusinessTramite();
 			t.setNombre("nombre" + 1);
@@ -53,11 +53,10 @@ public class ValoresDePrueba {
 			dc.setNombreCompleto("Pepito Perez");
 			dc.setTipo_doc("cedula");
 			BusinessNumero n = new BusinessNumero();
-			n.setCodigoTramite(i);
 			n.setEstado("nuevo");
 			n.setExternalId("external");
 			n.setPrioridad(5);
-			ctrlNumero.crearNumero(n, dc);
+			ctrlNumero.crearNumero(n, dc, i);
 		}
 //		
 		/* CREAR TRAMITE */

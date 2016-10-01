@@ -6,7 +6,11 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+<<<<<<< HEAD
 @Generated(value="Dali", date="2016-09-30T21:03:44.185-0300")
+=======
+@Generated(value="Dali", date="2016-09-30T20:19:22.164-0300")
+>>>>>>> 0663b99... Corrijo proyecto
 @StaticMetamodel(Numero.class)
 public class Numero_ {
 	public static volatile SingularAttribute<Numero, Integer> internalId;

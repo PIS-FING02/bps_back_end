@@ -20,7 +20,7 @@ public class DAONumero {
 		this.em = em;
 	}
 	
-	public Numero insertNumero(Tramite tramite, String externalId, Date hora, Integer prioridad, String estado, Integer docIdentidad, String nombreCompleto, String tipoDoc){
+	public Numero insertNumero(Tramite tramite, String externalId, Date hora, Integer prioridad, String estado){
 		//Creo la nueva entidad Numero y la asocio con el Tramite
 		Numero n = new Numero();
 		n.setExternalId(externalId);

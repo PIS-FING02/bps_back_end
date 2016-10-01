@@ -3,17 +3,10 @@ package com.sarp.dao.controllers;
 import java.util.LinkedList;
 import java.util.List;
 
-<<<<<<< HEAD
-import javax.ejb.DuplicateKeyException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 
-import org.eclipse.persistence.exceptions.i18n.SessionLoaderExceptionResource;
-=======
-import javax.persistence.EntityManager;
-import javax.persistence.RollbackException;
-
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessPuesto;

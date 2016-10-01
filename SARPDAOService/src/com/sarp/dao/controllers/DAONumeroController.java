@@ -1,47 +1,28 @@
 package com.sarp.dao.controllers;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-=======
-import java.util.LinkedList;
-import java.util.List;
-import javax.persistence.EntityManager;
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
-<<<<<<< HEAD
-import com.sarp.classes.BusinessSector;
-import com.sarp.classes.BusinessTramite;
-import com.sarp.dao.factory.DAOFactory;
-import com.sarp.dao.factory.EMFactory;
-import com.sarp.dao.model.DatosComplementario;
-import com.sarp.dao.model.Display;
-import com.sarp.dao.model.Numero;
-import com.sarp.dao.model.Puesto;
-import com.sarp.dao.model.Sector;
-=======
+
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
 import com.sarp.dao.model.Tramite;
 import com.sarp.dao.repository.DAODisplay;
 import com.sarp.dao.repository.DAONumero;
 import com.sarp.dao.repository.DAOPuesto;
-<<<<<<< HEAD
-import com.sarp.dao.repository.DAOSector;
-=======
->>>>>>> e9b74c8... Avanzo en asociaciones de entidades
+
 import com.sarp.dao.repository.DAOTramite;
 
 public class DAONumeroController {
@@ -49,14 +30,14 @@ public class DAONumeroController {
 	private DAOFactory factory = DAOFactory.getInstance();
 	
 
-	public Integer crearNumero(BusinessNumero numero, BusinessDatoComplementario dc) throws Exception{
+	public Integer crearNumero(BusinessNumero numero, BusinessDatoComplementario dc, int tramite) throws Exception{
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		DAOTramite tramiteRespository = factory.getTramiteRepository(em);
 		
-		Tramite t = tramiteRespository.selectTramite(numero.getCodigoTramite());	
+		Tramite t = tramiteRespository.selectTramite(tramite);	
 		em.getTransaction().begin();
-		Numero n = numeroRepository.insertNumero(t, numero.getExternalId(), numero.getHora(), numero.getPrioridad(), numero.getEstado(), dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
+		Numero n = numeroRepository.insertNumero(t, numero.getExternalId(), numero.getHora().getTime(), numero.getPrioridad(), numero.getEstado());
 		em.getTransaction().commit();
 		em.close();				
 		return n.getInternalId();
@@ -72,7 +53,9 @@ public class DAONumeroController {
 		
 		List<BusinessNumero> ret = new LinkedList<BusinessNumero>();
 		for (Numero n : list){
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
+			GregorianCalendar c = new GregorianCalendar();
+			c.setTime(n.getHora());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
 			ret.add(numero);
 		}
 		return ret;
@@ -84,8 +67,9 @@ public class DAONumeroController {
 		
 		Numero n = numeroRepository.selectNumero(id);
 		em.close();
-		
-		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
+		GregorianCalendar c = new GregorianCalendar();
+		c.setTime(n.getHora());
+		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
 		return numero;
 	}
 	
@@ -94,7 +78,7 @@ public class DAONumeroController {
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		em.getTransaction().begin();
-		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad());
+		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora().getTime(),numero.getPrioridad());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -129,7 +113,9 @@ public class DAONumeroController {
 		
 		LinkedList<BusinessNumero> ret = new LinkedList<BusinessNumero>();
 		for (Numero n : list){
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
+			GregorianCalendar c = new GregorianCalendar();
+			c.setTime(n.getHora());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
 			ret.add(numero);
 		}
 		return ret;

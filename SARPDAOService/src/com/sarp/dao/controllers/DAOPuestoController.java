@@ -1,6 +1,7 @@
 package com.sarp.dao.controllers;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -105,8 +106,9 @@ public class DAOPuestoController {
 		List<Numero> list = p.getNumeros();
 		List<BusinessNumero> ret = new LinkedList<BusinessNumero>();
 		for(Numero n : list){
-
-			BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
+			GregorianCalendar c = new GregorianCalendar();
+			c.setTime(n.getHora());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
 			ret.add(res);
 		}	
 		return ret;
@@ -134,8 +136,9 @@ public class DAOPuestoController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		em.close();
 		Numero n = p.getNumero_puesto();
-
-		BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getTramite().getCodigo(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());		
+		GregorianCalendar c = new GregorianCalendar();
+		c.setTime(n.getHora());
+		BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());		
 		return res;
 	}
 
