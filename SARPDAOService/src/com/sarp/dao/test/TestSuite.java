@@ -9,6 +9,8 @@ import org.junit.runners.Suite;
 	SectorTest.class,
 	DisplayTest.class,
 	NumeroTest.class,
+	PuestoTest.class,
+	TramiteTest.class
 })
 
 public class TestSuite {   

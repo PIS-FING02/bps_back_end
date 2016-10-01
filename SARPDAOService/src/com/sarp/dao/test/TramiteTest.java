@@ -8,8 +8,8 @@ public class TramiteTest {
 
 	DAOTramiteController ctrlTramite = new DAOTramiteController();
    
-	@Test(expected=Exception.class)
-	public void testTramite() throws Exception {	
+	@Test
+	public void testTramite() {	
              
 	}
    

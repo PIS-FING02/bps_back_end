@@ -58,7 +58,7 @@ public class AttentionService {
 				puestoSend.setEstado(EstadoPuesto.ATENDIENDO);
 				//Se delega a DaoService
 				controladorPuesto.modificarPuesto(puestoSend);
-				controladorPuesto.asignarNumeroPuestoActual(puestoSend.getNombreMaquina(),bNumero.getInternalId());
+				controladorPuesto.asociarNumeroPuestoActual(puestoSend.getNombreMaquina(),bNumero.getInternalId());
 			}else{
 				throw new ContextException("PuestoSinNumeroAsignado");
 			}
@@ -78,7 +78,7 @@ public class AttentionService {
 			puestoSend.setEstado(EstadoPuesto.DIPONIBLE);
 			//Se delega a DaoService
 			controladorPuesto.modificarPuesto(bPuesto);
-			controladorPuesto.desasignarNumeroPuestoActual(puestoSend.getNombreMaquina());
+			controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
 		}else{
 			throw new ContextException("PuestoNoAtendiendo");
 		}		

@@ -2,6 +2,7 @@ package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
 
+import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Tramite;
@@ -31,10 +32,22 @@ public class DAONumero {
 		n.setLastUpdated(new Date());
 		tramite.addNumero(n);
 		//Creo una nueva entidad de DatoComplementario y las asocio
-		//TODO hacer en otro metodo
-	
+		//TODO hacer en otro metodo	
 		em.persist(n);
 		return n;
+	}
+	
+	public void insertDatoComplementario(Numero numero, String docIdentidad, String nombreCompleto, String tipoDoc){
+		DatosComplementario dc = new DatosComplementario();
+		dc.setDocIdentidad(docIdentidad);
+		dc.setNombreCompleto(nombreCompleto);
+		dc.setTipoDoc(tipoDoc);
+		dc.setNumero(numero);
+		numero.setDatosComplementario(dc);
+		dc.setDateCreated(new Date());
+		dc.setLastUpdated(new Date());
+		
+		em.persist(dc);
 	}
 	
 	public Numero selectNumero(int internalId) throws Exception{
@@ -93,8 +106,7 @@ public class DAONumero {
 		puesto.setLastUpdated(new Date());
 		
 		em.persist(puesto);	
-		em.persist(numero);
-		
+		em.persist(numero);		
 	}
 
 	public void asociarNumeroPuesto(Numero numero, Puesto puesto) {
@@ -106,6 +118,27 @@ public class DAONumero {
 		em.persist(puesto);	
 		em.persist(numero);
 		
+	}
+
+	public void desasociarNumeroPuesto(Numero numero, Puesto puesto) {
+		numero.getPuestos().remove(puesto);
+		puesto.getNumeros().remove(numero);
+		numero.setLastUpdated(new Date());	
+		puesto.setLastUpdated(new Date());
+		
+		em.persist(puesto);	
+		em.persist(numero);
+			
+	}
+
+	public void desasociarNumeroPuestoActual(Numero numero, Puesto puesto) {
+		numero.setPuesto(null);
+		puesto.setNumero_puesto(null);		
+		numero.setLastUpdated(new Date());	
+		puesto.setLastUpdated(new Date());
+		
+		em.persist(puesto);	
+		em.persist(numero);		
 	}
 	
 }

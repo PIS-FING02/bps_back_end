@@ -1,6 +1,8 @@
 package com.sarp.dao.test;
 
 
+import java.util.GregorianCalendar;
+
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessNumero;
@@ -45,6 +47,7 @@ public class ValoresDePrueba {
 			p.setNombreMaquina("maquina" + i);
 			p.setEstado(EstadoPuesto.DIPONIBLE);
 			p.setUsuarioId("usuario" + i);
+			p.setNumeroPuesto(i);
 			ctrlPuesto.crearPuesto(p);
 			
 			ci = ci + i;
@@ -56,7 +59,8 @@ public class ValoresDePrueba {
 			n.setEstado("nuevo");
 			n.setExternalId("external");
 			n.setPrioridad(5);
-			ctrlNumero.crearNumero(n, dc, i);
+			n.setHora(new GregorianCalendar());
+			ctrlNumero.crearNumero(n, i, dc);
 		}
 //		
 		/* CREAR TRAMITE */

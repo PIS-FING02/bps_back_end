@@ -15,6 +15,9 @@ import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
+
+import com.sarp.dao.repository.DAONumero;
+
 import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
@@ -27,7 +30,7 @@ public class DAOPuestoController {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);	
 		em.getTransaction().begin();
-		puestoRepository.insertPuesto(p.getNombreMaquina());
+		puestoRepository.insertPuesto(p.getNombreMaquina(),p.getUsuarioId(),p.getEstado().toString(),p.getNumeroPuesto());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -38,7 +41,7 @@ public class DAOPuestoController {
 		
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		em.close();
-		BusinessPuesto ret = new BusinessPuesto(p.getNombreMaquina(),p.getUsuarioId(),p.getEstado());
+		BusinessPuesto ret = new BusinessPuesto(p.getNombreMaquina(),p.getUsuarioId(),p.getEstado(),p.getNumero());
 		return ret;	
 	}
 
@@ -61,7 +64,7 @@ public class DAOPuestoController {
 		em.close();
 		List<BusinessPuesto> ret = new ArrayList<BusinessPuesto>();
 		for(Puesto p : lista){
-			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getUsuarioId());
+			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getUsuarioId(),p.getNumero());
 			ret.add(bp);
 		}		
 		return ret;
@@ -72,7 +75,7 @@ public class DAOPuestoController {
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
 		
 		em.getTransaction().begin();
-		puestoRepository.updatePuesto(puesto.getNombreMaquina(), puesto.getEstado().toString());
+		puestoRepository.updatePuesto(puesto.getNombreMaquina(), puesto.getEstado().toString(), puesto.getUsuarioId(),puesto.getNumeroPuesto());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -91,6 +94,60 @@ public class DAOPuestoController {
 		}	
 		return ret;
 	}
+	
+	public void asociarNumeroPuesto(String nombreMaquina, int codigoNumero) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+		
+		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.getTransaction().begin();
+		numeroRepository.asociarNumeroPuesto(n,p);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public void desasociarNumeroPuesto(String nombreMaquina, int codigoNumero) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+		
+		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.getTransaction().begin();
+		numeroRepository.desasociarNumeroPuesto(n,p);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public void asociarNumeroPuestoActual(String nombreMaquina, int codigoNumero) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+		
+		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.getTransaction().begin();
+		numeroRepository.asociarNumeroPuestoActual(n,p);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public void desasociarNumeroPuestoActual(String nombreMaquina) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+		
+		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
+		Numero n = p.getNumero_puesto();
+		em.getTransaction().begin();
+		numeroRepository.desasociarNumeroPuestoActual(n,p);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	
 	
 	public List<BusinessNumero> obtenerNumerosPuesto(String nombreMaquina) throws Exception {
 		EntityManager em = EMFactory.getEntityManager();

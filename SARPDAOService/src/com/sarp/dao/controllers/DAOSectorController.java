@@ -125,7 +125,7 @@ public class DAOSectorController {
 		List<Puesto> list = s.getPuestos();
 		List<BusinessPuesto> ret = new LinkedList<BusinessPuesto>();
 		for(Puesto p : list){
-			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getUsuarioId());
+			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getUsuarioId(),p.getNumero());
 			ret.add(bp);
 		}	
 		return ret;
