@@ -11,45 +11,54 @@ import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.service.response.maker.RequestMaker;
 
 public class AttentionService {
 	
-	public void abrirPuesto(String nombreMaquina,String usuarioId) throws Exception{
+	public void abrirPuesto(JSONPuesto puesto) throws Exception{
+		
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-		BusinessPuesto puesto = controladorPuesto.obtenerPuesto(nombreMaquina);
-		if(puesto.getEstado() == EstadoPuesto.CERRADO){
-			puesto.setEstado(EstadoPuesto.DIPONIBLE);
-			puesto.setUsuarioId(usuarioId);
+		BusinessPuesto bPuesto = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+		
+		if(bPuesto.getEstado() == EstadoPuesto.CERRADO && puesto.getUsuarioId()!= null){
+			bPuesto.setEstado(EstadoPuesto.DIPONIBLE);
+			bPuesto.setUsuarioId(puesto.getUsuarioId());
 			//Se delega a DaoService
-			controladorPuesto.modificarPuesto(puesto);
+			controladorPuesto.modificarPuesto(bPuesto);
 		}else{
 			throw new ContextException("YaAbierto");
 		}	
 	}
 	
-	public void cerrarPuesto(String nombreMaquina) throws Exception{
+	public void cerrarPuesto(JSONPuesto puesto) throws Exception{
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-		BusinessPuesto puesto = controladorPuesto.obtenerPuesto(nombreMaquina);
-		if(puesto.getEstado() != EstadoPuesto.CERRADO){
-			puesto.setEstado(EstadoPuesto.CERRADO);
-			puesto.setUsuarioId(null);// se lo seteo como vacio al puesto
+		BusinessPuesto bPuesto = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+	
+		if(bPuesto.getEstado() != EstadoPuesto.CERRADO){
+			bPuesto.setEstado(EstadoPuesto.DIPONIBLE);
+			bPuesto.setUsuarioId(null);
 			//Se delega a DaoService
-			controladorPuesto.modificarPuesto(puesto);
+			controladorPuesto.modificarPuesto(bPuesto);
 		}else{
 			throw new ContextException("YaCerrado");
-		}		
+		}	
 	}
-	public void comenzarAtencion(String nombreMaquina) throws Exception{
+	public void comenzarAtencion(JSONPuesto puesto) throws Exception{
+		RequestMaker reqMaker = RequestMaker.getInstance();
+		BusinessNumero bNumero = reqMaker.requestNumero(puesto.getNumeroAsignado());
+		
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-		BusinessPuesto puesto = controladorPuesto.obtenerPuesto(nombreMaquina);
-		if(puesto.getEstado() == EstadoPuesto.LLAMANDO){
+		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+		if(puestoSend.getEstado() == EstadoPuesto.LLAMANDO){
 			if(puesto.getNumeroAsignado() != null){
-				puesto.setEstado(EstadoPuesto.ATENDIENDO);
+				puestoSend.setEstado(EstadoPuesto.ATENDIENDO);
 				//Se delega a DaoService
-				controladorPuesto.modificarPuesto(puesto);
+				controladorPuesto.modificarPuesto(puestoSend);
+				controladorPuesto.asignarNumeroPuestoActual(puestoSend.getNombreMaquina(),bNumero.getInternalId());
 			}else{
 				throw new ContextException("PuestoSinNumeroAsignado");
 			}
@@ -58,17 +67,20 @@ public class AttentionService {
 		}		
 	}
 
-	public void finalizarAtencion(String nombreMaquina) throws Exception{
+	public void finalizarAtencion(JSONPuesto puesto) throws Exception{
+		RequestMaker reqMaker = RequestMaker.getInstance();
+		BusinessPuesto bPuesto = reqMaker.requestPuesto(puesto);
+		
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-		BusinessPuesto puesto = controladorPuesto.obtenerPuesto(nombreMaquina);
-		if(puesto.getEstado() != EstadoPuesto.CERRADO){
-			puesto.setEstado(EstadoPuesto.CERRADO);
-			puesto.setUsuarioId(null);// se lo seteo como vacio al puesto
+		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+		if(puestoSend.getEstado() == EstadoPuesto.ATENDIENDO){
+			puestoSend.setEstado(EstadoPuesto.DIPONIBLE);
 			//Se delega a DaoService
-			controladorPuesto.modificarPuesto(puesto);
+			controladorPuesto.modificarPuesto(bPuesto);
+			controladorPuesto.desasignarNumeroPuestoActual(puestoSend.getNombreMaquina());
 		}else{
-			throw new ContextException("YaCerrado");
+			throw new ContextException("PuestoNoAtendiendo");
 		}		
 	}
 }

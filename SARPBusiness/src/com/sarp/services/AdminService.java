@@ -20,8 +20,15 @@ import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.factory.Factory;
+
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
+import com.sarp.service.response.maker.RequestMaker;
+
+
+import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONSector;
+
 import com.sarp.service.response.maker.RequestMaker;
 
 
@@ -29,6 +36,7 @@ public class AdminService {
 	
 	
 	public void altaPuesto(JSONPuesto puesto) throws Exception{	
+
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessPuesto bPuesto = reqMaker.requestPuesto(puesto);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
@@ -38,6 +46,7 @@ public class AdminService {
 	}
 	
 	public void bajaPuesto(JSONPuesto puesto) throws Exception{
+
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessPuesto bPuesto = reqMaker.requestPuesto(puesto);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();

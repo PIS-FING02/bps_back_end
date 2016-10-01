@@ -34,16 +34,17 @@ public class ResponseMaker {
 		JSONPuesto jsonPuesto = new JSONPuesto();
 		jsonPuesto.setEstado(bussinesPuesto.getEstado() != null ? bussinesPuesto.getEstado().toString() : null);
 		jsonPuesto.setNombreMaquina(bussinesPuesto.getNombreMaquina());
-		jsonPuesto.setNumeroAsignado(bussinesPuesto.getNumeroAsignado() != null ? this.numeroAtomResponse(bussinesPuesto.getNumeroAsignado()): null);
+		//jsonPuesto.setNumeroAsignado(businessNumero != null ? this.numeroAtomResponse(businessNumero): null);
 		jsonPuesto.setUsuarioId(bussinesPuesto.getUsuarioId());
 		jsonPuesto.setNumeroPuesto(bussinesPuesto.getNumeroPuesto());
 		
 		return jsonPuesto;
 	}
 	
-	public JSONPuesto puestoFullResponse(BusinessPuesto bussinesPuesto, List<BusinessSector> businessSectores, List<BusinessTramite> businessTramites){
+	public JSONPuesto puestoFullResponse(BusinessPuesto bussinesPuesto, List<BusinessSector> businessSectores, List<BusinessTramite> businessTramites, BusinessNumero businessNumero){
 		JSONPuesto jsonPuesto = this.puestoAtomResponse(bussinesPuesto);
-		
+		JSONNumero jsonNumero = this.numeroAtomResponse(businessNumero);
+		jsonPuesto.setNumeroAsignado(jsonNumero);
 		List<JSONSector> listJSONSector = new ArrayList<JSONSector>();
 		for(BusinessSector businessSector : businessSectores){
 			listJSONSector.add(this.sectorAtomResponse(businessSector));

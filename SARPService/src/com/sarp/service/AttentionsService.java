@@ -28,7 +28,7 @@ public class AttentionsService {
 		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
-				ctrl.abrirPuesto(puesto.getNombreMaquina(),puesto.getUsuarioId());
+				ctrl.abrirPuesto(puesto);
 				return "Puesto "+puesto.getNombreMaquina()+" ha sido abierto con exito";
 			
 			}catch(ContextException e){
@@ -50,7 +50,7 @@ public class AttentionsService {
 		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
-				ctrl.cerrarPuesto(puesto.getNombreMaquina());
+				ctrl.cerrarPuesto(puesto);
 				return "Puesto "+puesto.getNombreMaquina()+" ha sido cerrado con exito";
 			}catch(Exception e){
 				throw new BadRequestException("Error: El puesto ya se encuentra cerrado");
@@ -59,7 +59,40 @@ public class AttentionsService {
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
 	}
-	
+	@PUT
+	@Path("/comenzarAtencion")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String comenzarAtencion(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
+		Factory fac = Factory.getInstance();
+		AttentionsController ctrl = fac.getAttentionsController();
+		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+			try{
+				ctrl.comenzarAtencion(puesto);
+				return "Puesto "+puesto.getNombreMaquina()+" comenzo atencion satisfactoriamente";
+			}catch(Exception e){
+				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+	}
+	@PUT
+	@Path("/finalizarAtencion")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String finalizarAtencion(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
+		Factory fac = Factory.getInstance();
+		AttentionsController ctrl = fac.getAttentionsController();
+		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+			try{
+				ctrl.finalizarAtencion(puesto);
+				return "Puesto "+puesto.getNombreMaquina()+" finalizo atencion satisfactoriamente";
+			}catch(Exception e){
+				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+	}
 	
 	//CERRADO, DIPONIBLE, LLAMANDO, ATENDIENDO;
 }
