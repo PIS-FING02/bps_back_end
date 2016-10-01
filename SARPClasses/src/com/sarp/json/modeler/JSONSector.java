@@ -4,12 +4,12 @@ import java.util.List;
 
 public class JSONSector {
 	
-	String codigo;
-	String nombre;
-	String rutaSector;
-	List<JSONPuesto> puestos;
-	List<JSONDisplay> displays;
-	List<JSONTramite> tramites;
+	private String codigo;
+	private String nombre;
+	private String rutaSector;
+	private List<JSONPuesto> puestos;
+	private List<JSONDisplay> displays;
+	private List<JSONTramite> tramites;
 	
 	public String getCodigo() {
 		return codigo;

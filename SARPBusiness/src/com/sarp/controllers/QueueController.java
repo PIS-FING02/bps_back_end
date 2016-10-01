@@ -2,9 +2,11 @@ package com.sarp.controllers;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSectorQueue;
+import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.managers.QueuesManager;
@@ -41,8 +43,8 @@ public class QueueController {
 		this.cola.agregarNumeroPausado(numero);
 	}
 
-	public BusinessNumero llamarProximoNumero(){
-		return this.cola.llamarNumeroCola();
+	public BusinessNumero llamarProximoNumero(List<BusinessTramiteSector> tramite){
+		return this.cola.llamarNumeroCola(tramite);
 	}
 	
 	public BusinessNumero[] listarAtrasados(){

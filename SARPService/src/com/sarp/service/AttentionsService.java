@@ -2,6 +2,7 @@ package com.sarp.service;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -13,6 +14,7 @@ import com.sarp.controllers.AttentionsController;
 import com.sarp.controllers.UserController;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 
 @RequestScoped
@@ -93,6 +95,68 @@ public class AttentionsService {
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
 	}
+	
+	@PUT
+	@Path("/llamarNumero")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONNumero llamarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
+		Factory fac = Factory.getInstance();
+		AttentionsController ctrl = fac.getAttentionsController();
+		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+			try{
+				JSONNumero num = ctrl.llamarNumero(puesto);
+				if(num != null){
+					return num;
+				}else{
+					throw new Exception("No hay numero disponible en este momento");
+				}
+				
+			}catch(Exception e){
+				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
+				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+	}
+	/*
+	@PUT
+	@Path("/atrasarNumero")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String atrasarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
+		Factory fac = Factory.getInstance();
+		AttentionsController ctrl = fac.getAttentionsController();
+		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+			try{
+				ctrl.finalizarAtencion(puesto);
+				return "Puesto "+puesto.getNombreMaquina()+" finalizo atencion satisfactoriamente";
+			}catch(Exception e){
+				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+	}
+	
+	@PUT
+	@Path("/pausarNumero")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String pausarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
+		Factory fac = Factory.getInstance();
+		AttentionsController ctrl = fac.getAttentionsController();
+		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+			try{
+				ctrl.finalizarAtencion(puesto);
+				return "Puesto "+puesto.getNombreMaquina()+" finalizo atencion satisfactoriamente";
+			}catch(Exception e){
+				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+	}*/
+	
 	
 	//CERRADO, DIPONIBLE, LLAMANDO, ATENDIENDO;
 }
