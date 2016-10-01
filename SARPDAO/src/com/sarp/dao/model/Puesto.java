@@ -26,6 +26,8 @@ public class Puesto implements Serializable {
 
 	private String estado;
 	
+	private Integer numero;
+	
 	//private Integer numero_puesto;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -153,6 +155,14 @@ public class Puesto implements Serializable {
 
 	public void setNumero_puesto(Numero numero_puesto) {
 		this.numero_puesto = numero_puesto;
+	}
+
+	public Integer getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
 	}
 
 	

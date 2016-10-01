@@ -14,7 +14,6 @@ public class BusinessNumero {
 		this.hora = hora;
 		this.estado = estado;
 		this.prioridad = prioridad;
-
 	}
 	
 	//Atributos
@@ -23,7 +22,6 @@ public class BusinessNumero {
 	private GregorianCalendar hora;
 	private String estado;
 	private Integer prioridad;
-
 
 	//Operaciones
 	public Integer getInternalId() {

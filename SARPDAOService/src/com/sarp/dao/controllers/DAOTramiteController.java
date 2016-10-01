@@ -106,7 +106,6 @@ public class DAOTramiteController {
 		List<Sector> list = t.getSectors();
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for(Sector s : list){
-
 			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
 			ret.add(bs);
 		}	
@@ -155,7 +154,7 @@ public class DAOTramiteController {
 		List<Puesto> list = t.getPuestos();
 		List<BusinessPuesto> ret = new LinkedList<BusinessPuesto>();
 		for(Puesto p : list){
-			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado());
+			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(),p.getNumero());
 			ret.add(bp);
 		}	
 		return ret;

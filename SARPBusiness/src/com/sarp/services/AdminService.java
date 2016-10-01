@@ -150,7 +150,7 @@ public class AdminService {
 		sectorCtrl.asociarSectorPuesto(sector.getSectorId(),puesto.getNombreMaquina());
 	}
 	
-	
+
 	public void bajaSector(String idSector) throws Exception{
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();

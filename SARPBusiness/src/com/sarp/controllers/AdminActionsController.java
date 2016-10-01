@@ -90,7 +90,8 @@ public class AdminActionsController {
 		AdminService adminService = new AdminService();
 		adminService.asignarTramiteSector(tramSec.getTramite().getCodigo(),tramSec.getSector().getCodigo());
 	}
-	
+
+
 	public void bajaSector(String idSector) throws Exception{
 		AdminService adminService = new AdminService();
 		adminService.bajaSector(idSector);

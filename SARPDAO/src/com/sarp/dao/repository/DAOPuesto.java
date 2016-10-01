@@ -19,9 +19,12 @@ public class DAOPuesto {
 	
 	/* Creo en la base una entidad Puesto
 	 */
-	public void insertPuesto(String nombreMaquina){		
+	public void insertPuesto(String nombreMaquina, String usuarioId, String estado, Integer numero){		
 		Puesto p = new Puesto();
 		p.setNombreMaquina(nombreMaquina);
+		p.setUsuarioId(usuarioId);
+		p.setEstado(estado);
+		p.setNumero(numero);
 		p.setDateCreated(new Date());
 		p.setLastUpdated(new Date());
 		
@@ -46,9 +49,11 @@ public class DAOPuesto {
 	}
 	
 	/* Modifico el estado de un Puesto dado por su nombre */
-	public void updatePuesto(String nombreMaquina, String estado) throws Exception{		
+	public void updatePuesto(String nombreMaquina, String estado, String usuarioId, Integer numero) throws Exception{		
 		Puesto p = selectPuesto(nombreMaquina);
 		p.setEstado(estado);
+		p.setNumero(numero);
+		p.setUsuarioId(usuarioId);
 		p.setLastUpdated(new Date());
 		
 		em.persist(p);
