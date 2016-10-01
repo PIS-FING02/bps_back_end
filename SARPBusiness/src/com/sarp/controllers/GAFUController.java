@@ -12,7 +12,7 @@ public class GAFUController {
 
 	}
 	
-	public void actualizarArbolGAFU(){
+	public void actualizarArbolGAFU() throws Exception{
 		this.gafumgr.actualizarArbolGAFU();
 	}
 	
