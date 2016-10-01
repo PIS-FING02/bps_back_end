@@ -16,10 +16,8 @@ import java.util.Date;
 public class DatosComplementario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	//@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="doc_identidad")
-	private Integer docIdentidad;
+	private String docIdentidad;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
@@ -37,18 +35,19 @@ public class DatosComplementario implements Serializable {
 	private String tipoDoc;
 
 	//bi-directional one-to-one association to Numero
+	@Id
 	@OneToOne
-	@PrimaryKeyJoinColumn(name="internal_id")
+	@JoinColumn(name="internal_id")
 	private Numero numero;
 
 	public DatosComplementario() {
 	}
 
-	public Integer getDocIdentidad() {
+	public String getDocIdentidad() {
 		return this.docIdentidad;
 	}
 
-	public void setDocIdentidad(Integer docIdentidad) {
+	public void setDocIdentidad(String docIdentidad) {
 		this.docIdentidad = docIdentidad;
 	}
 

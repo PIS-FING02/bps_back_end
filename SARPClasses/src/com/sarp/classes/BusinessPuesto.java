@@ -6,9 +6,10 @@ public class BusinessPuesto {
 	
 	//Constructores
 	public BusinessPuesto(){}
-	public BusinessPuesto(String nombreMaquina, String usuarioId, String estado) {
+	public BusinessPuesto(String nombreMaquina, String usuarioId, String estado, Integer numero) {
 		this.nombreMaquina = nombreMaquina;
 		this.usuarioId = usuarioId;
+		this.setNumero(numero);
 		this.estado = (estado != null) ? EstadoPuesto.valueOf(estado) : null;
 	}
 	
@@ -18,6 +19,7 @@ public class BusinessPuesto {
 	private String nombreMaquina;
 	private String usuarioId;
 	private EstadoPuesto estado;
+	private Integer numero;
 
 	
 	//Operaciones
@@ -38,6 +40,12 @@ public class BusinessPuesto {
 	}
 	public void setEstado(EstadoPuesto estado) {
 		this.estado = estado;
+	}
+	public Integer getNumero() {
+		return numero;
+	}
+	public void setNumero(Integer numero) {
+		this.numero = numero;
 	}
 
 
