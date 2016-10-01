@@ -11,6 +11,7 @@ import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
+import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.services.AdminService;
 
 public class AdminActionsController {
@@ -79,9 +80,15 @@ public class AdminActionsController {
 		adminService.altaModificacionSector(sector);
 	}
 	
-	public void asignarTramiteSector(String idSector, Integer idTramite) throws Exception {
+	public void asignarTramiteSector(JSONTramiteSector tramSec) throws Exception {
 		AdminService adminService = new AdminService();
-		adminService.asignarTramiteSector(idTramite, idSector);
+		adminService.asignarTramiteSector(tramSec.getTramite().getCodigo(),tramSec.getSector().getCodigo());
+	}
+	
+	
+	public void asignarPuestoSector(JSONTramiteSector tramSec) throws Exception {
+		AdminService adminService = new AdminService();
+		adminService.asignarTramiteSector(tramSec.getTramite().getCodigo(),tramSec.getSector().getCodigo());
 	}
 	
 	public void bajaSector(String idSector) throws Exception{

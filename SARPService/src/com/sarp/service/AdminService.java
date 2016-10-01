@@ -29,6 +29,7 @@ import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramite;
+import com.sarp.json.modeler.JSONTramiteSector;
 
 @RequestScoped
 @Path("/adminService")
@@ -266,7 +267,7 @@ public class AdminService {
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals( "ResponsableSector")) || (userRol.equals("Administrador")) ){
 			try{
-				return ctrl.listarDisplays(display.getSectorId());	
+				return ctrl.listarDisplays(display.getSectores());	
 			}catch(Exception e){
 				throw new BadRequestException("Error al listar Display.");
 			}
@@ -274,5 +275,45 @@ public class AdminService {
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
     }
+	
+	@PUT
+  	@Path("/puesto")
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String asignarTramiteSector(@HeaderParam("user-rol") String userRol, JSONTramiteSector tramiteSector){	
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(userRol.equals("ResponsableSector")){
+  			try{
+  				ctrl.asignarTramiteSector(tramiteSector);
+  				return "Se asigno el tramite: "+tramiteSector.getTramite().getNombre()+"al sector"+tramiteSector.getSector().getNombre();
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al modificar Puesto.");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+  		
+  	}
+	
+	
+	@PUT
+  	@Path("/puesto")
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String asignarPuestoSector(@HeaderParam("user-rol") String userRol, JSONTramiteSector tramiteSector){	
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(userRol.equals("ResponsableSector")){
+  			try{
+  				ctrl.asignarPuestoSector(tramiteSector);
+  				return "Se asigno el tramite: "+tramiteSector.getTramite().getNombre()+"al sector"+tramiteSector.getSector().getNombre();
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al modificar Puesto.");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+  		
+  	}
+	
 
 }

@@ -135,6 +135,13 @@ public class AdminService {
 		sectorCtrl.asociarTramiteSector(idTramite, idSector);
 	}
 	
+	public void asignarPuestoSector(BusinessSector sector, BusinessPuesto puesto) throws Exception{
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		sectorCtrl.asociarSectorPuesto(sector.getSectorId(),puesto.getNombreMaquina());
+	}
+	
+	
 	public void bajaSector(String idSector) throws Exception{
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
