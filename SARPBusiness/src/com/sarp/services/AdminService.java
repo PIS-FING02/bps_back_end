@@ -125,7 +125,7 @@ public class AdminService {
 		tramCtrl.modificarTramite(tramite);
 	}
 	
-/** ABM sector **/
+/** SECTOR **/
 	
 	public void altaModificacionSector(BusinessSector sector) throws Exception{	
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
@@ -156,6 +156,13 @@ public class AdminService {
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 		
 		sectorCtrl.eliminarSector(idSector);
+	}
+	
+	public List<BusinessSector> listarSectores() throws Exception{
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		
+		return sectorCtrl.listarSectores();
 	}
 	
 	/*** IMPLEMENTACION DE DISPLAYS****/
