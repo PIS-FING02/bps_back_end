@@ -115,7 +115,7 @@ public class AdminActionsController {
 		
 	}
 	
-	public List<BusinessDisplay> listarDisplays(Integer sectorid) throws Exception{
+	public List<BusinessDisplay> listarDisplays(String sectorid) throws Exception{
 		AdminService adminServ = new AdminService();
 		return adminServ.listarDisplays(sectorid);
 		

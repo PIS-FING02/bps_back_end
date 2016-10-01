@@ -262,12 +262,13 @@ public class AdminService {
 	@GET
 	@Path("/display")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BusinessDisplay> listarDisplay(@HeaderParam("user-rol") String userRol, JSONDisplay display) {
+    //este metodo retorna los display de un sector
+	public List<BusinessDisplay> listarDisplay(@HeaderParam("user-rol") String userRol, JSONSector sector) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals( "ResponsableSector")) || (userRol.equals("Administrador")) ){
 			try{
-				return ctrl.listarDisplays(display.getSectores());	
+				return ctrl.listarDisplays(sector.getCodigo());	
 			}catch(Exception e){
 				throw new BadRequestException("Error al listar Display.");
 			}

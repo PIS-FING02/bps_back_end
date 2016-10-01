@@ -183,7 +183,7 @@ public class AdminService {
 				controladorDisplay.eliminarDisplay(idDisplay);
 			}
 			
-			public List<BusinessDisplay> listarDisplays(Integer sectorid) throws Exception{
+			public List<BusinessDisplay> listarDisplays(String sectorid) throws Exception{
 				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
 				DAODisplayController controladorDisplay = factoryServices.getDAODisplayController();
 				List<BusinessDisplay> displays;
