@@ -15,13 +15,13 @@ import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.service.response.maker.RequestMaker;
 
 public class AttentionService {
-	
+
 	public void abrirPuesto(JSONPuesto puesto) throws Exception{
-		
+
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto bPuesto = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
-		
+
 		if(bPuesto.getEstado() == EstadoPuesto.CERRADO && puesto.getUsuarioId()!= null){
 			bPuesto.setEstado(EstadoPuesto.DIPONIBLE);
 			bPuesto.setUsuarioId(puesto.getUsuarioId());
@@ -29,14 +29,14 @@ public class AttentionService {
 			controladorPuesto.modificarPuesto(bPuesto);
 		}else{
 			throw new ContextException("YaAbierto");
-		}	
+		}
 	}
-	
+
 	public void cerrarPuesto(JSONPuesto puesto) throws Exception{
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto bPuesto = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
-	
+
 		if(bPuesto.getEstado() != EstadoPuesto.CERRADO){
 			bPuesto.setEstado(EstadoPuesto.DIPONIBLE);
 			bPuesto.setUsuarioId(null);
@@ -44,12 +44,13 @@ public class AttentionService {
 			controladorPuesto.modificarPuesto(bPuesto);
 		}else{
 			throw new ContextException("YaCerrado");
-		}	
+		}
 	}
+
 	public void comenzarAtencion(JSONPuesto puesto) throws Exception{
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessNumero bNumero = reqMaker.requestNumero(puesto.getNumeroAsignado());
-		
+
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
@@ -64,13 +65,13 @@ public class AttentionService {
 			}
 		}else{
 			throw new ContextException("PuestoNoLlamando");
-		}		
+		}
 	}
+
 
 	public void finalizarAtencion(JSONPuesto puesto) throws Exception{
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessPuesto bPuesto = reqMaker.requestPuesto(puesto);
-		
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
@@ -81,6 +82,6 @@ public class AttentionService {
 			controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
 		}else{
 			throw new ContextException("PuestoNoAtendiendo");
-		}		
+		}
 	}
 }
