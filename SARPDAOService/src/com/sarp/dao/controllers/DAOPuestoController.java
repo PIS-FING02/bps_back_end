@@ -104,7 +104,6 @@ public class DAOPuestoController {
 			GregorianCalendar c = new GregorianCalendar();
 			c.setTime(n.getHora());
 			BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());
-
 			ret.add(res);
 		}	
 		return ret;
@@ -135,7 +134,6 @@ public class DAOPuestoController {
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTime(n.getHora());
 		BusinessNumero res = new BusinessNumero(n.getInternalId(),n.getExternalId(),c,n.getEstado(),n.getPrioridad());		
-
 		return res;
 	}
 

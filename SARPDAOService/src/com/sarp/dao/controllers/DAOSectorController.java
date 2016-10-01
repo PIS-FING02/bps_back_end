@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
+
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
