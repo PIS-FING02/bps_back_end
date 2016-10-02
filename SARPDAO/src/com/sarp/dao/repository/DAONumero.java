@@ -60,11 +60,13 @@ public class DAONumero {
 		}
     }
 	
+	@SuppressWarnings("unchecked")
 	public List<Numero> selectNumeros(){
 		List<Numero> ret = (List<Numero>) em.createQuery("select n from Numero n").getResultList();
 		return ret;
 	}
 			
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public List<Numero> selectNumerosDelDia(){
 		Date hoy = new Date();
 		List<Numero> list = (List<Numero>) em.createQuery("select n from Numero n").getResultList();

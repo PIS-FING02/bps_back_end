@@ -1,10 +1,9 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
-import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Sector;
-
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class DAODisplay {
 		Display d = new Display();
 		d.setRutaArchivo(rutaArchivo);
 		d.setDateCreated(new Date());
-		d.setLastUpdated(new Date());	
+		//d.setLastUpdated(new Timestamp(System.currentTimeMillis()));	
 		em.persist(d);
 		return d;
 	}
@@ -39,18 +38,19 @@ public class DAODisplay {
     }
 	
 	/* Obtengo todos los displays en la base de datos */
-	public List<Display> selectDisplays(){
-		
+	@SuppressWarnings("unchecked")
+	public List<Display> selectDisplays(){	
 		List<Display> res = em.createQuery("select d from Display d").getResultList();
 		return res;
 	}
 	
 	/* Modifico la ruta de un display dado por su codigo */
-	public void updateDisplay(int codigo, String rutaArchivo) throws Exception{		
+	public void updateDisplay(int codigo, String rutaArchivo, Timestamp t) throws Exception{		
 		Display d = selectDisplay(codigo);
 		d.setRutaArchivo(rutaArchivo);
-		d.setLastUpdated(new Date());
-		
+		d.setLastUpdated(t);
+		//d.setLastUpdated(new Timestamp(System.currentTimeMillis()));	
+		//em.lock(d, LockModeType.OPTIMISTIC);
 		em.persist(d);
 
 	}
@@ -67,8 +67,8 @@ public class DAODisplay {
 		sector.setDisplay(display);
 		display.addSector(sector);		
 		
-		display.setLastUpdated(new Date());	
-		sector.setLastUpdated(new Date());
+		//display.setLastUpdated(new Timestamp(System.currentTimeMillis()));		
+		//sector.setLastUpdated(new Date());
 		
 		em.persist(display);
 		em.persist(sector);

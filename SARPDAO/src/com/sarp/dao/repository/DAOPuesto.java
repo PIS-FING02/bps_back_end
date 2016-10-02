@@ -1,9 +1,7 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
-import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.Puesto;
-
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +41,7 @@ public class DAOPuesto {
     }
 	
 	/* Obtengo todos los Puestos en la base de datos */
+	@SuppressWarnings("unchecked")
 	public List<Puesto> selectPuestos(){		
 		List<Puesto> res = em.createQuery("select p from Puesto p").getResultList();
 		return res;

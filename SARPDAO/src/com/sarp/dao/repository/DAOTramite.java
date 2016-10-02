@@ -1,23 +1,10 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-
-
-import com.sarp.dao.factory.DAOFactory;
-
-import com.sarp.dao.factory.EMFactory;
-import com.sarp.dao.model.DatosComplementario;
-import com.sarp.dao.model.Display;
-import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
-
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 public class DAOTramite {
@@ -50,6 +37,7 @@ public class DAOTramite {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Tramite> selectTramites() {		
 		return (List<Tramite>) em.createQuery("select t from Tramite t").getResultList();
 	}
@@ -104,7 +92,6 @@ public class DAOTramite {
 		em.persist(tramite);
 		em.persist(puesto);
 	}
-	
 	
 	
 }
