@@ -30,6 +30,7 @@ CREATE TABLE public.NUMERO
 CREATE TABLE public.PUESTO
 (
   nombre_maquina character varying(20),
+  numero int,
   numero_puesto int references NUMERO(internal_id), -- relacion ONETOONE entre PUESTO y NUMERO
   estado character varying(20),
   usuario_id character varying(20),
@@ -62,7 +63,7 @@ CREATE TABLE public.SECTOR
 
 CREATE TABLE public.DATOS_COMPLEMENTARIOS
 (
-  doc_identidad int,
+  doc_identidad character varying(20),
   internal_id int references NUMERO(internal_id), --relacion ONETOONE entre DATOS_COMPLEMENTARIOS y NUMERO
   nombre_completo character varying(20),
   tipo_doc character varying(20),  

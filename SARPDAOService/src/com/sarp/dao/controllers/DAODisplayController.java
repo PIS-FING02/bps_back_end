@@ -2,9 +2,7 @@ package com.sarp.dao.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
-
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
@@ -33,7 +31,7 @@ public class DAODisplayController {
 		
 		Display d = displayRepository.selectDisplay(codigo);
 		em.close();
-		BusinessDisplay ret = new BusinessDisplay(d.getCodigo(),d.getRutaArchivo());
+		BusinessDisplay ret = new BusinessDisplay(d.getCodigo(),d.getRutaArchivo(),d.getLastUpdated());
 		return ret;	
 	}
 	
@@ -58,9 +56,10 @@ public class DAODisplayController {
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		
 		em.getTransaction().begin();
-		displayRepository.updateDisplay(d.getCodigo(), d.getRutaArchivo());
+		displayRepository.updateDisplay(d.getCodigo(), d.getRutaArchivo(),d.getTimestamp());
 		em.getTransaction().commit();
 		em.close();
+		
 	}
 	
 	public void eliminarDisplay(int codigo) throws Exception{

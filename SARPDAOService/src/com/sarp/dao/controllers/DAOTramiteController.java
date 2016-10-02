@@ -89,6 +89,7 @@ public class DAOTramiteController {
 		Sector s = sectorRepository.selectSector(codigoSector);
 		Tramite t = tramiteRepository.selectTramite(codigoTramite);
 		if(!s.getTramites().contains(t)){
+			em.close();
 			throw new Exception("El tramite " + codigoTramite + " y el sector " + codigoSector + " no estan asociados");
 		}
 		em.getTransaction().begin();
@@ -121,6 +122,7 @@ public class DAOTramiteController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		Tramite t = tramiteRepository.selectTramite(codigoTramite);
 		if(t.getPuestos().contains(p)){
+			em.close();
 			throw new Exception("El puesto de " + nombreMaquina + " y el tramite " + codigoTramite + " ya estan asociados");
 		}
 		em.getTransaction().begin();
@@ -137,6 +139,7 @@ public class DAOTramiteController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		Tramite t = tramiteRepository.selectTramite(codigoTramite);
 		if(!t.getPuestos().contains(p)){
+			em.close();
 			throw new Exception("El puesto de " + nombreMaquina + " y el tramite " + codigoTramite + " no estan asociados");
 		}
 		em.getTransaction().begin();
@@ -158,6 +161,32 @@ public class DAOTramiteController {
 			ret.add(bp);
 		}	
 		return ret;
+	}
+	
+	public List<BusinessTramite> obtenerTramitesPuestoSector(String nombreMaquina, String codigoPuesto) throws Exception{
+		EntityManager em = EMFactory.getEntityManager();
+		DAOSector sectorRepository = factory.getSectorRepository(em);
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+		
+		Sector s = sectorRepository.selectSector(codigoPuesto);
+		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
+		em.close();
+		if(!s.getPuestos().contains(p)){	
+			//El Puesto tiene que pertenecer al Sector
+			throw new Exception("El puesto de " + codigoPuesto + " y el sector " + nombreMaquina + " no estan asociados");
+		}
+		else{
+			//Busco los tramites asociados tanto al Sector como al Puesto
+			List<Tramite> list = new LinkedList<Tramite>(s.getTramites());
+			list.retainAll(p.getTramites());		
+			
+			List<BusinessTramite> ret = new LinkedList<BusinessTramite>();
+			for (Tramite t : list){
+				BusinessTramite dt = new BusinessTramite(t.getCodigo(), t.getNombre());
+				ret.add(dt);
+			}	
+			return ret;
+		}
 	}
 		
 	

@@ -1,17 +1,9 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-
-import com.sarp.dao.factory.EMFactory;
-import com.sarp.dao.model.DatosComplementario;
-import com.sarp.dao.model.Display;
-import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
-import com.sarp.dao.model.Tramite;
+
 
 import java.util.Date;
 import java.util.List;
@@ -51,6 +43,7 @@ public class DAOSector {
     }
 	
 	/* Obtengo todos los Sectores en la base de datos */
+	@SuppressWarnings("unchecked")
 	public List<Sector> selectSectores(){		
 		List<Sector> res = em.createQuery("select s from Sector s").getResultList();
 		return res;
