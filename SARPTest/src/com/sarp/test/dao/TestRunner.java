@@ -1,4 +1,4 @@
-package com.sarp.test;
+package com.sarp.test.dao;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;

@@ -21,7 +21,7 @@ public class DAODisplay {
 		Display d = new Display();
 		d.setRutaArchivo(rutaArchivo);
 		d.setDateCreated(new Date());
-		d.setLastUpdated(new Timestamp(System.currentTimeMillis()));	
+		//d.setLastUpdated(new Timestamp(System.currentTimeMillis()));	
 		em.persist(d);
 		return d;
 	}
