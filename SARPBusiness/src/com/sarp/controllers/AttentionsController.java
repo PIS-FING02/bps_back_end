@@ -5,9 +5,16 @@ import com.sarp.classes.BusinessNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.services.AttentionService;
 import com.sarp.services.NumberService;
-import com.sarp.services.UserService;
 
 public class AttentionsController {
+	
+	private static  AttentionsController instance;
+	private AttentionsController(){};
+	
+	public static AttentionsController getInstance(){
+		instance = instance != null ? instance : new AttentionsController();
+		return instance;
+	}
 	
 	public void solicitarNumero(BusinessNumero num){
 		NumberService serv = new NumberService();

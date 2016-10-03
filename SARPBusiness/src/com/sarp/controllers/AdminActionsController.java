@@ -6,9 +6,6 @@ import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
-import com.sarp.dao.controllers.DAODisplayController;
-import com.sarp.dao.factory.DAOServiceFactory;
-import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
@@ -16,6 +13,14 @@ import com.sarp.services.AdminService;
 
 public class AdminActionsController {
 
+	private static  AdminActionsController instance;
+	private AdminActionsController(){};
+	
+	public static AdminActionsController getInstance(){
+		instance = instance != null ? instance : new AdminActionsController();
+		return instance;
+	}
+	
 	public void altaPuesto(JSONPuesto puesto) throws Exception{	
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();

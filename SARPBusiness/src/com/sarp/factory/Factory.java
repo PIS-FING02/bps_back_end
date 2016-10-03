@@ -3,23 +3,18 @@ package com.sarp.factory;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.AssignmentController;
 import com.sarp.controllers.AttentionsController;
-import com.sarp.controllers.QueueController;
 import com.sarp.controllers.UserController;
 import com.sarp.controllers.WaitingController;
 import com.sarp.controllers.GAFUController;
 
 public class Factory {
-	private static Factory instancia;
+	private static Factory instance;
 	
-	public Factory(){}
+	private Factory(){}
 	
 	public static Factory getInstance(){
-		if (instancia == null){
-			instancia = new Factory();
-			return instancia;
-		}else{
-			return instancia;
-		}
+		instance = instance != null ? instance : new Factory(); 
+		return instance;
 	}
 	
 	public AttentionsController getAttentionsController(){
@@ -27,15 +22,15 @@ public class Factory {
 	}
 	
 	public AdminActionsController getAdminActionsController(){
-		return new AdminActionsController();
+		return  AdminActionsController.getInstance();
 	}
 	
 	public UserController getUserController(){
-		return new UserController();
+		return  UserController.getInstance();
 	}
 	
 	public WaitingController getWaitingController(){
-		return new WaitingController();
+		return WaitingController.getInstance();
 	}
 	
 	//public QueueController getQueueController(){
@@ -43,7 +38,7 @@ public class Factory {
 	//}
 	
 	public AssignmentController getAssignmentController(){
-		return new AssignmentController();
+		return AssignmentController.getInstance();
 	}
 	
 	public GAFUController GAFUController(){

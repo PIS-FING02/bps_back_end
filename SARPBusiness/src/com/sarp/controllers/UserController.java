@@ -1,10 +1,15 @@
 package com.sarp.controllers;
 
-import com.sarp.services.UserService;
 
 public class UserController {
 	
-
+	private static  UserController instance;
+	private UserController(){};
+	
+	public static UserController getInstance(){
+		instance = instance != null ? instance : new UserController();
+		return instance;
+	}
 	
 	
 }
