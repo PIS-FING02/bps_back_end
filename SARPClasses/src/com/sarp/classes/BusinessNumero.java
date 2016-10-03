@@ -1,5 +1,6 @@
 package com.sarp.classes;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -22,8 +23,17 @@ public class BusinessNumero {
 	private GregorianCalendar hora;
 	private String estado;
 	private Integer prioridad;
+	private Timestamp timestamp;
 
 	//Operaciones
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public Integer getInternalId() {
 		return internalId;
 	}

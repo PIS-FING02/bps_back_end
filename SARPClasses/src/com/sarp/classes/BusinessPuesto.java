@@ -1,5 +1,7 @@
 package com.sarp.classes;
 
+import java.sql.Timestamp;
+
 import com.sarp.enumerados.EstadoPuesto;
 
 public class BusinessPuesto {
@@ -22,11 +24,18 @@ public class BusinessPuesto {
 	private String usuarioId;
 	private EstadoPuesto estado;
 	private Integer numeroPuesto;
+	private Timestamp timestamp;
 
 
 
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
 
-	
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public Integer getNumeroPuesto() {
 		return numeroPuesto;
 	}

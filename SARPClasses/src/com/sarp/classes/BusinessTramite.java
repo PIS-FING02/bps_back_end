@@ -1,5 +1,7 @@
 package com.sarp.classes;
 
+import java.sql.Timestamp;
+
 public class BusinessTramite {
 	
 	//Constructores
@@ -11,9 +13,18 @@ public class BusinessTramite {
 
 	//Atributos
 	private Integer codigo;
-	private String nombre;	
+	private String nombre;
+	private Timestamp timestamp;
 
 	//Operaciones
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public Integer getCodigo() {
 		return codigo;
 	}

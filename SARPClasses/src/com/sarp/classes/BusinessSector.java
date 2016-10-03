@@ -1,5 +1,6 @@
 package com.sarp.classes;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class BusinessSector  {
@@ -18,8 +19,17 @@ public class BusinessSector  {
 	private String sectorId;
 	private String nombre;
 	private String ruta;
+	private Timestamp timestamp;
 	
 	//Operaciones
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public String getSectorId() {
 		return sectorId;
 	}

@@ -1,5 +1,7 @@
 package com.sarp.classes;
 
+import java.sql.Timestamp;
+
 public class BusinessDatoComplementario {
 	
 	//Cnstructores
@@ -10,13 +12,25 @@ public class BusinessDatoComplementario {
 		this.nombreCompleto = nombreCompleto;
 		this.tipoDoc = tipoDoc;
 	}
-		
+
 	//Atributos
 	private String docIdentidad;
 	private String nombreCompleto;
 	private String tipoDoc;
+	private Timestamp timestamp;
 	
 	//Operaciones
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public void setTipoDoc(String tipoDoc) {
+		this.tipoDoc = tipoDoc;
+	}
 	public String getDocIdentidad() {
 		return docIdentidad;
 	}

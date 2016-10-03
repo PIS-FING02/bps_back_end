@@ -1,10 +1,21 @@
 package com.sarp.classes;
 
+import java.sql.Timestamp;
+
 public class BusinessTramiteSector {
 
 	public Integer codigoSector;
 	public Integer codigoTramite;
+	private Timestamp timestamp;
 	
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public Integer getCodigoSector() {
 		return codigoSector;
 	}

@@ -1,6 +1,7 @@
 package com.sarp.classes;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ public class BusinessNodeGAFU {
  private String nombre;
  private BusinessNodeGAFU padre;
  private String restriccion;	
-
+ private Timestamp timestamp;
  
 
 public BusinessNodeGAFU(String codigo, String descripcion, Date fechaDesde, Date fechaHasta, String nombre, BusinessNodeGAFU padre,
@@ -26,6 +27,14 @@ public BusinessNodeGAFU(String codigo, String descripcion, Date fechaDesde, Date
 	this.nombre = nombre;
 
 	this.restriccion = restriccion;
+}
+
+public Timestamp getTimestamp() {
+	return timestamp;
+}
+
+public void setTimestamp(Timestamp timestamp) {
+	this.timestamp = timestamp;
 }
 
 public String getCodigo() {
