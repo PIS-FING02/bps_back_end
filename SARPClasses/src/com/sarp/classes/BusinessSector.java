@@ -8,7 +8,6 @@ public class BusinessSector  {
 	//Constructores
 	public BusinessSector() {}
 
-
 	public BusinessSector(String sectorid, String nombre,String ruta) {
 		this.sectorId = sectorid;
 		this.nombre = nombre;
@@ -19,17 +18,9 @@ public class BusinessSector  {
 	private String sectorId;
 	private String nombre;
 	private String ruta;
-	private Timestamp timestamp;
+	private Timestamp lastUpdated;
 	
 	//Operaciones
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public String getSectorId() {
 		return sectorId;
 	}
@@ -70,4 +61,14 @@ public class BusinessSector  {
     public int hashCode() {
         return Objects.hash(sectorId,nombre,ruta);
     }
+
+
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
+	}
+
+
+	public void setLastUpdated(Timestamp lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
 }

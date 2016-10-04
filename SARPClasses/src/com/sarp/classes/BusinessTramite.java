@@ -13,18 +13,10 @@ public class BusinessTramite {
 
 	//Atributos
 	private Integer codigo;
-	private String nombre;
-	private Timestamp timestamp;
-
+	private String nombre;	
+	private Timestamp lastUpdated;
+	
 	//Operaciones
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public Integer getCodigo() {
 		return codigo;
 	}
@@ -39,6 +31,12 @@ public class BusinessTramite {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
+	}
+	public void setLastUpdated(Timestamp lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 	
 }

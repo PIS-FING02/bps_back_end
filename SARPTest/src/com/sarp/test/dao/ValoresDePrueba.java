@@ -71,27 +71,15 @@ public class ValoresDePrueba {
 		}
 		
 		try{
-			BusinessDisplay d1 = ctrlDisplay.obtenerDisplay(9);	
-			BusinessDisplay d2 = ctrlDisplay.obtenerDisplay(9);
-			d1.setRutaArchivo("otzroaassaq11");		
-			d2.setRutaArchivo("otro212");
-			ctrlDisplay.modificarDisplay(d1);					
-			ctrlDisplay.modificarDisplay(d2);
+			BusinessDisplay d = new BusinessDisplay();
+			d.setRutaArchivo("hola");
+			ctrlDisplay.crearDisplay(d);
 		}
 		catch(Exception ex){
 			if(ex.getCause() instanceof javax.persistence.OptimisticLockException){
 				System.out.print("LALALALALAL");
 			}
 		}
-//		try{
-//			BusinessDisplay d = ctrlDisplay.obtenerDisplay(13);		
-//			ctrlSector.asignarDisplaySector("1", 13);
-//		}
-//		catch(Exception ex){
-//			Throwable t = ex.getCause();
-//			if(t instanceof org.eclipse.persistence.exceptions.OptimisticLockException)
-//				System.out.println("Optimistic locking, bitch!");
-//		}
 		
 		
 

@@ -23,17 +23,9 @@ public class BusinessNumero {
 	private GregorianCalendar hora;
 	private String estado;
 	private Integer prioridad;
-	private Timestamp timestamp;
+	private Timestamp lastUpdated;
 
 	//Operaciones
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public Integer getInternalId() {
 		return internalId;
 	}
@@ -66,6 +58,12 @@ public class BusinessNumero {
 	}
 	public void setPrioridad(Integer prioridad) {
 		this.prioridad = prioridad;
+	}
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
+	}
+	public void setLastUpdated(Timestamp lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 
 }

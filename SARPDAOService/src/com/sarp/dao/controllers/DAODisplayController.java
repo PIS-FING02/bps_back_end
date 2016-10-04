@@ -13,7 +13,6 @@ public class DAODisplayController {
 			
 	private DAOFactory factory = DAOFactory.getInstance();
 	
-	/* Dada una ruta, creo en la base una entidad Display con esa ruta */
 	public Integer crearDisplay(BusinessDisplay d){
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
@@ -31,11 +30,11 @@ public class DAODisplayController {
 		
 		Display d = displayRepository.selectDisplay(codigo);
 		em.close();
-		BusinessDisplay ret = new BusinessDisplay(d.getCodigo(),d.getRutaArchivo(),d.getLastUpdated());
+		BusinessDisplay ret = new BusinessDisplay(d.getCodigo(),d.getRutaArchivo());
+		ret.setLastUpdated(d.getLastUpdated());
 		return ret;	
 	}
-	
-	
+		
 	public List<BusinessDisplay> listarDisplays(){
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
@@ -56,10 +55,9 @@ public class DAODisplayController {
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		
 		em.getTransaction().begin();
-		displayRepository.updateDisplay(d.getCodigo(), d.getRutaArchivo(),d.getTimestamp());
+		displayRepository.updateDisplay(d.getCodigo(), d.getRutaArchivo(),d.getLastUpdated());
 		em.getTransaction().commit();
-		em.close();
-		
+		em.close();		
 	}
 	
 	public void eliminarDisplay(int codigo) throws Exception{

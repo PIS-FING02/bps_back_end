@@ -9,6 +9,9 @@ import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
+import com.sarp.dao.factory.EMFactory;
+import com.sarp.dao.model.Display;
+import com.sarp.dao.repository.DAODisplay;
 import com.sun.org.apache.bcel.internal.generic.DADD;
 
 import org.junit.AfterClass;
@@ -19,12 +22,13 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.RollbackException;
 
 public class DisplayTest {
 	private static DAODisplayController ctrlDisplay;
-	private static List<Integer> id;
+	private static List<Integer> id;	
 	
 	@BeforeClass
     public static void setUpClassDisplayTest(){   
@@ -50,7 +54,6 @@ public class DisplayTest {
       BusinessDisplay d = ctrlDisplay.obtenerDisplay(id.get(0));
       assertEquals(d.getRutaArchivo(), "RUTAEJEMPLO0");  
       
-      /* La modifico y la obtengo nuevamente */
       d.setRutaArchivo("cambio");
       ctrlDisplay.modificarDisplay(d);
       BusinessDisplay d3 = ctrlDisplay.obtenerDisplay(id.get(0));

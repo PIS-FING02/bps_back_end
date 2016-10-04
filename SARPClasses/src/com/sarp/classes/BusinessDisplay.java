@@ -10,16 +10,11 @@ public class BusinessDisplay {
 		this.codigo = codigo;
 		this.rutaArchivo = rutaArchivo;	
 	}
-	public BusinessDisplay(Integer codigo, String rutaArchivo, Timestamp timestamp) {		
-		this.codigo = codigo;
-		this.rutaArchivo = rutaArchivo;	
-		this.timestamp = timestamp;
-	}
-	
+
 	//Atributos
 	private Integer codigo;
 	private String rutaArchivo;
-	private Timestamp timestamp;
+	private Timestamp lastUpdated;
 	
 	//Operaciones
 	public Integer getCodigo() {
@@ -34,11 +29,11 @@ public class BusinessDisplay {
 	public void setRutaArchivo(String rutaArchivo) {
 		this.rutaArchivo = rutaArchivo;
 	}
-	public Timestamp getTimestamp() {
-		return timestamp;
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
 	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
+	public void setLastUpdated(Timestamp lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 	
 }

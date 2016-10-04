@@ -17,12 +17,10 @@ public class SectorTest {
 	@BeforeClass
     public static void setUpClass(){   
 		ctrlSector = new DAOSectorController(); 
-        System.out.print("antes");
     }
     
     @AfterClass
     public static void tearDownClass() {
-    	System.out.print("despues");
     }
    
    @Test
