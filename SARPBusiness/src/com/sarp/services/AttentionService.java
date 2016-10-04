@@ -9,6 +9,7 @@ import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessSectorQueue;
 import com.sarp.classes.BusinessTramite;
+import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
@@ -166,6 +167,67 @@ public class AttentionService {
 		
 	
 	}
+	
+	public void atrasarNumero(JSONPuesto puesto) throws Exception{
+		
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
+		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
+		
+		//Traigo el puesto desde la base
+		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+		if(puestoSend.getEstado() == EstadoPuesto.LLAMANDO){
+			//Traigo el numero que se esta atendiendo desde la base
+			BusinessNumero numeroActual = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
+			QueuesManager managerQueues = QueuesManager.getInstance();
+			
+			//Pido el manejador de la cola del sector
+			BusinessSector sectorNumero = controladorNumero.obtenerSectorNumero(numeroActual.getInternalId());
+			BusinessSectorQueue colaSector = managerQueues.obtenerColaSector(sectorNumero.getSectorId());
+			
+			//Atraso el numero
+			colaSector.agregarNumeroAtrasado(numeroActual);	
+			
+			//Modifico el estado del puesto
+			puestoSend.setEstado(EstadoPuesto.DIPONIBLE);
+			controladorPuesto.modificarPuesto(puestoSend);
+			controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
+			
+		}else{
+			throw new ContextException("El puesto no se encuentra en estado LLAMANDO");
+		}
+	
+	}
+	public void pausarNumero(JSONPuesto puesto) throws Exception{
+		
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
+		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
+		
+		//Traigo el puesto desde la base
+		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+		if(puestoSend.getEstado() == EstadoPuesto.ATENDIENDO){
+			//Traigo el numero que se esta atendiendo desde la base
+			BusinessNumero numeroActual = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
+			QueuesManager managerQueues = QueuesManager.getInstance();
+			
+			//Pido el manejador de la cola del sector
+			BusinessSector sectorNumero = controladorNumero.obtenerSectorNumero(numeroActual.getInternalId());
+			BusinessSectorQueue colaSector = managerQueues.obtenerColaSector(sectorNumero.getSectorId());
+			
+			//Atraso el numero
+			colaSector.agregarNumeroAtrasado(numeroActual);	
+			
+			//Modifico el estado del puesto
+			puestoSend.setEstado(EstadoPuesto.DIPONIBLE);
+			controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
+			controladorPuesto.modificarPuesto(puestoSend);
+		}else{
+			throw new ContextException("El puesto no se encuentra en estado ATENDIENDO");
+		}
+	
+	}
+	
 	
 
 	

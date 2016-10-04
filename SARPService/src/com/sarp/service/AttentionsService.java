@@ -120,7 +120,7 @@ public class AttentionsService {
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
 	}
-	/*
+	
 	@PUT
 	@Path("/atrasarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -129,15 +129,16 @@ public class AttentionsService {
 		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
-				ctrl.finalizarAtencion(puesto);
-				return "Puesto "+puesto.getNombreMaquina()+" finalizo atencion satisfactoriamente";
+				JSONNumero num = ctrl.atrasarNumero(puesto);				
 			}catch(Exception e){
+				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
 				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
 			}
 		}else{
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
 	}
+	/*
 	
 	@PUT
 	@Path("/pausarNumero")
