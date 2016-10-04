@@ -92,8 +92,10 @@ public class AttentionService {
 
 	}
 
+
 	public JSONNumero llamarNumero(JSONPuesto puesto) throws Exception {
 		//RequestMaker reqMaker = RequestMaker.getInstance();
+
 		ResponseMaker respMaker = ResponseMaker.getInstance();
 
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
