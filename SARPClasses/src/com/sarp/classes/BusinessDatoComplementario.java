@@ -12,22 +12,13 @@ public class BusinessDatoComplementario {
 		this.nombreCompleto = nombreCompleto;
 		this.tipoDoc = tipoDoc;
 	}
-
 	//Atributos
 	private String docIdentidad;
 	private String nombreCompleto;
 	private String tipoDoc;
-	private Timestamp timestamp;
+	private Timestamp lastUpdated;
 	
 	//Operaciones
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public void setTipoDoc(String tipoDoc) {
 		this.tipoDoc = tipoDoc;
 	}
@@ -48,6 +39,12 @@ public class BusinessDatoComplementario {
 	}
 	public void setTipo_doc(String tipoDoc) {
 		this.tipoDoc = tipoDoc;
+	}
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
+	}
+	public void setLastUpdated(Timestamp lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 
 }

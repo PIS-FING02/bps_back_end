@@ -17,11 +17,11 @@ public class DAODisplay {
 		this.em = em;
 	}
 	
+	/* Creo una nueva entidad en la bd */
 	public Display insertDisplay(String rutaArchivo){		
 		Display d = new Display();
 		d.setRutaArchivo(rutaArchivo);
 		d.setDateCreated(new Date());
-		//d.setLastUpdated(new Timestamp(System.currentTimeMillis()));	
 		em.persist(d);
 		return d;
 	}
@@ -48,31 +48,24 @@ public class DAODisplay {
 	public void updateDisplay(int codigo, String rutaArchivo, Timestamp t) throws Exception{		
 		Display d = selectDisplay(codigo);
 		d.setRutaArchivo(rutaArchivo);
-		d.setLastUpdated(t);
-		//d.setLastUpdated(new Timestamp(System.currentTimeMillis()));	
-		//em.lock(d, LockModeType.OPTIMISTIC);
+		d.setLastUpdated(t); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 		em.persist(d);
-
 	}
 	
-	/* elimino un display de la base de datos */
+	/* Elimino un display de la base de datos */
 	public void deleteDisplay(int codigo) throws Exception{		
 		Display d = selectDisplay(codigo);		
     	em.remove(d);
     }
 
+	/* Asigno un display a un sector */
 	public void asociarDisplaySector(Display displa, Sector secto) {
 		Sector sector = em.find(Sector.class, secto.getCodigo());
 		Display display = em.find(Display.class, displa.getCodigo());
 		sector.setDisplay(display);
-		display.addSector(sector);		
-		
-		//display.setLastUpdated(new Timestamp(System.currentTimeMillis()));		
-		//sector.setLastUpdated(new Date());
-		
+		display.addSector(sector);				
 		em.persist(display);
-		em.persist(sector);
-		
+		em.persist(sector);		
 	}
 	
 }
