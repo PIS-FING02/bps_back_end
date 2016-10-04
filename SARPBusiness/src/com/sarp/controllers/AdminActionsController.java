@@ -41,7 +41,7 @@ public class AdminActionsController {
 		adminService.modificarPuesto(puesto);
 	}
 	
-	public List<BusinessPuesto> listarPuestos(JSONSector sector) throws Exception{
+	public List<BusinessPuesto> listarPuestos(String sector) throws Exception{
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
 		return adminService.listarPuestos(sector);

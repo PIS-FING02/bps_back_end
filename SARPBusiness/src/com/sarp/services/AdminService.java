@@ -76,17 +76,17 @@ public class AdminService {
 		}
 	}
 		
-	public List<BusinessPuesto> listarPuestos(JSONSector sector) throws Exception{
+	public List<BusinessPuesto> listarPuestos(String sector) throws Exception{
 		RequestMaker reqMaker = RequestMaker.getInstance();
-		BusinessSector bSector = reqMaker.requestSector(sector);
+
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		List<BusinessPuesto> puestos;
 		//Traigo los puestos de un sector desde DaoService
 		//si sector es null entonces traigo todos los puestos del sistema		
-		if(bSector != null){
+		if(sector != null){
 			DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
-			puestos = controladorSector.obtenerPuestosSector(bSector.getSectorId());
+			puestos = controladorSector.obtenerPuestosSector(sector);
 		}else{
 			puestos = controladorPuesto.listarPuestos();
 		}
