@@ -29,6 +29,14 @@ public class BusinessNumero {
 		this.codTramite = codT;
 	}
 
+	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado, Integer prioridad) {
+		this.internalId = internalId;
+		this.externalId = externalId;
+		this.hora = hora;
+		this.estado = estado;
+		this.prioridad = prioridad;
+			
+	}
 	// Operaciones
 	public Integer getInternalId() {
 		return internalId;

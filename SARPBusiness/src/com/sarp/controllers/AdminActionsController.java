@@ -8,11 +8,9 @@ import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
-<<<<<<< e23242add4bda49edbf4e9ea30bc7e8a37e6524a
 import com.sarp.json.modeler.JSONTramiteSector;
-=======
 import com.sarp.json.modeler.JSONSectorDisplay;
->>>>>>> implenetacion de llamarnumero
+
 import com.sarp.services.AdminService;
 
 public class AdminActionsController {
@@ -113,7 +111,7 @@ public class AdminActionsController {
 	}
 	
 
-	public void asignarSectorDisplayAdmin(JSONSectorDisplay secDisplay){
+	public void asignarSectorDisplayAdmin(JSONSectorDisplay secDisplay) throws Exception{
 		AdminService adminService = new AdminService();
 		adminService.asignarSectorDisplayAdmin(secDisplay);
 		

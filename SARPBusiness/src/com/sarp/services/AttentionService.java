@@ -115,7 +115,7 @@ public class AttentionService {
 			List<JSONSector> sectoresReturn = new LinkedList<JSONSector>();
 			
 			for (BusinessSector sector : sectoresPuesto) {
-				List<BusinessTramite> tramitesSectorEnPuesto = controladorPuesto.tramitesPuestoSector(puestoSend.getNombreMaquina(),sector.getSectorId());
+				List<BusinessTramite> tramitesSectorEnPuesto = null;//controladorPuesto.tramitesPuestoSector(puestoSend.getNombreMaquina(),sector.getSectorId());
 				JSONSector sectorPuesto = respMaker.sectorFullResponse(sector, tramitesSectorEnPuesto, null, null);
 				sectoresReturn.add(sectorPuesto);
 			} 
@@ -130,14 +130,14 @@ public class AttentionService {
 					JSONSector randomSector = sectoresReturn.get(randomNum);
 					
 					//Pido el manejador de la cola del sector
-					BusinessSectorQueue colaSector = managerQueues.obtenerColaSector(randomSector.getCodigo());
+					BusinessSectorQueue colaSector =null;// managerQueues.obtenerColaSector(randomSector.getCodigo());
 					
 					//Pido numero a la cola con los tramites que puede realizar el puesto para ese sector
 					//Me pueden retornar un numero, null (en caso de que no haya numero que puede atender)
 					//O una excepcion en caso de que haya reservado un numero para atender luego
-					numeroReturn = colaSector.llamarNumeroCola(randomSector.getTramites());
+					numeroReturn = null;//colaSector.llamarNumeroCola(randomSector.getTramites());
 					
-					if(numero != null){
+					if(true){//numero != null){
 						encontreNum = true;
 					}else{
 						//quito el sector de la cola de posibles sectores de los cuales voy a pedir numero
@@ -149,7 +149,7 @@ public class AttentionService {
 				if(numeroReturn!=null){
 					puestoSend.setEstado(EstadoPuesto.LLAMANDO);
 					controladorPuesto.modificarPuesto(puestoSend);
-					controladorPuesto.asignarNumeroPuesto(puestoSend.getNombreMaquina(),numeroReturn.getInternalId());
+					//controladorPuesto.asignarNumeroPuesto(puestoSend.getNombreMaquina(),numeroReturn.getInternalId());
 					//ACA TENGO QUE COMUNICARME CON LA PANTALLA PARA ASIGNARLE EL NUMERO
 					//LlamarNumero(numeroReturn.getInternalId())
 					JSONNumero num = respMaker.numeroAtomResponse(numeroReturn);
@@ -182,8 +182,8 @@ public class AttentionService {
 			QueuesManager managerQueues = QueuesManager.getInstance();
 			
 			//Pido el manejador de la cola del sector
-			BusinessSector sectorNumero = controladorNumero.obtenerSectorNumero(numeroActual.getInternalId());
-			BusinessSectorQueue colaSector = managerQueues.obtenerColaSector(sectorNumero.getSectorId());
+			BusinessSector sectorNumero = null;//controladorNumero.obtenerSectorNumero(numeroActual.getInternalId());
+			BusinessSectorQueue colaSector = null;//managerQueues.obtenerColaSector(sectorNumero.getSectorId());
 			
 			//Atraso el numero
 			colaSector.agregarNumeroAtrasado(numeroActual);	
@@ -191,7 +191,7 @@ public class AttentionService {
 			//Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DIPONIBLE);
 			controladorPuesto.modificarPuesto(puestoSend);
-			controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
+			//controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
 			
 		}else{
 			throw new ContextException("El puesto no se encuentra en estado LLAMANDO");
@@ -212,15 +212,15 @@ public class AttentionService {
 			QueuesManager managerQueues = QueuesManager.getInstance();
 			
 			//Pido el manejador de la cola del sector
-			BusinessSector sectorNumero = controladorNumero.obtenerSectorNumero(numeroActual.getInternalId());
-			BusinessSectorQueue colaSector = managerQueues.obtenerColaSector(sectorNumero.getSectorId());
+			BusinessSector sectorNumero = null;//controladorNumero.obtenerSectorNumero(numeroActual.getInternalId());
+			BusinessSectorQueue colaSector =null;// managerQueues.obtenerColaSector(sectorNumero.getSectorId());
 			
 			//Atraso el numero
 			colaSector.agregarNumeroAtrasado(numeroActual);	
 			
 			//Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DIPONIBLE);
-			controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
+			//controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
 			controladorPuesto.modificarPuesto(puestoSend);
 		}else{
 			throw new ContextException("El puesto no se encuentra en estado ATENDIENDO");

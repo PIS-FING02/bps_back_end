@@ -55,7 +55,7 @@ public class AttentionsController {
 	public void atrasarNumero(JSONPuesto puesto) throws Exception{
 		//Se delega a AttentionService la implementacion
 		AttentionService attentionService = new AttentionService();
-		return attentionService.atrasarNumero(puesto);
+		attentionService.atrasarNumero(puesto);
 	}
 	
 	

@@ -19,7 +19,7 @@ public class QueueController {
 		this.cola = QueuesManager.getInstance().obtenerColaSector(idSector);
 	}
 	
-	//
+	
 	public void agregarNumero(BusinessNumero numero){
 		//Este metodo agrega un nuevo numero a la cola.
 		this.cola.agregarNumeroCola(numero);
@@ -43,21 +43,21 @@ public class QueueController {
 		this.cola.agregarNumeroPausado(numero);
 	}
 
-	public BusinessNumero llamarProximoNumero(List<BusinessTramiteSector> tramite){
-		return this.cola.llamarNumeroCola(tramite);
-	}
+	//public BusinessNumero llamarProximoNumero(List<BusinessTramiteSector> tramite){
+//		return this.cola.llamarNumeroCola(tramite);
+	//}
 	
-	public BusinessNumero[] listarAtrasados(){
-		return this.cola.obtenerListaAtrasados();
-	}
+	//public BusinessNumero[] listarAtrasados(){
+	//	return this.cola.obtenerListaAtrasados();
+	//}
 	
-	public BusinessNumero[] listarPausados(){
-		return this.cola.obtenerListaPausados();
-	}
+	//public BusinessNumero[] listarPausados(){
+	//	return this.cola.obtenerListaPausados();
+	//}
 
-	public void quitarNumeroCola(int idNumero){
-		this.cola.quitarNumeroCola(idNumero);
-	}
+	//public void quitarNumeroCola(int idNumero){
+	//	this.cola.quitarNumeroCola(idNumero);
+		//}
 
 	public void quitarNumeroAtrasado(int idNumero){
 		this.cola.quitarNumeroAtrasado(idNumero);

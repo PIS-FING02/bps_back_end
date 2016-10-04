@@ -121,7 +121,7 @@ public class AttentionsService {
 		}
 	}
 	
-	@PUT
+	/*@PUT
 	@Path("/atrasarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String atrasarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
@@ -129,7 +129,7 @@ public class AttentionsService {
 		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
-				JSONNumero num = ctrl.atrasarNumero(puesto);				
+				JSONNumero num = null;//ctrl.atrasarNumero(puesto);				
 			}catch(Exception e){
 				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
 				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
