@@ -28,6 +28,7 @@ import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
+import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
 import com.sarp.json.modeler.JSONTramiteSector;
 
@@ -197,6 +198,25 @@ public class AdminService {
     public List<BusinessSector> listarSectores(@HeaderParam("user-rol") String userRol) {
 		com.sarp.dao.controllers.DAOSectorController ctrl = new DAOSectorController();
 		return ctrl.listarSectores();
+    }
+	
+	@PUT
+	@Path("/asignarSectorDisplayAdmin")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listarSectores(@HeaderParam("user-rol") String userRol, JSONSectorDisplay secDisp) {
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if(userRol.equals("Administrador")){
+			try{
+				ctrl.asignarSectorDisplayAdmin(secDisp);
+				return "Display asignado satisfactoriamente";
+			}catch(Exception e){
+				throw new BadRequestException("Error al asignar Display a Sector");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+		}
+		
     }
 	
 	/****************************** DISPLAY ******************************/

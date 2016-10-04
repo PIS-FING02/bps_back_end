@@ -2,6 +2,7 @@ package com.sarp.controllers;
 
 
 import com.sarp.classes.BusinessNumero;
+import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.services.AttentionService;
 import com.sarp.services.NumberService;
@@ -43,6 +44,18 @@ public class AttentionsController {
 		AttentionService attentionService = new AttentionService();
 		attentionService.finalizarAtencion(puesto);
 		
+	}
+	
+	public JSONNumero llamarNumero(JSONPuesto puesto) throws Exception{
+		//Se delega a AttentionService la implementacion
+		AttentionService attentionService = new AttentionService();
+		return attentionService.llamarNumero(puesto);
+	}
+	
+	public void atrasarNumero(JSONPuesto puesto) throws Exception{
+		//Se delega a AttentionService la implementacion
+		AttentionService attentionService = new AttentionService();
+		return attentionService.atrasarNumero(puesto);
 	}
 	
 	

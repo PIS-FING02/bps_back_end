@@ -21,13 +21,15 @@ import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.factory.Factory;
 
+
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
+import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.service.response.maker.RequestMaker;
 
-
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
+
 
 import com.sarp.service.response.maker.RequestMaker;
 
@@ -158,12 +160,28 @@ public class AdminService {
 		sectorCtrl.eliminarSector(idSector);
 	}
 	
+
 	public List<BusinessSector> listarSectores() throws Exception{
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 		
 		return sectorCtrl.listarSectores();
 	}
+
+	public void asignarSectorDisplayAdmin(JSONSectorDisplay secDisplay) throws Exception{
+		RequestMaker reqMaker = RequestMaker.getInstance();
+		BusinessSector bSector = reqMaker.requestSector(secDisplay.getSector());
+		BusinessDisplay bDisplay = reqMaker.requestDisplay(secDisplay.getDisplay());
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController(); 
+		if(bSector != null && bDisplay != null && bSector.getSectorId() != null && bDisplay.getCodigo() != null){
+			controladorSector.asignarDisplaySector(bSector.getSectorId(), bDisplay.getCodigo());
+		}else{
+			throw new Exception("JSONSectorDisplay corrupto");
+		}
+		//DELETE en DaoService
+	};
+
 	
 	/*** IMPLEMENTACION DE DISPLAYS****/
 			public void altaDisplay(String rutaArchivo) throws Exception{	

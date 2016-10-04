@@ -28,6 +28,7 @@ public class RequestMaker {
 	public BusinessPuesto requestPuesto(JSONPuesto puesto){
 
 		return puesto!= null? new BusinessPuesto(puesto.getNombreMaquina(),puesto.getUsuarioId(),puesto.getEstado(),puesto.getNumeroPuesto()) : null;
+
 	}
 	
 	public BusinessNumero requestNumero(JSONNumero numero){
