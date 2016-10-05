@@ -10,9 +10,9 @@
 		<project>SARPLibraries</project>
 		<project>SARPService</project>
 		<project>SARPFacade</project>
-		<project>SARPTest</project>
 		<project>SARPDAO</project>
 		<project>SARPDAOService</project>
+		<project>SARPTest</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -27,9 +27,9 @@ public class NumeroTest {
 		BusinessTramite t = new BusinessTramite();
 		t.setNombre("tramitedeprueba");
 		Integer idTramite = ctrlTramite.crearTramite(t);
-		//BusinessNumero n = new BusinessNumero();
-		//n.setHora(new GregorianCalendar());
-		//Integer id = ctrlNumero.crearNumero(n, idTramite, null);
+		BusinessNumero n = new BusinessNumero();
+		n.setHora(new GregorianCalendar());
+		Integer id = ctrlNumero.crearNumero(n, idTramite, null);
 	    BusinessDisplay d1 = new BusinessDisplay();
 	    d1.setRutaArchivo("ruta1");
 //	      int c = ctrlDisplay.crearDisplay(d1);     
