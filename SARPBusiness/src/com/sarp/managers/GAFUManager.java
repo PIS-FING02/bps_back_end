@@ -26,10 +26,8 @@ public class GAFUManager {
 		List<BusinessSector> nuevosSectores = arbolToList(nuevo);
 		actualizarSectores(nuevosSectores, ctrl);
 		List<BusinessSector> aBorrar = ctrl.listarSectores();
-		System.out.println(aBorrar.size());
 		aBorrar.removeAll(nuevosSectores);
-		System.out.println(aBorrar.size());
-		//borrarSectores(aBorrar, ctrl);
+		borrarSectores(aBorrar, ctrl);
 		this.arbol = nuevo;
 	}
 	
