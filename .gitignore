@@ -2,6 +2,5 @@ RemoteSystemsTempFiles/
 .metadata/
 .DS_Store
 .recommenders/
-.classpath
 .classes
 *.class
