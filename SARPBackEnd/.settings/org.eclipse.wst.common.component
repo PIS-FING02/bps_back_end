@@ -34,13 +34,13 @@
         <dependent-module archiveName="SARPFacade.jar" deploy-path="/" handle="module:/resource/SARPFacade/SARPFacade">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="SARPTest.jar" deploy-path="/" handle="module:/resource/SARPTest/SARPTest">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="SARPDAO.jar" deploy-path="/" handle="module:/resource/SARPDAO/SARPDAO">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="SARPDAOService.jar" deploy-path="/" handle="module:/resource/SARPDAOService/SARPDAOService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SARPTest.jar" deploy-path="/" handle="module:/resource/SARPTest/SARPTest">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>

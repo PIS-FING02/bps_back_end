@@ -61,12 +61,12 @@ public class ValoresDePrueba {
 				dc.setDocIdentidad(ci);
 				dc.setNombreCompleto("Pepito Perez");
 				dc.setTipo_doc("cedula");
-				/*BusinessNumero n = new BusinessNumero();
+				BusinessNumero n = new BusinessNumero();
 				n.setEstado("nuevo");
 				n.setExternalId("external");
 				n.setPrioridad(5);
 				n.setHora(new GregorianCalendar());
-				ctrlNumero.crearNumero(n, i, dc);*/
+				ctrlNumero.crearNumero(n, i, dc);
 			}
 		}
 		
