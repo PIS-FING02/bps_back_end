@@ -13,7 +13,7 @@ public class QueueController {
 	
 	private BusinessSectorQueue cola;
 	
-	public QueueController(int idSector){
+	public QueueController(String idSector){
 		this.cola = QueuesManager.getInstance().obtenerColaSector(idSector);
 	}
 	
