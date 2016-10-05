@@ -1,5 +1,6 @@
 package com.sarp.dao.controllers;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import java.util.LinkedList;
@@ -113,14 +114,14 @@ public class DAONumeroController {
 		return res;
 	}
 
-	public LinkedList<BusinessNumero> listarNumerosDelDia() {
+	public ArrayList<BusinessNumero> listarNumerosDelDia() {
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		List<Numero> list = numeroRepository.selectNumerosDelDia();
 		em.close();
 		
-		LinkedList<BusinessNumero> ret = new LinkedList<BusinessNumero>();
+		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
 			GregorianCalendar c = new GregorianCalendar();
 			c.setTime(n.getHora());

@@ -7,8 +7,10 @@ import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Tramite;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class DAONumero {
@@ -56,7 +58,7 @@ public class DAONumero {
 			return n;
 		}
 		else{
-			throw new Exception("No existe el Numero con código " + internalId);
+			throw new Exception("No existe el Numero con cï¿½digo " + internalId);
 		}
     }
 	
@@ -66,14 +68,15 @@ public class DAONumero {
 		return ret;
 	}
 			
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	@SuppressWarnings({"unchecked"})
 	public List<Numero> selectNumerosDelDia(){
-		Date hoy = new Date();
+		GregorianCalendar hoy = new GregorianCalendar();
 		List<Numero> list = (List<Numero>) em.createQuery("select n from Numero n").getResultList();
-		List<Numero> res = new LinkedList<Numero>();
+		List<Numero> res = new ArrayList<Numero>();
 		for(Numero n : list){
-			Date hora = n.getHora();
-			if(hora.getYear() == hoy.getYear() && hora.getMonth() == hoy.getMonth() && hora.getDate() == hoy.getDate()){
+			GregorianCalendar hora = new GregorianCalendar();
+			hora.setTime(n.getHora());
+			if(hora.get(Calendar.YEAR) == hoy.get(Calendar.YEAR) && hora.get(Calendar.MONTH) == hoy.get(Calendar.MONTH) && hora.get(Calendar.DAY_OF_MONTH) == hoy.get(Calendar.DAY_OF_MONTH)){
 				res.add(n);
 			}
 		}

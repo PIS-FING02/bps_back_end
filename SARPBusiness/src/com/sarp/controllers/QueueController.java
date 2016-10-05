@@ -1,9 +1,7 @@
 package com.sarp.controllers;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
+import java.util.ArrayList;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSectorQueue;
 import com.sarp.classes.BusinessTramite;
@@ -15,10 +13,9 @@ public class QueueController {
 	
 	private BusinessSectorQueue cola;
 	
-	public QueueController(int idSector){
+	public QueueController(String idSector){
 		this.cola = QueuesManager.getInstance().obtenerColaSector(idSector);
 	}
-	
 	
 	public void agregarNumero(BusinessNumero numero){
 		//Este metodo agrega un nuevo numero a la cola.
@@ -28,9 +25,8 @@ public class QueueController {
 	public void agregarNumerosBatch(){
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAONumeroController daoNumero = factory.getDAONumeroController();
-		LinkedList<BusinessNumero> numerosDiarios = daoNumero.listarNumerosDelDia();
+		ArrayList<BusinessNumero> numerosDiarios = daoNumero.listarNumerosDelDia();
 		this.cola.agregarNumeroColaBatch(numerosDiarios);
-		
 	}
 
 	public void  transferirColaAtrasados(BusinessNumero numero){
@@ -43,21 +39,25 @@ public class QueueController {
 		this.cola.agregarNumeroPausado(numero);
 	}
 
-	//public BusinessNumero llamarProximoNumero(List<BusinessTramiteSector> tramite){
-//		return this.cola.llamarNumeroCola(tramite);
-	//}
+	public BusinessNumero llamarProximoNumero(ArrayList<BusinessTramite> tramites){
+		return this.cola.llamarNumeroCola(tramites);
+	}
 	
-	//public BusinessNumero[] listarAtrasados(){
-	//	return this.cola.obtenerListaAtrasados();
-	//}
+	public ArrayList<BusinessNumero> listarAtrasados(ArrayList<BusinessTramite> tramites){
+		return this.cola.obtenerListaAtrasados(tramites);
+	}
 	
-	//public BusinessNumero[] listarPausados(){
-	//	return this.cola.obtenerListaPausados();
-	//}
+	public ArrayList<BusinessNumero> listarPausados(ArrayList<BusinessTramite> tramites){
+		return this.cola.obtenerListaPausados(tramites);
+	}
 
-	//public void quitarNumeroCola(int idNumero){
-	//	this.cola.quitarNumeroCola(idNumero);
-		//}
+	public void quitarNumeroCola(Integer idNumero) throws Exception{
+		try{
+			this.cola.quitarNumeroCola(idNumero);
+		}catch(Exception e){
+			throw e;
+		}
+	}
 
 	public void quitarNumeroAtrasado(int idNumero){
 		this.cola.quitarNumeroAtrasado(idNumero);
@@ -75,10 +75,4 @@ public class QueueController {
 		return this.cola.obtenerNumeroPausado(idNumero);
 	}
 	
-	
-
-
-
-
-
 }

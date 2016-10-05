@@ -3,20 +3,22 @@ package com.sarp.classes;
 import java.sql.Timestamp;
 
 public class BusinessTramite {
-	
-	//Constructores
-	public BusinessTramite(){}
+
+	// Atributos
+	private Integer codigo;
+	private String nombre;
+	private Timestamp lastUpdated;
+
+	// Constructores
+	public BusinessTramite() {
+	}
+
 	public BusinessTramite(Integer codigo, String nombre) {
 		this.codigo = codigo;
 		this.nombre = nombre;
 	}
 
-	//Atributos
-	private Integer codigo;
-	private String nombre;	
-	private Timestamp lastUpdated;
-	
-	//Operaciones
+	// Operaciones
 	public Integer getCodigo() {
 		return codigo;
 	}
@@ -32,11 +34,13 @@ public class BusinessTramite {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 	public Timestamp getLastUpdated() {
 		return lastUpdated;
 	}
+
 	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
-	
+
 }

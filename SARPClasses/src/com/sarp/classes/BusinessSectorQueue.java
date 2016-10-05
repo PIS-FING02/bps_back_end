@@ -49,39 +49,34 @@ public class BusinessSectorQueue {
 
 	}
 
-	public synchronized void agregarNumeroColaBatch(LinkedList<BusinessNumero> numeros) {
+	public synchronized void agregarNumeroColaBatch(ArrayList<BusinessNumero> numeros) {
 		this.colaPrioridad1.addAll(numeros);
 	}
 
-	public synchronized void quitarNumeroCola(int idNumero, int prioridad) {
-		ListIterator<BusinessNumero> it;
-		switch (prioridad) {
-		case 1:
-			it = this.colaPrioridad1.listIterator();
-			break;
-		case 2:
-			it = this.colaPrioridad2.listIterator();
-			break;
-		default:
-			// se paso mal la prioridad.... q hacemos?
-			it = this.colaPrioridad2.listIterator();
-			break;
-		}
+	public synchronized void quitarNumeroCola(int idNumero) throws Exception {
+		ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
 			if (numero.getInternalId() == idNumero) {
-				if(prioridad == 1)
 					this.colaPrioridad1.remove(numero);
-				else if(prioridad == 2)
-					this.colaPrioridad2.remove(numero);
-				else
-					//ocurre un error... q hacer??
-				break;
+					return;
 			}
 		}
+		it = this.colaPrioridad2.listIterator();
+		while (it.hasNext()) {
+			BusinessNumero numero = it.next();
+			if (numero.getInternalId() == idNumero) {
+					this.colaPrioridad2.remove(numero);
+					return;
+			}
+		}
+		// si no corto la ejecucion antes es porque no existia el numero con el id
+		// pasado como parametro
+		throw new Exception("No tiene permisos suficientes.");
 	}
 
-	public synchronized BusinessNumero llamarNumeroCola(BusinessTramite[] tramites) {
+	public synchronized BusinessNumero llamarNumeroCola(ArrayList<BusinessTramite> tramites) {
+		
 		if(!this.colaPrioridad1.isEmpty()){
 			ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
 			while(it.hasNext()){
@@ -120,7 +115,8 @@ public class BusinessSectorQueue {
 			return false;
 	}
 
-	private boolean puedeAtenderNumero(BusinessTramite[] tramites, BusinessNumero nro){
+	private boolean puedeAtenderNumero(ArrayList<BusinessTramite> listaTramites, BusinessNumero nro){
+		BusinessTramite[] tramites = (BusinessTramite[])listaTramites.toArray();
 		for(int i=0; i<tramites.length; i++)
 			if(tramites[i].getCodigo() == nro.getCodTramite())
 				return true;
@@ -147,14 +143,14 @@ public class BusinessSectorQueue {
 
 	}
 
-	public synchronized BusinessNumero[] obtenerListaAtrasados(BusinessTramite[] tramites) {
+	public synchronized ArrayList<BusinessNumero> obtenerListaAtrasados(ArrayList<BusinessTramite> listaTramites) {
 		BusinessNumero[] atrasadosAux = (BusinessNumero[]) this.pausados.toArray();
 		ArrayList<BusinessNumero> atrasados = new ArrayList<BusinessNumero>();
 		for(int i=0; i<atrasadosAux.length; i++){
-			if(this.puedeAtenderNumero(tramites, atrasadosAux[i]))
+			if(this.puedeAtenderNumero(listaTramites, atrasadosAux[i]))
 				pausados.add(atrasadosAux[i]);
 		}
-		return ((BusinessNumero[]) atrasados.toArray());
+		return atrasados;
 	}
 
 	public synchronized BusinessNumero obtenerNumeroAtrasado(int idNumero) throws IOException {
@@ -187,14 +183,14 @@ public class BusinessSectorQueue {
 		}
 	}
 
-	public synchronized BusinessNumero[] obtenerListaPausados(BusinessTramite[] tramites) {
+	public synchronized ArrayList<BusinessNumero> obtenerListaPausados(ArrayList<BusinessTramite> tramites) {
 		BusinessNumero[] pausadosAux = (BusinessNumero[]) this.pausados.toArray();
 		ArrayList<BusinessNumero> pausados = new ArrayList<BusinessNumero>();
 		for(int i=0; i<pausadosAux.length; i++){
 			if(this.puedeAtenderNumero(tramites, pausadosAux[i]))
 				pausados.add(pausadosAux[i]);
 		}
-		return ((BusinessNumero[]) pausados.toArray());
+		return pausados;
 	}
 
 	public synchronized BusinessNumero obtenerNumeroPausado(int idNumero) throws IOException {
