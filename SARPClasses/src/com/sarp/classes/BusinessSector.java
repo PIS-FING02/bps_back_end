@@ -56,7 +56,7 @@ public class BusinessSector  {
             return false;
         }
         BusinessSector sector = (BusinessSector) o;
-        return sectorId == sector.sectorId;
+        return sectorId.equals(sector.sectorId);
     }
 
     @Override
