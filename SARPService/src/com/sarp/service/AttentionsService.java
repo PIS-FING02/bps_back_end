@@ -78,6 +78,7 @@ public class AttentionsService {
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
 	}
+	
 	@PUT
 	@Path("/finalizarAtencion")
 	@Consumes(MediaType.APPLICATION_JSON)

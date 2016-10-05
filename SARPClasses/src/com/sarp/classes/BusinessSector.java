@@ -5,6 +5,14 @@ import java.util.Objects;
 
 public class BusinessSector  {
 
+
+
+	//Atributos
+	private String sectorId;
+	private String nombre;
+	private String ruta;
+	private Timestamp lastUpdated;
+
 	//Constructores
 	public BusinessSector() {}
 
@@ -13,12 +21,6 @@ public class BusinessSector  {
 		this.nombre = nombre;
 		this.ruta = ruta;
 	}
-
-	//Atributos
-	private String sectorId;
-	private String nombre;
-	private String ruta;
-	private Timestamp lastUpdated;
 	
 	//Operaciones
 	public String getSectorId() {

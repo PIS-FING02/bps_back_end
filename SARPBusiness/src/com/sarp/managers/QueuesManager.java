@@ -8,14 +8,14 @@ import com.sarp.classes.BusinessSectorQueue;
 
 public class QueuesManager {
 	
-	private Map<Integer,BusinessSectorQueue> manejadorDeColas;
+	private Map<String,BusinessSectorQueue> manejadorDeColas;
 	private static QueuesManager instancia;
 	
 	private QueuesManager(){
 		//Es imporante crear las colas con la cantidad inicial bastante cercano a la cantidad 
 		// de sectores del arbol de GAFU, para un buen hashing.
 		
-		this.manejadorDeColas = new HashMap<Integer,BusinessSectorQueue>();
+		this.manejadorDeColas = new HashMap<String,BusinessSectorQueue>();
 	}
 	
 	public static synchronized QueuesManager getInstance(){
@@ -27,7 +27,7 @@ public class QueuesManager {
 		}
 	}
 	
-	public synchronized void crearColaSector(int idSector) throws IOException{
+	public synchronized void crearColaSector(String idSector) throws IOException{
 		if (!this.manejadorDeColas.containsKey(idSector)){
 			BusinessSectorQueue cola = new BusinessSectorQueue();
 			manejadorDeColas.put(idSector, cola);
@@ -38,7 +38,7 @@ public class QueuesManager {
 		}
 	}
 	
-	public synchronized void quitarColaSector(int idSector) throws IOException{
+	public synchronized void quitarColaSector(String idSector) throws IOException{
 		if (this.manejadorDeColas.containsKey(idSector)){
 			manejadorDeColas.remove(idSector);
 		}
@@ -49,7 +49,7 @@ public class QueuesManager {
 		
 	}
 	
-	public synchronized BusinessSectorQueue obtenerColaSector(int idSector){
+	public synchronized BusinessSectorQueue obtenerColaSector(String idSector){
 		if (this.manejadorDeColas.containsKey(idSector)){
 			return manejadorDeColas.get(idSector);
 		}
