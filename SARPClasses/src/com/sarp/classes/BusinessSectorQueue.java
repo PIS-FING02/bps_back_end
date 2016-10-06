@@ -27,15 +27,19 @@ public class BusinessSectorQueue {
 
 		switch (numero.getPrioridad()) {
 		case 1:
-			ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
-			while (it.hasNext()) {
-				BusinessNumero actual = it.next();
-				if (actual.getHora().get(Calendar.HOUR_OF_DAY) > numero.getHora().get(Calendar.HOUR_OF_DAY)
-						|| (actual.getHora().get(Calendar.HOUR_OF_DAY) == numero.getHora().get(Calendar.HOUR_OF_DAY)
-								&& actual.getHora().get(Calendar.MINUTE) > numero.getHora().get(Calendar.MINUTE)))
-					break;
+			if (this.colaPrioridad1.isEmpty())
+				this.colaPrioridad1.add(numero);
+			else {
+				ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
+				while (it.hasNext()) {
+					BusinessNumero actual = it.next();
+					if (actual.getHora().get(Calendar.HOUR_OF_DAY) > numero.getHora().get(Calendar.HOUR_OF_DAY)
+							|| (actual.getHora().get(Calendar.HOUR_OF_DAY) == numero.getHora().get(Calendar.HOUR_OF_DAY)
+									&& actual.getHora().get(Calendar.MINUTE) > numero.getHora().get(Calendar.MINUTE)))
+						break;
+				}
+				this.colaPrioridad1.add(it.previousIndex(), numero);
 			}
-			this.colaPrioridad1.add(it.previousIndex(), numero);
 			break;
 		case 2:
 			this.colaPrioridad2.addLast(numero);
@@ -119,9 +123,9 @@ public class BusinessSectorQueue {
 		 * System.out.println(hrNumero.get(Calendar.HOUR_OF_DAY) + " " +
 		 * hrActual.get(Calendar.HOUR_OF_DAY));
 		 */
-		if (hrNumero.get(Calendar.HOUR_OF_DAY) > hrActual.get(Calendar.HOUR_OF_DAY)
+		if (hrNumero.get(Calendar.HOUR_OF_DAY) < hrActual.get(Calendar.HOUR_OF_DAY)
 				|| (hrNumero.get(Calendar.HOUR_OF_DAY) == hrActual.get(Calendar.HOUR_OF_DAY)
-						&& hrNumero.get(Calendar.MINUTE) > hrActual.get(Calendar.MINUTE))) {
+						&& hrNumero.get(Calendar.MINUTE) < hrActual.get(Calendar.MINUTE))) {
 			// System.out.println("True en horaMayorHoraActual");
 			return true;
 		} else {
@@ -218,6 +222,31 @@ public class BusinessSectorQueue {
 		}
 		IOException e = new IOException("No existe un numero pausado con el id :" + idNumero);
 		throw e;
+	}
+
+	/*********************
+	 * Metodos auxiliares de testing
+	 *************************************/
+
+	public void printEstadoCola() {
+		System.out.println("*** Estado Cola ***");
+		System.out.println("Numeros de la cola de prioridad 1");
+		for (BusinessNumero bn : this.colaPrioridad1) {
+			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad() + ", Hora: "
+					+ bn.getHora().getTime().toString());
+		}
+
+		System.out.println("\nNumeros de la cola de prioridad 2");
+		for (BusinessNumero bn : this.colaPrioridad2) {
+			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad() + ", Hora: "
+					+ bn.getHora().getTime().toString());
+		}
+		System.out.println("\nNumeros de la lista Pausados");
+		for (BusinessNumero bn : this.pausados) {
+			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad() + ", Hora: "
+					+ bn.getHora().getTime().toString());
+		}
+		System.out.println("\n*** Fin Estado Cola ***\n");
 	}
 
 }
