@@ -25,6 +25,7 @@ import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
+import com.sarp.json.modeler.JSONTramite;
 import com.sarp.service.response.maker.RequestMaker;
 
 import com.sarp.json.modeler.JSONPuesto;
@@ -125,6 +126,17 @@ public class AdminService {
 		
 		/* Finalmente se persiste en la base mediante el llamado del controlador */
 		tramCtrl.modificarTramite(tramite);
+	}
+	
+	public List<JSONTramite> listarTramites(){
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOTramiteController ctrl = factory.getDAOTramiteController();
+		List<BusinessTramite> listaTramites = ctrl.listarTramites();
+		JSONTramite jsonTram;
+		for(BusinessTramite bt : listaTramites){
+			
+		}
+		return null;
 	}
 	
 /** SECTOR **/
