@@ -102,10 +102,12 @@ public class AdminService {
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
-		DAOTramiteController tramCtrl = factory.getDAOTramiteController();
-		
+		DAOTramiteController tramCtrl = factory.getDAOTramiteController();	
+		RequestMaker reqMaker = RequestMaker.getInstance();
+		BusinessTramite bTramite = reqMaker.requestTramite(tramite);
+			
 		/* Finalmente se persiste en la base mediante el llamado del controlador */
-		tramCtrl.crearTramite(tramite);
+		tramCtrl.crearTramite(bTramite);
 	}
 	
 	public void bajaTramite(JSONTramite tramite) throws Exception{
@@ -120,12 +122,20 @@ public class AdminService {
 	
 	public void modificarTramite(JSONTramite tramite) throws Exception{
 		/* primero se pide el controlador de tramites mediante la factory */
-		
+
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOTramiteController tramCtrl = factory.getDAOTramiteController();
 		
-		/* Finalmente se persiste en la base mediante el llamado del controlador */
-		tramCtrl.modificarTramite(tramite);
+		
+		if(tramite.getNombre() != null){
+			BusinessTramite tram = tramCtrl.obtenerTramite(tramite.getCodigo());
+			tram.setNombre(tramite.getNombre());
+			/* Finalmente se persiste en la base mediante el llamado del controlador */
+			tramCtrl.modificarTramite(tram);
+		}else{
+			throw new Exception("Este puesto no tiene nada que modificarse");
+		}
+
 	}
 	
 /** SECTOR **/
