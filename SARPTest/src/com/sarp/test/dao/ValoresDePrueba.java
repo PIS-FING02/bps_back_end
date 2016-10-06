@@ -33,7 +33,7 @@ public class ValoresDePrueba {
 		/*VALORES DE PRUEBA*/
 		if(cargar){
 			String ci = "0";
-			for(int i = 1; i < 10; i++){
+			for(int i = 11; i < 20; i++){
 				BusinessTramite t = new BusinessTramite();
 				t.setNombre("nombre" + 1);
 				ctrlTramite.crearTramite(t);
@@ -71,9 +71,11 @@ public class ValoresDePrueba {
 		}
 		
 		try{
-			BusinessDisplay d = new BusinessDisplay();
-			d.setRutaArchivo("hola");
-			ctrlDisplay.crearDisplay(d);
+			BusinessSector s = new BusinessSector();
+			s.setSectorId("idididi");
+			s.setNombre("hjhjhjhjhj");
+			s.setRuta("ioioioioio");
+			ctrlSector.crearSector(s);
 		}
 		catch(Exception ex){
 			if(ex.getCause() instanceof javax.persistence.OptimisticLockException){

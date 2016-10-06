@@ -11,36 +11,34 @@
         <dependent-module archiveName="SARPEjbClient.jar" deploy-path="/" handle="module:/resource/SARPEjbClient/SARPEjbClient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="postgresql-9.4.1209.jre6.jar" deploy-path="/" handle="module:/classpath/lib/SARPLibraries/external_libs/postgresql-9.4.1209.jre6.jar">
-            <dependent-object/>
+        <dependent-module archiveName="WsGAFUProxy.jar" deploy-path="/lib" handle="module:/classpath/lib/SARPLibraries/proxy/WsGAFUProxy.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="javax.persistence_2.1.0.v201304241213.jar" deploy-path="/" handle="module:/classpath/lib/SARPLibraries/external_libs/javax.persistence_2.1.0.v201304241213.jar">
+        <dependent-module archiveName="SARPClasses.jar" deploy-path="/lib" handle="module:/resource/SARPClasses/SARPClasses">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="WsGAFUProxy.jar" deploy-path="/" handle="module:/classpath/lib/SARPLibraries/proxy/WsGAFUProxy.jar">
+        <dependent-module archiveName="SARPBusiness.jar" deploy-path="/lib" handle="module:/resource/SARPBusiness/SARPBusiness">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="eclipselink.jar" deploy-path="/" handle="module:/classpath/lib/SARPLibraries/external_libs/eclipselink.jar">
-            <dependent-object/>
+        <dependent-module archiveName="SARPFacade.jar" deploy-path="/lib" handle="module:/resource/SARPFacade/SARPFacade">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="SARPClasses.jar" deploy-path="/" handle="module:/resource/SARPClasses/SARPClasses">
+        <dependent-module archiveName="SARPDAOService.jar" deploy-path="/lib" handle="module:/resource/SARPDAOService/SARPDAOService">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="SARPBusiness.jar" deploy-path="/" handle="module:/resource/SARPBusiness/SARPBusiness">
+        <dependent-module archiveName="SARPTest.jar" deploy-path="/lib" handle="module:/resource/SARPTest/SARPTest">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="SARPFacade.jar" deploy-path="/" handle="module:/resource/SARPFacade/SARPFacade">
+        <dependent-module archiveName="javax.persistence_2.1.0.v201304241213.jar" deploy-path="/lib" handle="module:/classpath/lib/SARPLibraries/external_libs/javax.persistence_2.1.0.v201304241213.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="SARPDAO.jar" deploy-path="/" handle="module:/resource/SARPDAO/SARPDAO">
+        <dependent-module archiveName="eclipselink.jar" deploy-path="/lib" handle="module:/classpath/lib/SARPLibraries/external_libs/eclipselink.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="SARPDAOService.jar" deploy-path="/" handle="module:/resource/SARPDAOService/SARPDAOService">
+        <dependent-module archiveName="postgresql-9.4.1209.jre6.jar" deploy-path="/lib" handle="module:/classpath/lib/SARPLibraries/external_libs/postgresql-9.4.1209.jre6.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="SARPTest.jar" deploy-path="/" handle="module:/resource/SARPTest/SARPTest">
+        <dependent-module archiveName="SARPDAO.jar" deploy-path="/lib" handle="module:/resource/SARPDAO/SARPDAO">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>

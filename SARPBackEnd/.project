@@ -3,16 +3,16 @@
 	<name>SARPBackEnd</name>
 	<comment></comment>
 	<projects>
-		<project>SARPBusiness</project>
-		<project>SARPClasses</project>
 		<project>SARPEjb</project>
 		<project>SARPEjbClient</project>
 		<project>SARPLibraries</project>
 		<project>SARPService</project>
+		<project>SARPClasses</project>
+		<project>SARPBusiness</project>
 		<project>SARPFacade</project>
-		<project>SARPDAO</project>
 		<project>SARPDAOService</project>
 		<project>SARPTest</project>
+		<project>SARPDAO</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
