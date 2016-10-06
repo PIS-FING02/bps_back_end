@@ -197,10 +197,9 @@ public class AdminService {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
-			try{
-				BusinessTramite tramite = new BusinessTramite(jsonTramite.getCodigo(), jsonTramite.getNombre());				
-				ctrl.altaTramite(tramite);
-				return "El tramite con codigo: "+tramite.getCodigo()+ " y nombre: "+tramite.getNombre()+" fue dado de alta satisfactoriamente";
+			try{				
+				ctrl.altaTramite(jsonTramite);
+				return "El tramite con codigo: "+jsonTramite.getCodigo()+ " y nombre: "+jsonTramite.getNombre()+" fue dado de alta satisfactoriamente";
 			}catch(Exception e){
 				throw new BadRequestException("Error al crear el Tramite");
 			}
@@ -218,7 +217,7 @@ public class AdminService {
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try{
-				ctrl.bajaTramite(jsonTramite.getCodigo());
+				ctrl.bajaTramite(jsonTramite);
 				return "El tramite de codigo "+jsonTramite.getCodigo()+" fue dado de baja";
 			}catch(Exception e){
 				throw new BadRequestException("Error al eliminar el Tramite");
@@ -236,9 +235,8 @@ public class AdminService {
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try{
-				BusinessTramite tramite = new BusinessTramite(jsonTramite.getCodigo(), jsonTramite.getNombre());
-				ctrl.modificarTramite(tramite);
-				return "El tramite de codigo: "+tramite.getCodigo()+" fue modificado exitosamente";
+				ctrl.modificarTramite(jsonTramite);
+				return "El tramite de codigo: "+jsonTramite.getCodigo()+" fue modificado exitosamente";
 			}catch(Exception e){
 				throw new BadRequestException("Error al modificar el Tramite");
 			}

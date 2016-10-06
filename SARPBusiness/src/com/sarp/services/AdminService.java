@@ -97,7 +97,7 @@ public class AdminService {
 	
 	/****** Alta, Baja & Modificacion de Tramite ******/
 	
-	public void altaTramite(BusinessTramite tramite) throws Exception{	
+	public void altaTramite(JSONTramite tramite) throws Exception{	
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
@@ -107,7 +107,7 @@ public class AdminService {
 		tramCtrl.crearTramite(tramite);
 	}
 	
-	public void bajaTramite(int codigo) throws Exception{
+	public void bajaTramite(JSONTramite tramite) throws Exception{
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
@@ -117,7 +117,7 @@ public class AdminService {
 		tramCtrl.eliminarTramite(codigo);
 	}
 	
-	public void modificarTramite(BusinessTramite tramite) throws Exception{
+	public void modificarTramite(JSONTramite tramite) throws Exception{
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
