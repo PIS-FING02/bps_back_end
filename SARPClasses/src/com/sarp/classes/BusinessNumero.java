@@ -28,15 +28,17 @@ public class BusinessNumero {
 		this.codSector = codS;
 	}
 
-	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado, Integer prioridad) {
+	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado,
+			Integer prioridad) {
 		/* (1) duda pancho-guzman */
 		this.internalId = internalId;
 		this.externalId = externalId;
 		this.hora = hora;
 		this.estado = estado;
 		this.prioridad = prioridad;
-			
+
 	}
+
 	// Operaciones
 	public Integer getInternalId() {
 		return internalId;
@@ -101,9 +103,14 @@ public class BusinessNumero {
 	public void setCodSector(String codSector) {
 		this.codSector = codSector;
 	}
-	
-	
-	
-	
+
+	/*********** Metodos auxiliares para testing ****************/
+
+	public String obtenerImpresion() {
+		return "InternalID " + internalId.toString() + "\n" + "ExternalID " + externalId + "\n" + "hora "
+				+ hora.getTime().toString() + "\n" + "estado " + estado + "\n" + "Prioridad " + prioridad.toString() + "\n"
+				+ "Timestamp " + lastUpdated.toString() + "\n" + "Codigo Tramite " + codTramite.toString() + "\n"
+				+ "Codigo Sector " + codSector;
+	}
 
 }
