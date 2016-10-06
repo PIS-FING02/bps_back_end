@@ -77,17 +77,17 @@ public class AdminService {
 		}
 	}
 		
-	public List<BusinessPuesto> listarPuestos(JSONSector sector) throws Exception{
+	public List<BusinessPuesto> listarPuestos(String sector) throws Exception{
 		RequestMaker reqMaker = RequestMaker.getInstance();
-		BusinessSector bSector = reqMaker.requestSector(sector);
+
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		List<BusinessPuesto> puestos;
 		//Traigo los puestos de un sector desde DaoService
 		//si sector es null entonces traigo todos los puestos del sistema		
-		if(bSector != null){
+		if(sector != null){
 			DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
-			puestos = controladorSector.obtenerPuestosSector(bSector.getSectorId());
+			puestos = controladorSector.obtenerPuestosSector(sector);
 		}else{
 			puestos = controladorPuesto.listarPuestos();
 		}
@@ -98,34 +98,44 @@ public class AdminService {
 	
 	/****** Alta, Baja & Modificacion de Tramite ******/
 	
-	public void altaTramite(BusinessTramite tramite) throws Exception{	
+	public void altaTramite(JSONTramite tramite) throws Exception{	
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
-		DAOTramiteController tramCtrl = factory.getDAOTramiteController();
-		
+		DAOTramiteController tramCtrl = factory.getDAOTramiteController();	
+		RequestMaker reqMaker = RequestMaker.getInstance();
+		BusinessTramite bTramite = reqMaker.requestTramite(tramite);
+			
 		/* Finalmente se persiste en la base mediante el llamado del controlador */
-		tramCtrl.crearTramite(tramite);
+		tramCtrl.crearTramite(bTramite);
 	}
 	
-	public void bajaTramite(int codigo) throws Exception{
+	public void bajaTramite(JSONTramite tramite) throws Exception{
 		/* primero se pide el controlador de tramites mediante la factory */
 		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOTramiteController tramCtrl = factory.getDAOTramiteController();
 		
 		/* Finalmente se persiste en la base mediante el llamado del controlador */
-		tramCtrl.eliminarTramite(codigo);
+		tramCtrl.eliminarTramite(tramite.getCodigo());
 	}
 	
-	public void modificarTramite(BusinessTramite tramite) throws Exception{
+	public void modificarTramite(JSONTramite tramite) throws Exception{
 		/* primero se pide el controlador de tramites mediante la factory */
-		
+
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOTramiteController tramCtrl = factory.getDAOTramiteController();
 		
-		/* Finalmente se persiste en la base mediante el llamado del controlador */
-		tramCtrl.modificarTramite(tramite);
+		
+		if(tramite.getNombre() != null){
+			BusinessTramite tram = tramCtrl.obtenerTramite(tramite.getCodigo());
+			tram.setNombre(tramite.getNombre());
+			/* Finalmente se persiste en la base mediante el llamado del controlador */
+			tramCtrl.modificarTramite(tram);
+		}else{
+			throw new Exception("Este puesto no tiene nada que modificarse");
+		}
+
 	}
 	
 	public List<JSONTramite> listarTramites(){

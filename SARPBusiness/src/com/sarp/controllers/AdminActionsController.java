@@ -41,10 +41,12 @@ public class AdminActionsController {
 		adminService.modificarPuesto(puesto);
 	}
 	
-	public List<BusinessPuesto> listarPuestos(JSONSector sector) throws Exception{
+
+	public List<BusinessPuesto> listarPuestos(String idSector) throws Exception{
+
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
-		return adminService.listarPuestos(sector);
+		return adminService.listarPuestos(idSector);
 	}
 	
 	public List<JSONTramite> listarTramites(){
@@ -59,21 +61,21 @@ public class AdminActionsController {
 
 	/** Alta, Baja & Modificacion Tramite **/
 	
-	public void altaTramite(BusinessTramite tramite) throws Exception {
+	public void altaTramite(JSONTramite tramite) throws Exception {
 		/* Notar que el AdminService es el de este mismo proyecto (SARPBusiness)
 		  y no el AdminService de SARPServices */
 		AdminService adminServ = new AdminService();
 		adminServ.altaTramite(tramite);
 	}
 	
-	public void bajaTramite(int codigo) throws Exception {
+	public void bajaTramite(JSONTramite tramite) throws Exception {
 		/* Notar que el AdminService es el de este mismo proyecto (SARPBusiness)
 		  y no el AdminService de SARPServices */
 		AdminService adminServ = new AdminService();
-		adminServ.bajaTramite(codigo);
+		adminServ.bajaTramite(tramite);
 	}
 	
-	public void modificarTramite(BusinessTramite tramite) throws Exception{
+	public void modificarTramite(JSONTramite tramite) throws Exception{
 		/* Notar que el AdminService es el de este mismo proyecto (SARPBusiness)
 		  y no el AdminService de SARPServices */
 		AdminService adminServ = new AdminService();

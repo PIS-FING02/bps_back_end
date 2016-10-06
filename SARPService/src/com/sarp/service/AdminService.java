@@ -97,15 +97,15 @@ public class AdminService {
   	}
   	
   	@GET
-  	@Path("/puestos")
+  	@Path("/puestos/{id-sector}")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<BusinessPuesto> listarPuestos(@HeaderParam("user-rol") String userRol, JSONSector sector) {
+      public List<BusinessPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol, @PathParam("id-sector") String idSector) {
   		System.out.println("entro a listar");
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals( "ResponsableSector")){
   			try{
-  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(sector);
+  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(idSector);
   				return listaPuestos;
   				
   			}catch(Exception e){
@@ -115,7 +115,65 @@ public class AdminService {
   			throw new BadRequestException("No tiene permisos suficientes.");
   		}
       }
-
+  	
+  	@GET
+  	@Path("/puestos")
+      @Produces(MediaType.APPLICATION_JSON)
+      public List<BusinessPuesto> listarPuestos(@HeaderParam("user-rol") String userRol) {
+  		System.out.println("entro a listar");
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(userRol.equals( "ResponsableSector")){
+  			try{
+  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(null);
+  				return listaPuestos;
+  				
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al listar Puestos.");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+      }
+  	
+	@PUT
+  	@Path("/asignarTramiteSector")
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String asignarTramiteSector(@HeaderParam("user-rol") String userRol, JSONTramiteSector tramiteSector){	
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(userRol.equals("ResponsableSector")){
+  			try{
+  				ctrl.asignarTramiteSector(tramiteSector);
+  				return "Se asigno el tramite: "+tramiteSector.getTramite().getNombre()+"al sector"+tramiteSector.getSector().getNombre();
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al modificar Puesto.");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+  		
+  	}
+	
+	
+	@PUT
+  	@Path("/asignarPuestoSector")
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String asignarPuestoSector(@HeaderParam("user-rol") String userRol, JSONTramiteSector tramiteSector){	
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(userRol.equals("ResponsableSector")){
+  			try{
+  				ctrl.asignarPuestoSector(tramiteSector);
+  				return "Se asigno el tramite: "+tramiteSector.getTramite().getNombre()+"al sector"+tramiteSector.getSector().getNombre();
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al modificar Puesto.");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+  		
+  	}	
 	/*************************** TRAMITES ***************************/
 	
 	@GET
@@ -142,10 +200,9 @@ public class AdminService {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
-			try{
-				BusinessTramite tramite = new BusinessTramite(jsonTramite.getCodigo(), jsonTramite.getNombre());				
-				ctrl.altaTramite(tramite);
-				return "El tramite con codigo: "+tramite.getCodigo()+ " y nombre: "+tramite.getNombre()+" fue dado de alta satisfactoriamente";
+			try{				
+				ctrl.altaTramite(jsonTramite);
+				return "El tramite con codigo: "+jsonTramite.getCodigo()+ " y nombre: "+jsonTramite.getNombre()+" fue dado de alta satisfactoriamente";
 			}catch(Exception e){
 				throw new BadRequestException("Error al crear el Tramite");
 			}
@@ -163,7 +220,7 @@ public class AdminService {
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try{
-				ctrl.bajaTramite(jsonTramite.getCodigo());
+				ctrl.bajaTramite(jsonTramite);
 				return "El tramite de codigo "+jsonTramite.getCodigo()+" fue dado de baja";
 			}catch(Exception e){
 				throw new BadRequestException("Error al eliminar el Tramite");
@@ -181,9 +238,8 @@ public class AdminService {
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try{
-				BusinessTramite tramite = new BusinessTramite(jsonTramite.getCodigo(), jsonTramite.getNombre());
-				ctrl.modificarTramite(tramite);
-				return "El tramite de codigo: "+tramite.getCodigo()+" fue modificado exitosamente";
+				ctrl.modificarTramite(jsonTramite);
+				return "El tramite de codigo: "+jsonTramite.getCodigo()+" fue modificado exitosamente";
 			}catch(Exception e){
 				throw new BadRequestException("Error al modificar el Tramite");
 			}
@@ -300,44 +356,7 @@ public class AdminService {
 		}
     }
 	
-	@PUT
-  	@Path("/puesto")
-  	@Consumes(MediaType.APPLICATION_JSON)
-  	public String asignarTramiteSector(@HeaderParam("user-rol") String userRol, JSONTramiteSector tramiteSector){	
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals("ResponsableSector")){
-  			try{
-  				ctrl.asignarTramiteSector(tramiteSector);
-  				return "Se asigno el tramite: "+tramiteSector.getTramite().getNombre()+"al sector"+tramiteSector.getSector().getNombre();
-  			}catch(Exception e){
-  				throw new BadRequestException("Error al modificar Puesto.");
-  			}
-  		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
-  		}
-  		
-  	}
-	
-	
-	@PUT
-  	@Path("/puesto")
-  	@Consumes(MediaType.APPLICATION_JSON)
-  	public String asignarPuestoSector(@HeaderParam("user-rol") String userRol, JSONTramiteSector tramiteSector){	
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals("ResponsableSector")){
-  			try{
-  				ctrl.asignarPuestoSector(tramiteSector);
-  				return "Se asigno el tramite: "+tramiteSector.getTramite().getNombre()+"al sector"+tramiteSector.getSector().getNombre();
-  			}catch(Exception e){
-  				throw new BadRequestException("Error al modificar Puesto.");
-  			}
-  		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
-  		}
-  		
-  	}
+
 	
 
 }
