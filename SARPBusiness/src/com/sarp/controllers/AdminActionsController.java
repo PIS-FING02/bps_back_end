@@ -41,10 +41,12 @@ public class AdminActionsController {
 		adminService.modificarPuesto(puesto);
 	}
 	
-	public List<BusinessPuesto> listarPuestos(String sector) throws Exception{
+
+	public List<BusinessPuesto> listarPuestos(String idSector) throws Exception{
+
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
-		return adminService.listarPuestos(sector);
+		return adminService.listarPuestos(idSector);
 	}
 	
 	public List<BusinessTramite> listarTramites(){

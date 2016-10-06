@@ -25,6 +25,7 @@ import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
+import com.sarp.json.modeler.JSONTramite;
 import com.sarp.service.response.maker.RequestMaker;
 
 import com.sarp.json.modeler.JSONPuesto;
@@ -114,7 +115,7 @@ public class AdminService {
 		DAOTramiteController tramCtrl = factory.getDAOTramiteController();
 		
 		/* Finalmente se persiste en la base mediante el llamado del controlador */
-		tramCtrl.eliminarTramite(codigo);
+		tramCtrl.eliminarTramite(tramite.getCodigo());
 	}
 	
 	public void modificarTramite(JSONTramite tramite) throws Exception{
