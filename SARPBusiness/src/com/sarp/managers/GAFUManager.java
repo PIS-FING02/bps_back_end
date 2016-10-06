@@ -16,13 +16,15 @@ public class GAFUManager {
 	private  static GAFUManager instancia;
 	    
 	private GAFUManager() {
-			this.arbol =  GAFUFacade.crearArbolGAFU();
+			GAFUFacade gf = GAFUFacade.getInstance();
+			this.arbol =  gf.crearArbolGAFU();
 	    }
 
 	public void actualizarArbolGAFU() throws Exception{
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		BusinessNodeGAFU nuevo = GAFUFacade.crearArbolGAFU();
+		GAFUFacade gf = GAFUFacade.getInstance();
+		BusinessNodeGAFU nuevo = gf.crearArbolGAFU();
 		List<BusinessSector> nuevosSectores = arbolToList(nuevo);
 		actualizarSectores(nuevosSectores, ctrl);
 		List<BusinessSector> aBorrar = ctrl.listarSectores();
