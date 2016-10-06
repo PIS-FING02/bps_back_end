@@ -65,7 +65,6 @@ public class DAOSectorController {
 		em.close();
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for (Sector s : list){
-
 			BusinessSector dt = new BusinessSector(s.getCodigo(),s.getNombre(),s.getRutaSector());
 			ret.add(dt);
 		}
