@@ -10,7 +10,7 @@ import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
-
+import com.sarp.json.modeler.JSONTramite;
 import com.sarp.services.AdminService;
 
 public class AdminActionsController {
@@ -47,9 +47,9 @@ public class AdminActionsController {
 		return adminService.listarPuestos(sector);
 	}
 	
-	public List<BusinessTramite> listarTramites(){
-		//TODO FALTA HACER
-		return null;
+	public List<JSONTramite> listarTramites(){
+		AdminService adServ = new AdminService();
+		return adServ.listarTramites();
 	}
 
 	public void modificarEstadoPuesto(String nombreMaquina, String estado) {

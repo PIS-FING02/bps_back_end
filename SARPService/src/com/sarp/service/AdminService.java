@@ -24,6 +24,7 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.dao.controllers.DAOSectorController;
+import com.sarp.dao.controllers.DAOTramiteController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONPuesto;
@@ -120,12 +121,14 @@ public class AdminService {
 	@GET
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BusinessTramite> listarTramites(@HeaderParam("user-rol") String userRol) {
-		try{
-			Factory factory = Factory.getInstance();
-			return factory.getAdminActionsController().listarTramites();
-		}catch(Exception e){
-			throw new BadRequestException("Error obtiendo tramites");
+    public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol) {
+		if(userRol.equals("ResponsableSector")){
+			Factory fac = Factory.getInstance();
+			AdminActionsController aac = fac.getAdminActionsController();
+			List<JSONTramite> listaTramites = aac.listarTramites();
+			return null;
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
 		}
     }
 	
