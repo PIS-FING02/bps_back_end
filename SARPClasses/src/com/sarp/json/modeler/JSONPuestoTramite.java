@@ -2,20 +2,19 @@ package com.sarp.json.modeler;
 
 public class JSONPuestoTramite {
 	private JSONTramite tramite;
-	private JSONSector sector;
+	private JSONPuesto puesto;
+	
 	public JSONTramite getTramite() {
 		return tramite;
 	}
 	public void setTramite(JSONTramite tramite) {
 		this.tramite = tramite;
 	}
-	public JSONSector getSector() {
-		return sector;
+	public JSONPuesto getPuesto() {
+		return puesto;
 	}
-	public void setSector(JSONSector sector) {
-		this.sector = sector;
+	public void setPuesto(JSONPuesto puesto) {
+		this.puesto = puesto;
 	}
-	
-	
-	
+		
 }
