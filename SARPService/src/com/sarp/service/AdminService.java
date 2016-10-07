@@ -338,16 +338,36 @@ public class AdminService {
 		
 	}
 	
-	@GET
-	@Path("/display")
+	/* aun no se necesita en caso de necesitarse es necesario crear en la base la operacion listarDisplaySector(sectorid)
+	 @GET
+	@Path("/displays/{id-sector}")
     @Produces(MediaType.APPLICATION_JSON)
     //este metodo retorna los display de un sector
-	public List<BusinessDisplay> listarDisplay(@HeaderParam("user-rol") String userRol, JSONSector sector) {
+	public List<BusinessDisplay> listarDisplaySector(@HeaderParam("user-rol") String userRol, @PathParam("id-sector") String idSector) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals( "ResponsableSector")) || (userRol.equals("Administrador")) ){
 			try{
-				return ctrl.listarDisplays(sector.getCodigo());	
+				return ctrl.listarDisplays(idSector);	
+			}catch(Exception e){
+				throw new BadRequestException("Error al listar Display.");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+    }
+	*/
+	
+	@GET
+	@Path("/displays")
+    @Produces(MediaType.APPLICATION_JSON)
+    //este metodo retorna los display de un sector
+	public List<BusinessDisplay> listarDisplay(@HeaderParam("user-rol") String userRol) {
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if ( (userRol.equals( "ResponsableSector")) || (userRol.equals("Administrador")) ){
+			try{
+				return ctrl.listarDisplays(null);	
 			}catch(Exception e){
 				throw new BadRequestException("Error al listar Display.");
 			}
@@ -356,7 +376,4 @@ public class AdminService {
 		}
     }
 	
-
-	
-
 }
