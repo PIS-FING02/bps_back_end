@@ -252,7 +252,7 @@ public class AdminService {
 	@PUT
 	@Path("/tramitepuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String modificarTramite(@HeaderParam("user-rol") String userRol, JSONPuestoTramite puestoTramite){	
+	public String asignarTramitePuesto(@HeaderParam("user-rol") String userRol, JSONPuestoTramite puestoTramite){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("ResponsableSector")){
