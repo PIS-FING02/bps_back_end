@@ -62,8 +62,7 @@ public class DAOPuestoController {
 		em.close();
 		List<BusinessPuesto> ret = new ArrayList<BusinessPuesto>();
 		for (Puesto p : lista) {
-			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getUsuarioId(),
-					p.getNumero());
+			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(),p.getNumero());
 			ret.add(bp);
 		}
 		return ret;

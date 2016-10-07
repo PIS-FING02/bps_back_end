@@ -22,40 +22,40 @@ import java.util.List;
 
 public class PuestoTest {
 	
-	//Test ABM Puesto - ABM Tramite - llamar numero - atrasar numero - tramite
+	//Test ABM Puesto -
 	
 	DAOPuestoController ctrlDaoPuesto = new DAOPuestoController();
 	AdminActionsController adminController = AdminActionsController.getInstance();
 	Factory fac = Factory.getInstance();
 	
 	
-	@Test
-	public void puestoTesteo(){
+/*
+	public void puestoCrear(){
 		
 		//Crear Puesto
-		
-		AdminActionsController ctrl = fac.getAdminActionsController();
-		JSONPuesto puesto = new JSONPuesto();
-		
-		//Funcionalidades del puesto basicas
-		
-		puesto.setNombreMaquina("Nombre de maquina 1");
-		puesto.setNumeroPuesto(1);
-		puesto.setUsuarioId("");
-		puesto.setEstado("CERRADO");
-		
 		try{
+			AdminActionsController ctrl = fac.getAdminActionsController();
+			JSONPuesto puesto = new JSONPuesto();
+			
+			//Funcionalidades del puesto basicas
+			
+			puesto.setNombreMaquina("NombMaq44");
+			puesto.setNumeroPuesto(4);
+			puesto.setUsuarioId("test");
+			puesto.setEstado("CERRADO");
+			
+			
 			ctrl.altaPuesto(puesto);
 			
 			boolean result = false;
-			BusinessPuesto puestoBase = ctrlDaoPuesto.obtenerPuesto("Nombre de maquina 1");
+			BusinessPuesto puestoBase = ctrlDaoPuesto.obtenerPuesto("NombMaq44");
 			
-			if(puestoBase.getNombreMaquina().equals("Nombre de maquina 1") && puestoBase.getNumeroPuesto().equals(1) && puestoBase.getEstado() == EstadoPuesto.CERRADO && puestoBase.getUsuarioId() == ""){
+			if(puestoBase.getNombreMaquina().equals("NombMaq44") && puestoBase.getNumeroPuesto().equals(2) && puestoBase.getEstado() == EstadoPuesto.CERRADO && puestoBase.getUsuarioId() == "test"){
 				result = true;
 			}
 			
 			assertEquals(result,true); 
-					
+			System.out.println("crear");
 						
 		}catch(Exception e){
 			
@@ -67,37 +67,39 @@ public class PuestoTest {
 		
 		
 	}
-	
+	*/
 	//--------------------------------------------------------------------------------
 	
-	@Test
-	public void eliminarPuesto(){
+	//@Test
+	/*public void eliminarPuesto(){
 		
 		//Eliminar Puesto
-		
-		AdminActionsController ctrl = fac.getAdminActionsController();
-		BusinessPuesto puestoEliminar = new BusinessPuesto("PuestoEliminar", "","CERRADO", 999999);
-		
-		JSONPuesto puesto = new JSONPuesto();	
-		puesto.setNombreMaquina("PuestoEliminar");
-		puesto.setNumeroPuesto(0);
-		puesto.setUsuarioId("");
-		puesto.setEstado("");
-		ctrlDaoPuesto.crearPuesto(puestoEliminar);
-		
 		try{
+			AdminActionsController ctrl = fac.getAdminActionsController();
+			BusinessPuesto puestoEliminar2 = new BusinessPuesto("PuestoEliminar12345", "","CERRADO", 34343);
+			
+			JSONPuesto puesto = new JSONPuesto();
+			
+			puesto.setNombreMaquina("PuestoEliminar12345");
+			puesto.setNumeroPuesto(0);
+			puesto.setUsuarioId("");
+			puesto.setEstado("ATENDIENDO"); 
+			ctrlDaoPuesto.crearPuesto(puestoEliminar2);
+			
+			
 			ctrl.bajaPuesto(puesto);
 			boolean result = true;
 			
 			List<BusinessPuesto> puestos = ctrlDaoPuesto.listarPuestos();
 			
 			for( BusinessPuesto thisPuesto : puestos){
-				if(thisPuesto.getNombreMaquina().equals("PuestoEliminar")){
+				if(thisPuesto.getNombreMaquina().equals("PuestoEliminar1234")){
 					result = false;
 					break;
 				}
 			}
 			
+			System.out.println("termino el eliminar puesto");
 			assertEquals(result,true); 
 		
 		}catch(Exception e){
@@ -106,7 +108,7 @@ public class PuestoTest {
 
 		
 	}
-	@Test
+
 	public void modificarPuesto(){
 		
 		try{
@@ -115,53 +117,62 @@ public class PuestoTest {
 			//Modificar Puesto
 			AdminActionsController ctrl = fac.getAdminActionsController();		
 			boolean result = false;
-			BusinessPuesto puestoModificar = new BusinessPuesto("PuestoModificar", "","CERRADO", 999999);
+			BusinessPuesto puestoModificar = new BusinessPuesto("PuestoModificar1132", "","CERRADO", 32);
 			ctrlDaoPuesto.crearPuesto(puestoModificar);
 			
 			JSONPuesto puesto3 = new JSONPuesto();	
-			puesto3.setNombreMaquina("PuestoModificar");
+			puesto3.setNombreMaquina("PuestoModificar1132");
 			puesto3.setNumeroPuesto(null);
 			puesto3.setUsuarioId("Guzaman");
 			puesto3.setEstado("ATENDIENDO");
 			
 			ctrl.modificarPuesto(puesto3);
 			
-			BusinessPuesto puestoModificado = ctrlDaoPuesto.obtenerPuesto("PuestoModificar");
+			BusinessPuesto puestoModificado = ctrlDaoPuesto.obtenerPuesto("PuestoModificar1132");
 			if(puestoModificado.getUsuarioId().equals("Guzaman")&& puestoModificado.getEstado() == EstadoPuesto.ATENDIENDO){
 				result = true;
 			}
 			
 			assertEquals(result,true); 
-			
+			System.out.println("termino el modificar puesto");
 
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}		
 
 	}
+*/
+	@Test
+	public void listarPuestos(){
+		
+		try{
 
-	
+			//-------------------------------------------------------------
+			//Modificar Puesto
+			AdminActionsController ctrl = fac.getAdminActionsController();		
+			boolean result = false;
+			
+			List<JSONPuesto> puestosmios = ctrl.listarPuestos(null);
+
+			List<BusinessPuesto> puestos = ctrlDaoPuesto.listarPuestos();
+			
+			for( BusinessPuesto thisPuesto : puestos){
+				if(thisPuesto.getNombreMaquina().equals("PuestoEliminar1234")){
+					result = false;
+					break;
+				}
+			}
+			
+			assertEquals(result,true); 
+			System.out.println("termino el modificar puesto");
+
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}		
+
+	}
 	//--------------------------------------------------------------------------------
 	
-	@Test
-	public void llamarNumeroTesteo(){
-		
-
-	}
 	
-	@Test
-	public void atrasarNumeroTesteo(){
-		
-
-				
-		
-	}
-	@Test
-	public void pausarNumeroTesteo(){
-		
-		
-	
-		
-	}
 	
 }

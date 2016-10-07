@@ -27,7 +27,7 @@ import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
 import com.sarp.service.response.maker.RequestMaker;
-
+import com.sarp.service.response.maker.ResponseMaker;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 
@@ -77,9 +77,10 @@ public class AdminService {
 		}
 	}
 		
-	public List<BusinessPuesto> listarPuestos(String sector) throws Exception{
-		RequestMaker reqMaker = RequestMaker.getInstance();
-
+	public List<JSONPuesto> listarPuestos(String sector) throws Exception{
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+		
+		
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		List<BusinessPuesto> puestos;
@@ -92,7 +93,9 @@ public class AdminService {
 			puestos = controladorPuesto.listarPuestos();
 		}
 		
-		return puestos;
+		List<JSONPuesto> puestosJson = resMaker.createArrayAtomPuestos(puestos);
+		
+		return puestosJson;
 		
 	}
 	

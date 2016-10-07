@@ -42,7 +42,7 @@ public class AdminActionsController {
 	}
 	
 
-	public List<BusinessPuesto> listarPuestos(String idSector) throws Exception{
+	public List<JSONPuesto> listarPuestos(String idSector) throws Exception{
 
 		//Se delega a AdminService la implementacion
 		AdminService adminService = new AdminService();
