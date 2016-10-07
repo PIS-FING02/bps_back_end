@@ -168,7 +168,7 @@ public class ResponseMaker {
 	}
 	
 	/* UTILS */
-	private List<JSONTramite> createArrayAtomTramites(List<BusinessTramite> businessTramites) {
+	public List<JSONTramite> createArrayAtomTramites(List<BusinessTramite> businessTramites) {
 		List<JSONTramite> listJSONTramite = new ArrayList<JSONTramite>();
 		for(BusinessTramite businessTramite : businessTramites){
 			listJSONTramite.add(this.tramiteAtomResponse(businessTramite));
