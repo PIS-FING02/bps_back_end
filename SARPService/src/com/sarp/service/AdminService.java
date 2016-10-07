@@ -99,13 +99,13 @@ public class AdminService {
   	@GET
   	@Path("/puestos/{id-sector}")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<BusinessPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol, @PathParam("id-sector") String idSector) {
+      public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol, @PathParam("id-sector") String idSector) {
   		System.out.println("entro a listar");
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals( "ResponsableSector")){
   			try{
-  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(idSector);
+  				List<JSONPuesto> listaPuestos = ctrl.listarPuestos(idSector);
   				return listaPuestos;
   				
   			}catch(Exception e){
@@ -119,13 +119,13 @@ public class AdminService {
   	@GET
   	@Path("/puestos")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<BusinessPuesto> listarPuestos(@HeaderParam("user-rol") String userRol) {
+      public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol) {
   		System.out.println("entro a listar");
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals( "ResponsableSector")){
   			try{
-  				List<BusinessPuesto> listaPuestos = ctrl.listarPuestos(null);
+  				List<JSONPuesto> listaPuestos = ctrl.listarPuestos(null);
   				return listaPuestos;
   				
   			}catch(Exception e){
