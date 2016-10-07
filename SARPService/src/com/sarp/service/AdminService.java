@@ -183,8 +183,7 @@ public class AdminService {
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController aac = fac.getAdminActionsController();
-			List<JSONTramite> listaTramites = aac.listarTramites();
-			return null;
+			return aac.listarTramites();
 		}else{
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
