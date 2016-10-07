@@ -142,14 +142,15 @@ public class AdminService {
 	}
 	
 	public List<JSONTramite> listarTramites(){
+		
+		ResponseMaker resMaker = ResponseMaker.getInstance();
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOTramiteController ctrl = factory.getDAOTramiteController();
 		List<BusinessTramite> listaTramites = ctrl.listarTramites();
-		JSONTramite jsonTram;
-		for(BusinessTramite bt : listaTramites){
-			
-		}
-		return null;
+		List<JSONTramite> jsonTram = resMaker.createArrayAtomTramites(listaTramites);
+		
+		return jsonTram;
+
 	}
 	
 /** SECTOR **/
