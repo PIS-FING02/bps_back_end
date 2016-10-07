@@ -23,6 +23,7 @@ import com.sarp.factory.Factory;
 
 
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONPuestoTramite;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
@@ -152,6 +153,52 @@ public class AdminService {
 		return jsonTram;
 
 	}
+	
+	public void asignarTramitePuesto(JSONPuestoTramite puestoTramite ) throws Exception{
+		RequestMaker reqMaker = RequestMaker.getInstance();
+
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		
+		
+		//
+		
+		DAOTramiteController controladorTramite = daoServiceFactory.getDAOTramiteController(); 
+		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController(); 
+		
+		List<BusinessSector> sectoresPuesto = controladorPuesto.obtenerSectoresPuesto(puestoTramite.getPuesto().getNombreMaquina());
+		//FALTA OPERACION EN LA BASE
+		Boolean tieneTramite = true;
+		//OJOOOOOO!!!! ES FALSE CUANDO ESTE EL FOR
+		/*
+		for (BusinessSector sectro : sectoresPuesto ){
+			if (controladorTramite.existeTramiteSectro(sectro.getSectorId() , puestoTramite.getTramite().getCodigo()) ){
+				tieneTramite=true;
+				break;
+			}
+		}
+		 */
+		if 	(tieneTramite){
+			if ( ( puestoTramite.getPuesto() != null ) && ( puestoTramite.getTramite() !=null ) ){
+				if ( ( ! puestoTramite.getPuesto().getNombreMaquina().isEmpty() ) && ( puestoTramite.getTramite().getCodigo() != null || puestoTramite.getTramite().getCodigo() != 0  ) ){ 
+					controladorTramite.asociarTramitePuesto(puestoTramite.getTramite().getCodigo(),puestoTramite.getPuesto().getNombreMaquina());
+				}
+			}else{
+				throw new Exception("JSONPuestoTramite corrupto");
+			}
+		}else{
+			throw new Exception("El puesto no tiene un sector que atienda ese tramite");
+		}
+			
+		/*
+		if(bSector != null && bDisplay != null && bSector.getSectorId() != null && bDisplay.getCodigo() != null){
+			controladorSector.asignarDisplaySector(bSector.getSectorId(), bDisplay.getCodigo());
+		}else{
+			throw new Exception("JSONSectorDisplay corrupto");
+		}*/
+		//DELETE en DaoService
+	};
+	
+	
 	
 /** SECTOR **/
 	

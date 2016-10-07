@@ -7,6 +7,7 @@ import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONPuestoTramite;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
@@ -80,6 +81,11 @@ public class AdminActionsController {
 		  y no el AdminService de SARPServices */
 		AdminService adminServ = new AdminService();
 		adminServ.modificarTramite(tramite);
+	}
+	
+	public void asignarTramitePuesto(JSONPuestoTramite puestoTramite) throws Exception{
+		AdminService adminService = new AdminService();
+		adminService.asignarTramitePuesto(puestoTramite);
 	}
 	
 	/** Alta, Baja & Modificacion Sector **/
