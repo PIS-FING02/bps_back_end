@@ -185,7 +185,7 @@ public class ResponseMaker {
 		return listJSONSector;
 	}
 
-	private List<JSONPuesto> createArrayAtomPuestos(List<BusinessPuesto> businessPuestos) {
+	public List<JSONPuesto> createArrayAtomPuestos(List<BusinessPuesto> businessPuestos) {
 		List<JSONPuesto> listJSONPuesto = new ArrayList<JSONPuesto>();
 		for(BusinessPuesto businessPuesto : businessPuestos){
 			listJSONPuesto.add(this.puestoAtomResponse(businessPuesto));
