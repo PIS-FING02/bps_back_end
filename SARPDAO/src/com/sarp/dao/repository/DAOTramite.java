@@ -1,6 +1,8 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
+
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
@@ -17,7 +19,7 @@ public class DAOTramite {
 		this.em = em;
 	}
 
-	public Tramite insertTramite(String nombre) throws Exception{		
+	public Tramite insertTramite(String nombre) throws RollbackException{		
 		Tramite t = new Tramite();
 		t.setNombre(nombre);
 		t.setDateCreated(new Date());
@@ -27,13 +29,13 @@ public class DAOTramite {
 		return t;
 	}
 		
-	public Tramite selectTramite(int codigo) throws Exception{		
+	public Tramite selectTramite(int codigo) throws RollbackException{		
 		Tramite t = em.find(Tramite.class, codigo);
 		if (t != null){
 			return t;
 		}
 		else{
-			throw new Exception("No existe el Tramite con código " + codigo);
+			throw new RollbackException("No existe el Tramite con código " + codigo);
 		}
 	}
 	
@@ -44,12 +46,12 @@ public class DAOTramite {
 	
 	
 
-	public void deleteTramite(int codigo) throws Exception {		
+	public void deleteTramite(int codigo) throws RollbackException {		
 		Tramite t = selectTramite(codigo);
     	em.remove(t);
 	}
 
-	public void updateTramite(Integer codigo, String nombre) throws Exception {		
+	public void updateTramite(Integer codigo, String nombre) throws RollbackException {		
 		Tramite t = selectTramite(codigo);
 		t.setNombre(nombre);
 		t.setLastUpdated(new Date());
@@ -57,7 +59,7 @@ public class DAOTramite {
 		em.persist(t);
 	}
 
-	public void asociarTramiteSector(Sector sector, Tramite tramite) throws Exception{		
+	public void asociarTramiteSector(Sector sector, Tramite tramite) throws RollbackException{		
 		tramite.getSectors().add(sector);
 		sector.getTramites().add(tramite);
 		tramite.setLastUpdated(new Date());	

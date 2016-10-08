@@ -27,6 +27,9 @@ public class DAOSectorController {
 	private DAOFactory factory = DAOFactory.getInstance();
 		
 	public void crearSector(BusinessSector sector) throws RollbackException{
+		if(sector.getSectorId() == null || sector.getSectorId().equals("")){
+			throw new RollbackException("El ID del sector no puede ser vacio");
+		}
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
@@ -36,7 +39,7 @@ public class DAOSectorController {
 		em.close();
 	}
 	
-	public BusinessSector obtenerSector(String codigoSector) throws Exception{
+	public BusinessSector obtenerSector(String codigoSector) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
@@ -46,7 +49,7 @@ public class DAOSectorController {
 		return ret;	
 	}
 	
-	public void eliminarSector(String codigo) throws Exception {
+	public void eliminarSector(String codigo) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOFactory factory = DAOFactory.getInstance();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -71,7 +74,7 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-	public void modificarSector(BusinessSector s) throws Exception{
+	public void modificarSector(BusinessSector s) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);	
 
@@ -81,7 +84,7 @@ public class DAOSectorController {
 		em.close();
 	}
 	
-	public void asociarSectorPuesto(String codigoSector, String nombreMaquina) throws Exception{
+	public void asociarSectorPuesto(String codigoSector, String nombreMaquina) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
@@ -90,7 +93,7 @@ public class DAOSectorController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		
 		if(s.getPuestos().contains(p)){
-			throw new Exception("El puesto de " + nombreMaquina + " y el sector " + codigoSector + " ya estan asociados");
+			throw new RollbackException("El puesto de " + nombreMaquina + " y el sector " + codigoSector + " ya estan asociados");
 		}
 		em.getTransaction().begin();
 		sectorRepository.asociarSectorPuesto(s,p);
@@ -98,7 +101,7 @@ public class DAOSectorController {
 		em.close();
 	}
 	
-	public void desasociarSectorPuesto(String codigoSector, String nombreMaquina) throws Exception{
+	public void desasociarSectorPuesto(String codigoSector, String nombreMaquina) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
@@ -107,7 +110,7 @@ public class DAOSectorController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		
 		if(!s.getPuestos().contains(p)){
-			throw new Exception("El puesto de " + nombreMaquina + " y el sector " + codigoSector + " no estan asociados");
+			throw new RollbackException("El puesto de " + nombreMaquina + " y el sector " + codigoSector + " no estan asociados");
 		}
 		em.getTransaction().begin();
 		sectorRepository.desasociarSectorPuesto(s,p);
@@ -115,7 +118,7 @@ public class DAOSectorController {
 		em.close();
 	}
 	
-	public List<BusinessPuesto> obtenerPuestosSector(String codigoSector) throws Exception {
+	public List<BusinessPuesto> obtenerPuestosSector(String codigoSector) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
@@ -130,8 +133,7 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-
-	public List<BusinessTramite> obtenerTramitesSector(String sectorID) throws Exception {
+	public List<BusinessTramite> obtenerTramitesSector(String sectorID) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
@@ -146,8 +148,7 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-
-	public BusinessDisplay obtenerDisplaySector(String sectorID) throws Exception {
+	public BusinessDisplay obtenerDisplaySector(String sectorID) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
@@ -158,7 +159,7 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-	public void asignarDisplaySector(String codigoSector, int codigoDisplay) throws Exception{
+	public void asignarDisplaySector(String codigoSector, int codigoDisplay) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -171,7 +172,7 @@ public class DAOSectorController {
 		em.close();
 	}
 
-	public void asociarTramiteSector(int codigoTramite, String codigoSector) throws Exception{
+	public void asociarTramiteSector(int codigoTramite, String codigoSector) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -179,7 +180,7 @@ public class DAOSectorController {
 		Sector s = sectorRepository.selectSector(codigoSector);
 		Tramite t = tramiteRepository.selectTramite(codigoTramite);
 		if(s.getTramites().contains(t)){
-			throw new Exception("El tramite " + codigoTramite + " y el sector " + codigoSector + " ya estan asociados");
+			throw new RollbackException("El tramite " + codigoTramite + " y el sector " + codigoSector + " ya estan asociados");
 		}
 		em.getTransaction().begin();
 		tramiteRepository.asociarTramiteSector(s, t);

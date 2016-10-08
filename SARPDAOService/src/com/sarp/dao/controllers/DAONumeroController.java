@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
+
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
@@ -25,7 +27,7 @@ public class DAONumeroController {
 	
 	private DAOFactory factory = DAOFactory.getInstance();
 
-	public Integer crearNumero(BusinessNumero numero, int tramite, BusinessDatoComplementario dc) throws Exception{
+	public Integer crearNumero(BusinessNumero numero, int tramite, BusinessDatoComplementario dc) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		DAOTramite tramiteRespository = factory.getTramiteRepository(em);		
@@ -59,7 +61,7 @@ public class DAONumeroController {
 		return ret;
 	}
 	
-	public BusinessNumero obtenerNumero(int id) throws Exception{
+	public BusinessNumero obtenerNumero(int id) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
@@ -72,7 +74,7 @@ public class DAONumeroController {
 		return numero;
 	}
 	
-	public BusinessDatoComplementario obtenerDatosNumero(int id) throws Exception{
+	public BusinessDatoComplementario obtenerDatosNumero(int id) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
@@ -83,7 +85,7 @@ public class DAONumeroController {
 		return dato;
 	}
 	
-	public void modificarNumero(BusinessNumero numero) throws Exception{
+	public void modificarNumero(BusinessNumero numero) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
@@ -93,7 +95,7 @@ public class DAONumeroController {
 		em.close();
 	}
 	
-	public void eliminarNumero(int codigo) throws Exception{
+	public void eliminarNumero(int codigo) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
@@ -103,7 +105,7 @@ public class DAONumeroController {
 		em.close();
 	}
 	
-	public BusinessTramite obtenerTramiteNumero(Integer codigoNumero) throws Exception {
+	public BusinessTramite obtenerTramiteNumero(Integer codigoNumero) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
@@ -130,10 +132,8 @@ public class DAONumeroController {
 		}
 		return ret;
 	}
-	
-	
-	
-	public List<BusinessPuesto> obtenerPuestosNumero(Integer codigoNumero) throws Exception {
+		
+	public List<BusinessPuesto> obtenerPuestosNumero(Integer codigoNumero) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
@@ -148,9 +148,7 @@ public class DAONumeroController {
 		return ret;
 	}
 	
-	
-	
-	public BusinessPuesto obtenerPuestoActualNumero(Integer codigoNumero) throws Exception {
+	public BusinessPuesto obtenerPuestoActualNumero(Integer codigoNumero) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		

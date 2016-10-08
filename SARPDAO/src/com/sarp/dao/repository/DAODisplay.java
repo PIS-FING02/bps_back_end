@@ -1,10 +1,13 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
+
 import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Sector;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class DAODisplay {
@@ -27,13 +30,13 @@ public class DAODisplay {
 	}
 	
 	/* Obtengo la entidad de Display en la bd con su codigo */
-	public Display selectDisplay(int codigo) throws Exception{		
+	public Display selectDisplay(int codigo) throws RollbackException{		
 		Display d = em.find(Display.class, codigo);
 		if (d != null){
 			return d;
 		}
 		else{
-			throw new Exception("No existe el Display con código " + codigo);
+			throw new RollbackException("No existe el Display con código " + codigo);
 		}
     }
 	
@@ -45,7 +48,7 @@ public class DAODisplay {
 	}
 	
 	/* Modifico la ruta de un display dado por su codigo */
-	public void updateDisplay(int codigo, String rutaArchivo, Timestamp t) throws Exception{		
+	public void updateDisplay(int codigo, String rutaArchivo, Timestamp t) throws RollbackException{		
 		Display d = selectDisplay(codigo);
 		d.setRutaArchivo(rutaArchivo);
 		d.setLastUpdated(t); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
@@ -53,7 +56,7 @@ public class DAODisplay {
 	}
 	
 	/* Elimino un display de la base de datos */
-	public void deleteDisplay(int codigo) throws Exception{		
+	public void deleteDisplay(int codigo) throws RollbackException{		
 		Display d = selectDisplay(codigo);		
     	em.remove(d);
     }

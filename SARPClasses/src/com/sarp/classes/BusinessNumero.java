@@ -16,7 +16,7 @@ public class BusinessNumero {
 	private String codSector;
 
 	// Constructores
-
+	public BusinessNumero(){}
 	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado,
 			Integer prioridad, Integer codT, String codS) {
 		this.internalId = internalId;
