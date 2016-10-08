@@ -113,4 +113,11 @@ public class BusinessNumero {
 				+ "Codigo Sector " + codSector;
 	}
 
+	public void printNumero() {
+		System.out.println("ExternalID: " + externalId + "\n" + "hora: "
+				+ hora.getTime().toString() + "\n" 
+				+ "Prioridad " + prioridad.toString() + "\n"
+				+ "Estado: "+estado);
+	}
+	
 }

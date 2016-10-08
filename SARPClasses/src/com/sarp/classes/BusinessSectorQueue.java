@@ -19,38 +19,47 @@ public class BusinessSectorQueue {
 		this.colaPrioridad2 = new LinkedList<BusinessNumero>();
 		this.atrasados = new LinkedList<BusinessNumero>();
 		this.pausados = new LinkedList<BusinessNumero>();
+
 	}
 
 	/***** Metodos de la Cola *****/
 
 	public synchronized void agregarNumeroCola(BusinessNumero numero) {
 
-		switch (numero.getPrioridad()) {
-		case 1:
-			if (this.colaPrioridad1.isEmpty())
-				this.colaPrioridad1.add(numero);
-			else {
-				ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
-				while (it.hasNext()) {
-					BusinessNumero actual = it.next();
-					if (actual.getHora().get(Calendar.HOUR_OF_DAY) > numero.getHora().get(Calendar.HOUR_OF_DAY)
-							|| (actual.getHora().get(Calendar.HOUR_OF_DAY) == numero.getHora().get(Calendar.HOUR_OF_DAY)
-									&& actual.getHora().get(Calendar.MINUTE) > numero.getHora().get(Calendar.MINUTE)))
-						break;
+		if (numero.getEstado().equals("Atrasado")) {
+			int tiempoReLlamar = 20;
+			numero.getHora().add(Calendar.MINUTE, tiempoReLlamar);
+			this.atrasados.addLast(numero);
+		} else {
+			switch (numero.getPrioridad()) {
+			case 1:
+				if (this.colaPrioridad1.isEmpty())
+					this.colaPrioridad1.add(numero);
+				else {
+					ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
+					while (it.hasNext()) {
+						BusinessNumero actual = it.next();
+						if (actual.getHora().get(Calendar.HOUR_OF_DAY) > numero.getHora().get(Calendar.HOUR_OF_DAY)
+								|| (actual.getHora().get(Calendar.HOUR_OF_DAY) == numero.getHora()
+										.get(Calendar.HOUR_OF_DAY)
+										&& actual.getHora().get(Calendar.MINUTE) > numero.getHora()
+												.get(Calendar.MINUTE)))
+							break;
+					}
+					this.colaPrioridad1.add(it.previousIndex() + 1, numero);
 				}
-				this.colaPrioridad1.add(it.previousIndex(), numero);
+				break;
+			case 2:
+				this.colaPrioridad2.addLast(numero);
+				break;
+
+			default:
+				// se tiene q hablar si se mete en atril o se tira excepcion por
+				// mal
+				// prioridad
+				break;
 			}
-			break;
-		case 2:
-			this.colaPrioridad2.addLast(numero);
-			break;
-
-		default:
-			// se tiene q hablar si se mete en atril o se tira excepcion por mal
-			// prioridad
-			break;
 		}
-
 	}
 
 	public synchronized void agregarNumeroColaBatch(ArrayList<BusinessNumero> numeros) {
@@ -81,7 +90,21 @@ public class BusinessSectorQueue {
 	}
 
 	public synchronized BusinessNumero llamarNumeroCola(ArrayList<BusinessTramite> tramites) {
-
+		
+		if (!this.atrasados.isEmpty()) {
+			ListIterator<BusinessNumero> it = this.atrasados.listIterator();
+			while (it.hasNext()) {
+				BusinessNumero numero = it.next();
+				if (this.horaMayorHoraActual(numero.getHora())) {
+					if (this.puedeAtenderNumero(tramites, numero)) {
+						this.atrasados.remove(numero);
+						return numero;
+					} // - end if puedeAtenderNumero
+				} else // - end if horaMayor
+					break;
+			} // - end while
+		}
+		
 		if (!this.colaPrioridad1.isEmpty()) {
 			ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
 			while (it.hasNext()) {
@@ -148,6 +171,8 @@ public class BusinessSectorQueue {
 	/***** Metodos de Atrasados *****/
 
 	public synchronized void agregarNumeroAtrasado(BusinessNumero numero) {
+		int tiempoProperties = 20;
+		numero.getHora().add(Calendar.MINUTE, tiempoProperties);
 		this.atrasados.addLast(numero);
 	}
 
@@ -160,7 +185,6 @@ public class BusinessSectorQueue {
 				break;
 			}
 		}
-
 	}
 
 	public synchronized ArrayList<BusinessNumero> obtenerListaAtrasados(ArrayList<BusinessTramite> listaTramites) {
@@ -232,19 +256,24 @@ public class BusinessSectorQueue {
 		System.out.println("*** Estado Cola ***");
 		System.out.println("Numeros de la cola de prioridad 1");
 		for (BusinessNumero bn : this.colaPrioridad1) {
-			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad() + ", Hora: "
-					+ bn.getHora().getTime().toString());
+			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad()
+					+ ", Hora: " + bn.getHora().getTime().toString()+", Estado: "+bn.getEstado());
 		}
 
 		System.out.println("\nNumeros de la cola de prioridad 2");
 		for (BusinessNumero bn : this.colaPrioridad2) {
-			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad() + ", Hora: "
-					+ bn.getHora().getTime().toString());
+			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad()
+					+ ", Hora: " + bn.getHora().getTime().toString()+", Estado: "+bn.getEstado());
 		}
 		System.out.println("\nNumeros de la lista Pausados");
 		for (BusinessNumero bn : this.pausados) {
-			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad() + ", Hora: "
-					+ bn.getHora().getTime().toString());
+			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad()
+					+ ", Hora: " + bn.getHora().getTime().toString()+", Estado: "+bn.getEstado());
+		}
+		System.out.println("\nNumeros de la lista Atrasados");
+		for (BusinessNumero bn : this.atrasados) {
+			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad()
+					+ ", Hora: " + bn.getHora().getTime().toString()+", Estado: "+bn.getEstado());
 		}
 		System.out.println("\n*** Fin Estado Cola ***\n");
 	}
