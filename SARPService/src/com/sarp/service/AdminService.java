@@ -41,6 +41,24 @@ public class AdminService {
 	@Context ServletContext context;
 
   	@POST
+  	@Path("/puesto2")
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String altaPuesto2(JSONPuesto puesto){
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(true){
+  			try{
+  				ctrl.altaPuesto(puesto);
+  				return "Puesto "+puesto.getNombreMaquina()+" dado de alta satisfactoriamente";
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al crear el Puesto");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+  	}
+	
+  	@POST
   	@Path("/puesto")
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String altaPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
