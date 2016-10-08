@@ -11,7 +11,7 @@ public class BusinessPuesto {
 	public BusinessPuesto(String nombreMaquina, String usuarioId, String estado, Integer numeroPuesto) {
 		this.nombreMaquina = nombreMaquina;
 		this.usuarioId = usuarioId;
-		this.estado = (estado != null) ? EstadoPuesto.valueOf(estado) : null;
+		this.estado = (estado != null && !estado.equals("")) ? EstadoPuesto.valueOf(estado) : null;
 		this.numeroPuesto = numeroPuesto;
 	}
 

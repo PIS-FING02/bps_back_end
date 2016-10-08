@@ -7,6 +7,7 @@ import com.sarp.classes.BusinessSector;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONPuestoTramite;
 import com.sarp.json.modeler.JSONPuestoSector;
+import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;

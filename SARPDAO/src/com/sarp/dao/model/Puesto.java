@@ -16,7 +16,6 @@ public class Puesto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="nombre_maquina")
 	private String nombreMaquina;
 

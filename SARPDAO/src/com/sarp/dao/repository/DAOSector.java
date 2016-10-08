@@ -1,6 +1,8 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
+
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 
@@ -32,13 +34,13 @@ public class DAOSector {
 	
 	/* Obtengo la entidad de Sector en la bd con su codigo */
 
-	public Sector selectSector(String codigo) throws Exception{		
+	public Sector selectSector(String codigo) throws RollbackException{		
 		Sector s = em.find(Sector.class, codigo);
 		if (s != null){
 			return s;
 		}
 		else{
-			throw new Exception("No existe el Sector con código " + codigo);
+			throw new RollbackException("No existe el Sector con código " + codigo);
 		}
     }
 	
@@ -51,7 +53,7 @@ public class DAOSector {
 	
 	/* Modifico la ruta de un Sector dado por su codigo */
 
-	public void updateSector(String codigo, String nombre, String rutaSector) throws Exception{		
+	public void updateSector(String codigo, String nombre, String rutaSector) throws RollbackException{		
 		Sector s = selectSector(codigo);
 		s.setNombre(nombre);
 		s.setRutaSector(rutaSector);
@@ -62,7 +64,7 @@ public class DAOSector {
 	
 	/* elimino un Sector de la base de datos */
 
-	public void deleteSector(String codigo) throws Exception{		
+	public void deleteSector(String codigo) throws RollbackException{		
 		Sector s = selectSector(codigo);
     	em.remove(s);
     }
