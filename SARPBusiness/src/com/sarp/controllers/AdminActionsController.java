@@ -3,16 +3,10 @@ package com.sarp.controllers;
 import java.util.List;
 
 import com.sarp.classes.BusinessDisplay;
-import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
-import com.sarp.classes.BusinessTramite;
 import com.sarp.json.modeler.JSONPuesto;
-<<<<<<< HEAD
 import com.sarp.json.modeler.JSONPuestoTramite;
-=======
 import com.sarp.json.modeler.JSONPuestoSector;
->>>>>>> 2d50579... testTerminados
-import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
