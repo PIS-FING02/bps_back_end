@@ -219,10 +219,10 @@ public class AdminService {
 		sectorCtrl.asociarTramiteSector(idTramite, idSector);
 	}
 	
-	public void asignarPuestoSector(BusinessSector sector, BusinessPuesto puesto) throws Exception{
+	public void asignarPuestoSector(JSONSector sector,JSONPuesto puesto) throws Exception{
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
-		sectorCtrl.asociarSectorPuesto(sector.getSectorId(),puesto.getNombreMaquina());
+		sectorCtrl.asociarSectorPuesto(sector.getCodigo(),puesto.getNombreMaquina());
 	}
 	
 
