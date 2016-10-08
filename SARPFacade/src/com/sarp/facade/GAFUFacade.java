@@ -35,8 +35,8 @@ public class GAFUFacade {
 		String location = GAFUFacade.class.getProtectionDomain().getCodeSource().getLocation().getPath().toString();
 	    String result[] = location.split("/standalone");
 		String path = result[0] + "/modules/conf/GAFUfing/endpoints.properties";
-		//Linea solo para preubas
-		//path = "/Users/franciscocabrera/EAP-6.4.0/modules/conf/GAFUfing/endpoints.properties";
+		//Linea solo para pruebas
+		//path = "C:/Users/Mario/jboss-eap-6.4/modules/conf/GAFUfing/endpoints.properties";
 		Properties prop = new Properties();
 		InputStream input;
 		try {

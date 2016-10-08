@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
 	DisplayTest.class,
 	NumeroTest.class,
 	PuestoTest.class,
-	TramiteTest.class
+	TramiteTest.class,
+	GAFUTest.class
 })
 
 public class TestSuite {   
