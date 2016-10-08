@@ -7,7 +7,11 @@ import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.json.modeler.JSONPuesto;
+<<<<<<< HEAD
 import com.sarp.json.modeler.JSONPuestoTramite;
+=======
+import com.sarp.json.modeler.JSONPuestoSector;
+>>>>>>> 2d50579... testTerminados
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
@@ -101,9 +105,9 @@ public class AdminActionsController {
 	}
 	
 	
-	public void asignarPuestoSector(JSONTramiteSector tramSec) throws Exception {
+	public void asignarPuestoSector(JSONPuestoSector puestoSec) throws Exception {
 		AdminService adminService = new AdminService();
-		adminService.asignarTramiteSector(tramSec.getTramite().getCodigo(),tramSec.getSector().getCodigo());
+		adminService.asignarPuestoSector(puestoSec.getSector(),puestoSec.getPuesto());
 	}
 
 

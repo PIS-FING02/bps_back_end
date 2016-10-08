@@ -9,6 +9,11 @@ public class JSONSector {
 	private String rutaSector;
 	private List<JSONPuesto> puestos;
 	private List<JSONDisplay> displays;
+	@Override
+	public String toString() {
+		return "JSONSector [codigo=" + codigo + ", nombre=" + nombre + ", rutaSector=" + rutaSector + ", puestos="
+				+ puestos + ", displays=" + displays + ", tramites=" + tramites + "]";
+	}
 	private List<JSONTramite> tramites;
 	
 	public String getCodigo() {
