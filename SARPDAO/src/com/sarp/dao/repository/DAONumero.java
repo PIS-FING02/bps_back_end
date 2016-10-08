@@ -1,6 +1,7 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
 
 import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.Numero;
@@ -52,13 +53,13 @@ public class DAONumero {
 		em.persist(dc);
 	}
 	
-	public Numero selectNumero(int internalId) throws Exception{
+	public Numero selectNumero(int internalId) throws RollbackException{
 		Numero n = em.find(Numero.class, internalId);
 		if (n != null){
 			return n;
 		}
 		else{
-			throw new Exception("No existe el Numero con c�digo " + internalId);
+			throw new RollbackException("No existe el Numero con codigo " + internalId);
 		}
     }
 	
@@ -83,12 +84,12 @@ public class DAONumero {
 		return res;
 	}		
 	
-	public void deleteNumero(int id) throws Exception {		
+	public void deleteNumero(int id) throws RollbackException {		
 		Numero n = selectNumero(id);
     	em.remove(n);
 	}
 
-	public void updateNumero(Integer internalId, String estado, String externalId, Date hora, Integer prioridad) throws Exception {
+	public void updateNumero(Integer internalId, String estado, String externalId, Date hora, Integer prioridad) throws RollbackException {
 		Numero n = selectNumero(internalId);
 		n.setEstado(estado);
 		n.setExternalId(externalId);

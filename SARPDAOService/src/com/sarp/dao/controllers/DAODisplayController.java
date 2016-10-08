@@ -3,6 +3,8 @@ package com.sarp.dao.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
+
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
@@ -24,7 +26,7 @@ public class DAODisplayController {
 		return ret.getCodigo();
 	}
 	
-	public BusinessDisplay obtenerDisplay(int codigo) throws Exception{
+	public BusinessDisplay obtenerDisplay(int codigo) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		
@@ -50,7 +52,7 @@ public class DAODisplayController {
 		return ret;
 	}
 	
-	public void modificarDisplay(BusinessDisplay d) throws Exception{
+	public void modificarDisplay(BusinessDisplay d) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		
@@ -60,7 +62,7 @@ public class DAODisplayController {
 		em.close();		
 	}
 	
-	public void eliminarDisplay(int codigo) throws Exception{
+	public void eliminarDisplay(int codigo) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		

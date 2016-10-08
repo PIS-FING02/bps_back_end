@@ -1,4 +1,6 @@
-﻿DROP SCHEMA public CASCADE;
+﻿BEGIN;
+
+DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
 
@@ -139,6 +141,8 @@ CREATE TABLE public.METRICAS_PUESTO
   last_updated timestamp,  
   CONSTRAINT metricas_puesto_pkey PRIMARY KEY (codigo_puesto, usuario_atencion, dia_mes_anio, estado)
 );
+
+COMMIT;
 
 
 
