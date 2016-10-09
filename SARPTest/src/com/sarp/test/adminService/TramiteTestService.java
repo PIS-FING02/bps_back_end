@@ -64,6 +64,16 @@ public class TramiteTestService {
 			   }
 		   }
 		   assertEquals(isOk,true); 
+		   /**** Prueba de asignar tramite puesto  ****/
+		   // se asigna tramite a un puesto que tenga un sectro q a su vez tenga el tramite
+		   
+		   // se asigna tramite a un puesto que NO tenga un sectro q a su vez tenga el tramite 
+		   
+		   //se asigna tramite a un puesto nulo
+		   
+		   		   
+		   
+		   
 		   
 		   //borro de la base los datos de prueba
 		   ctrlSector.eliminarSector(sec.getCodigo());
