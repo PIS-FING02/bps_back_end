@@ -32,7 +32,7 @@ public class DAODisplayController {
 		Display d = displayRepository.selectDisplay(codigo);
 		em.close();
 		BusinessDisplay ret = new BusinessDisplay(d.getCodigo(),d.getRutaArchivo());
-		ret.setLastUpdated((Timestamp) d.getLastUpdated());
+		ret.setLastUpdated(d.getLastUpdated());
 		return ret;	
 	}
 		
@@ -46,6 +46,7 @@ public class DAODisplayController {
 		ArrayList<BusinessDisplay> ret = new ArrayList<BusinessDisplay>();
 		for(Display md : lista){
 			BusinessDisplay d = new BusinessDisplay(md.getCodigo(),md.getRutaArchivo());
+			d.setLastUpdated(md.getLastUpdated());
 			ret.add(d);
 		}		
 		return ret;

@@ -26,7 +26,6 @@ public class DAOPuesto {
 		p.setUsuarioId(usuarioId);
 		p.setEstado("CERRADO");
 		p.setNumero(numero);
-		p.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		
 		em.persist(p);
 	}
@@ -55,7 +54,7 @@ public class DAOPuesto {
 		p.setEstado(estado);
 		p.setNumero(numero);
 		p.setUsuarioId(usuarioId);
-		p.setLastUpdated(lastUpdated);
+		p.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 		
 		em.persist(p);
 	}
