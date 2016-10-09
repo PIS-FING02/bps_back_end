@@ -29,7 +29,7 @@ public class AttentionService {
 		BusinessPuesto bPuesto = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
 
 		if (bPuesto.getEstado() == EstadoPuesto.CERRADO && puesto.getUsuarioId() != null) {
-			bPuesto.setEstado(EstadoPuesto.DIPONIBLE);
+			bPuesto.setEstado(EstadoPuesto.DISPONIBLE);
 			bPuesto.setUsuarioId(puesto.getUsuarioId());
 			// Se delega a DaoService
 			controladorPuesto.modificarPuesto(bPuesto);
@@ -43,8 +43,8 @@ public class AttentionService {
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto bPuesto = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
 
-		if (bPuesto.getEstado() != EstadoPuesto.CERRADO) {
-			bPuesto.setEstado(EstadoPuesto.DIPONIBLE);
+		if (bPuesto.getEstado() != EstadoPuesto.CERRADO && bPuesto.getEstado() != EstadoPuesto.ATENDIENDO) {
+			bPuesto.setEstado(EstadoPuesto.CERRADO);
 			bPuesto.setUsuarioId(null);
 			// Se delega a DaoService
 			controladorPuesto.modificarPuesto(bPuesto);
@@ -83,7 +83,7 @@ public class AttentionService {
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
 		if (puestoSend.getEstado() == EstadoPuesto.ATENDIENDO) {
-			puestoSend.setEstado(EstadoPuesto.DIPONIBLE);
+			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
 			// Se delega a DaoService
 			controladorPuesto.modificarPuesto(bPuesto);
 			controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
@@ -102,7 +102,7 @@ public class AttentionService {
 
 		// Traigo el puesto desde la base
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
-		if (puestoSend.getEstado() == EstadoPuesto.DIPONIBLE) {
+		if (puestoSend.getEstado() == EstadoPuesto.DISPONIBLE) {
 
 			// Traigo todos los sectores del puesto
 			List<BusinessSector> sectoresPuesto = controladorPuesto
@@ -188,7 +188,7 @@ public class AttentionService {
 			colaSector.agregarNumeroAtrasado(numeroActual);
 
 			// Modifico el estado del puesto
-			puestoSend.setEstado(EstadoPuesto.DIPONIBLE);
+			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
 			controladorPuesto.modificarPuesto(puestoSend);
 			// falta crear la operacion siguiente q desasocia el nro del puesto
 			//controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
@@ -218,7 +218,7 @@ public class AttentionService {
 			colaSector.agregarNumeroAtrasado(numeroActual);
 
 			// Modifico el estado del puesto
-			puestoSend.setEstado(EstadoPuesto.DIPONIBLE);
+			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
 			// falta esto igual q caso atrasar
 			// controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
 			controladorPuesto.modificarPuesto(puestoSend);

@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
 	//DisplayTest.class,
-	PuestoTest.class
+	//PuestoTest.class
+	cambiarEstadoPuestoTest.class
 })
 
 public class TestSuite {   
