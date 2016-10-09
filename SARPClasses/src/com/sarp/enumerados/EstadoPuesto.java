@@ -2,13 +2,13 @@ package com.sarp.enumerados;
 
 //Posibles estados por los que puede pasar un puesto
 public enum EstadoPuesto {
-	CERRADO, DIPONIBLE, LLAMANDO, ATENDIENDO;
+	CERRADO, DISPONIBLE, LLAMANDO, ATENDIENDO;
 	
 	public static EstadoPuesto getEnum(String s){
         if(CERRADO.name().equals(s)){
             return CERRADO;
-        }else if(DIPONIBLE.name().equals(s)){
-            return DIPONIBLE;
+        }else if(DISPONIBLE.name().equals(s)){
+            return DISPONIBLE;
         }else if(LLAMANDO.name().equals(s)){
             return LLAMANDO;
         }else if (ATENDIENDO.name().equals(s)){

@@ -108,7 +108,8 @@ public class PuestoTest {
 
 		
 	}
-
+*/
+	@Test
 	public void modificarPuesto(){
 		
 		try{
@@ -117,18 +118,18 @@ public class PuestoTest {
 			//Modificar Puesto
 			AdminActionsController ctrl = fac.getAdminActionsController();		
 			boolean result = false;
-			BusinessPuesto puestoModificar = new BusinessPuesto("PuestoModificar1132", "","CERRADO", 32);
+			BusinessPuesto puestoModificar = new BusinessPuesto("PuestoModificar121212123", "","CERRADO", 32);
 			ctrlDaoPuesto.crearPuesto(puestoModificar);
 			
 			JSONPuesto puesto3 = new JSONPuesto();	
-			puesto3.setNombreMaquina("PuestoModificar1132");
-			puesto3.setNumeroPuesto(null);
+			puesto3.setNombreMaquina("PuestoModificar121212123");
+			puesto3.setNumeroPuesto(6);
 			puesto3.setUsuarioId("Guzaman");
-			puesto3.setEstado("ATENDIENDO");
+			puesto3.setEstado("DISPONIBLE");
 			
 			ctrl.modificarPuesto(puesto3);
 			
-			BusinessPuesto puestoModificado = ctrlDaoPuesto.obtenerPuesto("PuestoModificar1132");
+			BusinessPuesto puestoModificado = ctrlDaoPuesto.obtenerPuesto("PuestoModificar121212123");
 			if(puestoModificado.getUsuarioId().equals("Guzaman")&& puestoModificado.getEstado() == EstadoPuesto.ATENDIENDO){
 				result = true;
 			}
@@ -141,7 +142,7 @@ public class PuestoTest {
 		}		
 
 	}
-*/
+/*
 	@Test
 	public void listarPuestos(){
 		
@@ -172,7 +173,7 @@ public class PuestoTest {
 
 	}
 	//--------------------------------------------------------------------------------
-	
+	*/
 	
 	
 }

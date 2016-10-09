@@ -18,7 +18,7 @@ public class Factory {
 	}
 	
 	public AttentionsController getAttentionsController(){
-		return null;
+		return AttentionsController.getInstance();
 	}
 	
 	public AdminActionsController getAdminActionsController(){

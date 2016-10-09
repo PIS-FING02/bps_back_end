@@ -67,11 +67,15 @@ public class AdminService {
 			DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 			DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 			BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(bPuesto.getNombreMaquina());
+			
 			if(bPuesto.getEstado() != null){
 				puestoSend.setEstado(bPuesto.getEstado());
 			}
 			if(bPuesto.getUsuarioId()!= null){
 				puestoSend.setUsuarioId(bPuesto.getUsuarioId());
+			}
+			if(bPuesto.getNumeroPuesto() != null){
+				puestoSend.setNumeroPuesto(bPuesto.getNumeroPuesto());
 			}
 			//Se delega a DaoService
 			controladorPuesto.modificarPuesto(puestoSend);
