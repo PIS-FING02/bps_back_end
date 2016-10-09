@@ -1,11 +1,13 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
 import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Sector;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 
 public class DAODisplay {
 	
@@ -21,31 +23,31 @@ public class DAODisplay {
 	public Display insertDisplay(String rutaArchivo){		
 		Display d = new Display();
 		d.setRutaArchivo(rutaArchivo);
-		d.setDateCreated(new Date());
+		d.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		em.persist(d);
 		return d;
 	}
 	
 	/* Obtengo la entidad de Display en la bd con su codigo */
-	public Display selectDisplay(int codigo) throws Exception{		
+	public Display selectDisplay(int codigo) throws RollbackException{		
 		Display d = em.find(Display.class, codigo);
 		if (d != null){
 			return d;
 		}
 		else{
-			throw new Exception("No existe el Display con código " + codigo);
+			throw new RollbackException("No existe el Display con código " + codigo);
 		}
     }
 	
 	/* Obtengo todos los displays en la base de datos */
 	@SuppressWarnings("unchecked")
-	public List<Display> selectDisplays(){	
-		List<Display> res = em.createQuery("select d from Display d").getResultList();
+	public ArrayList<Display> selectDisplays(){	
+		ArrayList<Display> res = new ArrayList<Display>(em.createQuery("select d from Display d").getResultList());
 		return res;
 	}
 	
 	/* Modifico la ruta de un display dado por su codigo */
-	public void updateDisplay(int codigo, String rutaArchivo, Timestamp t) throws Exception{		
+	public void updateDisplay(int codigo, String rutaArchivo, Timestamp t) throws RollbackException{		
 		Display d = selectDisplay(codigo);
 		d.setRutaArchivo(rutaArchivo);
 		d.setLastUpdated(t); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
@@ -53,7 +55,7 @@ public class DAODisplay {
 	}
 	
 	/* Elimino un display de la base de datos */
-	public void deleteDisplay(int codigo) throws Exception{		
+	public void deleteDisplay(int codigo) throws RollbackException{		
 		Display d = selectDisplay(codigo);		
     	em.remove(d);
     }

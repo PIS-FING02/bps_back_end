@@ -1,6 +1,8 @@
 package com.sarp.dao.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -19,14 +21,12 @@ public class DatosComplementario implements Serializable {
 	@Column(name="doc_identidad")
 	private String docIdentidad;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
-	private Date dateCreated;
+	private Timestamp dateCreated;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Version
 	@Column(name="last_updated")
-	private Date lastUpdated;
-
+	private Timestamp lastUpdated;
 
 	@Column(name="nombre_completo")
 	private String nombreCompleto;
@@ -51,19 +51,19 @@ public class DatosComplementario implements Serializable {
 		this.docIdentidad = docIdentidad;
 	}
 
-	public Date getDateCreated() {
+	public Timestamp getDateCreated() {
 		return this.dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getLastUpdated() {
+	public Timestamp getLastUpdated() {
 		return this.lastUpdated;
 	}
 
-	public void setLastUpdated(Date lastUpdated) {
+	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 

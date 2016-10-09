@@ -1,6 +1,8 @@
 package com.sarp.dao.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -19,13 +21,12 @@ public class Tramite implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer codigo;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
-	private Date dateCreated;
+	private Timestamp dateCreated;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Version
 	@Column(name="last_updated")
-	private Date lastUpdated;
+	private Timestamp lastUpdated;
 
 	private String nombre;
 
@@ -73,19 +74,19 @@ public class Tramite implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public Date getDateCreated() {
+	public Timestamp getDateCreated() {
 		return this.dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getLastUpdated() {
+	public Timestamp getLastUpdated() {
 		return this.lastUpdated;
 	}
 
-	public void setLastUpdated(Date lastUpdated) {
+	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 

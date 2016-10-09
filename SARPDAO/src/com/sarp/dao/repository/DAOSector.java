@@ -1,11 +1,15 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
-
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class DAOSector {
@@ -24,45 +28,43 @@ public class DAOSector {
 		s.setCodigo(codigo);
 		s.setNombre(nombre);
 		s.setRutaSector(ruta);
-		s.setDateCreated(new Date());
-		s.setLastUpdated(new Date());
+		s.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		
 		em.persist(s);
 	}
 	
 	/* Obtengo la entidad de Sector en la bd con su codigo */
 
-	public Sector selectSector(String codigo) throws Exception{		
+	public Sector selectSector(String codigo) throws RollbackException{		
 		Sector s = em.find(Sector.class, codigo);
 		if (s != null){
 			return s;
 		}
 		else{
-			throw new Exception("No existe el Sector con código " + codigo);
+			throw new RollbackException("No existe el Sector con código " + codigo);
 		}
     }
 	
 	/* Obtengo todos los Sectores en la base de datos */
 	@SuppressWarnings("unchecked")
-	public List<Sector> selectSectores(){		
-		List<Sector> res = em.createQuery("select s from Sector s").getResultList();
+	public ArrayList<Sector> selectSectores(){		
+		ArrayList<Sector> res = new ArrayList<Sector>(em.createQuery("select s from Sector s").getResultList());
 		return res;
 	}
 	
 	/* Modifico la ruta de un Sector dado por su codigo */
 
-	public void updateSector(String codigo, String nombre, String rutaSector) throws Exception{		
+	public void updateSector(String codigo, String nombre, String rutaSector) throws RollbackException{		
 		Sector s = selectSector(codigo);
 		s.setNombre(nombre);
 		s.setRutaSector(rutaSector);
-		s.setLastUpdated(new Date());
 		
 		em.persist(s);
 	}
 	
 	/* elimino un Sector de la base de datos */
 
-	public void deleteSector(String codigo) throws Exception{		
+	public void deleteSector(String codigo) throws RollbackException{		
 		Sector s = selectSector(codigo);
     	em.remove(s);
     }
@@ -70,8 +72,6 @@ public class DAOSector {
 	public void asociarSectorPuesto(Sector s, Puesto p) {
 		s.getPuestos().add(p);
 		p.getSectors().add(s);
-		s.setLastUpdated(new Date());
-		p.setLastUpdated(new Date());
 		
 		em.persist(s);
 		em.persist(p);
@@ -80,8 +80,6 @@ public class DAOSector {
 	public void desasociarSectorPuesto(Sector s, Puesto p) {
 		s.getPuestos().remove(p);
 		p.getSectors().remove(s);
-		s.setLastUpdated(new Date());
-		p.setLastUpdated(new Date());
 		
 		em.persist(s);
 		em.persist(p);

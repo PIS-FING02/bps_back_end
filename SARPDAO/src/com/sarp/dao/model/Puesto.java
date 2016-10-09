@@ -1,6 +1,8 @@
 package com.sarp.dao.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -16,23 +18,19 @@ public class Puesto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="nombre_maquina")
 	private String nombreMaquina;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
-	private Date dateCreated;
+	private Timestamp dateCreated;
 
 	private String estado;
 	
 	private Integer numero;
 	
-	//private Integer numero_puesto;
-
-	@Temporal(TemporalType.TIMESTAMP)
+	@Version
 	@Column(name="last_updated")
-	private Date lastUpdated;
+	private Timestamp lastUpdated;
 
 	@Column(name="usuario_id")
 	private String usuarioId;
@@ -76,8 +74,7 @@ public class Puesto implements Serializable {
 		)
 	private List<Tramite> tramites;
 
-//	//bi-directional one-to-one association to Numero
-
+	//bi-directional one-to-one association to Numero
 	@OneToOne
 	@JoinColumn(name="numero_puesto")
 	private Numero numero_puesto;
@@ -93,14 +90,6 @@ public class Puesto implements Serializable {
 		this.nombreMaquina = nombreMaquina;
 	}
 
-	public Date getDateCreated() {
-		return this.dateCreated;
-	}
-
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
 	public String getEstado() {
 		return this.estado;
 	}
@@ -109,11 +98,19 @@ public class Puesto implements Serializable {
 		this.estado = estado;
 	}
 
-	public Date getLastUpdated() {
+	public Timestamp getDateCreated() {
+		return this.dateCreated;
+	}
+
+	public void setDateCreated(Timestamp dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Timestamp getLastUpdated() {
 		return this.lastUpdated;
 	}
 
-	public void setLastUpdated(Date lastUpdated) {
+	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 

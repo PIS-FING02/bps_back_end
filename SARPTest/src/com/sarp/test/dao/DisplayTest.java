@@ -1,29 +1,13 @@
 package com.sarp.test.dao;
 
 import org.junit.Test;
-
 import com.sarp.classes.BusinessDisplay;
-import com.sarp.classes.BusinessSector;
 import com.sarp.dao.controllers.DAODisplayController;
-import com.sarp.dao.controllers.DAONumeroController;
-import com.sarp.dao.controllers.DAOPuestoController;
-import com.sarp.dao.controllers.DAOSectorController;
-import com.sarp.dao.controllers.DAOTramiteController;
-import com.sarp.dao.factory.EMFactory;
-import com.sarp.dao.model.Display;
-import com.sarp.dao.repository.DAODisplay;
-import com.sun.org.apache.bcel.internal.generic.DADD;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.OptimisticLockException;
 import javax.persistence.RollbackException;
 
 public class DisplayTest {
@@ -34,7 +18,7 @@ public class DisplayTest {
     public static void setUpClassDisplayTest(){   
 		ctrlDisplay = new DAODisplayController();
 		id = new ArrayList<Integer>();
-		for(int i = 0; i < 3; i++){
+		for(int i = 0; i < 4; i++){
 	        BusinessDisplay d = new BusinessDisplay();
 	        d.setRutaArchivo("RUTAEJEMPLO" + i);
 	        id.add(ctrlDisplay.crearDisplay(d));
@@ -50,37 +34,91 @@ public class DisplayTest {
    }
    
    @Test
-   public void testModificarDisplay() throws Exception {	      	   
-      BusinessDisplay d = ctrlDisplay.obtenerDisplay(id.get(0));
-      assertEquals(d.getRutaArchivo(), "RUTAEJEMPLO0");  
+   public void testCrearDisplay1() throws Exception {
+	   BusinessDisplay d = new BusinessDisplay();
+	   Integer id = ctrlDisplay.crearDisplay(d);
+	   BusinessDisplay d2 = ctrlDisplay.obtenerDisplay(id);
+	   assertEquals(d2.getCodigo(), id);
+	   assertEquals(d2.getRutaArchivo(), null);
+	   ctrlDisplay.eliminarDisplay(id);
+   }
+   
+   @Test
+   public void testCrearDisplay2() throws Exception {
+	   BusinessDisplay d = new BusinessDisplay();
+	   d.setCodigo(998789789);
+	   Integer id = ctrlDisplay.crearDisplay(d);
+	   BusinessDisplay d2 = ctrlDisplay.obtenerDisplay(id);
+	   assertEquals(d2.getCodigo(), id);
+	   assertEquals(d2.getRutaArchivo(), null);
+	   ctrlDisplay.eliminarDisplay(id);
+   }
+   
+   @Test
+   public void testCrearDisplay3() throws Exception {
+	   BusinessDisplay d = new BusinessDisplay();
+	   d.setRutaArchivo("ruta");
+	   Integer id = ctrlDisplay.crearDisplay(d);
+	   BusinessDisplay d2 = ctrlDisplay.obtenerDisplay(id);
+	   assertEquals(d2.getCodigo(), id);
+	   assertEquals(d2.getRutaArchivo(), "ruta");
+	   ctrlDisplay.eliminarDisplay(id);
+   }
+   
+   @Test
+   public void testObtenerDisplayValido() throws Exception {
+	   BusinessDisplay d = ctrlDisplay.obtenerDisplay(id.get(0));
+	   assertEquals(d.getRutaArchivo(), "RUTAEJEMPLO0");
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testObtenerDisplayInvalido() throws Exception {
+	   BusinessDisplay d = ctrlDisplay.obtenerDisplay(999999);
+   }   
+   
+   @Test
+   public void testModificarDisplayValido() throws Exception {
+      BusinessDisplay d = ctrlDisplay.obtenerDisplay(id.get(1));
+      assertEquals(d.getRutaArchivo(), "RUTAEJEMPLO1");  
       
       d.setRutaArchivo("cambio");
       ctrlDisplay.modificarDisplay(d);
-      BusinessDisplay d3 = ctrlDisplay.obtenerDisplay(id.get(0));
+      BusinessDisplay d3 = ctrlDisplay.obtenerDisplay(id.get(1));
       assertEquals(d3.getRutaArchivo(), "cambio");     
    }
    
    @Test(expected=RollbackException.class)
-   public void testOptimisticLockDisplay() throws Exception{
-	   BusinessDisplay d1 = ctrlDisplay.obtenerDisplay(id.get(1));	
-	   BusinessDisplay d2 = ctrlDisplay.obtenerDisplay(id.get(1));
+   public void testModificarDisplayInvalido() throws Exception {
+	  System.out.println("\nModificarDisplay2");
+      BusinessDisplay d = new BusinessDisplay();
+      d.setCodigo(98789789);   
+      d.setRutaArchivo("cambio");
+      ctrlDisplay.modificarDisplay(d);
+   }
+    
+   @Test
+   public void testListarDisplays() throws Exception{
+	   System.out.println("\nDisplays:");
+	   List<BusinessDisplay> lista = ctrlDisplay.listarDisplays();
+	   for(BusinessDisplay d : lista){
+		   System.out.println("Display: " + d.getCodigo().toString() + "-" + d.getRutaArchivo());
+	   }
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testEliminarDisplayInvalido(){
+	   ctrlDisplay.eliminarDisplay(99789789);
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testOptimisticLockDisplay(){
+	   System.out.println("\nOptimisticLockDisplay");
+	   BusinessDisplay d1 = ctrlDisplay.obtenerDisplay(id.get(2));	
+	   BusinessDisplay d2 = ctrlDisplay.obtenerDisplay(id.get(2));
 	   d1.setRutaArchivo("otzroaassaq11");		
 	   d2.setRutaArchivo("otro212");
 	   ctrlDisplay.modificarDisplay(d1);					
 	   ctrlDisplay.modificarDisplay(d2);
-   }
-   
-   @Test
-   public void testListarDisplays() throws Exception{
-	   List<BusinessDisplay> lista = ctrlDisplay.listarDisplays();
-	   BusinessDisplay d = ctrlDisplay.obtenerDisplay(id.get(2));
-	   boolean esta = false;
-	   for(BusinessDisplay it : lista){
-		   if(it.getCodigo() == d.getCodigo()){
-			   esta = true;
-		   }
-	   }
-	   assertEquals(esta, true);
    }
    
   

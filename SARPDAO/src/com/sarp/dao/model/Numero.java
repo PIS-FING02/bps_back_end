@@ -1,8 +1,11 @@
 package com.sarp.dao.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -20,9 +23,8 @@ public class Numero implements Serializable {
 	@Column(name="internal_id")
 	private Integer internalId;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
-	private Date dateCreated;
+	private Timestamp dateCreated;
 
 	private String estado;
 
@@ -30,11 +32,11 @@ public class Numero implements Serializable {
 	private String externalId;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date hora;
+	private GregorianCalendar hora;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Version
 	@Column(name="last_updated")
-	private Date lastUpdated;
+	private Timestamp lastUpdated;
 
 	private Integer prioridad;
 
@@ -46,6 +48,11 @@ public class Numero implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="codigo_tramite")
 	private Tramite tramite;
+	
+	//bi-directional many-to-one association to Tramite
+	@ManyToOne
+	@JoinColumn(name="codigo_sector")
+	private Sector sector;
 
 	//bi-directional many-to-many association to Puesto
 	@ManyToMany(mappedBy="numeros")
@@ -65,15 +72,7 @@ public class Numero implements Serializable {
 
 	public void setInternalId(Integer internalId) {
 		this.internalId = internalId;
-	}
-
-	public Date getDateCreated() {
-		return this.dateCreated;
-	}
-
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
+	}	
 
 	public String getEstado() {
 		return this.estado;
@@ -91,19 +90,27 @@ public class Numero implements Serializable {
 		this.externalId = externalId;
 	}
 
-	public Date getHora() {
+	public GregorianCalendar getHora() {
 		return this.hora;
 	}
 
-	public void setHora(Date hora) {
+	public void setHora(GregorianCalendar hora) {
 		this.hora = hora;
 	}
 
-	public Date getLastUpdated() {
+	public Timestamp getDateCreated() {
+		return this.dateCreated;
+	}
+
+	public void setDateCreated(Timestamp dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Timestamp getLastUpdated() {
 		return this.lastUpdated;
 	}
 
-	public void setLastUpdated(Date lastUpdated) {
+	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 
@@ -129,6 +136,14 @@ public class Numero implements Serializable {
 
 	public void setTramite(Tramite tramite) {
 		this.tramite = tramite;
+	}
+	
+	public Sector getSector() {
+		return this.sector;
+	}
+
+	public void setSector(Sector sector) {
+		this.sector = sector;
 	}
 
 	public List<Puesto> getPuestos() {
