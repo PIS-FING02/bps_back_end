@@ -35,23 +35,22 @@ public class ValoresDePrueba {
 			String ci = "0";
 			for(int i = 0; i < 10; i++){
 				BusinessTramite t = new BusinessTramite();
-				t.setNombre("nombre" + 1);
+				t.setNombre("Tramite " + 1);
 				ctrlTramite.crearTramite(t);
 				
 				BusinessSector s = new BusinessSector();
 				String id = Integer.toString(i);
 				s.setSectorId(id);
-				s.setNombre("nombre" + id);
-				s.setRuta("ruta" + id);			
+				s.setNombre("Sector " + id);
+				s.setRuta("ruta de ejemplo " + id);			
 				ctrlSector.crearSector(s);
 				
 				BusinessDisplay d = new BusinessDisplay();
-				d.setRutaArchivo("ruta" + i);
+				d.setRutaArchivo("C:/dir/dis" + id + ".txt");
 				ctrlDisplay.crearDisplay(d);
 				
 				BusinessPuesto p = new BusinessPuesto();
-				p.setNombreMaquina("maquina" + i);
-				p.setEstado(EstadoPuesto.DIPONIBLE);
+				p.setNombreMaquina("NombreMaquina" + i);
 				p.setUsuarioId("usuario" + i);
 				p.setNumeroPuesto(i);
 				ctrlPuesto.crearPuesto(p);
@@ -71,10 +70,6 @@ public class ValoresDePrueba {
 			}
 		}
 		
-		
-		
-		
-
 		System.out.println("FIN cargar=" + cargar);
 	}
 	

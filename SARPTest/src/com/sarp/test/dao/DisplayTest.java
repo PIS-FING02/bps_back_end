@@ -8,6 +8,8 @@ import org.junit.BeforeClass;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.OptimisticLockException;
 import javax.persistence.RollbackException;
 
 public class DisplayTest {
@@ -71,6 +73,7 @@ public class DisplayTest {
 	   assertEquals(d.getRutaArchivo(), "RUTAEJEMPLO0");
    }
    
+   @SuppressWarnings("unused")
    @Test(expected=RollbackException.class)
    public void testObtenerDisplayInvalido() throws Exception {
 	   BusinessDisplay d = ctrlDisplay.obtenerDisplay(999999);
@@ -78,12 +81,12 @@ public class DisplayTest {
    
    @Test
    public void testModificarDisplayValido() throws Exception {
-      BusinessDisplay d = ctrlDisplay.obtenerDisplay(id.get(1));
-      assertEquals(d.getRutaArchivo(), "RUTAEJEMPLO1");  
+      BusinessDisplay d = ctrlDisplay.obtenerDisplay(id.get(2));
+      assertEquals(d.getRutaArchivo(), "RUTAEJEMPLO2");  
       
       d.setRutaArchivo("cambio");
       ctrlDisplay.modificarDisplay(d);
-      BusinessDisplay d3 = ctrlDisplay.obtenerDisplay(id.get(1));
+      BusinessDisplay d3 = ctrlDisplay.obtenerDisplay(id.get(2));
       assertEquals(d3.getRutaArchivo(), "cambio");     
    }
    
@@ -110,15 +113,21 @@ public class DisplayTest {
 	   ctrlDisplay.eliminarDisplay(99789789);
    }
    
-   @Test(expected=RollbackException.class)
+   @Test
    public void testOptimisticLockDisplay(){
-	   System.out.println("\nOptimisticLockDisplay");
-	   BusinessDisplay d1 = ctrlDisplay.obtenerDisplay(id.get(2));	
-	   BusinessDisplay d2 = ctrlDisplay.obtenerDisplay(id.get(2));
-	   d1.setRutaArchivo("otzroaassaq11");		
-	   d2.setRutaArchivo("otro212");
-	   ctrlDisplay.modificarDisplay(d1);					
-	   ctrlDisplay.modificarDisplay(d2);
+	   try{
+		   System.out.println("\nOptimisticLockDisplay");	  
+		   BusinessDisplay d1 = ctrlDisplay.obtenerDisplay(id.get(2));	
+		   BusinessDisplay d2 = ctrlDisplay.obtenerDisplay(id.get(2));
+		   d1.setRutaArchivo("otzroaassaq11");		
+		   d2.setRutaArchivo("otro212");
+		   ctrlDisplay.modificarDisplay(d1);					
+		   ctrlDisplay.modificarDisplay(d2);
+		   assertEquals(true, false);
+	   }
+	   catch(RollbackException e){
+		   assertEquals(e.getCause() instanceof OptimisticLockException, true);
+	   }
    }
    
   

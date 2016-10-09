@@ -29,11 +29,9 @@ public class DAONumero {
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
 		n.setEstado(estado);
-		n.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		tramite.addNumero(n);
 		sector.addNumero(n);
-		//Creo una nueva entidad de DatoComplementario y las asocio
-		//TODO hacer en otro metodo	
+
 		em.persist(n);
 		return n;
 	}
@@ -45,7 +43,6 @@ public class DAONumero {
 		dc.setTipoDoc(tipoDoc);
 		dc.setNumero(numero);
 		//numero.setDatosComplementario(dc);
-		dc.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		
 		em.persist(dc);
 	}
@@ -69,11 +66,11 @@ public class DAONumero {
 	@SuppressWarnings({"unchecked"})
 	public ArrayList<Numero> selectNumerosDelDia(){
 		GregorianCalendar hoy = new GregorianCalendar();
-		ArrayList<Numero> list = (ArrayList<Numero>) em.createQuery("select n from Numero n").getResultList();
+		ArrayList<Numero> list = new ArrayList<Numero>(em.createQuery("select n from Numero n").getResultList());
 		ArrayList<Numero> res = new ArrayList<Numero>();
 		for(Numero n : list){
 			GregorianCalendar hora = n.getHora();
-			if(hora.get(Calendar.YEAR) == hoy.get(Calendar.YEAR) && hora.get(Calendar.MONTH) == hoy.get(Calendar.MONTH) && hora.get(Calendar.DAY_OF_MONTH) == hoy.get(Calendar.DAY_OF_MONTH)){
+			if((hora != null) && (hora.get(Calendar.YEAR) == hoy.get(Calendar.YEAR) && hora.get(Calendar.MONTH) == hoy.get(Calendar.MONTH) && hora.get(Calendar.DAY_OF_MONTH) == hoy.get(Calendar.DAY_OF_MONTH))){
 				res.add(n);
 			}
 		}
@@ -82,16 +79,21 @@ public class DAONumero {
 	
 	public void deleteNumero(int id) throws RollbackException {		
 		Numero n = selectNumero(id);
+		DatosComplementario d = n.getDatosComplementario();
+		if(d != null){
+			em.remove(d);
+		}
     	em.remove(n);
 	}
 
-	public void updateNumero(Integer internalId, String estado, String externalId, GregorianCalendar hora, Integer prioridad) throws RollbackException {
+	public void updateNumero(Integer internalId, String estado, String externalId, GregorianCalendar hora, Integer prioridad, Timestamp lastUpdated) throws RollbackException {
 		Numero n = selectNumero(internalId);
 		n.setEstado(estado);
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
-		
+		n.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
+
 		em.persist(n);	
 	}
 	

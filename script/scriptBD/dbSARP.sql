@@ -7,7 +7,7 @@ CREATE TABLE public.DISPLAY
 (
   codigo serial,
   ruta_archivo character varying(40),
-  date_created timestamp,
+  date_created timestamp default current_timestamp,
   last_updated timestamp,
   CONSTRAINT display_pkey PRIMARY KEY (codigo)
 );
@@ -18,7 +18,7 @@ CREATE TABLE public.SECTOR
   codigo_display int references DISPLAY(codigo), --relacion ONETOMANY entre SECTOR y DISPLAY
   nombre character varying(40),
   ruta_sector character varying(40),  
-  date_created timestamp,
+  date_created timestamp default current_timestamp,
   last_updated timestamp,
   CONSTRAINT sector_pkey PRIMARY KEY (codigo)
 );
@@ -27,7 +27,7 @@ CREATE TABLE public.TRAMITE
 (
   codigo serial,
   nombre character varying(40),
-  date_created timestamp,
+  date_created timestamp default current_timestamp,
   last_updated timestamp,
   CONSTRAINT tramite_pkey PRIMARY KEY (codigo)
 );
@@ -42,8 +42,7 @@ CREATE TABLE public.NUMERO
   hora timestamp,
   estado character varying(40),
   prioridad int,
-  
-  date_created timestamp,
+  date_created timestamp default current_timestamp,
   last_updated timestamp,  
   CONSTRAINT numero_pkey PRIMARY KEY (internal_id)
 );
@@ -56,7 +55,7 @@ CREATE TABLE public.PUESTO
   numero_puesto int references NUMERO(internal_id), -- relacion ONETOONE entre PUESTO y NUMERO
   estado character varying(40),
   usuario_id character varying(40),
-  date_created timestamp,
+  date_created timestamp default current_timestamp,
   last_updated timestamp,
   CONSTRAINT puesto_pkey PRIMARY KEY (nombre_maquina)
 );
@@ -70,7 +69,7 @@ CREATE TABLE public.DATOS_COMPLEMENTARIOS
   internal_id int references NUMERO(internal_id), --relacion ONETOONE entre DATOS_COMPLEMENTARIOS y NUMERO
   nombre_completo character varying(40),
   tipo_doc character varying(40),  
-  date_created timestamp,
+  date_created timestamp default current_timestamp,
   last_updated timestamp,
   CONSTRAINT datos_complementarios_pkey PRIMARY KEY (internal_id)
 );
@@ -116,7 +115,7 @@ CREATE TABLE public.METRICAS_NUMERO
   ruta_sector character varying(40),
   usuario_atencion int,
   resultado_final character varying(40),
-  date_created timestamp,
+  date_created timestamp default current_timestamp,
   last_updated timestamp,  
   CONSTRAINT metricas_numero_pkey PRIMARY KEY (internal_id)
 );
@@ -126,7 +125,7 @@ CREATE TABLE public.METRICAS_ESTADO_NUMERO
   estado character varying(40),
   numero_internal_id int,
   time_spent int,
-  date_created timestamp,
+  date_created timestamp default current_timestamp,
   last_updated timestamp,  
   CONSTRAINT metricas_estado_numero_pkey PRIMARY KEY (estado, numero_internal_id)
 );
@@ -138,7 +137,7 @@ CREATE TABLE public.METRICAS_PUESTO
   dia_mes_anio character varying(40),
   estado character varying(40),
   time_spent int,
-  date_created timestamp,
+  date_created timestamp default current_timestamp,
   last_updated timestamp,  
   CONSTRAINT metricas_puesto_pkey PRIMARY KEY (codigo_puesto, usuario_atencion, dia_mes_anio, estado)
 );

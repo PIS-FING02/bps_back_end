@@ -23,7 +23,6 @@ public class DAODisplay {
 	public Display insertDisplay(String rutaArchivo){		
 		Display d = new Display();
 		d.setRutaArchivo(rutaArchivo);
-		d.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		em.persist(d);
 		return d;
 	}
@@ -47,10 +46,10 @@ public class DAODisplay {
 	}
 	
 	/* Modifico la ruta de un display dado por su codigo */
-	public void updateDisplay(int codigo, String rutaArchivo, Timestamp t) throws RollbackException{		
+	public void updateDisplay(int codigo, String rutaArchivo, Timestamp lastUpdated) throws RollbackException{		
 		Display d = selectDisplay(codigo);
 		d.setRutaArchivo(rutaArchivo);
-		d.setLastUpdated(t); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
+		d.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 		em.persist(d);
 	}
 	
