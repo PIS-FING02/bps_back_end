@@ -1,10 +1,9 @@
 package com.sarp.dao.controllers;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
@@ -33,18 +32,18 @@ public class DAODisplayController {
 		Display d = displayRepository.selectDisplay(codigo);
 		em.close();
 		BusinessDisplay ret = new BusinessDisplay(d.getCodigo(),d.getRutaArchivo());
-		ret.setLastUpdated(d.getLastUpdated());
+		ret.setLastUpdated((Timestamp) d.getLastUpdated());
 		return ret;	
 	}
 		
-	public List<BusinessDisplay> listarDisplays(){
+	public ArrayList<BusinessDisplay> listarDisplays(){
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		
-		List<Display> lista = displayRepository.selectDisplays();
+		ArrayList<Display> lista = displayRepository.selectDisplays();
 		em.close();
 		
-		List<BusinessDisplay> ret = new ArrayList<BusinessDisplay>();
+		ArrayList<BusinessDisplay> ret = new ArrayList<BusinessDisplay>();
 		for(Display md : lista){
 			BusinessDisplay d = new BusinessDisplay(md.getCodigo(),md.getRutaArchivo());
 			ret.add(d);

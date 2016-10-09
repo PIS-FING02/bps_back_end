@@ -17,14 +17,12 @@ import java.util.List;
 public class Display implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer codigo;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
-	private Date dateCreated;
+	private Timestamp dateCreated;
 
 	@Version
 	@Column(name="last_updated")
@@ -38,7 +36,6 @@ public class Display implements Serializable {
 	private List<Sector> sectors;
 
 	public Display() {
-		//sectors = new LinkedList<Sector>();
 	}
 
 	public Integer getCodigo() {
@@ -49,11 +46,11 @@ public class Display implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public Date getDateCreated() {
+	public Timestamp getDateCreated() {
 		return this.dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 

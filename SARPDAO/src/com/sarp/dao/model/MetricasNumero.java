@@ -1,6 +1,8 @@
 package com.sarp.dao.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -23,18 +25,17 @@ public class MetricasNumero implements Serializable {
 	@Column(name="codigo_tramite")
 	private Integer codigoTramite;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="date_created")
-	private Date dateCreated;
+	private Timestamp dateCreated;
 
 	private String estado;
 
 	@Column(name="external_id")
 	private Integer externalId;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Version
 	@Column(name="last_updated")
-	private Date lastUpdated;
+	private Timestamp lastUpdated;
 
 	@Column(name="resultado_final")
 	private String resultadoFinal;
@@ -63,15 +64,7 @@ public class MetricasNumero implements Serializable {
 	public void setCodigoTramite(Integer codigoTramite) {
 		this.codigoTramite = codigoTramite;
 	}
-
-	public Date getDateCreated() {
-		return this.dateCreated;
-	}
-
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
+	
 	public String getEstado() {
 		return this.estado;
 	}
@@ -88,11 +81,19 @@ public class MetricasNumero implements Serializable {
 		this.externalId = externalId;
 	}
 
-	public Date getLastUpdated() {
+	public Timestamp getDateCreated() {
+		return this.dateCreated;
+	}
+
+	public void setDateCreated(Timestamp dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Timestamp getLastUpdated() {
 		return this.lastUpdated;
 	}
 
-	public void setLastUpdated(Date lastUpdated) {
+	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 

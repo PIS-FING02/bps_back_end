@@ -1,6 +1,8 @@
 package com.sarp.dao.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -18,15 +20,18 @@ public class Sector implements Serializable {
 	@Id
 	private String codigo;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created")
-	private Date dateCreated;
+	private Timestamp dateCreated;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Version
 	@Column(name="last_updated")
-	private Date lastUpdated;
+	private Timestamp lastUpdated;
 
 	private String nombre;
+	
+	//bi-directional many-to-one association to Numero
+	@OneToMany(mappedBy="sector", fetch=FetchType.EAGER)
+	private List<Numero> numeros;
 
 	@Column(name="ruta_sector")
 	private String rutaSector;
@@ -55,19 +60,19 @@ public class Sector implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public Date getDateCreated() {
+	public Timestamp getDateCreated() {
 		return this.dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getLastUpdated() {
+	public Timestamp getLastUpdated() {
 		return this.lastUpdated;
 	}
 
-	public void setLastUpdated(Date lastUpdated) {
+	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 
@@ -109,6 +114,28 @@ public class Sector implements Serializable {
 
 	public void setTramites(List<Tramite> tramites) {
 		this.tramites = tramites;
+	}
+	
+	public List<Numero> getNumeros() {
+		return this.numeros;
+	}
+
+	public void setNumeros(List<Numero> numeros) {
+		this.numeros = numeros;
+	}
+
+	public Numero addNumero(Numero numero) {
+		getNumeros().add(numero);
+		numero.setSector(this);
+
+		return numero;
+	}
+
+	public Numero removeNumero(Numero numero) {
+		getNumeros().remove(numero);
+		numero.setTramite(null);
+
+		return numero;
 	}
 
 }
