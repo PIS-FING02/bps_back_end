@@ -127,7 +127,7 @@ public class DAOSectorController {
 		List<Puesto> list = s.getPuestos();
 		List<BusinessPuesto> ret = new LinkedList<BusinessPuesto>();
 		for(Puesto p : list){
-			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getUsuarioId(),p.getNumero());
+			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado() ,p.getNumero());
 			ret.add(bp);
 		}	
 		return ret;
@@ -184,6 +184,23 @@ public class DAOSectorController {
 		}
 		em.getTransaction().begin();
 		tramiteRepository.asociarTramiteSector(s, t);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public void desasociarTramiteSector(int codigoTramite, String codigoSector) throws RollbackException{
+		EntityManager em = EMFactory.getEntityManager();
+		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
+		DAOSector sectorRepository = factory.getSectorRepository(em);
+		
+		Sector s = sectorRepository.selectSector(codigoSector);
+		Tramite t = tramiteRepository.selectTramite(codigoTramite);
+		if(!s.getTramites().contains(t)){
+			em.close();
+			throw new RollbackException("El tramite " + codigoTramite + " y el sector " + codigoSector + " no estan asociados");
+		}
+		em.getTransaction().begin();
+		tramiteRepository.desasociarTramiteSector(s, t);
 		em.getTransaction().commit();
 		em.close();
 	}

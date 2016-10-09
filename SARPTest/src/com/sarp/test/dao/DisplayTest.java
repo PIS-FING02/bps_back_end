@@ -89,7 +89,7 @@ public class DisplayTest {
    
    @Test(expected=RollbackException.class)
    public void testModificarDisplayInvalido() throws Exception {
-	  System.out.println("ModificarDisplay2");
+	  System.out.println("\nModificarDisplay2");
       BusinessDisplay d = new BusinessDisplay();
       d.setCodigo(98789789);   
       d.setRutaArchivo("cambio");
@@ -98,17 +98,21 @@ public class DisplayTest {
     
    @Test
    public void testListarDisplays() throws Exception{
+	   System.out.println("\nDisplays:");
 	   List<BusinessDisplay> lista = ctrlDisplay.listarDisplays();
+	   for(BusinessDisplay d : lista){
+		   System.out.println("Display: " + d.getCodigo().toString() + "-" + d.getRutaArchivo());
+	   }
    }
    
    @Test(expected=RollbackException.class)
-   public void testEliminarDisplayInvalido() throws Exception{
+   public void testEliminarDisplayInvalido(){
 	   ctrlDisplay.eliminarDisplay(99789789);
    }
    
    @Test(expected=RollbackException.class)
-   public void testOptimisticLockDisplay() throws Exception{
-	   System.out.println("OptimisticLockDisplay");
+   public void testOptimisticLockDisplay(){
+	   System.out.println("\nOptimisticLockDisplay");
 	   BusinessDisplay d1 = ctrlDisplay.obtenerDisplay(id.get(2));	
 	   BusinessDisplay d2 = ctrlDisplay.obtenerDisplay(id.get(2));
 	   d1.setRutaArchivo("otzroaassaq11");		

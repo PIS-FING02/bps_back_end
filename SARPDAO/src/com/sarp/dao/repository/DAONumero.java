@@ -2,17 +2,15 @@ package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
 import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
+import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
-
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class DAONumero {
 	
@@ -24,16 +22,16 @@ public class DAONumero {
 		this.em = em;
 	}
 	
-	public Numero insertNumero(Tramite tramite, String externalId, Date hora, Integer prioridad, String estado){
+	public Numero insertNumero(Tramite tramite, Sector sector, String externalId, GregorianCalendar hora, Integer prioridad, String estado){
 		//Creo la nueva entidad Numero y la asocio con el Tramite
 		Numero n = new Numero();
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
 		n.setEstado(estado);
-		n.setDateCreated(new Date());
-		n.setLastUpdated(new Date());
+		n.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		tramite.addNumero(n);
+		sector.addNumero(n);
 		//Creo una nueva entidad de DatoComplementario y las asocio
 		//TODO hacer en otro metodo	
 		em.persist(n);
@@ -46,9 +44,8 @@ public class DAONumero {
 		dc.setNombreCompleto(nombreCompleto);
 		dc.setTipoDoc(tipoDoc);
 		dc.setNumero(numero);
-		numero.setDatosComplementario(dc);
-		dc.setDateCreated(new Date());
-		dc.setLastUpdated(new Date());
+		//numero.setDatosComplementario(dc);
+		dc.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		
 		em.persist(dc);
 	}
@@ -64,19 +61,18 @@ public class DAONumero {
     }
 	
 	@SuppressWarnings("unchecked")
-	public List<Numero> selectNumeros(){
-		List<Numero> ret = (List<Numero>) em.createQuery("select n from Numero n").getResultList();
+	public ArrayList<Numero> selectNumeros(){
+		ArrayList<Numero> ret = new ArrayList<Numero>(em.createQuery("select n from Numero n").getResultList());
 		return ret;
 	}
 			
 	@SuppressWarnings({"unchecked"})
-	public List<Numero> selectNumerosDelDia(){
+	public ArrayList<Numero> selectNumerosDelDia(){
 		GregorianCalendar hoy = new GregorianCalendar();
-		List<Numero> list = (List<Numero>) em.createQuery("select n from Numero n").getResultList();
-		List<Numero> res = new ArrayList<Numero>();
+		ArrayList<Numero> list = (ArrayList<Numero>) em.createQuery("select n from Numero n").getResultList();
+		ArrayList<Numero> res = new ArrayList<Numero>();
 		for(Numero n : list){
-			GregorianCalendar hora = new GregorianCalendar();
-			hora.setTime(n.getHora());
+			GregorianCalendar hora = n.getHora();
 			if(hora.get(Calendar.YEAR) == hoy.get(Calendar.YEAR) && hora.get(Calendar.MONTH) == hoy.get(Calendar.MONTH) && hora.get(Calendar.DAY_OF_MONTH) == hoy.get(Calendar.DAY_OF_MONTH)){
 				res.add(n);
 			}
@@ -89,13 +85,12 @@ public class DAONumero {
     	em.remove(n);
 	}
 
-	public void updateNumero(Integer internalId, String estado, String externalId, Date hora, Integer prioridad) throws RollbackException {
+	public void updateNumero(Integer internalId, String estado, String externalId, GregorianCalendar hora, Integer prioridad) throws RollbackException {
 		Numero n = selectNumero(internalId);
 		n.setEstado(estado);
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
-		n.setLastUpdated(new Date());
 		
 		em.persist(n);	
 	}
@@ -108,8 +103,6 @@ public class DAONumero {
 	public void asociarNumeroPuestoActual(Numero numero, Puesto puesto) {
 		numero.setPuesto(puesto);
 		puesto.setNumero_puesto(numero);		
-		numero.setLastUpdated(new Date());	
-		puesto.setLastUpdated(new Date());
 		
 		em.persist(puesto);	
 		em.persist(numero);		
@@ -118,8 +111,6 @@ public class DAONumero {
 	public void asociarNumeroPuesto(Numero numero, Puesto puesto) {
 		numero.getPuestos().add(puesto);
 		puesto.getNumeros().add(numero);
-		numero.setLastUpdated(new Date());	
-		puesto.setLastUpdated(new Date());
 		
 		em.persist(puesto);	
 		em.persist(numero);
@@ -129,8 +120,6 @@ public class DAONumero {
 	public void desasociarNumeroPuesto(Numero numero, Puesto puesto) {
 		numero.getPuestos().remove(puesto);
 		puesto.getNumeros().remove(numero);
-		numero.setLastUpdated(new Date());	
-		puesto.setLastUpdated(new Date());
 		
 		em.persist(puesto);	
 		em.persist(numero);
@@ -140,8 +129,6 @@ public class DAONumero {
 	public void desasociarNumeroPuestoActual(Numero numero, Puesto puesto) {
 		numero.setPuesto(null);
 		puesto.setNumero_puesto(null);		
-		numero.setLastUpdated(new Date());	
-		puesto.setLastUpdated(new Date());
 		
 		em.persist(puesto);	
 		em.persist(numero);		

@@ -2,13 +2,12 @@ package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
 import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Sector;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 
 public class DAODisplay {
 	
@@ -24,7 +23,7 @@ public class DAODisplay {
 	public Display insertDisplay(String rutaArchivo){		
 		Display d = new Display();
 		d.setRutaArchivo(rutaArchivo);
-		d.setDateCreated(new Date());
+		d.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		em.persist(d);
 		return d;
 	}
@@ -42,8 +41,8 @@ public class DAODisplay {
 	
 	/* Obtengo todos los displays en la base de datos */
 	@SuppressWarnings("unchecked")
-	public List<Display> selectDisplays(){	
-		List<Display> res = em.createQuery("select d from Display d").getResultList();
+	public ArrayList<Display> selectDisplays(){	
+		ArrayList<Display> res = new ArrayList<Display>(em.createQuery("select d from Display d").getResultList());
 		return res;
 	}
 	

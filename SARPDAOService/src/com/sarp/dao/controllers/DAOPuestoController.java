@@ -1,12 +1,8 @@
 package com.sarp.dao.controllers;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -45,6 +41,7 @@ public class DAOPuestoController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		em.close();
 		BusinessPuesto ret = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(), p.getNumero());
+		ret.setLastUpdated(p.getLastUpdated());
 		return ret;
 	}
 
@@ -59,15 +56,15 @@ public class DAOPuestoController {
 
 	}
 
-	public List<BusinessPuesto> listarPuestos() {
+	public ArrayList<BusinessPuesto> listarPuestos() {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
 
-		List<Puesto> lista = puestoRepository.selectPuestos();
+		ArrayList<Puesto> lista = puestoRepository.selectPuestos();
 		em.close();
-		List<BusinessPuesto> ret = new ArrayList<BusinessPuesto>();
+		ArrayList<BusinessPuesto> ret = new ArrayList<BusinessPuesto>();
 		for (Puesto p : lista) {
-			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(),p.getNumero());
+			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(), p.getNumero());
 			ret.add(bp);
 		}
 		return ret;
@@ -79,20 +76,20 @@ public class DAOPuestoController {
 
 		em.getTransaction().begin();
 		puestoRepository.updatePuesto(puesto.getNombreMaquina(), puesto.getEstado() != null ? puesto.getEstado().toString() : "", puesto.getUsuarioId(),
-				puesto.getNumeroPuesto());
+				puesto.getNumeroPuesto(),puesto.getLastUpdated());
 
 		em.getTransaction().commit();
 		em.close();
 	}
 
-	public List<BusinessSector> obtenerSectoresPuesto(String nombreMaquina) throws RollbackException {
+	public ArrayList<BusinessSector> obtenerSectoresPuesto(String nombreMaquina) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
 
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		em.close();
-		List<Sector> list = p.getSectors();
-		List<BusinessSector> ret = new LinkedList<BusinessSector>();
+		ArrayList<Sector> list = new ArrayList<Sector>(p.getSectors());
+		ArrayList<BusinessSector> ret = new ArrayList<BusinessSector>();
 		for (Sector s : list) {
 			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
 			ret.add(bs);
@@ -163,32 +160,29 @@ public class DAOPuestoController {
 		}
 	}
 
-	public List<BusinessNumero> obtenerNumerosPuesto(String nombreMaquina) throws RollbackException {
+	public ArrayList<BusinessNumero> obtenerNumerosPuesto(String nombreMaquina) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
 
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		em.close();
-		List<Numero> list = p.getNumeros();
-		List<BusinessNumero> ret = new LinkedList<BusinessNumero>();
+		ArrayList<Numero> list = new ArrayList<Numero>(p.getNumeros());
+		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list) {
-			GregorianCalendar c = new GregorianCalendar();
-			c.setTime(n.getHora());
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), c, n.getEstado(),
-					n.getPrioridad());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad());
 			ret.add(res);
 		}
 		return ret;
 	}
 
-	public List<BusinessTramite> obtenerTramitesPuesto(String nombreMaquina) throws RollbackException {
+	public ArrayList<BusinessTramite> obtenerTramitesPuesto(String nombreMaquina) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
 
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		em.close();
-		List<Tramite> list = p.getTramites();
-		List<BusinessTramite> ret = new LinkedList<BusinessTramite>();
+		ArrayList<Tramite> list = new ArrayList<Tramite>(p.getTramites());
+		ArrayList<BusinessTramite> ret = new ArrayList<BusinessTramite>();
 		for (Tramite t : list) {
 			BusinessTramite bt = new BusinessTramite(t.getCodigo(), t.getNombre());
 			ret.add(bt);
@@ -204,10 +198,7 @@ public class DAOPuestoController {
 		em.close();
 		Numero n = p.getNumero_puesto();
 		if(n != null){			
-			GregorianCalendar c = new GregorianCalendar();
-			c.setTime(n.getHora());
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), c, n.getEstado(),
-					n.getPrioridad());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad());
 			return res;
 		}
 		return null;
@@ -227,7 +218,7 @@ public class DAOPuestoController {
 		}
 		else{
 			//Busco los tramites asociados tanto al Sector como al Puesto
-			List<Tramite> list = new LinkedList<Tramite>(s.getTramites());
+			ArrayList<Tramite> list = new ArrayList<Tramite>(s.getTramites());
 			list.retainAll(p.getTramites());		
 			
 			ArrayList<BusinessTramite> ret = new ArrayList<BusinessTramite>();
@@ -236,8 +227,7 @@ public class DAOPuestoController {
 				ret.add(dt);
 			}	
 			return ret;
-		}
-	
+		}	
 	}
 
 }

@@ -2,10 +2,8 @@ package com.sarp.dao.controllers;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
@@ -15,7 +13,6 @@ import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
 import com.sarp.dao.repository.DAOPuesto;
-import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
 
 //import org.dao.repository.NumeroRepository;
@@ -77,25 +74,7 @@ public class DAOTramiteController {
 		tramiteRepository.deleteTramite(codigo);
 		em.getTransaction().commit();
 		em.close();
-	}
-
-	/* Operaciones para la relacion Tramite-Sector */
-	public void desasociarTramiteSector(int codigoTramite, String codigoSector) throws RollbackException{
-		EntityManager em = EMFactory.getEntityManager();
-		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
-		DAOSector sectorRepository = factory.getSectorRepository(em);
-		
-		Sector s = sectorRepository.selectSector(codigoSector);
-		Tramite t = tramiteRepository.selectTramite(codigoTramite);
-		if(!s.getTramites().contains(t)){
-			em.close();
-			throw new RollbackException("El tramite " + codigoTramite + " y el sector " + codigoSector + " no estan asociados");
-		}
-		em.getTransaction().begin();
-		tramiteRepository.desasociarTramiteSector(s, t);
-		em.getTransaction().commit();
-		em.close();
-	}
+	}	
 	
 	public List<BusinessSector> obtenerSectoresTramite(int codigoTramite) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();

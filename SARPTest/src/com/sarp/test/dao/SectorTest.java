@@ -2,9 +2,11 @@ package com.sarp.test.dao;
 
 import org.junit.Test;
 
+import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
+import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
@@ -25,7 +27,7 @@ public class SectorTest {
     public static void setUpClassSectorTest(){  
 		ctrlSector = new DAOSectorController();	
 		id = new ArrayList<String>();
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < 7; i++){
 			BusinessSector s = new BusinessSector();		
 			String idS = "idsectortest" + i;
 			s.setSectorId(idS);
@@ -44,19 +46,26 @@ public class SectorTest {
    
    @Test(expected=RollbackException.class)
    public void testCrearSectorInvalido() throws RollbackException {
-	   BusinessSector s = new BusinessSector();
+	   BusinessSector s = new BusinessSector(); //sin id
 	   ctrlSector.crearSector(s);
    }
    
    @Test(expected=RollbackException.class)
    public void testCrearSectorInvalido2() throws RollbackException {
+	   BusinessSector s = new BusinessSector(); //sin id
+	   s.setSectorId("");
+	   ctrlSector.crearSector(s);
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testCrearSectorInvalido3() throws RollbackException {
 	   BusinessSector s = new BusinessSector();
-	   s.setSectorId("idsectortest0");
+	   s.setSectorId("idsectortest0"); //id repetido
 	   ctrlSector.crearSector(s);
    }
     
    @Test
-   public void testCrearSector2() throws Exception {
+   public void testCrearSector() throws Exception {
 	   BusinessSector s = new BusinessSector();
 	   s.setNombre("nombretest");
 	   s.setSectorId("testcrearpuesto2");
@@ -67,89 +76,120 @@ public class SectorTest {
    }
    
    @Test
-   public void testListarPuestos(){
+   public void testListarSectores(){
+	   System.out.println("\nSectores:");
 	   List<BusinessSector> lista = ctrlSector.listarSectores();
+	   for(BusinessSector s : lista){
+		   System.out.println("Sector: " + s.getSectorId() + "-" + s.getNombre() + "-" + s.getRuta());
+	   }
    }
-   
-   /* TODO
-   @Test
-   public void testObtenerPuestoValido() throws Exception {
-	   BusinessPuesto p = ctrlPuesto.obtenerPuesto(id.get(0));
-	   assertEquals(p.getNombreMaquina(), "nombremaquinatest0");
-   }
-   
-   @Test(expected=RollbackException.class)
-   public void testObtenerPuestoInvalido() throws Exception {
-	   BusinessPuesto p = ctrlPuesto.obtenerPuesto("idquenoexiste");
-   }   
-   
-   @Test
-   public void testModificarPuestoValido() throws Exception {
-      BusinessPuesto p = ctrlPuesto.obtenerPuesto(id.get(1));
-      assertEquals(p.getNombreMaquina(), "nombremaquinatest1");  
-      p.setUsuarioId("usuarioid");
-  
-      ctrlPuesto.modificarPuesto(p);
-      BusinessPuesto p2 = ctrlPuesto.obtenerPuesto("nombremaquinatest1");
-      assertEquals(p2.getUsuarioId(), "usuarioid");     
-   }
-   
-   @Test(expected=RollbackException.class)
-   public void testModificarPuestoInvalido() throws Exception {
-      BusinessPuesto p = new BusinessPuesto();
-      p.setNombreMaquina("nombrequenoexiste");
-      ctrlPuesto.modificarPuesto(p);
-   }
-   
-   @Test(expected=RollbackException.class)
-   public void testEliminarPuestoInvalido() throws Exception{
-	   ctrlPuesto.eliminarPuesto("nombrequenoexiste");
-   }
-   
-   @Test()
-   public void testAsociarNumeroPuesto() throws Exception{
-	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest0", 1);
-	   List<BusinessNumero> a = ctrlPuesto.obtenerNumerosPuesto("nombremaquinatest0");
-	   assertEquals(a.size() > 0, true);
-	   ctrlPuesto.desasociarNumeroPuesto("nombremaquinatest0", 1);
-	   a = ctrlPuesto.obtenerNumerosPuesto("nombremaquinatest0");
-	   assertEquals(a.size() == 0, true);   
-   }
-   
-   @Test(expected=RollbackException.class)
-   public void testAsociarNumeroPuestoInvalido() throws Exception{
-	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest0", 981);
-   }
-   
-   @Test(expected=RollbackException.class)
-   public void testAsociarNumeroPuestoInvalido2() throws Exception{
-	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest1", 2);
-	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest1", 2);
-   }
-   
-   @Test()
-   public void testAsociarNumeroActualPuesto() throws Exception{
-	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest2", 3);
-	   BusinessNumero n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest2");
-	   assertEquals(n.getInternalId() == 3, true);
-	   ctrlPuesto.desasociarNumeroPuestoActual("nombremaquinatest2");
-	   n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest2");
-	   assertEquals(n, null);   
-   }
-   
-   @Test(expected=RollbackException.class)
-   public void testAsociarNumeroActualPuestoInvalido() throws Exception{
-	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest3", 981);
-   }
-   
-   @Test(expected=RollbackException.class)
-   public void testAsociarNumeroActualPuestoInvalido2() throws Exception{
-	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest4", 4);
-	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest4", 4);
-   }
-   */
    
 
+   @Test
+   public void testModificarSectorValido() throws Exception {
+	   BusinessSector s = ctrlSector.obtenerSector("idsectortest1"); 
+	   assertEquals(s.getSectorId(), "idsectortest1");
+	   s.setRuta("rutaejemplo");
+	   ctrlSector.modificarSector(s);
+	   BusinessSector s2 = ctrlSector.obtenerSector("idsectortest1");
+	   assertEquals(s2.getRuta(), "rutaejemplo"); 
+   }
    
+   @Test(expected=RollbackException.class)
+   public void testModificarSectorInvalido() throws Exception {
+	  BusinessSector s = new BusinessSector();
+	  s.setSectorId("idquenoexiste"); //id que no existe
+	  s.setNombre("nombre");
+	  ctrlSector.modificarSector(s);
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testModificarSectorInvalido2() throws Exception {
+	  BusinessSector s = ctrlSector.obtenerSector("idsectortest2"); //id valido
+	  s.setSectorId("otroidquenoexiste");
+	  ctrlSector.modificarSector(s);
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testEliminarSectorInvalido() throws Exception{
+	   ctrlSector.eliminarSector("idquenoexiste");
+   }
+   
+   @Test()
+   public void testAsociarTramiteSector() throws Exception{
+	   String id = "idsectortest3";
+	   ctrlSector.asociarTramiteSector(1, id);
+	   List<BusinessTramite> l = ctrlSector.obtenerTramitesSector(id);
+	   assertEquals(l.get(0).getCodigo() == 1, true);
+	   ctrlSector.desasociarTramiteSector(1, id);
+	   l = ctrlSector.obtenerTramitesSector(id);
+	   assertEquals(l.size() == 0, true);  
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testAsociarTramiteSectorInvalido() throws Exception{
+	   ctrlSector.asociarTramiteSector(456546, "idsectortest4");
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testAsociarTramiteSectorInvalido2() throws Exception{
+	   ctrlSector.asociarTramiteSector(2, "sectorquenoexiste");
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testAsociarTramiteSectorInvalido3() throws Exception{
+	   ctrlSector.asociarTramiteSector(2, "idsectortest4");
+	   ctrlSector.asociarTramiteSector(2, "idsectortest4");
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void desasociarTramiteSectorInvalido() throws Exception{
+	   ctrlSector.desasociarTramiteSector(3, "4"); //No asociados entre si
+   }
+   
+   @Test()
+   public void testAsociarDisplaySector() throws Exception{
+	   String id = "idsectortest5";
+	   ctrlSector.asignarDisplaySector(id, 1);
+	   BusinessDisplay d = ctrlSector.obtenerDisplaySector(id);
+	   assertEquals(d.getCodigo() == 1, true);  
+   }
+   
+   @Test()
+   public void testAsociarPuestoSector() throws Exception{
+	   String id = "idsectortest6";
+	   ctrlSector.asociarSectorPuesto(id, "maquina3");
+	   List<BusinessPuesto> l = ctrlSector.obtenerPuestosSector(id);
+	   assertEquals(l.get(0).getNombreMaquina(), "maquina3");
+	   ctrlSector.desasociarSectorPuesto(id, "maquina3");
+	   l = ctrlSector.obtenerPuestosSector(id);
+	   assertEquals(l.size() == 0, true); 
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testAsociarPuestoSectorInvalido1() throws Exception{
+	   ctrlSector.asociarSectorPuesto("idsectortest6", "maquinaquenoexiste"); //Puesto invalido
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testAsociarPuestoSectorInvalido2() throws Exception{
+	   ctrlSector.asociarSectorPuesto("sectorquenoexiste", "maquina2"); //Sector invalido
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testAsociarPuestoSectorInvalido3() throws Exception{
+	   ctrlSector.asociarSectorPuesto("idsectortest6", "maquina4");
+	   ctrlSector.asociarSectorPuesto("idsectortest6", "maquina4"); //Los asocio 2 veces
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testDesasociarPuestoSectorInvalido1() throws Exception{
+	   ctrlSector.desasociarSectorPuesto("idsectortest6", "maquina1"); //No asociados entre si
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testDesasociarPuestoSectorInvalido2() throws Exception{
+	   ctrlSector.desasociarSectorPuesto("sectorquenoexiste", "maquina2"); //Sector invalido
+   }    
   
 }

@@ -2,10 +2,11 @@ package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
 import com.sarp.dao.model.Puesto;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 
 public class DAOPuesto {
 	
@@ -25,8 +26,7 @@ public class DAOPuesto {
 		p.setUsuarioId(usuarioId);
 		p.setEstado("CERRADO");
 		p.setNumero(numero);
-		p.setDateCreated(new Date());
-		p.setLastUpdated(new Date());
+		p.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		
 		em.persist(p);
 	}
@@ -44,18 +44,18 @@ public class DAOPuesto {
 	
 	/* Obtengo todos los Puestos en la base de datos */
 	@SuppressWarnings("unchecked")
-	public List<Puesto> selectPuestos(){		
-		List<Puesto> res = em.createQuery("select p from Puesto p").getResultList();
+	public ArrayList<Puesto> selectPuestos(){		
+		ArrayList<Puesto> res = new ArrayList<Puesto>(em.createQuery("select p from Puesto p").getResultList());
 		return res;
 	}
 	
 	/* Modifico el estado de un Puesto dado por su nombre */
-	public void updatePuesto(String nombreMaquina, String estado, String usuarioId, Integer numero) throws RollbackException{		
+	public void updatePuesto(String nombreMaquina, String estado, String usuarioId, Integer numero, Timestamp lastUpdated) throws RollbackException{		
 		Puesto p = selectPuesto(nombreMaquina);
 		p.setEstado(estado);
 		p.setNumero(numero);
 		p.setUsuarioId(usuarioId);
-		p.setLastUpdated(new Date());
+		p.setLastUpdated(lastUpdated);
 		
 		em.persist(p);
 	}
@@ -64,6 +64,6 @@ public class DAOPuesto {
 	public void deletePuesto(String nombreMaquina) throws RollbackException{		
 		Puesto p = selectPuesto(nombreMaquina);
     	em.remove(p);
-    }	
+    }
 	
 }

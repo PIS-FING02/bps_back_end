@@ -66,26 +66,16 @@ public class ValoresDePrueba {
 				n.setExternalId("external");
 				n.setPrioridad(5);
 				n.setHora(new GregorianCalendar());
-				ctrlNumero.crearNumero(n, i+1, dc);
+				ctrlSector.asociarTramiteSector(i+1, Integer.toString(i));
+				ctrlNumero.crearNumero(n, i+1, Integer.toString(i), dc);
 			}
 		}
 		
-		try{
-			BusinessSector s = new BusinessSector();
-			s.setSectorId("idididi");
-			s.setNombre("hjhjhjhjhj");
-			s.setRuta("ioioioioio");
-			ctrlSector.crearSector(s);
-		}
-		catch(Exception ex){
-			if(ex.getCause() instanceof javax.persistence.OptimisticLockException){
-				System.out.print("LALALALALAL");
-			}
-		}
+		
 		
 		
 
-		System.out.println("FIN");
+		System.out.println("FIN cargar=" + cargar);
 	}
 	
 	
