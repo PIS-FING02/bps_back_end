@@ -28,6 +28,7 @@ import com.sarp.dao.controllers.DAOTramiteController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONPuestoTramite;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
@@ -267,6 +268,24 @@ public class AdminService {
 		
 	}
 
+	@PUT
+	@Path("/tramitepuesto")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String asignarTramitePuesto(@HeaderParam("user-rol") String userRol, JSONPuestoTramite puestoTramite){	
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if(userRol.equals("ResponsableSector")){
+			try{
+				ctrl.asignarTramitePuesto(puestoTramite);
+				return "Se asigno el tramite"+puestoTramite.getTramite().getNombre()+" al puesto "+puestoTramite.getTramite().getNombre();
+			}catch(Exception e){
+				throw new BadRequestException("Error al asignar el Tramite al puesto");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
 	/************************** SECTORES *****************************/
 
 	@GET
