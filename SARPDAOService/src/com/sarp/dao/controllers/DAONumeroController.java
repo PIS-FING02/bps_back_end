@@ -6,6 +6,7 @@ import javax.persistence.RollbackException;
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
+import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
@@ -56,7 +57,9 @@ public class DAONumeroController {
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
 			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
-
+			numero.setCodSector(n.getSector().getCodigo());
+			numero.setCodTramite(n.getTramite().getCodigo());
+			numero.setLastUpdated(n.getLastUpdated());
 			ret.add(numero);
 		}
 		return ret;
@@ -69,7 +72,7 @@ public class DAONumeroController {
 		Numero n = numeroRepository.selectNumero(id);
 		em.close();
 		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
-
+		numero.setLastUpdated(n.getLastUpdated());
 		return numero;
 	}
 	
@@ -81,6 +84,7 @@ public class DAONumeroController {
 		em.close();
 		
 		BusinessDatoComplementario dato = new BusinessDatoComplementario(dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
+		dato.setLastUpdated(dc.getLastUpdated());
 		return dato;
 	}
 	
@@ -89,7 +93,7 @@ public class DAONumeroController {
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		em.getTransaction().begin();
-		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad());
+		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.getLastUpdated());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -112,6 +116,19 @@ public class DAONumeroController {
 		em.close();
 		Tramite t = n.getTramite();
 		BusinessTramite res = new BusinessTramite(t.getCodigo(), t.getNombre());
+		res.setLastUpdated(t.getLastUpdated());
+		return res;
+	}
+	
+	public BusinessSector obtenerSectorNumero(Integer codigoNumero) throws RollbackException {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.close();
+		Sector s = n.getSector();
+		BusinessSector res = new BusinessSector(s.getCodigo(),s.getNombre(),s.getRutaSector());			
+		res.setLastUpdated(s.getLastUpdated());
 		return res;
 	}
 
@@ -125,6 +142,9 @@ public class DAONumeroController {
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
 			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
+			numero.setLastUpdated(n.getLastUpdated());
+			numero.setCodSector(n.getSector().getCodigo());
+			numero.setCodTramite(n.getTramite().getCodigo());
 			ret.add(numero);
 		}
 		return ret;
@@ -136,10 +156,11 @@ public class DAONumeroController {
 		
 		Numero n = numeroRepository.selectNumero(codigoNumero);
 		em.close();
-		ArrayList<Puesto> list = (ArrayList<Puesto>) n.getPuestos();
+		ArrayList<Puesto> list = new ArrayList<Puesto>(n.getPuestos());
 		ArrayList<BusinessPuesto> ret = new ArrayList<BusinessPuesto>();
 		for(Puesto p : list){
 			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(),p.getNumero());
+			bp.setLastUpdated(p.getLastUpdated());
 			ret.add(bp);
 		}	
 		return ret;
@@ -152,8 +173,12 @@ public class DAONumeroController {
 		Numero n = numeroRepository.selectNumero(codigoNumero);
 		em.close();
 		Puesto p = n.getPuesto();
-		BusinessPuesto res = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(),p.getNumero());
-		return res;
+		if(p != null){
+			BusinessPuesto res = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(),p.getNumero());
+			res.setLastUpdated(p.getLastUpdated());
+			return res;
+		}
+		return null;
 	}
 
 }

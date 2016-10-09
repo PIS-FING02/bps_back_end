@@ -23,7 +23,6 @@ public class DAOTramite {
 	public Tramite insertTramite(String nombre) throws RollbackException{		
 		Tramite t = new Tramite();
 		t.setNombre(nombre);
-		t.setDateCreated(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		
 		em.persist(t);
 		return t;
@@ -51,9 +50,10 @@ public class DAOTramite {
     	em.remove(t);
 	}
 
-	public void updateTramite(Integer codigo, String nombre) throws RollbackException {		
+	public void updateTramite(Integer codigo, String nombre, Timestamp lastUpdated) throws RollbackException {		
 		Tramite t = selectTramite(codigo);
 		t.setNombre(nombre);
+		t.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 		
 		em.persist(t);
 	}

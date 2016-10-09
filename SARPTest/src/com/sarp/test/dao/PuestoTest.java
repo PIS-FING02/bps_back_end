@@ -16,6 +16,8 @@ import org.junit.BeforeClass;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.OptimisticLockException;
 import javax.persistence.RollbackException;
 
 public class PuestoTest {
@@ -77,6 +79,7 @@ public class PuestoTest {
 	   ctrlPuesto.eliminarPuesto("nombretest2");
    }
    
+   @SuppressWarnings("unused")
    @Test
    public void testListarPuestos(){
 	   List<BusinessPuesto> lista = ctrlPuesto.listarPuestos();
@@ -88,6 +91,7 @@ public class PuestoTest {
 	   assertEquals(p.getNombreMaquina(), "nombremaquinatest0");
    }
    
+   @SuppressWarnings("unused")
    @Test(expected=RollbackException.class)
    public void testObtenerPuestoInvalido() throws Exception {
 	   BusinessPuesto p = ctrlPuesto.obtenerPuesto("idquenoexiste");
@@ -163,15 +167,21 @@ public class PuestoTest {
 	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest4", 4);
    }
    
-   @Test(expected=RollbackException.class)
+   @Test
    public void testOptimisticLockPuesto() throws Exception{
-	   System.out.println("\nOptimisticLockPuesto");
-	   BusinessPuesto p1 = ctrlPuesto.obtenerPuesto("nombremaquinatest5");
-	   BusinessPuesto p2 = ctrlPuesto.obtenerPuesto("nombremaquinatest5");
-	   p1.setEstado(EstadoPuesto.ATENDIENDO);
-	   p2.setEstado(EstadoPuesto.LLAMANDO);	
-	   ctrlPuesto.modificarPuesto(p1);
-	   ctrlPuesto.modificarPuesto(p2);
+	   try{
+		   System.out.println("\nOptimisticLockPuesto");
+		   BusinessPuesto p1 = ctrlPuesto.obtenerPuesto("nombremaquinatest5");
+		   BusinessPuesto p2 = ctrlPuesto.obtenerPuesto("nombremaquinatest5");
+		   p1.setEstado(EstadoPuesto.ATENDIENDO);
+		   p2.setEstado(EstadoPuesto.LLAMANDO);	
+		   ctrlPuesto.modificarPuesto(p1);
+		   ctrlPuesto.modificarPuesto(p2);
+		   assertEquals(true, false);
+	   }
+	   catch(RollbackException e){
+		   assertEquals(e.getCause() instanceof OptimisticLockException, true);
+	   }
    }
    
    @Test

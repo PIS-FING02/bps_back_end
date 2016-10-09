@@ -1,17 +1,11 @@
 package com.sarp.test.dao;
 
 import org.junit.Test;
-
 import com.sarp.classes.BusinessDisplay;
-import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
-import com.sarp.dao.controllers.DAONumeroController;
-import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
-import com.sarp.enumerados.EstadoPuesto;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
@@ -158,10 +152,10 @@ public class SectorTest {
    @Test()
    public void testAsociarPuestoSector() throws Exception{
 	   String id = "idsectortest6";
-	   ctrlSector.asociarSectorPuesto(id, "maquina3");
+	   ctrlSector.asociarSectorPuesto(id, "NombreMaquina3");
 	   List<BusinessPuesto> l = ctrlSector.obtenerPuestosSector(id);
-	   assertEquals(l.get(0).getNombreMaquina(), "maquina3");
-	   ctrlSector.desasociarSectorPuesto(id, "maquina3");
+	   assertEquals(l.get(0).getNombreMaquina(), "NombreMaquina3");
+	   ctrlSector.desasociarSectorPuesto(id, "NombreMaquina3");
 	   l = ctrlSector.obtenerPuestosSector(id);
 	   assertEquals(l.size() == 0, true); 
    }
@@ -173,7 +167,7 @@ public class SectorTest {
    
    @Test(expected=RollbackException.class)
    public void testAsociarPuestoSectorInvalido2() throws Exception{
-	   ctrlSector.asociarSectorPuesto("sectorquenoexiste", "maquina2"); //Sector invalido
+	   ctrlSector.asociarSectorPuesto("sectorquenoexiste", "NombreMaquina2"); //Sector invalido
    }
    
    @Test(expected=RollbackException.class)
@@ -184,9 +178,9 @@ public class SectorTest {
    
    @Test(expected=RollbackException.class)
    public void testDesasociarPuestoSectorInvalido1() throws Exception{
-	   ctrlSector.desasociarSectorPuesto("idsectortest6", "maquina1"); //No asociados entre si
+	   ctrlSector.desasociarSectorPuesto("idsectortest6", "maquina2"); //No asociados entre si
    }
-   
+  
    @Test(expected=RollbackException.class)
    public void testDesasociarPuestoSectorInvalido2() throws Exception{
 	   ctrlSector.desasociarSectorPuesto("sectorquenoexiste", "maquina2"); //Sector invalido

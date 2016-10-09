@@ -13,6 +13,7 @@ import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
 import com.sarp.dao.repository.DAOPuesto;
+import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
 
 //import org.dao.repository.NumeroRepository;
@@ -53,6 +54,7 @@ public class DAOTramiteController {
 		Tramite t = tramiteRepository.selectTramite(codigo);
 		em.close();
 		BusinessTramite ret = new BusinessTramite(t.getCodigo(),t.getNombre());
+		ret.setLastUpdated(t.getLastUpdated());
 		return ret;	
 	}
 	
@@ -61,7 +63,7 @@ public class DAOTramiteController {
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		
 		em.getTransaction().begin();
-		tramiteRepository.updateTramite(t.getCodigo(),t.getNombre());
+		tramiteRepository.updateTramite(t.getCodigo(),t.getNombre(),t.getLastUpdated());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -141,9 +143,15 @@ public class DAOTramiteController {
 		return ret;
 	}
 	
-	
-	
+	public boolean existeTramiteSector(String sector, Integer tramite){
+		EntityManager em = EMFactory.getEntityManager();
+		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
+		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
-	
+		Tramite t = tramiteRepository.selectTramite(tramite);
+		Sector s = sectorRepository.selectSector(sector);
+		return t.getSectors().contains(s);
+	}
+				
 
 }

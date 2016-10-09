@@ -46,6 +46,7 @@ public class DAOSectorController {
 		Sector s = sectorRepository.selectSector(codigoSector);
 		em.close();
 		BusinessSector ret = new BusinessSector(s.getCodigo(), s.getNombre(),s.getRutaSector());
+		ret.setLastUpdated(s.getLastUpdated());
 		return ret;	
 	}
 	
@@ -79,7 +80,7 @@ public class DAOSectorController {
 		DAOSector sectorRepository = factory.getSectorRepository(em);	
 
 		em.getTransaction().begin();
-		sectorRepository.updateSector(s.getSectorId(), s.getNombre(), s.getRuta());
+		sectorRepository.updateSector(s.getSectorId(), s.getNombre(), s.getRuta(),s.getLastUpdated());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -92,7 +93,8 @@ public class DAOSectorController {
 		Sector s = sectorRepository.selectSector(codigoSector);
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		
-		if(s.getPuestos().contains(p)){
+		if(p.getSectors().contains(s)){
+			em.close();
 			throw new RollbackException("El puesto de " + nombreMaquina + " y el sector " + codigoSector + " ya estan asociados");
 		}
 		em.getTransaction().begin();
@@ -108,8 +110,9 @@ public class DAOSectorController {
 		
 		Sector s = sectorRepository.selectSector(codigoSector);
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
-		
-		if(!s.getPuestos().contains(p)){
+		List<Puesto> l = s.getPuestos();
+		if(!l.contains(p)){
+			em.close();
 			throw new RollbackException("El puesto de " + nombreMaquina + " y el sector " + codigoSector + " no estan asociados");
 		}
 		em.getTransaction().begin();
@@ -180,6 +183,7 @@ public class DAOSectorController {
 		Sector s = sectorRepository.selectSector(codigoSector);
 		Tramite t = tramiteRepository.selectTramite(codigoTramite);
 		if(s.getTramites().contains(t)){
+			em.close();
 			throw new RollbackException("El tramite " + codigoTramite + " y el sector " + codigoSector + " ya estan asociados");
 		}
 		em.getTransaction().begin();
