@@ -42,7 +42,7 @@ public class PuestoTestService {
 		    BusinessPuesto p1 = new BusinessPuesto();
 			String id ="idepMaritoBaul9";
 			p1.setNombreMaquina(id);
-			p1.setEstado(EstadoPuesto.DIPONIBLE);
+			p1.setEstado(EstadoPuesto.DISPONIBLE);
 			ctrlPuesto.crearPuesto(p1);
 		//-----
 			Factory fac = Factory.getInstance();
@@ -80,7 +80,7 @@ public class PuestoTestService {
 		    BusinessPuesto p1 = new BusinessPuesto();
 			String id ="idepMaritoBaul8";
 			p1.setNombreMaquina(id);
-			p1.setEstado(EstadoPuesto.DIPONIBLE);
+			p1.setEstado(EstadoPuesto.DISPONIBLE);
 			ctrlPuesto.crearPuesto(p1);
 		//-----
 			Factory fac = Factory.getInstance();
