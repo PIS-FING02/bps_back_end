@@ -163,24 +163,20 @@ public class AdminService {
 
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		
-		
-		//
-		
 		DAOTramiteController controladorTramite = daoServiceFactory.getDAOTramiteController(); 
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController(); 
 		
 		List<BusinessSector> sectoresPuesto = controladorPuesto.obtenerSectoresPuesto(puestoTramite.getPuesto().getNombreMaquina());
-		//FALTA OPERACION EN LA BASE
-		Boolean tieneTramite = true;
-		//OJOOOOOO!!!! ES FALSE CUANDO ESTE EL FOR
-		/*
+	
+		Boolean tieneTramite = false;
+		
 		for (BusinessSector sectro : sectoresPuesto ){
-			if (controladorTramite.existeTramiteSectro(sectro.getSectorId() , puestoTramite.getTramite().getCodigo()) ){
+			if (controladorTramite.existeTramiteSector(sectro.getSectorId(), puestoTramite.getTramite().getCodigo())  ){
 				tieneTramite=true;
 				break;
 			}
 		}
-		 */
+		 
 		if 	(tieneTramite){
 			if ( ( puestoTramite.getPuesto() != null ) && ( puestoTramite.getTramite() !=null ) ){
 				if ( ( ! puestoTramite.getPuesto().getNombreMaquina().isEmpty() ) && ( puestoTramite.getTramite().getCodigo() != null || puestoTramite.getTramite().getCodigo() != 0  ) ){ 
@@ -193,13 +189,6 @@ public class AdminService {
 			throw new Exception("El puesto no tiene un sector que atienda ese tramite");
 		}
 			
-		/*
-		if(bSector != null && bDisplay != null && bSector.getSectorId() != null && bDisplay.getCodigo() != null){
-			controladorSector.asignarDisplaySector(bSector.getSectorId(), bDisplay.getCodigo());
-		}else{
-			throw new Exception("JSONSectorDisplay corrupto");
-		}*/
-		//DELETE en DaoService
 	};
 	
 	
