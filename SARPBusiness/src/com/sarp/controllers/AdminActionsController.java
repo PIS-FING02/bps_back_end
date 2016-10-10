@@ -112,7 +112,7 @@ public class AdminActionsController {
 	}
 	
 
-	public  List<BusinessSector> listarSectores() throws Exception{
+	public  List<JSONSector> listarSectores() throws Exception{
 		AdminService adminService = new AdminService();
 		return adminService.listarSectores();
 	}

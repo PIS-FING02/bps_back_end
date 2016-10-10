@@ -176,7 +176,7 @@ public class ResponseMaker {
 		return listJSONTramite;
 	}
 	
-	private List<JSONSector> createArrayAtomSectores(List<BusinessSector> businessSectores) {
+	public List<JSONSector> createArrayAtomSectores(List<BusinessSector> businessSectores) {
 		
 		List<JSONSector> listJSONSector = new ArrayList<JSONSector>();
 		for(BusinessSector businessSector : businessSectores){
