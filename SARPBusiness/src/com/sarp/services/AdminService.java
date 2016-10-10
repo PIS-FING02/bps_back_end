@@ -227,11 +227,14 @@ public class AdminService {
 	}
 	
 
-	public List<BusinessSector> listarSectores() throws Exception{
+	public List<JSONSector> listarSectores() throws Exception{
+		ResponseMaker resMaker = ResponseMaker.getInstance();
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
-		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		DAOSectorController ctrl = factory.getDAOSectorController();
+		List<BusinessSector> listaSectores = ctrl.listarSectores();
+		List<JSONSector> jsonSec = resMaker.createArrayAtomSectores(listaSectores);
 		
-		return sectorCtrl.listarSectores();
+		return jsonSec;
 	}
 
 	public void asignarSectorDisplayAdmin(JSONSectorDisplay secDisplay) throws Exception{

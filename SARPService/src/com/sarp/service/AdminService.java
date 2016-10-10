@@ -287,13 +287,22 @@ public class AdminService {
 	}
 	
 	/************************** SECTORES *****************************/
-
+	
 	@GET
 	@Path("/listarSectores")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BusinessSector> listarSectores(@HeaderParam("user-rol") String userRol) {
-		com.sarp.dao.controllers.DAOSectorController ctrl = new DAOSectorController();
-		return ctrl.listarSectores();
+    public List<JSONSector> listarSectores(@HeaderParam("user-rol") String userRol) {
+		Factory fac = Factory.getInstance();
+		AdminActionsController aac = fac.getAdminActionsController();
+		if(userRol.equals("Administrador")){
+			try {
+				return aac.listarSectores();
+			}catch(Exception e){
+				throw new BadRequestException("Error al listar Sectores");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
     }
 	
 	@PUT

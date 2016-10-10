@@ -6,6 +6,8 @@ import java.util.List;
 import com.sarp.classes.BusinessNodeGAFU;
 import com.sarp.classes.BusinessSector;
 import com.sarp.controllers.AdminActionsController;
+import com.sarp.dao.controllers.DAOSectorController;
+import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.facade.GAFUFacade;
 import com.sarp.factory.Factory;
 
@@ -22,14 +24,17 @@ public class GAFUManager {
 
 	public void actualizarArbolGAFU() throws Exception{
 		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
+		AdminActionsController adminServiceCtrl = fac.getAdminActionsController();
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorDAOCtrl = factory.getDAOSectorController();
+		
 		GAFUFacade gf = GAFUFacade.getInstance();
 		BusinessNodeGAFU nuevo = gf.crearArbolGAFU();
 		List<BusinessSector> nuevosSectores = arbolToList(nuevo);
-		actualizarSectores(nuevosSectores, ctrl);
-		List<BusinessSector> aBorrar = ctrl.listarSectores();
+		actualizarSectores(nuevosSectores, adminServiceCtrl);
+		List<BusinessSector> aBorrar = sectorDAOCtrl.listarSectores();
 		aBorrar.removeAll(nuevosSectores);
-		borrarSectores(aBorrar, ctrl);
+		borrarSectores(aBorrar, adminServiceCtrl);
 		this.arbol = nuevo;
 	}
 	
