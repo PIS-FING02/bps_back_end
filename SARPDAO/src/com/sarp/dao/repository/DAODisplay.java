@@ -59,14 +59,6 @@ public class DAODisplay {
     	em.remove(d);
     }
 
-	/* Asigno un display a un sector */
-	public void asociarDisplaySector(Display displa, Sector secto) {
-		Sector sector = em.find(Sector.class, secto.getCodigo());
-		Display display = em.find(Display.class, displa.getCodigo());
-		sector.setDisplay(display);
-		display.addSector(sector);				
-		em.persist(display);
-		em.persist(sector);		
-	}
+	
 	
 }

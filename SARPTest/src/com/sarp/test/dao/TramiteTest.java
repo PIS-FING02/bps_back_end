@@ -6,6 +6,8 @@ import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAOTramiteController;
+import com.sarp.dao.factory.DAOServiceFactory;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
@@ -20,7 +22,7 @@ public class TramiteTest {
 	
 	@BeforeClass
     public static void setUpClassTramiteTest(){  
-		ctrlTramite = new DAOTramiteController();	
+		ctrlTramite = DAOServiceFactory.getInstance().getDAOTramiteController();	
 		id = new ArrayList<Integer>();
 		for(int i = 0; i < 7; i++){
 			BusinessTramite t = new BusinessTramite();	
