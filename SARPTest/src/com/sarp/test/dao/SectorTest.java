@@ -6,6 +6,8 @@ import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAOSectorController;
+import com.sarp.dao.factory.DAOServiceFactory;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
@@ -19,7 +21,7 @@ public class SectorTest {
 	
 	@BeforeClass
     public static void setUpClassSectorTest(){  
-		ctrlSector = new DAOSectorController();	
+		ctrlSector = DAOServiceFactory.getInstance().getDAOSectorController();
 		id = new ArrayList<String>();
 		for(int i = 0; i < 7; i++){
 			BusinessSector s = new BusinessSector();		
@@ -141,12 +143,21 @@ public class SectorTest {
 	   ctrlSector.desasociarTramiteSector(3, "4"); //No asociados entre si
    }
    
+   @Test(expected=RollbackException.class)
+   public void testAsociarDisplaySectorInvalido() throws Exception{
+	   ctrlSector.asignarDisplaySector("idsectortest3", 7);
+	   ctrlSector.asignarDisplaySector("idsectortest3", 7);	  
+   }
+   
    @Test()
    public void testAsociarDisplaySector() throws Exception{
 	   String id = "idsectortest5";
 	   ctrlSector.asignarDisplaySector(id, 1);
 	   BusinessDisplay d = ctrlSector.obtenerDisplaySector(id);
 	   assertEquals(d.getCodigo() == 1, true);  
+	   ctrlSector.desasignarDisplaySector(id);
+	   d = ctrlSector.obtenerDisplaySector(id);
+	   assertEquals(d, null);
    }
    
    @Test()
@@ -172,18 +183,19 @@ public class SectorTest {
    
    @Test(expected=RollbackException.class)
    public void testAsociarPuestoSectorInvalido3() throws Exception{
-	   ctrlSector.asociarSectorPuesto("idsectortest6", "maquina4");
-	   ctrlSector.asociarSectorPuesto("idsectortest6", "maquina4"); //Los asocio 2 veces
+		   ctrlSector.asociarSectorPuesto("idsectortest6", "NombreMaquina4");   
+		   ctrlSector.asociarSectorPuesto("idsectortest6", "NombreMaquina4"); //Los asocio 2 veces
    }
+   
    
    @Test(expected=RollbackException.class)
    public void testDesasociarPuestoSectorInvalido1() throws Exception{
-	   ctrlSector.desasociarSectorPuesto("idsectortest6", "maquina2"); //No asociados entre si
+	   ctrlSector.desasociarSectorPuesto("idsectortest6", "NombreMaquina2"); //No asociados entre si
    }
   
    @Test(expected=RollbackException.class)
    public void testDesasociarPuestoSectorInvalido2() throws Exception{
-	   ctrlSector.desasociarSectorPuesto("sectorquenoexiste", "maquina2"); //Sector invalido
+	   ctrlSector.desasociarSectorPuesto("sectorquenoexiste", "NombreMaquina2"); //Sector invalido
    }    
   
 }

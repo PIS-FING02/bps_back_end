@@ -2,6 +2,8 @@ package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
+
+import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
@@ -85,5 +87,18 @@ public class DAOSector {
 		em.persist(s);
 		em.persist(p);
 	}	
+	
+	/* Asigno un display a un sector */
+	public void asignarDisplaySector(Display display, Sector sector) {
+		display.addSector(sector);				
+		em.persist(display);
+		em.persist(sector);		
+	}
+
+	public void desasignarDisplaySector(Display display, Sector sector) {
+		display.removeSector(sector);				
+		em.persist(display);
+		em.persist(sector);			
+	}
 	
 }

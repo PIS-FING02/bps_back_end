@@ -11,6 +11,7 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
+import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.enumerados.EstadoPuesto;
 import org.junit.AfterClass;
@@ -28,8 +29,8 @@ public class NumeroTest {
 	
 	@BeforeClass
     public static void setUpClassNumeroTest(){  
-		ctrlNumero = new DAONumeroController();
-		ctrlPuesto = new DAOPuestoController();
+		ctrlNumero = DAOServiceFactory.getInstance().getDAONumeroController();
+		ctrlPuesto = DAOServiceFactory.getInstance().getDAOPuestoController();
 		id = new ArrayList<Integer>();
 		for(int i = 1; i < 7; i++){
 			BusinessNumero n = new BusinessNumero();
