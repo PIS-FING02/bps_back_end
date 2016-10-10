@@ -137,7 +137,11 @@ public class DAOPuestoController {
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
 
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
-		Numero n = numeroRepository.selectNumero(codigoNumero);	
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		if(p.getNumero_puesto() == n){
+			em.close();
+			throw new RollbackException("El numero actual del puesto " + nombreMaquina + " ya es el numero con id " + codigoNumero);
+		}
 		em.getTransaction().begin();
 		numeroRepository.asociarNumeroPuestoActual(n, p);
 		em.getTransaction().commit();

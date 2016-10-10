@@ -9,6 +9,7 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
+import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 
 import org.junit.AfterClass;
@@ -28,9 +29,9 @@ public class PuestoTest {
 	
 	@BeforeClass
     public static void setUpClassPuestoTest(){  
-		ctrlPuesto = new DAOPuestoController();	
-		ctrlSector = new DAOSectorController();
-		ctrlTramite = new DAOTramiteController();
+		ctrlPuesto = DAOServiceFactory.getInstance().getDAOPuestoController();
+		ctrlSector = DAOServiceFactory.getInstance().getDAOSectorController();
+		ctrlTramite = DAOServiceFactory.getInstance().getDAOTramiteController();
 		id = new ArrayList<String>();
 		for(int i = 0; i < 7; i++){
 			BusinessPuesto p = new BusinessPuesto();
@@ -141,6 +142,7 @@ public class PuestoTest {
 	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest1", 2);
    }
    
+   
    @Test(expected=RollbackException.class)
    public void testDesasociarNumeroPuestoInvalido() throws Exception{
 	   ctrlPuesto.desasociarNumeroPuesto("nombremaquinatest3", 3);
@@ -148,11 +150,11 @@ public class PuestoTest {
    
    @Test()
    public void testAsociarNumeroActualPuesto() throws Exception{
-	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest2", 3);
+	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest4", 3);
 	   BusinessNumero n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest2");
 	   assertEquals(n.getInternalId() == 3, true);
-	   ctrlPuesto.desasociarNumeroPuestoActual("nombremaquinatest2");
-	   n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest2");
+	   ctrlPuesto.desasociarNumeroPuestoActual("nombremaquinatest4");
+	   n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest4");
 	   assertEquals(n, null);   
    }
    
@@ -163,10 +165,10 @@ public class PuestoTest {
    
    @Test(expected=RollbackException.class)
    public void testAsociarNumeroActualPuestoInvalido2() throws Exception{
-	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest4", 4);
-	   ctrlPuesto.asociarNumeroPuesto("nombremaquinatest4", 4);
+	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest2", 3);
+	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest2", 3);
    }
-   
+     
    @Test
    public void testOptimisticLockPuesto() throws Exception{
 	   try{

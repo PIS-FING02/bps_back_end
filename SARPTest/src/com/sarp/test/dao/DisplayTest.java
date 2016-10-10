@@ -3,6 +3,8 @@ package com.sarp.test.dao;
 import org.junit.Test;
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.dao.controllers.DAODisplayController;
+import com.sarp.dao.factory.DAOServiceFactory;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
@@ -18,7 +20,7 @@ public class DisplayTest {
 	
 	@BeforeClass
     public static void setUpClassDisplayTest(){   
-		ctrlDisplay = new DAODisplayController();
+		ctrlDisplay = DAOServiceFactory.getInstance().getDAODisplayController();
 		id = new ArrayList<Integer>();
 		for(int i = 0; i < 4; i++){
 	        BusinessDisplay d = new BusinessDisplay();
