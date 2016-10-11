@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import javax.xml.registry.infomodel.User;
 import javax.xml.ws.BindingProvider;
 
 import com.sarp.classes.BusinessNodeGAFU;
@@ -32,11 +33,14 @@ public class GAFUFacade {
 	
 	
 	public GAFUFacade(){
+		
+		/*String path_os;
+		String[] result;
+		String path;
 		String location = GAFUFacade.class.getProtectionDomain().getCodeSource().getLocation().getPath().toString();
-	    String result[] = location.split("/standalone");
-		String path = result[0] + "/modules/conf/GAFUfing/endpoints.properties";
-		//Linea solo para pruebas
-		//path = "C:/Users/Mario/jboss-eap-6.4/modules/conf/GAFUfing/endpoints.properties";
+		result = location.split("/standalone");
+		path_os = "/modules/conf/config_base.properties";
+		path= result[0] + path_os;
 		Properties prop = new Properties();
 		InputStream input;
 		try {
@@ -49,7 +53,11 @@ public class GAFUFacade {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
+		
+		this.endpoint = "http://52.52.100.160:8080/GAFU/WsGafuService";
+		this.areaFuncional = "BPS";
+		this.codSistema = "GAP";
 	}
 	
 	public static GAFUFacade getInstance(){
