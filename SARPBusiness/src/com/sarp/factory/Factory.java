@@ -6,6 +6,7 @@ import com.sarp.controllers.AttentionsController;
 import com.sarp.controllers.UserController;
 import com.sarp.controllers.WaitingController;
 import com.sarp.controllers.GAFUController;
+import com.sarp.controllers.QueueController;
 
 public class Factory {
 	private static Factory instance;
@@ -33,9 +34,9 @@ public class Factory {
 		return WaitingController.getInstance();
 	}
 	
-	//public QueueController getQueueController(){
-	//	return new QueueController();
-	//}
+	public QueueController getQueueController(String idSector){
+		return new QueueController(idSector);
+	}
 	
 	public AssignmentController getAssignmentController(){
 		return AssignmentController.getInstance();

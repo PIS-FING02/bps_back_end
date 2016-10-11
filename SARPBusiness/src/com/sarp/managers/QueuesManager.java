@@ -29,7 +29,7 @@ public class QueuesManager {
 	
 	public synchronized void crearColaSector(String idSector) throws IOException{
 		if (!this.manejadorDeColas.containsKey(idSector)){
-			BusinessSectorQueue cola = new BusinessSectorQueue();
+			BusinessSectorQueue cola = new BusinessSectorQueue(idSector);
 			manejadorDeColas.put(idSector, cola);
 		}
 		else{

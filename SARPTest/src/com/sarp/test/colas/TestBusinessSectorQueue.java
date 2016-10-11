@@ -20,7 +20,7 @@ public class TestBusinessSectorQueue {
 
 	@Before
 	public void armarAmbiente() {
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 		GregorianCalendar date = new GregorianCalendar();
 		this.hrActual = date.get(Calendar.HOUR_OF_DAY);
 		this.minActual = date.get(Calendar.MINUTE);
@@ -65,7 +65,7 @@ public class TestBusinessSectorQueue {
 		System.out.println("Se prueba que hay numeros con 2 codigos de tramites distintos, y se llama"
 				+ "a llamarNumeroCola con solo un tramite en particular.\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 		
 		listaNros = new ArrayList<BusinessNumero>();
 		for (int i = 1; i < 11; i++) {
@@ -93,7 +93,7 @@ public class TestBusinessSectorQueue {
 		System.out.println("Se prueba que hay numeros con 2 codigos de tramites distintos, y se llama"
 				+ "a llamarNumeroCola con los dos tramites.\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 		
 		listaNros = new ArrayList<BusinessNumero>();
 		for (int i = 1; i < 11; i++) {
@@ -124,7 +124,7 @@ public class TestBusinessSectorQueue {
 		System.out.println("Se prueba que dado un numero ingresado con prioridad 1 con hora posterior a la actual,"
 				+ " se llama un numero y este no tiene que ser retornado\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 		
 		listaNros = new ArrayList<BusinessNumero>();
 
@@ -149,7 +149,7 @@ public class TestBusinessSectorQueue {
 		System.out.println("\n************ Prueba numeros de atril/recepcion ***************");
 		System.out.println("Se prueba que se agrega correctamente un numero de atril/recepcion\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 		
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
@@ -176,7 +176,7 @@ public class TestBusinessSectorQueue {
 		System.out.println(
 				"Se prueba que si se pide un numero, al haber dos de diferentes prioridades devuelva el de mayor prioridad \n");
 		
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
@@ -209,7 +209,7 @@ public class TestBusinessSectorQueue {
 		System.out.println(
 				"Se prueba que si se pide un numero, habiendo 1 en cada cola pero el de la prioridad 1 con hr mayor a la actual\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual + 1);
@@ -241,7 +241,7 @@ public class TestBusinessSectorQueue {
 		System.out.println("\n********* Se prueba la transferencia de numeros a lista pausados ***************");
 		System.out.println("Se va a probar pedir un numero pasarlo a pausados e imprimir la lista de pausados\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 
 		GregorianCalendar date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
@@ -275,7 +275,7 @@ public class TestBusinessSectorQueue {
 		System.out.println(
 				"Se va a probar pedir un numero pasarlo a pausados e imprimir la lista de pausados pero con diferente tramite\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
@@ -316,7 +316,7 @@ public class TestBusinessSectorQueue {
 		System.out.println(
 				"Se van a agregar un par de numeros a la cola, se van a pausar y desp se va a recuperar uno en particular\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
@@ -389,7 +389,7 @@ public class TestBusinessSectorQueue {
 		System.out.println(
 				"Se agregan numeros a la cola, luego se pasan a la lista de pausados y se eliminan de la lista (quitarNumeroPausado)\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
@@ -464,7 +464,7 @@ public class TestBusinessSectorQueue {
 		System.out.println("\n********* Se prueba la transferencia de numeros a lista atrasados ***************");
 		System.out.println("Se agregan numeros a la cola, y luego se pasa como atrasado\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 		
 		GregorianCalendar date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
@@ -482,7 +482,7 @@ public class TestBusinessSectorQueue {
 		
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.atrasarNumero(nro);
+		this.cola.agregarNumeroAtrasado(nro);
 		
 		System.out.println("Luego de atrasar ");
 		this.cola.printEstadoCola();
@@ -490,7 +490,7 @@ public class TestBusinessSectorQueue {
 		System.out.println("\n********* Se prueba la transferencia de numeros a lista atrasados ***************");
 		System.out.println("Se agregan numeros a la cola, y luego se pasa como atrasado y ademas se llama un nuevo numero donde se tiene q recibir el atrasado\n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 		
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
@@ -508,7 +508,7 @@ public class TestBusinessSectorQueue {
 		
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.atrasarNumero(nro);
+		this.cola.agregarNumeroAtrasado(nro);
 		
 		System.out.println("Luego de atrasar ");
 		this.cola.printEstadoCola();
@@ -522,7 +522,7 @@ public class TestBusinessSectorQueue {
 		System.out.println("\n********* Se prueba la transferencia de numeros a lista atrasados ***************");
 		System.out.println("Se agregan numeros, se pide un numero se atrasa, y se pide un numero, el atrasado deberia quedar mas atras \n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 		
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual);
@@ -554,7 +554,7 @@ public class TestBusinessSectorQueue {
 		
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.atrasarNumero(nro);
+		this.cola.agregarNumeroAtrasado(nro);
 		
 		System.out.println("Luego de atrasar ");
 		this.cola.printEstadoCola();
@@ -570,7 +570,7 @@ public class TestBusinessSectorQueue {
 		System.out.println("\n********* Se prueba la transferencia de numeros a lista atrasados y la obtencion de un nro en particular***************");
 		System.out.println("Se agregan numeros se atrasan, y se prueba elegir numeros en particular \n");
 
-		this.cola = new BusinessSectorQueue();
+		this.cola = new BusinessSectorQueue("1");
 		
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual);
@@ -600,17 +600,17 @@ public class TestBusinessSectorQueue {
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.atrasarNumero(nro);
+		this.cola.agregarNumeroAtrasado(nro);
 		
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.atrasarNumero(nro);
+		this.cola.agregarNumeroAtrasado(nro);
 		
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.atrasarNumero(nro);
+		this.cola.agregarNumeroAtrasado(nro);
 		
 		// reviso q esten los tres nros atrasados
 		System.out.println("deberian estar los tres numeros atrasados");
@@ -627,6 +627,87 @@ public class TestBusinessSectorQueue {
 		
 		System.out.println("Imprimo la situacion de la cola, la lista de atrasados deberia estar sin el numero con id "+pidoNumA);
 		this.cola.printEstadoCola();
+		
+		System.out.println("asdasdas");
+		
+		System.out.println("****** Prueba de listar todos los numeros de todas las colas ********");
+		System.out.println("Se van a agregar diversos numeros en toda la cola, es decir Prioridad1, 2, atrasados y pausados, y se van a listar todos");
+		
+		this.cola = new BusinessSectorQueue("1");
+		
+		ArrayList<BusinessNumero> listaNros = new ArrayList<BusinessNumero>();
+		for (int i = 1; i < 4; i++) {
+			date = new GregorianCalendar();
+			date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
+			date.set(Calendar.MINUTE, 0);
+			date.add(Calendar.MINUTE, i);
+			nro = new BusinessNumero(i, Integer.toString(i), date, "NO_ATENDIDO", 1, 1, "1");
+			nro.setLastUpdated(new Timestamp(1));
+			listaNros.add(nro);
+		}
+		this.cola.agregarNumeroColaBatch(listaNros);
+		
+		date = new GregorianCalendar();
+		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
+		date.set(Calendar.MINUTE, 0);
+		date.add(Calendar.MINUTE, 5);
+		nro = new BusinessNumero(5, "5", date, "NO_ATENDIDO", 2, 1, "1");
+		nro.setLastUpdated(new Timestamp(1));
+		
+		this.cola.agregarNumeroCola(nro);
+		
+		date = new GregorianCalendar();
+		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
+		date.set(Calendar.MINUTE, 0);
+		date.add(Calendar.MINUTE, 6);
+		nro = new BusinessNumero(6, "6", date, "NO_ATENDIDO", 2, 1, "1");
+		nro.setLastUpdated(new Timestamp(1));
+		
+		this.cola.agregarNumeroCola(nro);
+		
+		date = new GregorianCalendar();
+		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
+		date.set(Calendar.MINUTE, 0);
+		date.add(Calendar.MINUTE, 7);
+		nro = new BusinessNumero(7, "7", date, "NO_ATENDIDO", 2, 1, "1");
+		nro.setLastUpdated(new Timestamp(1));
+		
+		this.cola.agregarNumeroCola(nro);
+		
+		date = new GregorianCalendar();
+		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
+		date.set(Calendar.MINUTE, 0);
+		date.add(Calendar.MINUTE, 8);
+		nro = new BusinessNumero(8, "8", date, "PAUSADO", 2, 1, "1");
+		nro.setLastUpdated(new Timestamp(1));
+		
+		this.cola.agregarNumeroPausado(nro);
+		
+		date = new GregorianCalendar();
+		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
+		date.set(Calendar.MINUTE, 0);
+		date.add(Calendar.MINUTE, 9);
+		nro = new BusinessNumero(9, "9", date, "PAUSADO", 1, 1, "1");
+		nro.setLastUpdated(new Timestamp(1));
+		
+		this.cola.agregarNumeroPausado(nro);
+		
+		date = new GregorianCalendar();
+		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
+		date.set(Calendar.MINUTE, 0);
+		date.add(Calendar.MINUTE, 10);
+		nro = new BusinessNumero(10, "10", date, "ATRASADO", 1, 1, "1");
+		nro.setLastUpdated(new Timestamp(1));
+		
+		this.cola.agregarNumeroAtrasado(nro);
+		
+		ArrayList<BusinessNumero> listaTodos = this.cola.listarNumeros();
+		
+		for(BusinessNumero bn : listaTodos)
+			System.out.println(bn.obtenerImpresion());
+		System.out.println("fing");
+		
+		
 	}
-
+	
 }

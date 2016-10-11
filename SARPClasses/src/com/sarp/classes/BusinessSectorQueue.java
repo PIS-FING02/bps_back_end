@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 public class BusinessSectorQueue {
@@ -13,8 +14,10 @@ public class BusinessSectorQueue {
 	private LinkedList<BusinessNumero> colaPrioridad2;
 	private LinkedList<BusinessNumero> atrasados;
 	private LinkedList<BusinessNumero> pausados;
+	private final String idSector;
 
-	public BusinessSectorQueue() {
+	public BusinessSectorQueue(String idSec) {
+		this.idSector = idSec;
 		this.colaPrioridad1 = new LinkedList<BusinessNumero>();
 		this.colaPrioridad2 = new LinkedList<BusinessNumero>();
 		this.atrasados = new LinkedList<BusinessNumero>();
@@ -26,35 +29,33 @@ public class BusinessSectorQueue {
 
 	public synchronized void agregarNumeroCola(BusinessNumero numero) {
 
-			switch (numero.getPrioridad()) {
-			case 1:
-				if (this.colaPrioridad1.isEmpty())
-					this.colaPrioridad1.add(numero);
-				else {
-					ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
-					while (it.hasNext()) {
-						BusinessNumero actual = it.next();
-						if (actual.getHora().get(Calendar.HOUR_OF_DAY) > numero.getHora().get(Calendar.HOUR_OF_DAY)
-								|| (actual.getHora().get(Calendar.HOUR_OF_DAY) == numero.getHora()
-										.get(Calendar.HOUR_OF_DAY)
-										&& actual.getHora().get(Calendar.MINUTE) > numero.getHora()
-												.get(Calendar.MINUTE)))
-							break;
-					}
-					this.colaPrioridad1.add(it.previousIndex() + 1, numero);
+		switch (numero.getPrioridad()) {
+		case 1:
+			if (this.colaPrioridad1.isEmpty())
+				this.colaPrioridad1.add(numero);
+			else {
+				ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
+				while (it.hasNext()) {
+					BusinessNumero actual = it.next();
+					if (actual.getHora().get(Calendar.HOUR_OF_DAY) > numero.getHora().get(Calendar.HOUR_OF_DAY)
+							|| (actual.getHora().get(Calendar.HOUR_OF_DAY) == numero.getHora().get(Calendar.HOUR_OF_DAY)
+									&& actual.getHora().get(Calendar.MINUTE) > numero.getHora().get(Calendar.MINUTE)))
+						break;
 				}
-				break;
-			case 2:
-				this.colaPrioridad2.addLast(numero);
-				break;
-
-			default:
-				// se tiene q hablar si se mete en atril o se tira excepcion por
-				// mal
-				// prioridad
-				break;
+				this.colaPrioridad1.add(it.previousIndex() + 1, numero);
 			}
-		
+			break;
+		case 2:
+			this.colaPrioridad2.addLast(numero);
+			break;
+
+		default:
+			// se tiene q hablar si se mete en atril o se tira excepcion por
+			// mal
+			// prioridad
+			break;
+		}
+
 	}
 
 	public synchronized void agregarNumeroColaBatch(ArrayList<BusinessNumero> numeros) {
@@ -85,7 +86,7 @@ public class BusinessSectorQueue {
 	}
 
 	public synchronized BusinessNumero llamarNumeroCola(ArrayList<BusinessTramite> tramites) {
-		
+
 		if (!this.atrasados.isEmpty()) {
 			ListIterator<BusinessNumero> it = this.atrasados.listIterator();
 			while (it.hasNext()) {
@@ -99,7 +100,7 @@ public class BusinessSectorQueue {
 					break;
 			} // - end while
 		}
-		
+
 		if (!this.colaPrioridad1.isEmpty()) {
 			ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
 			while (it.hasNext()) {
@@ -155,7 +156,21 @@ public class BusinessSectorQueue {
 
 	/***** Metodos de Atrasados *****/
 
-	public synchronized void atrasarNumero(BusinessNumero numero) {
+	public synchronized void agregarNumeroAtrasado(BusinessNumero numero) {
+
+		/*
+		 * String[] result; String path; String location =
+		 * GAFUFacade.class.getProtectionDomain().getCodeSource().getLocation().
+		 * getPath().toString(); result = location.split("/standalone");
+		 * 
+		 * path= result[0] + "/modules/conf/config_cola.properties"; Properties
+		 * prop = new Properties(); InputStream input; try { input = new
+		 * FileInputStream(path); prop.load(input); tiempoAtrasado=
+		 * prop.getProperty(this.idSector).toString(); } catch
+		 * (FileNotFoundException e) { e.printStackTrace(); } catch (IOException
+		 * e) { e.printStackTrace(); }
+		 */
+
 		int tiempoProperties = 20;
 		numero.getHora().add(Calendar.MINUTE, tiempoProperties);
 		this.atrasados.addLast(numero);
@@ -233,6 +248,19 @@ public class BusinessSectorQueue {
 		throw e;
 	}
 
+	public ArrayList<BusinessNumero> listarNumeros() {
+		ArrayList<BusinessNumero> lista = new ArrayList<BusinessNumero>();
+		for (BusinessNumero bn : this.colaPrioridad1)
+			lista.add(bn);
+		for (BusinessNumero bn : this.colaPrioridad2)
+			lista.add(bn);
+		for (BusinessNumero bn : this.pausados)
+			lista.add(bn);
+		for (BusinessNumero bn : this.atrasados)
+			lista.add(bn);
+		return lista;
+	}
+
 	/*********************
 	 * Metodos auxiliares de testing
 	 *************************************/
@@ -242,23 +270,23 @@ public class BusinessSectorQueue {
 		System.out.println("Numeros de la cola de prioridad 1");
 		for (BusinessNumero bn : this.colaPrioridad1) {
 			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad()
-					+ ", Hora: " + bn.getHora().getTime().toString()+", Estado: "+bn.getEstado());
+					+ ", Hora: " + bn.getHora().getTime().toString() + ", Estado: " + bn.getEstado());
 		}
 
 		System.out.println("\nNumeros de la cola de prioridad 2");
 		for (BusinessNumero bn : this.colaPrioridad2) {
 			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad()
-					+ ", Hora: " + bn.getHora().getTime().toString()+", Estado: "+bn.getEstado());
+					+ ", Hora: " + bn.getHora().getTime().toString() + ", Estado: " + bn.getEstado());
 		}
 		System.out.println("\nNumeros de la lista Pausados");
 		for (BusinessNumero bn : this.pausados) {
 			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad()
-					+ ", Hora: " + bn.getHora().getTime().toString()+", Estado: "+bn.getEstado());
+					+ ", Hora: " + bn.getHora().getTime().toString() + ", Estado: " + bn.getEstado());
 		}
 		System.out.println("\nNumeros de la lista Atrasados");
 		for (BusinessNumero bn : this.atrasados) {
 			System.out.println("---ExternalID: " + bn.getExternalId() + ", Prioridad:  " + bn.getPrioridad()
-					+ ", Hora: " + bn.getHora().getTime().toString()+", Estado: "+bn.getEstado());
+					+ ", Hora: " + bn.getHora().getTime().toString() + ", Estado: " + bn.getEstado());
 		}
 		System.out.println("\n*** Fin Estado Cola ***\n");
 	}
