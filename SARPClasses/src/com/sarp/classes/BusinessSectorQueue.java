@@ -26,11 +26,6 @@ public class BusinessSectorQueue {
 
 	public synchronized void agregarNumeroCola(BusinessNumero numero) {
 
-		if (numero.getEstado().equals("Atrasado")) {
-			int tiempoReLlamar = 20;
-			numero.getHora().add(Calendar.MINUTE, tiempoReLlamar);
-			this.atrasados.addLast(numero);
-		} else {
 			switch (numero.getPrioridad()) {
 			case 1:
 				if (this.colaPrioridad1.isEmpty())
@@ -59,7 +54,7 @@ public class BusinessSectorQueue {
 				// prioridad
 				break;
 			}
-		}
+		
 	}
 
 	public synchronized void agregarNumeroColaBatch(ArrayList<BusinessNumero> numeros) {
@@ -136,16 +131,6 @@ public class BusinessSectorQueue {
 
 	private boolean horaMayorHoraActual(GregorianCalendar hrNumero) {
 		GregorianCalendar hrActual = new GregorianCalendar();
-		/*
-		 * System.out.println(hrActual.getTime().toString());
-		 * System.out.println(hrActual.get(Calendar.HOUR_OF_DAY));
-		 * System.out.println(hrActual.get(Calendar.MINUTE));
-		 * System.out.println(hrNumero.getTime().toString());
-		 * System.out.println(hrNumero.get(Calendar.HOUR_OF_DAY));
-		 * System.out.println(hrNumero.get(Calendar.MINUTE));
-		 * System.out.println(hrNumero.get(Calendar.HOUR_OF_DAY) + " " +
-		 * hrActual.get(Calendar.HOUR_OF_DAY));
-		 */
 		if (hrNumero.get(Calendar.HOUR_OF_DAY) < hrActual.get(Calendar.HOUR_OF_DAY)
 				|| (hrNumero.get(Calendar.HOUR_OF_DAY) == hrActual.get(Calendar.HOUR_OF_DAY)
 						&& hrNumero.get(Calendar.MINUTE) < hrActual.get(Calendar.MINUTE))) {
@@ -170,7 +155,7 @@ public class BusinessSectorQueue {
 
 	/***** Metodos de Atrasados *****/
 
-	public synchronized void agregarNumeroAtrasado(BusinessNumero numero) {
+	public synchronized void atrasarNumero(BusinessNumero numero) {
 		int tiempoProperties = 20;
 		numero.getHora().add(Calendar.MINUTE, tiempoProperties);
 		this.atrasados.addLast(numero);
