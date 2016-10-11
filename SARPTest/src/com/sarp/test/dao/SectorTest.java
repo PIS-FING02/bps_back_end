@@ -65,10 +65,25 @@ public class SectorTest {
 	   BusinessSector s = new BusinessSector();
 	   s.setNombre("nombretest");
 	   s.setSectorId("testcrearpuesto2");
+	   s.setRuta("rutaej");
 	   ctrlSector.crearSector(s);
 	   BusinessSector s2 = ctrlSector.obtenerSector("testcrearpuesto2");
 	   assertEquals(s2.getNombre(), s.getNombre());
+	   assertEquals(s2.getRuta(), "rutaej");
+	   assertEquals(s.getSectorId(), "testcrearpuesto2");
 	   ctrlSector.eliminarSector("testcrearpuesto2");
+   }
+   
+   @Test
+   public void testCrearSector2() throws Exception {
+	   BusinessSector s = new BusinessSector();
+	   s.setSectorId("testcrearpuesto3");
+	   ctrlSector.crearSector(s);
+	   BusinessSector s2 = ctrlSector.obtenerSector("testcrearpuesto3");
+	   assertEquals(s2.getNombre(), null);
+	   assertEquals(s2.getRuta(), null);
+	   assertEquals(s.getSectorId(), "testcrearpuesto3");
+	   ctrlSector.eliminarSector("testcrearpuesto3");
    }
    
    @Test
@@ -86,9 +101,12 @@ public class SectorTest {
 	   BusinessSector s = ctrlSector.obtenerSector("idsectortest1"); 
 	   assertEquals(s.getSectorId(), "idsectortest1");
 	   s.setRuta("rutaejemplo");
+	   s.setNombre("nombretest");
 	   ctrlSector.modificarSector(s);
 	   BusinessSector s2 = ctrlSector.obtenerSector("idsectortest1");
+	   assertEquals(s2.getSectorId(), "idsectortest1"); 
 	   assertEquals(s2.getRuta(), "rutaejemplo"); 
+	   assertEquals(s2.getNombre(), "nombretest"); 
    }
    
    @Test(expected=RollbackException.class)

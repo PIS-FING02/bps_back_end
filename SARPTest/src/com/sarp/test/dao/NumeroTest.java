@@ -18,6 +18,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.RollbackException;
@@ -49,6 +50,41 @@ public class NumeroTest {
    }
    
    @Test
+   public void testCrearNumero1() throws Exception {
+	   BusinessNumero n = new BusinessNumero();
+	   Integer id = ctrlNumero.crearNumero(n, 8, "7", null);
+	   BusinessNumero n2 = ctrlNumero.obtenerNumero(id);
+	   assertEquals(n2.getInternalId(), id);
+	   assertEquals(n2.getCodSector(), "7");
+	   assertEquals(n2.getCodTramite() == 8, true);
+	   assertEquals(n2.getEstado(), null);
+	   assertEquals(n2.getHora(), null);
+	   assertEquals(n2.getExternalId(), null);
+	   assertEquals(n2.getPrioridad(), null);	   
+	   ctrlNumero.eliminarNumero(id);
+   }
+   
+   @Test
+   public void testCrearNumero2() throws Exception {
+	   BusinessNumero n = new BusinessNumero();
+	   n.setEstado("estado2");
+	   GregorianCalendar hora = new GregorianCalendar();
+	   n.setHora(hora);
+	   n.setPrioridad(9);
+	   n.setExternalId("external2");
+	   Integer id = ctrlNumero.crearNumero(n, 8, "7", null);
+	   BusinessNumero n2 = ctrlNumero.obtenerNumero(id);
+	   assertEquals(n2.getInternalId(), id);
+	   assertEquals(n2.getCodSector(), "7");
+	   assertEquals(n2.getCodTramite() == 8, true);
+	   assertEquals(n2.getEstado(), "estado2");
+	   assertEquals(n2.getHora().getTimeInMillis(), hora.getTimeInMillis());
+	   assertEquals(n2.getExternalId(), "external2");
+	   assertEquals(n2.getPrioridad() == 9, true);	   
+	   ctrlNumero.eliminarNumero(id);
+   }
+   
+   @Test
    public void testCrearNumeroConDatos() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
 	   BusinessDatoComplementario dc = new BusinessDatoComplementario();
@@ -58,6 +94,19 @@ public class NumeroTest {
 	   
 	   BusinessDatoComplementario d2 = ctrlNumero.obtenerDatosNumero(id);
 	   assertEquals(d2.getNombreCompleto(), "Marcelo Rydel");
+	   ctrlNumero.eliminarNumero(id);
+   }
+   
+   @Test
+   public void testCrearNumeroConDatos2() throws Exception {
+	   BusinessNumero n = new BusinessNumero();
+	   BusinessDatoComplementario dc = new BusinessDatoComplementario();
+	   Integer id = ctrlNumero.crearNumero(n, 8, "7", dc);
+	   
+	   BusinessDatoComplementario d2 = ctrlNumero.obtenerDatosNumero(id);
+	   assertEquals(d2.getNombreCompleto(), null);
+	   assertEquals(d2.getDocIdentidad(), null);
+	   assertEquals(d2.getTipoDoc(), null);
 	   ctrlNumero.eliminarNumero(id);
    }
    
@@ -99,12 +148,22 @@ public class NumeroTest {
    
    @Test
    public void testModificarNumeroValido() throws Exception {
-	   BusinessNumero n = ctrlNumero.obtenerNumero(id.get(0));
+	   Integer i = id.get(0);
+	   BusinessNumero n = ctrlNumero.obtenerNumero(i);
 	   assertEquals(n.getExternalId(), "external1");
+	   assertEquals(n.getInternalId(), i);
 	   n.setPrioridad(7);
+	   n.setEstado("estadotest");
+	   n.setExternalId("externaltest");
+	   GregorianCalendar c = new GregorianCalendar();
+	   n.setHora(c);
 	   ctrlNumero.modificarNumero(n);
-	   BusinessNumero n2 = ctrlNumero.obtenerNumero(id.get(0));
+	   BusinessNumero n2 = ctrlNumero.obtenerNumero(i);
+	   assertEquals(n2.getInternalId(), i);
 	   assertEquals(n2.getPrioridad() == 7, true);
+	   assertEquals(n2.getEstado(), "estadotest");
+	   assertEquals(n2.getExternalId(), "externaltest");
+	   assertEquals(n2.getHora().getTimeInMillis(), c.getTimeInMillis());
    }
    
    @Test(expected=RollbackException.class)
