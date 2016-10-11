@@ -482,7 +482,7 @@ public class TestBusinessSectorQueue {
 		
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.agregarNumeroAtrasado(nro);
+		this.cola.atrasarNumero(nro);
 		
 		System.out.println("Luego de atrasar ");
 		this.cola.printEstadoCola();
@@ -508,7 +508,7 @@ public class TestBusinessSectorQueue {
 		
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.agregarNumeroAtrasado(nro);
+		this.cola.atrasarNumero(nro);
 		
 		System.out.println("Luego de atrasar ");
 		this.cola.printEstadoCola();
@@ -554,7 +554,7 @@ public class TestBusinessSectorQueue {
 		
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.agregarNumeroAtrasado(nro);
+		this.cola.atrasarNumero(nro);
 		
 		System.out.println("Luego de atrasar ");
 		this.cola.printEstadoCola();
@@ -600,17 +600,17 @@ public class TestBusinessSectorQueue {
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.agregarNumeroAtrasado(nro);
+		this.cola.atrasarNumero(nro);
 		
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.agregarNumeroAtrasado(nro);
+		this.cola.atrasarNumero(nro);
 		
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo atraso
 		nro.setEstado("Atrasado");
-		this.cola.agregarNumeroAtrasado(nro);
+		this.cola.atrasarNumero(nro);
 		
 		// reviso q esten los tres nros atrasados
 		System.out.println("deberian estar los tres numeros atrasados");
