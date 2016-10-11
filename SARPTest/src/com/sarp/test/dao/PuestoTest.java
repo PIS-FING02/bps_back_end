@@ -71,13 +71,32 @@ public class PuestoTest {
    }
     
    @Test
-   public void testCrearPuesto2() throws Exception {
+   public void testCrearPuesto() throws Exception {
 	   BusinessPuesto p = new BusinessPuesto();
 	   p.setNombreMaquina("nombretest2");
+	   p.setNumeroPuesto(6);
+	   p.setUsuarioId("usuarioidtest");
+	   p.setEstado(EstadoPuesto.DISPONIBLE);
 	   ctrlPuesto.crearPuesto(p);
 	   BusinessPuesto p2 = ctrlPuesto.obtenerPuesto("nombretest2");
 	   assertEquals(p2.getNombreMaquina(), p.getNombreMaquina());
+	   assertEquals(p2.getNumeroPuesto(), p.getNumeroPuesto());
+	   assertEquals(p2.getUsuarioId(), p.getUsuarioId());
+	   assertEquals(p2.getEstado(),EstadoPuesto.CERRADO);
 	   ctrlPuesto.eliminarPuesto("nombretest2");
+   }
+   
+   @Test
+   public void testCrearPuesto2() throws Exception {
+	   BusinessPuesto p = new BusinessPuesto();
+	   p.setNombreMaquina("nombretest3");
+	   ctrlPuesto.crearPuesto(p);
+	   BusinessPuesto p2 = ctrlPuesto.obtenerPuesto("nombretest3");
+	   assertEquals(p2.getNombreMaquina(), "nombretest3");
+	   assertEquals(p2.getNumeroPuesto(), null);
+	   assertEquals(p2.getUsuarioId(), null);
+	   assertEquals(p2.getEstado(),EstadoPuesto.CERRADO);
+	   ctrlPuesto.eliminarPuesto("nombretest3");
    }
    
    @SuppressWarnings("unused")
@@ -102,11 +121,15 @@ public class PuestoTest {
    public void testModificarPuestoValido() throws Exception {
       BusinessPuesto p = ctrlPuesto.obtenerPuesto(id.get(1));
       assertEquals(p.getNombreMaquina(), "nombremaquinatest1");  
-      p.setUsuarioId("usuarioid");
-  
+      p.setEstado(EstadoPuesto.LLAMANDO);
+      p.setNumeroPuesto(8);
+      p.setUsuarioId("usuarioidtest");    
       ctrlPuesto.modificarPuesto(p);
       BusinessPuesto p2 = ctrlPuesto.obtenerPuesto("nombremaquinatest1");
-      assertEquals(p2.getUsuarioId(), "usuarioid");     
+      assertEquals(p2.getNombreMaquina(), id.get(1));
+      assertEquals(p2.getUsuarioId(), "usuarioidtest");
+      assertEquals(p2.getNumeroPuesto() == 8, true);
+      assertEquals(p2.getEstado(), EstadoPuesto.LLAMANDO);
    }
    
    @Test(expected=RollbackException.class)
