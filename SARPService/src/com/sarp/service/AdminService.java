@@ -209,7 +209,18 @@ public class AdminService {
 		}
     }
 	
-	
+	@GET
+	@Path("/listarTramitesPuesto")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<JSONTramite> listarTramitesPuesto(@HeaderParam("user-rol") String userRol,JSONPuesto puesto ) {
+		if(userRol.equals("ResponsableSector")){
+			Factory fac = Factory.getInstance();
+			AdminActionsController aac = fac.getAdminActionsController();
+			return aac.listarTramitesPuesto(puesto.getNombreMaquina());
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+    }
 	/******* Alta, Baja & Modificacion de Tramites *******/
 	
 	@POST
@@ -269,7 +280,7 @@ public class AdminService {
 	}
 
 	@PUT
-	@Path("/tramitepuesto")
+	@Path("/asignarTramitePuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String asignarTramitePuesto(@HeaderParam("user-rol") String userRol, JSONPuestoTramite puestoTramite){	
 		Factory fac = Factory.getInstance();

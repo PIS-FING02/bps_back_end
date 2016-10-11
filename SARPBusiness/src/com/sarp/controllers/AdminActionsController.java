@@ -53,7 +53,12 @@ public class AdminActionsController {
 		AdminService adServ = new AdminService();
 		return adServ.listarTramites();
 	}
-
+	
+	public List<JSONTramite> listarTramitesPuesto(String nombreMaquina ){
+		AdminService adServ = new AdminService();
+		return adServ.listarTramitesPuesto(nombreMaquina);
+	}
+	
 	public void modificarEstadoPuesto(String nombreMaquina, String estado) {
 		// TODO Auto-generated method stub
 		
