@@ -8,7 +8,7 @@
 		<class>com.sarp.dao.model.Tramite</class>
 		<class>com.sarp.dao.model.DatosComplementario</class>
 		<properties>
-	      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dbSARP"/> 
+	      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://52.52.100.160:5432/dbSARP"/> 
 	      <property name="javax.persistence.jdbc.user" value="postgres"/>
 	      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 	      <property name="javax.persistence.jdbc.password" value="admin"/>

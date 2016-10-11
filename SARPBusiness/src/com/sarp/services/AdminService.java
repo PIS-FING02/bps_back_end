@@ -158,7 +158,21 @@ public class AdminService {
 
 	}
 	
+	public List<JSONTramite> listarTramitesPuesto(String nombreMaquina){
+		
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOPuestoController ctrl = factory.getDAOPuestoController();
+		List<BusinessTramite> listaTramites = ctrl.obtenerTramitesPuesto(nombreMaquina);
+		List<JSONTramite> jsonTram = resMaker.createArrayAtomTramites(listaTramites);
+		
+		return jsonTram;
+
+	}
+	
 	public void asignarTramitePuesto(JSONPuestoTramite puestoTramite ) throws Exception{
+		
+		/*se controla circularidad entre tramite, sectror y puesto*/
 		RequestMaker reqMaker = RequestMaker.getInstance();
 
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
