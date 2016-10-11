@@ -51,6 +51,16 @@ public class TramiteTest {
    }
    
    @Test
+   public void testCrearTramite2() throws Exception {
+	   BusinessTramite t = new BusinessTramite();
+	   t.setCodigo(89);
+	   Integer id = ctrlTramite.crearTramite(t);
+	   BusinessTramite t2 = ctrlTramite.obtenerTramite(id);
+	   assertEquals(t.getNombre(), null);
+	   ctrlTramite.eliminarTramite(id);
+   }
+   
+   @Test
    public void testListarTramites(){
 	   System.out.println("\nTramites:");
 	   List<BusinessTramite> lista = ctrlTramite.listarTramites();
@@ -58,7 +68,6 @@ public class TramiteTest {
 		   System.out.println("Tramite: " + t.getCodigo() + "-" + t.getNombre());
 	   }
    }
-   
 
    @Test
    public void testModificarTramiteValido() throws Exception {
@@ -68,6 +77,7 @@ public class TramiteTest {
 	   ctrlTramite.modificarTramite(t);
 	   BusinessTramite t2 = ctrlTramite.obtenerTramite(id.get(0));
 	   assertEquals(t2.getNombre(), "otronombre");
+	   assertEquals(t2.getCodigo() == id.get(0), true);
    }
    
    @Test(expected=RollbackException.class)

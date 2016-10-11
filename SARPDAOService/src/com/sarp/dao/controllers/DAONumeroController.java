@@ -71,7 +71,7 @@ public class DAONumeroController {
 		
 		Numero n = numeroRepository.selectNumero(id);
 		em.close();
-		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
+		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),n.getTramite().getCodigo(),n.getSector().getCodigo());
 		numero.setLastUpdated(n.getLastUpdated());
 		return numero;
 	}
