@@ -12,6 +12,7 @@ import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
+import com.sarp.controllers.QueueController;
 import com.sarp.dao.controllers.DAODisplayController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
@@ -212,8 +213,11 @@ public class AdminService {
 	public void altaModificacionSector(BusinessSector sector) throws Exception{	
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		Factory fac = Factory.getInstance();
+		QueueController ctrl = fac.getQueueController();
 		try{
 			sectorCtrl.crearSector(sector);
+			ctrl.crearColaSector(sector.getSectorId());
 		} catch (RollbackException ex){
 			sectorCtrl.modificarSector(sector);
 		}

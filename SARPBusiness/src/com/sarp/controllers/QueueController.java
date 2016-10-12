@@ -2,77 +2,98 @@ package com.sarp.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.sarp.classes.BusinessNumero;
-import com.sarp.classes.BusinessSectorQueue;
 import com.sarp.classes.BusinessTramite;
-import com.sarp.dao.controllers.DAONumeroController;
-import com.sarp.dao.factory.DAOServiceFactory;
-import com.sarp.managers.QueuesManager;
+import com.sarp.json.modeler.JSONNumero;
+import com.sarp.services.QueueService;
 
 public class QueueController {
 	
-	private BusinessSectorQueue cola;
+	private static QueueController instance;
+	private QueueController(){};
 	
-	public QueueController(String idSector){
-		this.cola = QueuesManager.getInstance().obtenerColaSector(idSector);
+	public static QueueController getInstance(){
+		instance = instance != null ? instance : new QueueController();
+		return instance;
 	}
 	
-	public void agregarNumero(BusinessNumero numero){
+	public void crearColaSector(String idSector) throws IOException{
+		QueueService qServ = new QueueService(idSector);
+		qServ.crearColaSector();
+	}
+	
+	public void agregarNumero(String idSector, BusinessNumero numero){
 		//Este metodo agrega un nuevo numero a la cola.
-		this.cola.agregarNumeroCola(numero);
+		QueueService qServ = new QueueService(idSector);
+		qServ.agregarNumero(numero);
 	}
 	
-	public void agregarNumerosBatch(){
-		DAOServiceFactory factory = DAOServiceFactory.getInstance();
-		DAONumeroController daoNumero = factory.getDAONumeroController();
-		ArrayList<BusinessNumero> numerosDiarios = daoNumero.listarNumerosDelDia();
-		this.cola.agregarNumeroColaBatch(numerosDiarios);
+	public void agregarNumerosBatch(String idSector){
+		QueueService qServ = new QueueService(idSector);
+		qServ.agregarNumerosBatch();
 	}
 
-	public void  transferirColaAtrasados(BusinessNumero numero){
+	public void  transferirAColaAtrasados(String idSector, BusinessNumero numero){
 		//Este metodo transfiere un numero de la cola a la lista de atreasados.
-		this.cola.agregarNumeroAtrasado(numero);
+		QueueService qServ = new QueueService(idSector);
+		qServ.transferirAColaAtrasados(numero);
 	}
 
-	public void trasnferirColaPausados(BusinessNumero numero){
+	public void transferirAColaPausados(String idSector, BusinessNumero numero){
 		//Este metodo transfiere un numero de la cola a la lista de pausados.
-		this.cola.agregarNumeroPausado(numero);
+		QueueService qServ = new QueueService(idSector);
+		qServ.transferirAColaPausados(numero);
 	}
 
-	public BusinessNumero llamarProximoNumero(ArrayList<BusinessTramite> tramites){
-		return this.cola.llamarNumeroCola(tramites);
+	public JSONNumero llamarProximoNumero(String idSector, ArrayList<BusinessTramite> tramites){
+		QueueService qServ = new QueueService(idSector);
+		return qServ.llamarProximoNumero(tramites);
 	}
 	
-	public ArrayList<BusinessNumero> listarAtrasados(ArrayList<BusinessTramite> tramites){
-		return this.cola.obtenerListaAtrasados(tramites);
+	public List<JSONNumero> listarAtrasados(String idSector, List<BusinessTramite> tramites){
+		QueueService qServ = new QueueService(idSector);
+		return qServ.listarAtrasados(tramites);
 	}
 	
-	public ArrayList<BusinessNumero> listarPausados(ArrayList<BusinessTramite> tramites){
-		return this.cola.obtenerListaPausados(tramites);
+	public List<JSONNumero> listarPausados(String idSector, List<BusinessTramite> tramites){
+		QueueService qServ = new QueueService(idSector);
+		return qServ.listarPausados(tramites);
 	}
 
-	public void quitarNumeroCola(Integer idNumero) throws Exception{
+	public void quitarNumeroDeCola(String idSector, Integer idNumero) throws Exception{
+		QueueService qServ = new QueueService(idSector);
 		try{
-			this.cola.quitarNumeroCola(idNumero);
+			qServ.quitarNumeroDeCola(idNumero);
 		}catch(Exception e){
 			throw e;
 		}
 	}
 
-	public void quitarNumeroAtrasado(int idNumero){
-		this.cola.quitarNumeroAtrasado(idNumero);
+	public void quitarNumeroDeAtrasados(String idSector, int idNumero){
+		QueueService qServ = new QueueService(idSector);
+		qServ.quitarNumeroDeAtrasados(idNumero);
 	}
 
-	public void quitarNumeroPausado(int idNumero){
-		this.cola.quitarNumeroPausado(idNumero);
+	public void quitarNumeroDePausados(String idSector, int idNumero){
+		QueueService qServ = new QueueService(idSector);
+		qServ.quitarNumeroDePausados(idNumero);
 	}
 
-	public BusinessNumero obtenerNumeroAtrasado(int idNumero) throws IOException{
-		return this.cola.obtenerNumeroAtrasado(idNumero);
+	public JSONNumero obtenerNumeroAtrasado(String idSector, int idNumero) throws IOException{
+		QueueService qServ = new QueueService(idSector);
+		return qServ.obtenerNumeroAtrasado(idNumero);
 	}
 	
-	public BusinessNumero obtenerNumeroPausado(int idNumero) throws IOException{
-		return this.cola.obtenerNumeroPausado(idNumero);
+	public JSONNumero obtenerNumeroPausado(String idSector, int idNumero) throws IOException{
+		QueueService qServ = new QueueService(idSector);
+		return qServ.obtenerNumeroPausado(idNumero);
 	}
 	
+	public List<JSONNumero> obtenerTodosLosNumeros(String idSector) throws IOException{
+		System.out.println("********* QueueController");
+		QueueService qServ = new QueueService(idSector);
+		return qServ.obtenerTodosLosNumeros();
+	}
 }

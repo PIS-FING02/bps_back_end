@@ -200,6 +200,14 @@ public class ResponseMaker {
 		}
 		return listJSONDisplay;
 	}
+	
+	public List<JSONNumero> createListJSONNumeros(List<BusinessNumero> listaNumeros){
+		List<JSONNumero> listaJsonNros = new ArrayList<JSONNumero>();
+		for(BusinessNumero bn : listaNumeros){
+			listaJsonNros.add(numeroAtomResponse(bn));
+		}
+		return listaJsonNros;
+	}
 
 
 }
