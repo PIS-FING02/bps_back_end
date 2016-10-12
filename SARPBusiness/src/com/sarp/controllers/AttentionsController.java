@@ -17,7 +17,7 @@ public class AttentionsController {
 		return instance;
 	}
 	
-	public void solicitarNumero(BusinessNumero num){
+	public void solicitarNumero(JSONNumero num){
 		NumberService serv = new NumberService();
 		serv.solicitarNumero(num);
 	}

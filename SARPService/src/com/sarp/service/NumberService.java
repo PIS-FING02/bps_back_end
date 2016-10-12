@@ -36,12 +36,12 @@ public class NumberService {
 	@POST
 	@Path("/solicitarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String SolicitarNumero(@HeaderParam("user-rol") String userRol, BusinessNumero num){
+	public String SolicitarNumero(@HeaderParam("user-rol") String userRol, JSONNumero num){
 		//System.out.println("hola desde altaNumero");
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();
 		ctrl.solicitarNumero(num);
-		return "se recibio : "+num.getInternalId().toString();
+		return "se recibio : "+num.toString();
 	}
 	
 	@GET
@@ -60,5 +60,6 @@ public class NumberService {
 			throw new BadRequestException("No tiene permisos para realizar esta accion.");
 		}
     }
+
 
 }
