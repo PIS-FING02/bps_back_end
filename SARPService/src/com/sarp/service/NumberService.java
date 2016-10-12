@@ -12,10 +12,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.jboss.resteasy.spi.BadRequestException;
+
 import com.sarp.classes.BusinessNumero;
 import com.sarp.controllers.AttentionsController;
+import com.sarp.controllers.QueueController;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONNumero;
 
 
 @RequestScoped
@@ -39,5 +43,22 @@ public class NumberService {
 		ctrl.solicitarNumero(num);
 		return "se recibio : "+num.getInternalId().toString();
 	}
+	
+	@GET
+	@Path("/listarNumeros")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<JSONNumero> listarNumeros(@HeaderParam("user-rol") String userRol, String idSector) {
+		Factory fac = Factory.getInstance();
+		QueueController ctrl = fac.getQueueController();
+		if(userRol.equals("Administrador")){
+			try{	
+				return ctrl.obtenerTodosLosNumeros(idSector);
+			}catch(Exception e){
+				throw new BadRequestException("Error al listar todos los numeros");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+		}
+    }
 
 }
