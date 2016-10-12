@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -260,7 +261,8 @@ public class TestBusinessSectorQueue {
 		nro.setEstado("Pausado");
 		this.cola.agregarNumeroPausado(nro);
 		// obtengo la lista de pausados a ver si se transfirio
-		ArrayList<BusinessNumero> pausados = this.cola.obtenerListaPausados(tramites);
+		List<BusinessNumero> pausados = this.cola.obtenerListaPausados(tramites);
+		
 
 		System.out.println("Impresion de la lista de pausados obteniendo por tramites");
 		for (BusinessNumero np : pausados) {
@@ -701,7 +703,7 @@ public class TestBusinessSectorQueue {
 		
 		this.cola.agregarNumeroAtrasado(nro);
 		
-		ArrayList<BusinessNumero> listaTodos = this.cola.listarNumeros();
+		List<BusinessNumero> listaTodos = this.cola.listarNumeros();
 		
 		for(BusinessNumero bn : listaTodos)
 			System.out.println(bn.obtenerImpresion());
