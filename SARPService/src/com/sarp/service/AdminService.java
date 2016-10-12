@@ -120,7 +120,7 @@ public class AdminService {
   	@Path("/puestos/{id-sector}")
       @Produces(MediaType.APPLICATION_JSON)
       public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol, @PathParam("id-sector") String idSector) {
-  		System.out.println("entro a listar");
+  		System.out.println("entro a listar por sector");
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals( "ResponsableSector")){
@@ -210,13 +210,14 @@ public class AdminService {
     }
 	
 	@GET
-	@Path("/listarTramitesPuesto")
+	@Path("/listarTramitesPuesto/{nombre-maquina}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<JSONTramite> listarTramitesPuesto(@HeaderParam("user-rol") String userRol,JSONPuesto puesto ) {
+    public List<JSONTramite> listarTramitesPuesto(@HeaderParam("user-rol") String userRol,@PathParam("nombre-maquina") String NombreMaquina ) {
+		System.out.println("entro a listar");
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController aac = fac.getAdminActionsController();
-			return aac.listarTramitesPuesto(puesto.getNombreMaquina());
+			return aac.listarTramitesPuesto(NombreMaquina);
 		}else{
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
