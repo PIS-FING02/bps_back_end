@@ -34,8 +34,8 @@ public class Factory {
 		return WaitingController.getInstance();
 	}
 	
-	public QueueController getQueueController(String idSector){
-		return new QueueController(idSector);
+	public QueueController getQueueController(){
+		return QueueController.getInstance();
 	}
 	
 	public AssignmentController getAssignmentController(){

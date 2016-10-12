@@ -143,7 +143,7 @@ public class BusinessSectorQueue {
 		}
 	}
 
-	private boolean puedeAtenderNumero(ArrayList<BusinessTramite> listaTramites, BusinessNumero nro) {
+	private boolean puedeAtenderNumero(List<BusinessTramite> listaTramites, BusinessNumero nro) {
 		for (BusinessTramite t : listaTramites) {
 			if (t.getCodigo() == nro.getCodTramite())
 				return true;
@@ -187,8 +187,8 @@ public class BusinessSectorQueue {
 		}
 	}
 
-	public synchronized ArrayList<BusinessNumero> obtenerListaAtrasados(ArrayList<BusinessTramite> listaTramites) {
-		ArrayList<BusinessNumero> atrasados = new ArrayList<BusinessNumero>();
+	public synchronized List<BusinessNumero> obtenerListaAtrasados(List<BusinessTramite> listaTramites) {
+		List<BusinessNumero> atrasados = new ArrayList<BusinessNumero>();
 		for (BusinessNumero bn : this.atrasados) {
 			if (this.puedeAtenderNumero(listaTramites, bn))
 				atrasados.add(bn);
@@ -226,8 +226,8 @@ public class BusinessSectorQueue {
 		}
 	}
 
-	public synchronized ArrayList<BusinessNumero> obtenerListaPausados(ArrayList<BusinessTramite> tramites) {
-		ArrayList<BusinessNumero> pausados = new ArrayList<BusinessNumero>();
+	public synchronized List<BusinessNumero> obtenerListaPausados(List<BusinessTramite> tramites) {
+		List<BusinessNumero> pausados = new ArrayList<BusinessNumero>();
 		for (BusinessNumero bn : this.pausados) {
 			if (this.puedeAtenderNumero(tramites, bn))
 				pausados.add(bn);
@@ -248,8 +248,8 @@ public class BusinessSectorQueue {
 		throw e;
 	}
 
-	public ArrayList<BusinessNumero> listarNumeros() {
-		ArrayList<BusinessNumero> lista = new ArrayList<BusinessNumero>();
+	public List<BusinessNumero> listarNumeros() {
+		List<BusinessNumero> lista = new ArrayList<BusinessNumero>();
 		for (BusinessNumero bn : this.colaPrioridad1)
 			lista.add(bn);
 		for (BusinessNumero bn : this.colaPrioridad2)
