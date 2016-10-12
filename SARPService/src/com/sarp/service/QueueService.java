@@ -21,20 +21,5 @@ import com.sarp.json.modeler.JSONSector;
 @Path("/queueService")
 public class QueueService {
 
-	@POST
-	@Path("/listarNumeros")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public List<JSONNumero> listarNumeros(@HeaderParam("user-rol") String userRol, JSONSector sector) {
-		Factory fac = Factory.getInstance();
-		QueueController ctrl = fac.getQueueController();
-		if(userRol.equals("Administrador")){
-			try{	
-				return ctrl.obtenerTodosLosNumeros(sector.getCodigo());
-			}catch(Exception e){
-				throw new BadRequestException("Error al listar todos los numeros");
-			}
-		}else{
-			throw new BadRequestException("No tiene permisos para realizar esta accion.");
-		}
-    }
+	
 }
