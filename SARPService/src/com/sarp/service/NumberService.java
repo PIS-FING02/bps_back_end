@@ -9,6 +9,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -26,28 +27,20 @@ import com.sarp.json.modeler.JSONNumero;
 @Path("/numberService")
 public class NumberService {
 	
-	@GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<BusinessNumero> listAllMembers(@HeaderParam("user-rol") String userRol) {
-		DAONumeroController ctrl = new DAONumeroController();
-		return ctrl.listarNumeros();
-    }
-	
 	@POST
 	@Path("/solicitarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String SolicitarNumero(@HeaderParam("user-rol") String userRol, JSONNumero num){
-		//System.out.println("hola desde altaNumero");
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();
 		ctrl.solicitarNumero(num);
-		return "se recibio : "+num.toString();
+		return "El numero : "+num.getExternalId()+" se dio de alta exitosamente";
 	}
 	
 	@GET
-	@Path("/listarNumeros")
+	@Path("/listarNumeros?idSector")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<JSONNumero> listarNumeros(@HeaderParam("user-rol") String userRol, String idSector) {
+    public List<JSONNumero> listarNumeros(@HeaderParam("user-rol") String userRol, @QueryParam("idSector") String idSector) {
 		Factory fac = Factory.getInstance();
 		QueueController ctrl = fac.getQueueController();
 		if(userRol.equals("Administrador")){

@@ -152,5 +152,10 @@ public class AdminActionsController {
 		AdminService adminServ = new AdminService();
 		adminServ.modificarRutaDisplay(idDisplay, rutaArchivo);
 	}
+	
+	public void borrarTodoElSistema(){
+		AdminService adminServ = new AdminService();
+		adminServ.borrarTodoElSistema();
+	}
 
 }

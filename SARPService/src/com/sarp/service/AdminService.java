@@ -433,4 +433,24 @@ public class AdminService {
 		}
     }
 	
+	/************ Borrar todo el sistema ***************/
+	
+	@DELETE
+	@Path("/borrarTodo")
+    //este metodo retorna los display de un sector
+	public String borrarTodo(@HeaderParam("user-rol") String userRol) {
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if (userRol.equals( "Administrador")){
+			try{
+				ctrl.borrarTodoElSistema();
+				return "El sistema fue borrado con exito";
+			}catch(Exception e){
+				throw new BadRequestException("Error al borrar todo el sistema.");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+    }
+	
 }
