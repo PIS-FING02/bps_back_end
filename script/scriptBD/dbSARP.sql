@@ -5,17 +5,16 @@ CREATE SCHEMA public;
 
 CREATE TABLE public.DISPLAY
 (
-  codigo serial,
-  ruta_archivo character varying(40),
+  id_display character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp,
-  CONSTRAINT display_pkey PRIMARY KEY (codigo)
+  CONSTRAINT display_pkey PRIMARY KEY (id_display)
 );
 
 CREATE TABLE public.SECTOR
 (
   codigo character varying(40),
-  codigo_display int references DISPLAY(codigo), --relacion ONETOMANY entre SECTOR y DISPLAY
+  codigo_display character varying(40) references DISPLAY(id_display), --relacion ONETOMANY entre SECTOR y DISPLAY
   nombre character varying(40),
   ruta_sector character varying(40),  
   date_created timestamp default current_timestamp,
@@ -143,4 +142,5 @@ CREATE TABLE public.METRICAS_PUESTO
 );
 
 COMMIT;
+
 
