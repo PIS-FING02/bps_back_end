@@ -443,7 +443,7 @@ public class AdminService {
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if (userRol.equals( "Administrador")){
 			try{
-				ctrl.borrarSistema();
+				ctrl.borrarTodoElSistema();
 				return "El sistema fue borrado con exito";
 			}catch(Exception e){
 				throw new BadRequestException("Error al borrar todo el sistema.");

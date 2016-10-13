@@ -317,7 +317,7 @@ public class AdminService {
 
 	public void borrarTodoElSistema(){
 		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
-		
+		factoryServices.getDAOAdminController().resetDataBase();
 	}
 	
 }
