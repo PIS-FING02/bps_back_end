@@ -316,7 +316,7 @@ public class AdminService {
 		}
     }
 	
-	@PUT
+	/*@PUT
 	@Path("/asignarSectorDisplayAdmin")
     @Produces(MediaType.APPLICATION_JSON)
     public String listarSectores(@HeaderParam("user-rol") String userRol, JSONSectorDisplay secDisp) {
@@ -333,7 +333,7 @@ public class AdminService {
 			throw new BadRequestException("No tiene permisos para realizar esta accion.");
 		}
 		
-    }
+    }*/
 	
 	/****************************** DISPLAY ******************************/
 	
@@ -347,7 +347,7 @@ public class AdminService {
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ) {
 			try{
-				ctrl.altaDisplay(display.getRutaArchivo());
+				ctrl.altaDisplay(display.getIdDisplay());
 				return "Display dado de alta satisfactoriamente";
 			}catch(Exception e){
 				throw new BadRequestException("Error al crear el Display");
@@ -365,8 +365,8 @@ public class AdminService {
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ){
 			try{
-				ctrl.bajaDisplay(display.getDisplayId());
-				return "Display "+display.getDisplayId()+" fue dado de baja.";
+				ctrl.bajaDisplay(display.getIdDisplay());
+				return "Display "+display.getIdDisplay()+" fue dado de baja.";
 			}catch(Exception e){
 				throw new BadRequestException("Error al dar de baja el Display.");
 			}
@@ -376,7 +376,7 @@ public class AdminService {
 		
 	}
 	
-	@PUT
+	/*@PUT
 	@Path("/display")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String modificarDisplay(@HeaderParam("user-rol") String userRol, JSONDisplay display){	
@@ -393,7 +393,7 @@ public class AdminService {
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
 		
-	}
+	}*/
 	
 	/* aun no se necesita en caso de necesitarse es necesario crear en la base la operacion listarDisplaySector(sectorid)
 	 @GET

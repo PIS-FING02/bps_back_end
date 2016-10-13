@@ -45,7 +45,7 @@ public class RequestMaker {
 	}
 	
 	public BusinessDisplay requestDisplay(JSONDisplay display){
-		return display != null ? new BusinessDisplay(display.getDisplayId(),display.getRutaArchivo()) : null;
+		return display != null ? new BusinessDisplay(display.getIdDisplay()) : null;
 	}
 	public BusinessDatoComplementario requestDatoComplementario(JSONNumero numero){
 		if(numero != null){

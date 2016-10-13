@@ -123,20 +123,20 @@ public class AdminActionsController {
 	}
 	
 
-	public void asignarSectorDisplayAdmin(JSONSectorDisplay secDisplay) throws Exception{
+	/*public void asignarSectorDisplayAdmin(JSONSectorDisplay secDisplay) throws Exception{
 		AdminService adminService = new AdminService();
 		adminService.asignarSectorDisplayAdmin(secDisplay);
 		
-	}
+	}*/
 
 	/***********************DISPLAY***********************************/
-	public void altaDisplay(String rutaArchivo) throws Exception{	
+	public void altaDisplay(String idDisplay) throws Exception{	
 		AdminService adminServ = new AdminService();
-		adminServ.altaDisplay(rutaArchivo);
+		adminServ.altaDisplay(idDisplay);
 		
 	}
 	
-	public void bajaDisplay(Integer idDisplay) throws Exception{
+	public void bajaDisplay(String idDisplay) throws Exception{
 		AdminService adminServ = new AdminService();
 		adminServ.bajaDisplay(idDisplay);
 		
@@ -148,14 +148,18 @@ public class AdminActionsController {
 		
 	}
 	
-	public void modificarRutaDisplay(Integer idDisplay, String rutaArchivo) throws Exception{
+	/*public void modificarRutaDisplay(Integer idDisplay, String rutaArchivo) throws Exception{
 		AdminService adminServ = new AdminService();
 		adminServ.modificarRutaDisplay(idDisplay, rutaArchivo);
+
 	}
-	
+	*/
 	public void borrarTodoElSistema(){
 		AdminService adminServ = new AdminService();
 		adminServ.borrarTodoElSistema();
 	}
+
+	
+
 
 }

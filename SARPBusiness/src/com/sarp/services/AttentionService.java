@@ -117,7 +117,7 @@ public class AttentionService {
 				while (!encontreNum && sectoresPuesto.size() != 0) {
 					// Selecciono un sector al azar de los sectore posibles que
 					// va a ser de donde llame un numero
-					int randomNum = ThreadLocalRandom.current().nextInt(1, sectoresPuesto.size() + 1);
+					int randomNum = ThreadLocalRandom.current().nextInt(0, sectoresPuesto.size() + 1);
 					BusinessSector randomSector = sectoresPuesto.get(randomNum);
 
 					// Pido el manejador de la cola del sector

@@ -146,8 +146,8 @@ public class ResponseMaker {
 	/*     JSONDISPLAY     */
 	public JSONDisplay displayAtomResponse(BusinessDisplay businessDisplay) {
 		JSONDisplay jsonDisplay = new JSONDisplay();
-		jsonDisplay.setDisplayId(businessDisplay.getCodigo());
-		jsonDisplay.setRutaArchivo(businessDisplay.getRutaArchivo());
+		jsonDisplay.setIdDisplay(businessDisplay.getIdDisplay());
+
 	
 		return jsonDisplay;
 	}

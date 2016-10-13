@@ -256,7 +256,9 @@ public class AdminService {
 		return jsonSec;
 	}
 
-	public void asignarSectorDisplayAdmin(JSONSectorDisplay secDisplay) throws Exception {
+
+	/*public void asignarSectorDisplayAdmin(JSONSectorDisplay secDisplay) throws Exception{
+
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessSector bSector = reqMaker.requestSector(secDisplay.getSector());
 		BusinessDisplay bDisplay = reqMaker.requestDisplay(secDisplay.getDisplay());
@@ -267,57 +269,60 @@ public class AdminService {
 		} else {
 			throw new Exception("JSONSectorDisplay corrupto");
 		}
+
 		// DELETE en DaoService
-	};
 
-	/*** IMPLEMENTACION DE DISPLAYS ****/
-	public void altaDisplay(String rutaArchivo) throws Exception {
-		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
-		DAODisplayController controladorDisplay = factoryServices.getDAODisplayController();
-		BusinessDisplay display = new BusinessDisplay(0, rutaArchivo);
-		/* OJO EL CODIGO SE GENERA EN LA BASE TENGO QUE VER COMO VA */
-		// INSERT en DaoService
-		controladorDisplay.crearDisplay(display);
+	};*/
 
-	}
-
-	public void bajaDisplay(Integer idDisplay) throws Exception {
-		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
-		DAODisplayController controladorDisplay = factoryServices.getDAODisplayController();
-		// DELETE en DaoService
-		controladorDisplay.eliminarDisplay(idDisplay);
-	}
-
-	public List<BusinessDisplay> listarDisplays(String sectorid) throws Exception {
-		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
-		DAODisplayController controladorDisplay = factoryServices.getDAODisplayController();
-		List<BusinessDisplay> displays;
-		// Traigo los puestos de un sector desde DaoService
-		// si sector es null entonces traigo todos los puestos del sistema
-		if (sectorid != null) {
-			/* Falta implementar en dao */
-			displays = new ArrayList<BusinessDisplay>();
-			// displays = controladorDisplay.listarDisplaySector(sectorid);
-		} else {
-			displays = controladorDisplay.listarDisplays();
-		}
-
-		return displays;
-	}
-
-	public void modificarRutaDisplay(Integer idDisplay, String rutaArchivo) throws Exception {
-		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
-		DAODisplayController controladorDisplay = factoryServices.getDAODisplayController();
-		/* traigo el display con id idDisplay */
-		BusinessDisplay display = controladorDisplay.obtenerDisplay(idDisplay);
-		display.setRutaArchivo(rutaArchivo);
-		// UPDATE en DaoService
-		controladorDisplay.modificarDisplay(display);
-	}
-
-	public void borrarTodoElSistema(){
-		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
-		factoryServices.getDAOAdminController().resetDataBase();
-	}
+	
+	/*** IMPLEMENTACION DE DISPLAYS****/
+			public void altaDisplay(String idDisplay) throws Exception{	
+				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+				BusinessDisplay display = new BusinessDisplay(idDisplay);
+				/*OJO EL CODIGO SE GENERA EN LA BASE TENGO QUE VER COMO VA*/
+				//INSERT en DaoService
+				controladorDisplay.crearDisplay(display);
+				
+			}
+			
+			public void bajaDisplay(String idDisplay) throws Exception{
+				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+				//DELETE en DaoService
+				controladorDisplay.eliminarDisplay(idDisplay);
+			}
+			
+			public List<BusinessDisplay> listarDisplays(String sectorid) throws Exception{
+				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+				DAODisplayController controladorDisplay = factoryServices.getDAODisplayController();
+				List<BusinessDisplay> displays;
+				//Traigo los puestos de un sector desde DaoService
+				//si sector es null entonces traigo todos los puestos del sistema		
+				if(sectorid != null){
+					/*Falta implementar en dao*/
+					displays = new ArrayList<BusinessDisplay> ();
+					//displays = controladorDisplay.listarDisplaySector(sectorid);
+				}else{
+					displays = controladorDisplay.listarDisplays();
+				}
+				
+				return displays;
+			}
+			
+		/*	public void modificarRutaDisplay(Integer idDisplay, String rutaArchivo) throws Exception{
+				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+				//traigo el display con id idDisplay
+				BusinessDisplay display = controladorDisplay.obtenerDisplay(idDisplay);
+				display.setRutaArchivo(rutaArchivo);
+				//UPDATE en DaoService
+				controladorDisplay.modificarDisplay(display);
+			}*/
+		
+			public void borrarTodoElSistema(){
+				  DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+				  factoryServices.getDAOAdminController().resetDataBase();
+				}
 	
 }

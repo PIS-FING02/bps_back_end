@@ -7,28 +7,21 @@ public class BusinessDisplay {
 	
 	//Constructores
 	public BusinessDisplay() {}	
-	public BusinessDisplay(Integer codigo, String rutaArchivo) {		
-		this.codigo = codigo;
-		this.rutaArchivo = rutaArchivo;	
+	public BusinessDisplay(String idDisplay) {		
+		this.idDisplay = idDisplay;	
 	}
 
 	//Atributos
-	private Integer codigo;
-	private String rutaArchivo;
+	private String idDisplay;
 	private Timestamp lastUpdated;
 	
 	//Operaciones
-	public Integer getCodigo() {
-		return codigo;
+
+	public String getIdDisplay() {
+		return idDisplay;
 	}
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
-	}
-	public String getRutaArchivo() {
-		return rutaArchivo;
-	}
-	public void setRutaArchivo(String rutaArchivo) {
-		this.rutaArchivo = rutaArchivo;
+	public void setIdDisplay(String idDisplay) {
+		this.idDisplay = idDisplay;
 	}
 	public Timestamp getLastUpdated() {
 		return lastUpdated;
