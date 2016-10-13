@@ -158,22 +158,22 @@ public class DAOSectorController {
 		em.close();
 		Display d = s.getDisplay();
 		if(d != null){
-			BusinessDisplay ret = new BusinessDisplay(d.getCodigo(), d.getRutaArchivo());
+			BusinessDisplay ret = new BusinessDisplay(d.getIdDisplay());
 			return ret;
 		}
 		return null;
 	}
 	
-	public void asignarDisplaySector(String codigoSector, int codigoDisplay) throws RollbackException{
+	public void asignarDisplaySector(String codigoSector, String idDisplay) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
-		Display d = displayRepository.selectDisplay(codigoDisplay);
+		Display d = displayRepository.selectDisplay(idDisplay);
 		Sector s = sectorRepository.selectSector(codigoSector);
 		if(s.getDisplay() == d){
 			em.close();
-			throw new RollbackException("El display " + codigoDisplay + " y el sector " + codigoSector + " ya estan asociados");
+			throw new RollbackException("El display " + idDisplay + " y el sector " + codigoSector + " ya estan asociados");
 		}
 		em.getTransaction().begin();
 		sectorRepository.asignarDisplaySector(d,s);

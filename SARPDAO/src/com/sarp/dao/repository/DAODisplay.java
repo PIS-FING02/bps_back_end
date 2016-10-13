@@ -20,15 +20,15 @@ public class DAODisplay {
 	}
 	
 	/* Creo una nueva entidad en la bd */
-	public Display insertDisplay(String rutaArchivo){		
+	public Display insertDisplay(String idDisplay){		
 		Display d = new Display();
-		d.setRutaArchivo(rutaArchivo);
+		d.setIdDisplay(idDisplay);
 		em.persist(d);
 		return d;
 	}
 	
 	/* Obtengo la entidad de Display en la bd con su codigo */
-	public Display selectDisplay(int codigo) throws RollbackException{		
+	public Display selectDisplay(String codigo) throws RollbackException{		
 		Display d = em.find(Display.class, codigo);
 		if (d != null){
 			return d;
@@ -45,16 +45,16 @@ public class DAODisplay {
 		return res;
 	}
 	
-	/* Modifico la ruta de un display dado por su codigo */
-	public void updateDisplay(int codigo, String rutaArchivo, Timestamp lastUpdated) throws RollbackException{		
-		Display d = selectDisplay(codigo);
-		d.setRutaArchivo(rutaArchivo);
-		d.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
-		em.persist(d);
-	}
+//	/* Modifico la ruta de un display dado por su codigo */
+//	public void updateDisplay(int codigo, String rutaArchivo, Timestamp lastUpdated) throws RollbackException{		
+//		Display d = selectDisplay(codigo);
+//		//d.setRutaArchivo(rutaArchivo);
+//		d.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
+//		em.persist(d);
+//	}
 	
 	/* Elimino un display de la base de datos */
-	public void deleteDisplay(int codigo) throws RollbackException{		
+	public void deleteDisplay(String codigo) throws RollbackException{		
 		Display d = selectDisplay(codigo);		
     	em.remove(d);
     }

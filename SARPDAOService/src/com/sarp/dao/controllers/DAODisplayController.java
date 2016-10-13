@@ -14,24 +14,24 @@ public class DAODisplayController {
 			
 	private DAOFactory factory = DAOFactory.getInstance();
 	
-	public Integer crearDisplay(BusinessDisplay d){
+	public String crearDisplay(BusinessDisplay d){
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		
 		em.getTransaction().begin();
-		Display ret = displayRepository.insertDisplay(d.getRutaArchivo());
+		Display ret = displayRepository.insertDisplay(d.getIdDisplay());
 		em.getTransaction().commit();
 		em.close();
-		return ret.getCodigo();
+		return ret.getIdDisplay();
 	}
 	
-	public BusinessDisplay obtenerDisplay(int codigo) throws RollbackException{
+	public BusinessDisplay obtenerDisplay(String codigo) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		
 		Display d = displayRepository.selectDisplay(codigo);
 		em.close();
-		BusinessDisplay ret = new BusinessDisplay(d.getCodigo(),d.getRutaArchivo());
+		BusinessDisplay ret = new BusinessDisplay(d.getIdDisplay());
 		ret.setLastUpdated(d.getLastUpdated());
 		return ret;	
 	}
@@ -45,24 +45,24 @@ public class DAODisplayController {
 		
 		ArrayList<BusinessDisplay> ret = new ArrayList<BusinessDisplay>();
 		for(Display md : lista){
-			BusinessDisplay d = new BusinessDisplay(md.getCodigo(),md.getRutaArchivo());
+			BusinessDisplay d = new BusinessDisplay(md.getIdDisplay());
 			d.setLastUpdated(md.getLastUpdated());
 			ret.add(d);
 		}		
 		return ret;
 	}
 	
-	public void modificarDisplay(BusinessDisplay d) throws RollbackException{
-		EntityManager em = EMFactory.getEntityManager();
-		DAODisplay displayRepository = factory.getDisplayRepository(em);
-		
-		em.getTransaction().begin();
-		displayRepository.updateDisplay(d.getCodigo(), d.getRutaArchivo(),d.getLastUpdated());
-		em.getTransaction().commit();
-		em.close();		
-	}
+//	public void modificarDisplay(BusinessDisplay d) throws RollbackException{
+//		EntityManager em = EMFactory.getEntityManager();
+//		DAODisplay displayRepository = factory.getDisplayRepository(em);
+//		
+//		em.getTransaction().begin();
+//		displayRepository.updateDisplay(d.getCodigo(), d.getRutaArchivo(),d.getLastUpdated());
+//		em.getTransaction().commit();
+//		em.close();		
+//	}
 	
-	public void eliminarDisplay(int codigo) throws RollbackException{
+	public void eliminarDisplay(String codigo) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		
