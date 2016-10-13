@@ -81,7 +81,8 @@ public class ResponseMaker {
 		jsonNumero.setId(businessNumero.getInternalId());
 		jsonNumero.setPrioridad(businessNumero.getPrioridad());
 		jsonNumero.setDatosComplementarios(this.datosComplementariosResponse(businessDatosComp));
-		jsonNumero.setTramiteSector(this.tramiteSectorResponse(businessTramite, businessSector));
+		jsonNumero.setIdSector(businessSector.getSectorId());
+		jsonNumero.setIdTramite(businessTramite.getCodigo());
 		
 		return jsonNumero;
 	}
