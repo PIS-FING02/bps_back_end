@@ -18,8 +18,7 @@ public class Display implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer codigo;
+	private String id_display;
 
 	@Column(name="date_created")
 	private Timestamp dateCreated;
@@ -28,22 +27,12 @@ public class Display implements Serializable {
 	@Column(name="last_updated")
 	private Timestamp lastUpdated;
 
-	@Column(name="ruta_archivo")
-	private String rutaArchivo;
 
 	//bi-directional many-to-one association to Sector
 	@OneToMany(mappedBy="display", fetch=FetchType.EAGER)
 	private List<Sector> sectors;
 
 	public Display() {
-	}
-
-	public Integer getCodigo() {
-		return this.codigo;
-	}
-
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
 	}
 
 	public Timestamp getDateCreated() {
@@ -62,12 +51,12 @@ public class Display implements Serializable {
 		this.lastUpdated = lastUpdated;
 	}
 
-	public String getRutaArchivo() {
-		return this.rutaArchivo;
+	public String getIdDisplay() {
+		return this.id_display;
 	}
 
-	public void setRutaArchivo(String rutaArchivo) {
-		this.rutaArchivo = rutaArchivo;
+	public void setIdDisplay(String idDisplay) {
+		this.id_display = id_display;
 	}
 
 	public List<Sector> getSectors() {
