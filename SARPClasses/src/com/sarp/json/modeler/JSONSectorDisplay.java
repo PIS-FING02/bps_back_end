@@ -4,20 +4,22 @@ public class JSONSectorDisplay {
 
 	public JSONSectorDisplay(){} 
 	
-	private JSONSector sector;
-	private JSONDisplay display;
+	private String sectorId;
+	private String displayId;
 	
-	public JSONSector getSector() {
-		return sector;
+	public String getSectorId() {
+		return sectorId;
 	}
-	public void setSector(JSONSector sector) {
-		this.sector = sector;
+	public void setSectorId(String sectorId) {
+		this.sectorId = sectorId;
 	}
-	public JSONDisplay getDisplay() {
-		return display;
+	public String getDisplayId() {
+		return displayId;
 	}
-	public void setDisplay(JSONDisplay display) {
-		this.display = display;
+	public void setDisplayId(String displayId) {
+		this.displayId = displayId;
 	}
+	
+	
 	
 }

@@ -2,26 +2,23 @@ package com.sarp.json.modeler;
 
 public class JSONTramiteSector {
 	
-	JSONTramite tramite;
-	JSONSector sector;
+	Integer tramiteId;
+	String sectorId;
 	
-	public JSONTramiteSector(){}
-	public JSONTramiteSector(JSONTramite tramite, JSONSector sector) {
-		this.tramite = tramite;
-		this.sector = sector;
+	public JSONTramiteSector() {}
+	
+	public Integer getTramiteId() {
+		return tramiteId;
 	}
-	public JSONTramite getTramite() {
-		return tramite;
+	public void setTramiteId(Integer tramiteId) {
+		this.tramiteId = tramiteId;
 	}
-	public void setTramite(JSONTramite tramite) {
-		this.tramite = tramite;
+	public String getSectorId() {
+		return sectorId;
 	}
-	public JSONSector getSector() {
-		return sector;
-	}
-	public void setSector(JSONSector sector) {
-		this.sector = sector;
+	public void setSectorId(String sectorId) {
+		this.sectorId = sectorId;
 	}
 	
-	
+
 }

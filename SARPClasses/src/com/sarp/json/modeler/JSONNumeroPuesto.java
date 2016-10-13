@@ -2,21 +2,21 @@ package com.sarp.json.modeler;
 
 public class JSONNumeroPuesto {
 
-	JSONNumero numero;
-	JSONPuesto puesto;
+	Integer numeroId;
+	String nombreMaquina;
 	
-	public JSONNumero getNumero() {
-		return numero;
+	public Integer getNumeroId() {
+		return numeroId;
 	}
-	public void setNumero(JSONNumero numero) {
-		this.numero = numero;
+	public void setNumeroId(Integer numeroId) {
+		this.numeroId = numeroId;
 	}
-	public JSONPuesto getPuesto() {
-		return puesto;
+	public String getNombreMaquina() {
+		return nombreMaquina;
 	}
-	public void setPuesto(JSONPuesto puesto) {
-		this.puesto = puesto;
+	public void setNombreMaquina(String nombreMaquina) {
+		this.nombreMaquina = nombreMaquina;
 	}
-	
+
 	
 }

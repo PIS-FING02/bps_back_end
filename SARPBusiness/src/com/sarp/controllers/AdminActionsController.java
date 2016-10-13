@@ -101,13 +101,13 @@ public class AdminActionsController {
 	
 	public void asignarTramiteSector(JSONTramiteSector tramSec) throws Exception {
 		AdminService adminService = new AdminService();
-		adminService.asignarTramiteSector(tramSec.getTramite().getCodigo(),tramSec.getSector().getCodigo());
+		adminService.asignarTramiteSector(tramSec.getTramiteId(),tramSec.getSectorId());
 	}
 	
 	
 	public void asignarPuestoSector(JSONPuestoSector puestoSec) throws Exception {
 		AdminService adminService = new AdminService();
-		adminService.asignarPuestoSector(puestoSec.getSector(),puestoSec.getPuesto());
+		adminService.asignarPuestoSector(puestoSec.getSectorId(),puestoSec.getNombreMaquina());
 	}
 
 
@@ -158,8 +158,9 @@ public class AdminActionsController {
 		AdminService adminServ = new AdminService();
 		adminServ.borrarTodoElSistema();
 	}
-
 	
-
-
+	public void asignarSectorDisplay(JSONSectorDisplay secDisplay) throws Exception {
+		AdminService adminService = new AdminService();
+		adminService.asignarPuestoSector(secDisplay.getSectorId(),secDisplay.getDisplayId());
+	}
 }

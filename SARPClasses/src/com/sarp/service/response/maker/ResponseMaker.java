@@ -90,8 +90,8 @@ public class ResponseMaker {
 	/*     JSONTramiteSector      */
 	public JSONTramiteSector tramiteSectorResponse(BusinessTramite businessTramite, BusinessSector businessSector) {
 		JSONTramiteSector jsonTramiteSector = new JSONTramiteSector();
-		jsonTramiteSector.setTramite(this.tramiteAtomResponse(businessTramite));
-		jsonTramiteSector.setSector(this.sectorAtomResponse(businessSector));
+		jsonTramiteSector.setTramiteId(businessTramite.getCodigo());
+		jsonTramiteSector.setSectorId(businessSector.getSectorId());
 		
 		return jsonTramiteSector;
 	}
@@ -162,8 +162,8 @@ public class ResponseMaker {
 	/* JSONNUMEROPUESTO */
 	public JSONNumeroPuesto numeroPuestoResponse(BusinessNumero businessNumero, BusinessPuesto businessPuesto){
 		JSONNumeroPuesto jsonNumeroPuesto = new JSONNumeroPuesto();
-		jsonNumeroPuesto.setNumero(this.numeroAtomResponse(businessNumero));
-		jsonNumeroPuesto.setPuesto(this.puestoAtomResponse(businessPuesto));
+		jsonNumeroPuesto.setNumeroId(businessNumero.getInternalId());
+		jsonNumeroPuesto.setNombreMaquina(businessPuesto.getNombreMaquina());
 		
 		return jsonNumeroPuesto;
 	}

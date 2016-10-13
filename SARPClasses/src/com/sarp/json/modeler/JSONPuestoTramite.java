@@ -1,20 +1,25 @@
 package com.sarp.json.modeler;
 
 public class JSONPuestoTramite {
-	private JSONTramite tramite;
-	private JSONPuesto puesto;
+	 	
+	public JSONPuestoTramite() {}
 	
-	public JSONTramite getTramite() {
-		return tramite;
+	private Integer tramiteId;
+	private String nombreMaquina;
+	
+	public Integer getTramiteId() {
+		return tramiteId;
 	}
-	public void setTramite(JSONTramite tramite) {
-		this.tramite = tramite;
+	public void setTramiteId(Integer tramiteId) {
+		this.tramiteId = tramiteId;
 	}
-	public JSONPuesto getPuesto() {
-		return puesto;
+	public String getNombreMaquina() {
+		return nombreMaquina;
 	}
-	public void setPuesto(JSONPuesto puesto) {
-		this.puesto = puesto;
+	public void setNombreMaquina(String nombreMaquina) {
+		this.nombreMaquina = nombreMaquina;
 	}
+	
+	
 		
 }

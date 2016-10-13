@@ -1,5 +1,7 @@
 package com.sarp.service.response.maker;
 
+import java.util.GregorianCalendar;
+
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessNumero;
@@ -58,7 +60,8 @@ public class RequestMaker {
 	
 	public BusinessSector requestSectorFromTramSec(JSONTramiteSector tramSec){
 		if(tramSec != null){
-			return (tramSec.getSector()!= null) ? requestSector(tramSec.getSector()) : null;
+			BusinessSector sec = new BusinessSector(tramSec.getSectorId(),null,null) ;
+			return (tramSec.getSectorId()!= null) ? sec : null;
 		}else{
 			return null;
 		}		
@@ -66,7 +69,8 @@ public class RequestMaker {
 	
 	public BusinessTramite requestTramiteFromTramSec(JSONTramiteSector tramSec){
 		if(tramSec != null){
-			return (tramSec.getSector()!= null) ? requestTramite(tramSec.getTramite()) : null;
+			BusinessTramite trm = new BusinessTramite(tramSec.getTramiteId(),null);
+			return (tramSec.getSectorId()!= null) ? trm : null;
 		}else{
 			return null;
 		}
@@ -74,8 +78,10 @@ public class RequestMaker {
 	}
 	
 	public BusinessNumero requestNumeroFromNumPuesto(JSONNumeroPuesto numPuesto){
+		
 		if(numPuesto != null){
-			return (numPuesto.getNumero()!= null) ? requestNumero(numPuesto.getNumero()) : null;
+			BusinessNumero numero =  new BusinessNumero(numPuesto.getNumeroId(), null, null, null, null, null, null);
+			return numero;
 		}else{
 			return null;
 		}
@@ -83,7 +89,8 @@ public class RequestMaker {
 	}
 	public BusinessPuesto requestPuestoFromNumPuesto(JSONNumeroPuesto numPuesto){
 		if(numPuesto != null){
-			return (numPuesto.getPuesto()!= null) ? requestPuesto(numPuesto.getPuesto()) : null;
+			BusinessPuesto puesto = new BusinessPuesto( numPuesto.getNombreMaquina(),  null, null, null);
+			return puesto;
 		}else{
 			return null;
 		}

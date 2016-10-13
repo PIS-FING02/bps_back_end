@@ -1,25 +1,25 @@
 package com.sarp.json.modeler;
 
 public class JSONPuestoSector {
-	@Override
-	public String toString() {
-		return "JSONPuestoSector [sector=" + sector + ", puesto=" + puesto + "]";
-	}
-	JSONSector sector;
-	JSONPuesto puesto;
 	
-	public JSONSector getSector() {
-		return sector;
+	public JSONPuestoSector() {	}
+	
+	String sectorId;
+	String nombreMaquina;
+	
+	public String getSectorId() {
+		return sectorId;
 	}
-	public void setSector(JSONSector sector) {
-		this.sector = sector;
+	public void setSectorId(String sectorId) {
+		this.sectorId = sectorId;
 	}
-	public JSONPuesto getPuesto() {
-		return puesto;
+	public String getNombreMaquina() {
+		return nombreMaquina;
 	}
-	public void setPuesto(JSONPuesto puesto) {
-		this.puesto = puesto;
+	public void setNombreMaquina(String nombreMaquina) {
+		this.nombreMaquina = nombreMaquina;
 	}
 	
+
 	
 }
