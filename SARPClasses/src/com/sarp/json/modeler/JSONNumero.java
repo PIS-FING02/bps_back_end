@@ -10,14 +10,9 @@ public class JSONNumero {
 	String estado;
 	Integer prioridad;
 	JSONDatosComp datosComplementarios;
-	JSONTramiteSector tramiteSector;
+	Integer idTramite;
+	String idSector;
 	
-	public JSONTramiteSector getTramiteSector() {
-		return tramiteSector;
-	}
-	public void setTramiteSector(JSONTramiteSector tramiteSector) {
-		this.tramiteSector = tramiteSector;
-	}
 	public JSONDatosComp getDatosComplementarios() {
 		return datosComplementarios;
 	}
@@ -54,7 +49,17 @@ public class JSONNumero {
 	public void setPrioridad(Integer prioridad) {
 		this.prioridad = prioridad;
 	}
-	
-	
-	
+	public Integer getIdTramite() {
+		return idTramite;
+	}
+	public void setIdTramite(Integer idTramite) {
+		this.idTramite = idTramite;
+	}
+	public String getIdSector() {
+		return idSector;
+	}
+	public void setIdSector(String idSector) {
+		this.idSector = idSector;
+	}
+
 }
