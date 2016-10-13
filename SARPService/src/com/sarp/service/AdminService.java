@@ -3,11 +3,13 @@ package com.sarp.service;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Qualifier;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -117,9 +119,9 @@ public class AdminService {
   	}
   	
   	@GET
-  	@Path("/puestos/{id-sector}")
+  	@Path("/puestosSector")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol, @PathParam("id-sector") String idSector) {
+      public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol, @QueryParam("id-sector") String idSector) {
   		System.out.println("entro a listar por sector");
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
@@ -210,9 +212,9 @@ public class AdminService {
     }
 	
 	@GET
-	@Path("/listarTramitesPuesto/{nombre-maquina}")
+	@Path("/listarTramitesPuesto?{nombre-maquina}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<JSONTramite> listarTramitesPuesto(@HeaderParam("user-rol") String userRol,@PathParam("nombre-maquina") String NombreMaquina ) {
+    public List<JSONTramite> listarTramitesPuesto(@HeaderParam("user-rol") String userRol,@QueryParam ("nombre-maquina") String NombreMaquina ) {
 		System.out.println("entro a listar");
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
