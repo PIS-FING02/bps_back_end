@@ -1,5 +1,8 @@
 package com.sarp.services;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
@@ -13,17 +16,20 @@ import com.sarp.service.response.maker.RequestMaker;
 
 public class NumberService {
 
-	public void solicitarNumero(JSONNumero num){
+	public void solicitarNumero(JSONNumero num) {
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessNumero numero = reqMaker.requestNumero(num);
 		BusinessDatoComplementario bDatosComplementario = reqMaker.requestDatoComplementario(num);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
-		Integer id =  controladorNumero.crearNumero(numero, num.getIdTramite(), num.getIdSector(), bDatosComplementario);
-		
+		Integer id = controladorNumero.crearNumero(numero, num.getIdTramite(), num.getIdSector(), bDatosComplementario);
+
 		// se agrega a la cola el numero solicitado
-		Factory fac = Factory.getInstance();
-		QueueController ctrl = fac.getQueueController();
-		ctrl.agregarNumero(num.getIdSector(), numero);
+		if (numero.getPrioridad() == 2) {
+			// Si el numero que esta entrando al sistema, tiene prioridad 2 (o sea atril/recepcionista) se agrega a la cola
+			Factory fac = Factory.getInstance();
+			QueueController ctrl = fac.getQueueController();
+			ctrl.agregarNumero(num.getIdSector(), numero);
+		}
 	}
 }

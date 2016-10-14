@@ -92,7 +92,6 @@ public class QueueController {
 	}
 	
 	public List<JSONNumero> obtenerTodosLosNumeros(String idSector) throws IOException{
-		System.out.println("********* QueueController");
 		QueueService qServ = new QueueService(idSector);
 		return qServ.obtenerTodosLosNumeros();
 	}

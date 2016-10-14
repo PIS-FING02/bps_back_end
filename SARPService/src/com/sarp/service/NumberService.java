@@ -41,10 +41,10 @@ public class NumberService {
 	@Path("/listarNumeros?idSector")
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONNumero> listarNumeros(@HeaderParam("user-rol") String userRol, @QueryParam("idSector") String idSector) {
-		Factory fac = Factory.getInstance();
-		QueueController ctrl = fac.getQueueController();
 		if(userRol.equals("Administrador")){
-			try{	
+			try{
+				Factory fac = Factory.getInstance();
+				QueueController ctrl = fac.getQueueController();
 				return ctrl.obtenerTodosLosNumeros(idSector);
 			}catch(Exception e){
 				throw new BadRequestException("Error al listar todos los numeros");

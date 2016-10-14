@@ -97,7 +97,6 @@ public class QueueService {
 	
 	/**** listar numeros  *******/
 	public List<JSONNumero> obtenerTodosLosNumeros() throws IOException{
-		System.out.println("********* QueueService");
 		ResponseMaker respMaker = ResponseMaker.getInstance();
 		List<BusinessNumero> listaNumeros = this.cola.listarNumeros();
 		List<JSONNumero> listaNros = respMaker.createListJSONNumeros(listaNumeros);
