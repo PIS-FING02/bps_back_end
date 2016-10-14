@@ -9,7 +9,6 @@ public class GAFUController {
 	
 	public GAFUController(){
 		this.gafumgr = GAFUManager.getInstance();
-
 	}
 	
 	public void actualizarArbolGAFU() throws Exception{

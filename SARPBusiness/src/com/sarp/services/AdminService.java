@@ -26,6 +26,7 @@ import com.sarp.json.modeler.JSONPuestoTramite;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
+import com.sarp.managers.QueuesManager;
 import com.sarp.service.response.maker.RequestMaker;
 import com.sarp.service.response.maker.ResponseMaker;
 import com.sarp.json.modeler.JSONPuesto;
@@ -338,6 +339,18 @@ public class AdminService {
 		  factoryServices.getDAOAdminController().resetDataBase();
 	}
 
+	/************ Colas ************/
 	
+	public void reinicializarColas() throws Exception {
+		DAOServiceFactory fac = DAOServiceFactory.getInstance();
+		DAOSectorController ctrl = fac.getDAOSectorController();
+		List<BusinessSector> listaSectores = ctrl.listarSectores();
+		try {
+			QueuesManager manejador = QueuesManager.getInstance();
+			manejador.reinicializarColas(listaSectores);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 }

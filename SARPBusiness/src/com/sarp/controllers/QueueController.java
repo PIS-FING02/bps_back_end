@@ -7,6 +7,7 @@ import java.util.List;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.json.modeler.JSONNumero;
+import com.sarp.managers.QueuesManager;
 import com.sarp.services.QueueService;
 
 public class QueueController {
@@ -22,6 +23,11 @@ public class QueueController {
 	public void crearColaSector(String idSector) throws IOException{
 		QueueService qServ = new QueueService(idSector);
 		qServ.crearColaSector();
+	}
+	
+	public void borrarColaSector(String idSector) throws IOException {
+		QueueService qServ = new QueueService(idSector);
+		qServ.borrarColaSector();
 	}
 	
 	public void agregarNumero(String idSector, BusinessNumero numero){
@@ -95,4 +101,5 @@ public class QueueController {
 		QueueService qServ = new QueueService(idSector);
 		return qServ.obtenerTodosLosNumeros();
 	}
+	
 }
