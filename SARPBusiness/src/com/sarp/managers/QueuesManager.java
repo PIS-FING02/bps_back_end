@@ -2,8 +2,10 @@ package com.sarp.managers;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessSectorQueue;
 
 public class QueuesManager {
@@ -33,8 +35,18 @@ public class QueuesManager {
 			manejadorDeColas.put(idSector, cola);
 		}
 		else{
-			IOException e = new IOException("El secotr ya tiene una cola asociada");
-			 throw e;
+			IOException e = new IOException("El sector ya tiene una cola asociada");
+			throw e;
+		}
+	}
+	
+	public synchronized void borrarColaSector(String idSector) throws IOException {
+		if (this.manejadorDeColas.containsKey(idSector)){
+			manejadorDeColas.remove(idSector);
+		}
+		else{
+			IOException e = new IOException("El sector no tenia una cola asociada");
+			throw e;
 		}
 	}
 	
@@ -46,7 +58,6 @@ public class QueuesManager {
 			IOException e = new IOException("No existe cola asociada para ese sector");
 			throw e;
 		}
-		
 	}
 	
 	public synchronized BusinessSectorQueue obtenerColaSector(String idSector){
@@ -55,9 +66,22 @@ public class QueuesManager {
 		}
 		else{
 			return null;
-			
 		}
-		
+	}
+	
+	public synchronized void reinicializarColas(List<BusinessSector> listaSectores) throws IOException{
+		this.manejadorDeColas = new HashMap<String,BusinessSectorQueue>();
+		for(BusinessSector sec : listaSectores){
+			if (!this.manejadorDeColas.containsKey(sec.getSectorId())){
+				BusinessSectorQueue cola = new BusinessSectorQueue(sec.getSectorId());
+				manejadorDeColas.put(sec.getSectorId(), cola);
+			}
+			else{
+				IOException e = new IOException("No se pudieron reinicializar las colas");
+				this.manejadorDeColas = new HashMap<String,BusinessSectorQueue>();
+				throw e;
+			}
+		}
 	}
 
 }

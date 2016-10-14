@@ -232,6 +232,22 @@ public class AdminService {
 		}
     }
 	
+	@PUT
+	@Path("/reinicializarColas")
+    public void reinicializarColas(@HeaderParam("secret-command") String secretCommand) throws Exception {
+		if(secretCommand.equals("MacocoReinicializar")){
+			try {
+				Factory fac = Factory.getInstance();
+				AdminActionsController aac = fac.getAdminActionsController();
+				aac.reinicializarColas();
+			}catch(Exception e){
+				throw e;
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
+    }
+	
 
 	/****************************** Alta, Baja & Modificacion de DISPLAY ******************************/
 	
@@ -491,5 +507,6 @@ public class AdminService {
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
     }
+	
 	
 }
