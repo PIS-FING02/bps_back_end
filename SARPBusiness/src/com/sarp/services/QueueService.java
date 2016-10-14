@@ -33,6 +33,8 @@ public class QueueService {
 	}
 	
 	public void agregarNumerosBatch(){
+		
+		
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAONumeroController daoNumero = factory.getDAONumeroController();
 		ArrayList<BusinessNumero> numerosDiarios = daoNumero.listarNumerosDelDia();
