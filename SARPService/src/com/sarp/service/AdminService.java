@@ -316,8 +316,8 @@ public class AdminService {
 	/************************** ASIGNACIONES *****************************/
 	
 	
-	@PUT
-  	@Path("/asignarTramiteSector") 
+	@POST
+  	@Path("/asignarTramiteSector") /*ok*/
 	
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String asignarTramiteSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramiteSector tramiteSector){	
@@ -336,8 +336,8 @@ public class AdminService {
   		
   	}
 	
-	@PUT
-	@Path("/asignarTramitePuesto")
+	@POST
+	@Path("/asignarTramitePuesto")/*ok*/
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String asignarTramitePuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuestoTramite puestoTramite){	
 		Factory fac = Factory.getInstance();
@@ -355,8 +355,8 @@ public class AdminService {
 	}
 	
 	
-	@PUT
-  	@Path("/asignarPuestoSector")
+	@POST
+  	@Path("/asignarPuestoSector")/*ok*/
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String asignarPuestoSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user , JSONPuestoSector puestoSector){	
   		Factory fac = Factory.getInstance();
@@ -373,14 +373,11 @@ public class AdminService {
   		}
   		
   	}	
-	
-	
-	
-	
-	@PUT
-	@Path("/asignarSectorDisplay")
+
+	@POST
+	@Path("/asignarSectorDisplay")/*ok*/
     @Produces(MediaType.APPLICATION_JSON)
-    public String asignarSectorDisplay(@HeaderParam("user-rol") String userRol, JSONSectorDisplay secDisp) {
+    public String asignarSectorDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONSectorDisplay secDisp) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
@@ -401,8 +398,8 @@ public class AdminService {
 	/************************** LISTAR POR *****************************/
 	
 
-  	@GET
-  	@Path("/listarPuestosSector")
+  	  @GET
+  	  @Path("/listarPuestosSector")
       @Produces(MediaType.APPLICATION_JSON)
       public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @QueryParam("sectorId") String idSector) {
   		System.out.println("entro a listar por sector");
@@ -421,6 +418,26 @@ public class AdminService {
   		}
       }
   	
+  	  @GET
+  	  @Path("/listarTramitesSector")
+      @Produces(MediaType.APPLICATION_JSON)
+      public List<JSONTramite> listarTramitesSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @QueryParam("sectorId") String idSector) {
+  		System.out.println("entro a listar por sector");
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(userRol.equals( "ResponsableSector")){
+  			try{
+  				List<JSONTramite> listatrm = ctrl.listarTramitesSector(idSector);
+  				return listatrm;
+  				
+  			}catch(Exception e){
+  				throw new BadRequestException("Error al listar Puestos.");
+  			}
+  		}else{
+  			throw new BadRequestException("No tiene permisos suficientes.");
+  		}
+      }
+  	  
   	@GET
 	@Path("/listarTramitesPuesto")
     @Produces(MediaType.APPLICATION_JSON)

@@ -216,6 +216,7 @@ public class AdminService {
 	
 	public List<BusinessDisplay> listarDisplays(String sectorid) throws Exception{
 		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+		DAOSectorController controladorsectro = factoryServices.getDAOSectorController();
 		DAODisplayController controladorDisplay = factoryServices.getDAODisplayController();
 		List<BusinessDisplay> displays;
 		//Traigo los puestos de un sector desde DaoService
@@ -223,7 +224,8 @@ public class AdminService {
 		if(sectorid != null){
 			/*Falta implementar en dao*/
 			displays = new ArrayList<BusinessDisplay> ();
-			//displays = controladorDisplay.listarDisplaySector(sectorid);
+			BusinessDisplay display = controladorsectro.obtenerDisplaySector(sectorid);
+			displays.add(display);
 		}else{
 			displays = controladorDisplay.listarDisplays();
 		}
@@ -316,7 +318,18 @@ public class AdminService {
 	 
 	 //listarpuestoporsectro es el mismo listar 
 		
-	 //falta tramite por sector 
+	  
+	 public List<JSONTramite> listarTramitesSector(String idSector) {
+		 ResponseMaker resMaker = ResponseMaker.getInstance();
+			DAOServiceFactory factory = DAOServiceFactory.getInstance();
+			DAOSectorController ctrl = factory.getDAOSectorController();
+			
+			List<BusinessTramite> listaTramites = ctrl.obtenerTramitesSector(idSector);
+			List<JSONTramite> jsonTram = resMaker.createArrayAtomTramites(listaTramites);
+		
+			return jsonTram;
+			
+		}
 	 
 	/************ Borrado de sistema ************/
 	
@@ -324,5 +337,7 @@ public class AdminService {
 		  DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
 		  factoryServices.getDAOAdminController().resetDataBase();
 	}
+
+	
 
 }

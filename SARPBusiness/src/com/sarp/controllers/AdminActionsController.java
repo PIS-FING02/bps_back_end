@@ -161,6 +161,14 @@ public class AdminActionsController {
 	
 	public void asignarSectorDisplay(JSONSectorDisplay secDisplay) throws Exception {
 		AdminService adminService = new AdminService();
-		adminService.asignarPuestoSector(secDisplay.getSectorId(),secDisplay.getDisplayId());
+		adminService.asignarSectorDisplay(secDisplay.getSectorId(),secDisplay.getDisplayId());
+	}
+
+	public List<JSONTramite> listarTramitesSector(String idSector) {
+		
+			AdminService adServ = new AdminService();
+			return adServ.listarTramitesSector(idSector);
+		
+		
 	}
 }
