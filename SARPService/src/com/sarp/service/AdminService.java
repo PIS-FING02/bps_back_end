@@ -436,13 +436,11 @@ public class AdminService {
     }
 	
   	
-  	
-	/* aun no se necesita en caso de necesitarse es necesario crear en la base la operacion listarDisplaySector(sectorid)
-	 @GET
-	@Path("/displays/{id-sector}")
-   @Produces(MediaType.APPLICATION_JSON)
-   //este metodo retorna los display de un sector
-	public List<BusinessDisplay> listarDisplaySector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @PathParam("id-sector") String idSector) {
+	@GET
+	@Path("/listarDisplaysSector")
+	@Produces(MediaType.APPLICATION_JSON)
+	//este metodo retorna los display de un sector
+	public List<BusinessDisplay> listarDisplaySector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @QueryParam("sectorId") String idSector) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals( "ResponsableSector")) || (userRol.equals("Administrador")) ){
@@ -454,14 +452,14 @@ public class AdminService {
 		}else{
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
-   }
-	*/
+	}
+	
 	
 	/************ Borrar todo el sistema ***************/
 	
 	@DELETE
 	@Path("/borrarTodo")
-    //este metodo retorna los display de un sector
+   
 	public String borrarTodo(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();

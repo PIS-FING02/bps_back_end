@@ -48,18 +48,15 @@ public class PuestoTestService {
 			Factory fac = Factory.getInstance();
 			AdminActionsController ctrl = fac.getAdminActionsController();
 			JSONPuestoSector puestoSec = new JSONPuestoSector();
-			JSONPuesto jpuesto = new JSONPuesto();
-			jpuesto.setNombreMaquina(id);
-			JSONSector jsector = new JSONSector();
-			jsector.setCodigo(s1.getSectorId());
-			puestoSec.setPuesto(jpuesto);
-			puestoSec.setSector(jsector);
+			
+			puestoSec.setNombreMaquina(id);
+			puestoSec.setSectorId(s1.getSectorId());
 			// asigno dos veces
 			ctrl.asignarPuestoSector(puestoSec);
 			ctrl.asignarPuestoSector(puestoSec);
 			//borro datos de prueba
-			   ctrlPuesto.eliminarPuesto(id);
-			   ctrlSector.eliminarSector(s1.getSectorId());
+			ctrlPuesto.eliminarPuesto(id);
+			ctrlSector.eliminarSector(s1.getSectorId());
 	
 	}
 	
@@ -86,12 +83,8 @@ public class PuestoTestService {
 			Factory fac = Factory.getInstance();
 			AdminActionsController ctrl = fac.getAdminActionsController();
 			JSONPuestoSector puestoSec = new JSONPuestoSector();
-			JSONPuesto jpuesto = new JSONPuesto();
-			jpuesto.setNombreMaquina(id);
-			JSONSector jsector = new JSONSector();
-			jsector.setCodigo(s1.getSectorId());
-			puestoSec.setPuesto(jpuesto);
-			puestoSec.setSector(jsector);
+			puestoSec.setNombreMaquina(id);
+			puestoSec.setSectorId(s1.getSectorId());
 			// asigno dos veces
 			ctrl.asignarPuestoSector(puestoSec);
 			// luego de asignar busco en la base los puestos asociados al sector

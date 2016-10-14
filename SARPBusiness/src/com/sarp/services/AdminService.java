@@ -36,6 +36,7 @@ import com.sarp.service.response.maker.RequestMaker;
 public class AdminService {
 	
 	/****** Alta, Baja & Modificacion de Puesto ******/
+	
 	public void altaPuesto(JSONPuesto puesto) throws Exception {
 
 		RequestMaker reqMaker = RequestMaker.getInstance();
@@ -161,20 +162,6 @@ public class AdminService {
 
 	}
 
-	public List<JSONTramite> listarTramitesPuesto(String nombreMaquina) {
-
-		ResponseMaker resMaker = ResponseMaker.getInstance();
-		DAOServiceFactory factory = DAOServiceFactory.getInstance();
-		DAOPuestoController ctrl = factory.getDAOPuestoController();
-		List<BusinessTramite> listaTramites = ctrl.obtenerTramitesPuesto(nombreMaquina);
-		List<JSONTramite> jsonTram = resMaker.createArrayAtomTramites(listaTramites);
-
-		return jsonTram;
-
-	}
-
-	
-
 	/****** Alta, Baja & Modificacion de Sector ******/
 
 	public void altaModificacionSector(BusinessSector sector) throws Exception {
@@ -208,25 +195,8 @@ public class AdminService {
 	}
 
 
-	/*public void asignarSectorDisplayAdmin(JSONSectorDisplay secDisplay) throws Exception{
-
-		RequestMaker reqMaker = RequestMaker.getInstance();
-		BusinessSector bSector = reqMaker.requestSector(secDisplay.getSector());
-		BusinessDisplay bDisplay = reqMaker.requestDisplay(secDisplay.getDisplay());
-		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
-		DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
-		if (bSector != null && bDisplay != null && bSector.getSectorId() != null && bDisplay.getCodigo() != null) {
-			controladorSector.asignarDisplaySector(bSector.getSectorId(), bDisplay.getCodigo());
-		} else {
-			throw new Exception("JSONSectorDisplay corrupto");
-		}
-
-		// DELETE en DaoService
-
-	};*/
-
+	/************ ABM Y 1 LISTAR DISPLAYS ************/
 	
-	/*** IMPLEMENTACION DE DISPLAYS****/
 	public void altaDisplay(String idDisplay) throws Exception{	
 		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
 		DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
@@ -261,27 +231,21 @@ public class AdminService {
 		return displays;
 	}
 	
-		/*	public void modificarRutaDisplay(Integer idDisplay, String rutaArchivo) throws Exception{
-				DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
-				DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
-				//traigo el display con id idDisplay
-				BusinessDisplay display = controladorDisplay.obtenerDisplay(idDisplay);
-				display.setRutaArchivo(rutaArchivo);
-				//UPDATE en DaoService
-				controladorDisplay.modificarDisplay(display);
-			}*/
+/*	public void modificarRutaDisplay(Integer idDisplay, String rutaArchivo) throws Exception{
+		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
+		DAODisplayController controladorDisplay =factoryServices.getDAODisplayController();
+		//traigo el display con id idDisplay
+		BusinessDisplay display = controladorDisplay.obtenerDisplay(idDisplay);
+		display.setRutaArchivo(rutaArchivo);
+		//UPDATE en DaoService
+		controladorDisplay.modificarDisplay(display);
+	}*/
 			
-			
-		
-			
-			
-	/****** ASIGNACIONES ******/
+	/************ ASIGNACIONES ************/
 	
-
 	public void asignarTramiteSector(Integer idTramite, String idSector) throws Exception {
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
-
 		sectorCtrl.asociarTramiteSector(idTramite, idSector);
 	}
 
@@ -326,22 +290,35 @@ public class AdminService {
 		} else {
 			throw new Exception("El puesto no tiene un sector que atienda ese tramite");
 		}
-
 	};
+		
+	public void asignarSectorDisplay(String sector, String display) throws Exception {
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		sectorCtrl.asignarDisplaySector(sector, display);
+	}
+
+	/************ LISTAR ***********/
+	 
+	 public List<JSONTramite> listarTramitesPuesto(String nombreMaquina) {
+
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOPuestoController ctrl = factory.getDAOPuestoController();
+		List<BusinessTramite> listaTramites = ctrl.obtenerTramitesPuesto(nombreMaquina);
+		List<JSONTramite> jsonTram = resMaker.createArrayAtomTramites(listaTramites);
 	
-	
-	 public void asignarSectorDisplay(String sector, String display) throws Exception {
-			DAOServiceFactory factory = DAOServiceFactory.getInstance();
-			DAOSectorController sectorCtrl = factory.getDAOSectorController();
-			sectorCtrl.asignarDisplaySector(sector, display);
-		}
-	
-	/****** LISTAR ******/
-	
+		return jsonTram;
+
+	}
 			
-			
-			
-	/****** Borrado de sistema ******/
+	 //listardisplayporsectro es el mismo listar 
+	 
+	 //listarpuestoporsectro es el mismo listar 
+		
+	 //falta tramite por sector 
+	 
+	/************ Borrado de sistema ************/
 	
 	public void borrarTodoElSistema(){
 		  DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();

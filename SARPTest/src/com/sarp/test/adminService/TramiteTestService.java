@@ -56,8 +56,8 @@ public class TramiteTestService {
 		   sec.setCodigo(s1.getSectorId());
 		   JSONTramite tram = new JSONTramite();
 		   tram.setCodigo(codigoTramite);
-		   tramSec.setSector(sec);
-		   tramSec.setTramite(tram);
+		   tramSec.setSectorId(sec.getCodigo());
+		   tramSec.setTramiteId(tram.getCodigo());
 		   ctrl.asignarTramiteSector(tramSec);
 		   // luego de asignar busco en la base los tramites asociados al sector
 		   List<BusinessTramite> tramitesBase = ctrlSector.obtenerTramitesSector(sec.getCodigo());
@@ -81,8 +81,8 @@ public class TramiteTestService {
 	   
 	   @Test
 	   public void asignarTramitepuesto() throws Exception {	
-		   
-		   // creo un sector 
+				   
+			// creo un sector 
 				DAOSectorController ctrlSector = new  DAOSectorController();
 				String codigoTest = "92949299789";
 				BusinessSector s1 = new BusinessSector();
@@ -90,80 +90,74 @@ public class TramiteTestService {
 				s1.setRuta("/pcunix666/ban");
 				s1.setNombre("Jubilaciones");
 				ctrlSector.crearSector(s1);
-		   //creo tramite
+			//creo tramite
 				DAOTramiteController ctrlTramite = new DAOTramiteController();
 				BusinessTramite  t1 = new BusinessTramite();
 				t1.setNombre("Consulta");
 				Integer codigoTramite = ctrlTramite.crearTramite(t1);
-		   //creo puesto 
+			//creo puesto 
 				DAOPuestoController ctrlPuesto = new DAOPuestoController();
 				BusinessPuesto p1 = new BusinessPuesto();
 				String id ="idPuestoJuancho";
 				p1.setNombreMaquina(id);
 				p1.setEstado(EstadoPuesto.DISPONIBLE);
 				ctrlPuesto.crearPuesto(p1);
-		   
-		   //le asingo al tramite al sector
-			   Factory fac = Factory.getInstance();
-			   AdminActionsController ctrl = fac.getAdminActionsController();
-			   JSONTramiteSector tramSec = new JSONTramiteSector();
 			   
-			   JSONSector js1 = new JSONSector();
-			   js1.setCodigo(s1.getSectorId());
-			   
-			   JSONTramite jt1 = new JSONTramite();
-			   jt1.setCodigo(codigoTramite);
-			   
-			   tramSec.setSector(js1);
-			   tramSec.setTramite(jt1);
-			   
-			   ctrl.asignarTramiteSector(tramSec);
-		  //le asingo puesto sector 
-			   	//Factory fac = Factory.getInstance();
-				//AdminActionsController ctrl = fac.getAdminActionsController();
-				JSONPuestoSector puestoSec = new JSONPuestoSector();
+			//le asingo al tramite al sector
+				Factory fac = Factory.getInstance();
+				AdminActionsController ctrl = fac.getAdminActionsController();
+				JSONTramiteSector tramSec = new JSONTramiteSector();
+				 
+				JSONSector js1 = new JSONSector();
+				js1.setCodigo(s1.getSectorId());
+				   
+				JSONTramite jt1 = new JSONTramite();
+				jt1.setCodigo(codigoTramite);
+				   
+				tramSec.setSectorId(js1.getCodigo());
+				tramSec.setTramiteId(jt1.getCodigo());
+				   
+				ctrl.asignarTramiteSector(tramSec);
 				
+			//le asingo puesto sector 
+				JSONPuestoSector puestoSec = new JSONPuestoSector();
+					
 				JSONPuesto jp1 = new JSONPuesto();
 				jp1.setNombreMaquina(p1.getNombreMaquina());
-				
-	
-				puestoSec.setPuesto(jp1);
-				puestoSec.setSector(js1);
-				
+						
+				puestoSec.setNombreMaquina(jp1.getNombreMaquina());
+				puestoSec.setSectorId(js1.getCodigo());
+						
 				ctrl.asignarPuestoSector(puestoSec);
-		   
-		   /**** Prueba de asignar tramite puesto  ****/
-		   //uso tramite y sector de arriba 
-		   
-		
-			//
-			JSONPuestoTramite puestoTramite = new JSONPuestoTramite();
-	
-			puestoTramite.setTramite(jt1);
-			puestoTramite.setPuesto(jp1);
+			   
+			/**** Prueba de asignar tramite puesto  ****/
 			
-		   // se asigna tramite a un puesto que tenga un sectro q a su vez tenga el tramite
-			ctrl.asignarTramitePuesto(puestoTramite);
-			
-		   // luego de asignar busco en la base los tramites asociados al puesto
+			//uso tramite y sector de arriba   
+				JSONPuestoTramite puestoTramite = new JSONPuestoTramite();
+				
+				puestoTramite.setTramiteId(jt1.getCodigo());
+				puestoTramite.setNombreMaquina(jp1.getNombreMaquina());
+				
+			// se asigna tramite a un puesto que tenga un sectro q a su vez tenga el tramite
+				ctrl.asignarTramitePuesto(puestoTramite);
+				
+			// luego de asignar busco en la base los tramites asociados al puesto
 			
 			//tambien testeo el listar 
-			 List<JSONTramite> tramitesdepueto = ctrl.listarTramitesPuesto( p1.getNombreMaquina() );
-			   Boolean isOk = false;
-			   for (JSONTramite item:tramitesdepueto){
-				   if (item.getCodigo().equals(codigoTramite)){
-					   isOk = true;
-				   }
-			   }
-			   assertEquals(isOk,true); 
-		   // se asigna tramite a un puesto que NO tenga un sectro q a su vez tenga el tramite 
-		   
-		   //se asigna tramite a un puesto nulo
-		   
-		   		   
-		   ctrlSector.eliminarSector(s1.getSectorId());
-		   ctrlTramite.eliminarTramite(codigoTramite);
-		   ctrlPuesto.eliminarPuesto(p1.getNombreMaquina());
-		   
-	   }
+				List<JSONTramite> tramitesdepueto = ctrl.listarTramitesPuesto( p1.getNombreMaquina() );
+				Boolean isOk = false;
+				for (JSONTramite item:tramitesdepueto){
+					if (item.getCodigo().equals(codigoTramite)){
+						isOk = true;
+					}
+				}
+				assertEquals(isOk,true); 
+			// se asigna tramite a un puesto que NO tenga un sectro q a su vez tenga el tramite 
+			
+			//se asigna tramite a un puesto nulo
+					   
+				ctrlSector.eliminarSector(s1.getSectorId());
+				ctrlTramite.eliminarTramite(codigoTramite);
+				ctrlPuesto.eliminarPuesto(p1.getNombreMaquina());   
+		}
 }
