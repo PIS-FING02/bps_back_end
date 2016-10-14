@@ -21,7 +21,7 @@ import java.util.List;
 public class DisplayTestService {
 
 	DAODisplayController ctrlDaoDisplay = new DAODisplayController();
-   
+  /* 
    @Test
    public void testABMDisplay() throws Exception {	
 	   // prueba abm display
@@ -32,7 +32,7 @@ public class DisplayTestService {
 	   jsonD.setRutaArchivo(rutaArchivo);
 	   // se da de alta el display
 	   ctrl.altaDisplay(jsonD.getRutaArchivo());
-	   // La obtengo los displays de la base y busco el creado*/
+	   // La obtengo los displays de la base y busco el creado
 	   List<BusinessDisplay> lista = ctrlDaoDisplay.listarDisplays();
 	   boolean existe = false;
 	   for (BusinessDisplay item:lista){
@@ -68,12 +68,6 @@ public class DisplayTestService {
 	   
 	   }
    	
-   
-	  
-	   
-
-   
-   
-   
-  
+    */
+     
 }

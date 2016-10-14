@@ -17,7 +17,7 @@ import javax.persistence.RollbackException;
 public class DisplayTest {
 	private static DAODisplayController ctrlDisplay;
 	private static List<Integer> id;	
-	
+	/*
 	@BeforeClass
     public static void setUpClassDisplayTest(){   
 		ctrlDisplay = DAOServiceFactory.getInstance().getDAODisplayController();
@@ -131,6 +131,6 @@ public class DisplayTest {
 		   assertEquals(e.getCause() instanceof OptimisticLockException, true);
 	   }
    }
-   
+   */
   
 }

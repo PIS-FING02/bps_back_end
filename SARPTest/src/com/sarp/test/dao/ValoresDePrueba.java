@@ -35,7 +35,7 @@ public class ValoresDePrueba {
 			String ci = "0";
 			for(int i = 0; i < 10; i++){
 				BusinessTramite t = new BusinessTramite();
-				t.setNombre("Tramite " + 1);
+				t.setNombre("Tramite " + i);
 				ctrlTramite.crearTramite(t);
 				
 				BusinessSector s = new BusinessSector();
@@ -45,9 +45,10 @@ public class ValoresDePrueba {
 				s.setRuta("ruta de ejemplo " + id);			
 				ctrlSector.crearSector(s);
 				
-				BusinessDisplay d = new BusinessDisplay();
-				d.setRutaArchivo("C:/dir/dis" + id + ".txt");
-				ctrlDisplay.crearDisplay(d);
+				
+				/*BusinessDisplay d = new BusinessDisplay();
+				d.setIdDisplay("C:/dir/dis" + id + ".txt");
+				ctrlDisplay.crearDisplay(d);*/
 				
 				BusinessPuesto p = new BusinessPuesto();
 				p.setNombreMaquina("NombreMaquina" + i);
@@ -60,12 +61,15 @@ public class ValoresDePrueba {
 				dc.setDocIdentidad(ci);
 				dc.setNombreCompleto("Pepito Perez");
 				dc.setTipo_doc("cedula");
+				
 				BusinessNumero n = new BusinessNumero();
 				n.setEstado("nuevo");
 				n.setExternalId("external");
 				n.setPrioridad(5);
 				n.setHora(new GregorianCalendar());
+				
 				ctrlSector.asociarTramiteSector(i+1, Integer.toString(i));
+				
 				ctrlNumero.crearNumero(n, i+1, Integer.toString(i), dc);
 			}
 		}
