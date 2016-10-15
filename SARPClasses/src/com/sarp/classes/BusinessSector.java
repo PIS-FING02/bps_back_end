@@ -56,7 +56,7 @@ public class BusinessSector  {
             return false;
         }
         BusinessSector sector = (BusinessSector) o;
-        return sectorId.equals(sector.sectorId);
+        return sectorId.equals(sector.sectorId) && nombre.equals(sector.getNombre()) && ruta.equals(sector.getRuta());
     }
 
     @Override
