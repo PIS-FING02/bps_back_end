@@ -193,7 +193,6 @@ public class AdminService {
 		DAOSectorController ctrl = factory.getDAOSectorController();
 		List<BusinessSector> listaSectores = ctrl.listarSectores();
 		List<JSONSector> jsonSec = resMaker.createArrayAtomSectores(listaSectores);
-
 		return jsonSec;
 	}
 
