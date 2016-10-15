@@ -491,22 +491,21 @@ public class AdminService {
 	/************ Borrar todo el sistema ***************/
 	
 	@DELETE
-	@Path("/borrarTodo")
-   
-	public String borrarTodo(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
+	@Path("/borrarRows")
+	public String borrarRows(@HeaderParam("secret-command") String secretCommand) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if (userRol.equals( "Administrador")){
+		if (secretCommand.equals( "MacocoBorrador")){
 			try{
 				ctrl.borrarTodoElSistema();
+				System.out.println("La macoqueada se realizo con exito");
 				return "El sistema fue borrado con exito";
 			}catch(Exception e){
-				throw new BadRequestException("Error al borrar todo el sistema.");
+				throw new BadRequestException("Error al macoquear");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new BadRequestException("NO sos macoco");
 		}
     }
-	
 	
 }
