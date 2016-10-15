@@ -149,10 +149,11 @@ public class AttentionService {
 					puestoSend.setEstado(EstadoPuesto.LLAMANDO);
 					controladorPuesto.modificarPuesto(puestoSend);
 					controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(),numeroReturn.getId());
-					// ACA TENGO QUE COMUNICARME CON LA PANTALLA PARA ASIGNARLE
-					// EL NUMERO
-					// LlamarNumero(numeroReturn.getInternalId())
-			
+
+					//llamo al display
+					DisplayService dispService = DisplayService.getInstance();
+					dispService.llamarEnDisplay( puestoSend.getNumeroPuesto().toString(), numeroReturn);
+					
 					return numeroReturn;
 				} else {
 					return null;
