@@ -42,7 +42,7 @@ public class NumberService {
 		}
 	}*/
 	
-	public void solicitarNumero(JSONNumero num) {
+	public void solicitarNumero(JSONNumero num) throws Exception {
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessNumero numero = reqMaker.requestNumero(num);
 		BusinessDatoComplementario bDatosComplementario = reqMaker.requestDatoComplementario(num);

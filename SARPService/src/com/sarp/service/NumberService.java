@@ -33,10 +33,14 @@ public class NumberService {
 	@Path("/solicitarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String SolicitarNumero(@HeaderParam("user-rol") String userRol, JSONNumero num){
+		try{
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();
 		ctrl.solicitarNumero(num);
-		return "El numero : "+num.getExternalId()+" se dio de alta exitosamente";
+		return "El numero se dio de alta exitosamente";
+		}catch(Exception e){
+			throw new InternalServerErrorException("Error al soliticar numero");
+		}
 	}
 	
 	@GET
@@ -49,7 +53,7 @@ public class NumberService {
 				QueueController ctrl = fac.getQueueController();
 				return ctrl.obtenerTodosLosNumeros(idSector);
 			}catch(Exception e){
-				throw new InternalServerErrorException("Error al listar todos los numeros");
+				throw new InternalServerErrorException(e.getMessage());
 			}
 		}else{
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
