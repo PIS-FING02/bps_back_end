@@ -43,7 +43,7 @@ public class DisplayService {
 			// List<BusinessDisplay> displaysSector =
 			// controladorSector.obtenerDisplaysSector(sectorID);
 			String localPath = "/Users/facevedo/";// .property
-			String hora = "hora";//numero.getHora();
+			String hora = numero.getHora();
 			String prioridad;
 			
 			if(numero.getPrioridad() == 1){
