@@ -13,6 +13,8 @@ import org.junit.BeforeClass;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.OptimisticLockException;
 import javax.persistence.RollbackException;
 
 public class SectorTest {
@@ -23,7 +25,7 @@ public class SectorTest {
     public static void setUpClassSectorTest(){  
 		ctrlSector = DAOServiceFactory.getInstance().getDAOSectorController();
 		id = new ArrayList<String>();
-		for(int i = 0; i < 7; i++){
+		for(int i = 0; i < 9; i++){
 			BusinessSector s = new BusinessSector();		
 			String idS = "idsectortest" + i;
 			s.setSectorId(idS);
@@ -163,19 +165,24 @@ public class SectorTest {
    
    @Test(expected=RollbackException.class)
    public void testAsociarDisplaySectorInvalido() throws Exception{
-	   ctrlSector.asignarDisplaySector("idsectortest3", "7");
-	   ctrlSector.asignarDisplaySector("idsectortest3", "7");	  
+	   ctrlSector.asignarDisplaySector("idsectortest3", "iddisplay7");
+	   ctrlSector.asignarDisplaySector("idsectortest3", "iddisplay7");	  
    }
    
    @Test()
    public void testAsociarDisplaySector() throws Exception{
 	   String id = "idsectortest5";
-	   ctrlSector.asignarDisplaySector(id, "1");
-	   BusinessDisplay d = ctrlSector.obtenerDisplaySector(id);
-	  // assertEquals(d.getCodigo() == 1, true);  
-	   ctrlSector.desasignarDisplaySector(id);
-	   d = ctrlSector.obtenerDisplaySector(id);
-	   assertEquals(d, null);
+	   ctrlSector.asignarDisplaySector(id, "iddisplay1");
+	   List<BusinessDisplay> l = ctrlSector.obtenerDisplaysSector(id);
+	   assertEquals(l.get(0).getIdDisplay(), "iddisplay1");
+	   ctrlSector.desasignarDisplaySector(id, "iddisplay1");
+	   l = ctrlSector.obtenerDisplaysSector(id);
+	   assertEquals(l.size() == 0, true); 
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testDesociarDisplaySectorInvalido() throws Exception{
+	   ctrlSector.desasignarDisplaySector("idsectortest6", "iddisplay4");
    }
    
    @Test()
@@ -215,5 +222,22 @@ public class SectorTest {
    public void testDesasociarPuestoSectorInvalido2() throws Exception{
 	   ctrlSector.desasociarSectorPuesto("sectorquenoexiste", "NombreMaquina2"); //Sector invalido
    }    
+   
+   @Test
+   public void testOptimisticLockSector(){
+	   try{
+		   System.out.println("\testOptimisticLockSector");	 
+		   BusinessSector s1 = ctrlSector.obtenerSector(id.get(6));
+		   BusinessSector s2 = ctrlSector.obtenerSector(id.get(6));
+		   s1.setNombre("cambioelnombre");
+		   s2.setNombre("cambiodevuelta");
+		   ctrlSector.modificarSector(s1);
+		   ctrlSector.modificarSector(s2);
+		   assertEquals(true, false);
+	   }
+	   catch(RollbackException e){
+		   assertEquals(e.getCause() instanceof OptimisticLockException, true);
+	   }
+   }
   
 }

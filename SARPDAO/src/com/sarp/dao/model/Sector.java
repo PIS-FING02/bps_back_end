@@ -40,10 +40,9 @@ public class Sector implements Serializable {
 	@ManyToMany(mappedBy="sectors")
 	private List<Puesto> puestos;
 
-	//bi-directional many-to-one association to Display
-	@ManyToOne
-	@JoinColumn(name="codigo_display")
-	private Display display;
+	//bi-directional many-to-many association to Puesto
+	@ManyToMany(mappedBy="sectors")
+	private List<Display> displays;
 
 	//bi-directional many-to-many association to Tramite
 	@ManyToMany(mappedBy="sectors")
@@ -99,13 +98,13 @@ public class Sector implements Serializable {
 	public void setPuestos(List<Puesto> puestos) {
 		this.puestos = puestos;
 	}
-
-	public Display getDisplay() {
-		return this.display;
+	
+	public List<Display> getDisplays() {
+		return this.displays;
 	}
 
-	public void setDisplay(Display display) {
-		this.display = display;
+	public void setDisplays(List<Display> displays) {
+		this.displays = displays;
 	}
 
 	public List<Tramite> getTramites() {
