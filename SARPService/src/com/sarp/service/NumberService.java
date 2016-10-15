@@ -40,7 +40,7 @@ public class NumberService {
 	}
 	
 	@GET
-	@Path("/listarNumeros?idSector")
+	@Path("/listarNumeros")
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONNumero> listarNumeros(@HeaderParam("user-rol") String userRol, @QueryParam("idSector") String idSector) {
 		if(userRol.equals("Administrador")){
