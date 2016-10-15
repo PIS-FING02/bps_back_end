@@ -244,7 +244,7 @@ public class AdminService {
 		if(userRol.equals("Administrador")){
 			try {
 				aac.actualizarGAFU();
-				return "OK";
+				return "Acutalizar GAFU OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al actualizar GAFU");
 			}
