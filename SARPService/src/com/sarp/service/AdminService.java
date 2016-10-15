@@ -175,7 +175,7 @@ public class AdminService {
 				ctrl.modificarTramite(jsonTramite);
 				return "El tramite de codigo: "+jsonTramite.getCodigo()+" fue modificado exitosamente";
 			}catch(Exception e){
-				throw new BadRequestException("Error al modificar el Tramite");
+				throw new InternalServerErrorException("Error al modificar el Tramite");
 			}
 		}else{
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
