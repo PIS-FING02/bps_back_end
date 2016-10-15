@@ -54,7 +54,6 @@ public class DAOSector {
 	}
 	
 	/* Modifico la ruta de un Sector dado por su codigo */
-
 	public void updateSector(String codigo, String nombre, String rutaSector, Timestamp lastUpdated) throws RollbackException{		
 		Sector s = selectSector(codigo);
 		Timestamp t = s.getLastUpdated();
@@ -66,7 +65,6 @@ public class DAOSector {
 	}
 	
 	/* elimino un Sector de la base de datos */
-
 	public void deleteSector(String codigo) throws RollbackException{		
 		Sector s = selectSector(codigo);
     	em.remove(s);
@@ -88,15 +86,16 @@ public class DAOSector {
 		em.persist(p);
 	}	
 	
-	/* Asigno un display a un sector */
 	public void asignarDisplaySector(Display display, Sector sector) {
-		display.addSector(sector);				
+		display.getSectors().add(sector);
+		sector.getDisplays().add(display);
 		em.persist(display);
 		em.persist(sector);		
 	}
 
 	public void desasignarDisplaySector(Display display, Sector sector) {
-		display.removeSector(sector);				
+		display.getSectors().remove(sector);
+		sector.getDisplays().remove(display);
 		em.persist(display);
 		em.persist(sector);			
 	}

@@ -56,7 +56,7 @@ public class TramiteTest {
 	   t.setCodigo(89);
 	   Integer id = ctrlTramite.crearTramite(t);
 	   BusinessTramite t2 = ctrlTramite.obtenerTramite(id);
-	   assertEquals(t.getNombre(), null);
+	   assertEquals(t2.getNombre(), null);
 	   ctrlTramite.eliminarTramite(id);
    }
    
