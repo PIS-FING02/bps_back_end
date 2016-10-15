@@ -9,6 +9,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.spi.BadRequestException;
+import org.jboss.resteasy.spi.InternalServerErrorException;
+import org.jboss.resteasy.spi.NotFoundException;
+import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.controllers.AttentionsController;
 import com.sarp.controllers.UserController;
@@ -34,13 +37,13 @@ public class AttentionsService {
 				return "Puesto "+puesto.getNombreMaquina()+" ha sido abierto con exito";
 			
 			}catch(ContextException e){
-				throw new BadRequestException("Error: El puesto ya se encuentra abierto");
+				throw new InternalServerErrorException("Error: El puesto ya se encuentra abierto");
 			
 			}catch(Exception e){	
-				throw new BadRequestException("Error al abrir el Puesto");
+				throw new InternalServerErrorException("Error al abrir el Puesto");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
 	
@@ -55,10 +58,10 @@ public class AttentionsService {
 				ctrl.cerrarPuesto(puesto);
 				return "Puesto "+puesto.getNombreMaquina()+" ha sido cerrado con exito";
 			}catch(Exception e){
-				throw new BadRequestException("Error: El puesto ya se encuentra cerrado");
+				throw new InternalServerErrorException("Error: El puesto ya se encuentra cerrado");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
 	@PUT
@@ -72,10 +75,10 @@ public class AttentionsService {
 				ctrl.comenzarAtencion(puesto);
 				return "Puesto "+puesto.getNombreMaquina()+" comenzo atencion satisfactoriamente";
 			}catch(Exception e){
-				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
 	
@@ -90,10 +93,10 @@ public class AttentionsService {
 				ctrl.finalizarAtencion(puesto);
 				return "Puesto "+puesto.getNombreMaquina()+" finalizo atencion satisfactoriamente";
 			}catch(Exception e){
-				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
 	
@@ -110,15 +113,15 @@ public class AttentionsService {
 				if(num != null){
 					return num;
 				}else{
-					throw new Exception("No hay numero disponible en este momento");
+					throw new NotFoundException("No hay numero disponible en este momento");
 				}
 				
 			}catch(Exception e){
 				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
-				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
 	

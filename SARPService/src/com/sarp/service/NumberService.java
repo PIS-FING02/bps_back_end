@@ -14,6 +14,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.spi.BadRequestException;
+import org.jboss.resteasy.spi.InternalServerErrorException;
+import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.classes.BusinessNumero;
 import com.sarp.controllers.AttentionsController;
@@ -47,10 +49,10 @@ public class NumberService {
 				QueueController ctrl = fac.getQueueController();
 				return ctrl.obtenerTodosLosNumeros(idSector);
 			}catch(Exception e){
-				throw new BadRequestException("Error al listar todos los numeros");
+				throw new InternalServerErrorException("Error al listar todos los numeros");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
     }
 

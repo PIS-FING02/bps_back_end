@@ -19,6 +19,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.spi.BadRequestException;
+import org.jboss.resteasy.spi.InternalServerErrorException;
+import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -45,24 +47,6 @@ public class AdminService {
 
 	/************ABM PUESTO ***************/	
   	@POST
-  	@Path("/puestoTest")
-  	@Consumes(MediaType.APPLICATION_JSON)
-  	public String altaPuesto(JSONPuesto puesto){
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(true){
-  			try{
-  				ctrl.altaPuesto(puesto);
-  				return "Puesto "+puesto.getNombreMaquina()+" dado de alta satisfactoriamente";
-  			}catch(Exception e){
-  				throw new BadRequestException("Error al crear el Puesto");
-  			}
-  		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
-  		}
-  	}
-  	
-  	@POST
   	@Path("/puesto")
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String altaPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuesto puesto){
@@ -73,10 +57,10 @@ public class AdminService {
   				ctrl.altaPuesto(puesto);
   				return "Puesto "+puesto.getNombreMaquina()+" dado de alta satisfactoriamente";
   			}catch(Exception e){
-  				throw new BadRequestException("Error al crear el Puesto");
+  				throw new InternalServerErrorException("Error al crear el Puesto");
   			}
   		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   	}
   	
@@ -91,10 +75,10 @@ public class AdminService {
   				ctrl.bajaPuesto(puesto);
   				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
   			}catch(Exception e){
-  				throw new BadRequestException("Error al dar de baja el Puesto.");
+  				throw new InternalServerErrorException("Error al dar de baja el Puesto.");
   			}
   		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   		
   	}
@@ -111,10 +95,10 @@ public class AdminService {
   				ctrl.modificarPuesto(puesto);
   				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
   			}catch(Exception e){
-  				throw new BadRequestException("Error al modificar Puesto.");
+  				throw new InternalServerErrorException("Error al modificar Puesto.");
   			}
   		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   		
   	}
@@ -133,10 +117,10 @@ public class AdminService {
   				return listaPuestos;
   				
   			}catch(Exception e){
-  				throw new BadRequestException("Error al listar Puestos.");
+  				throw new InternalServerErrorException("Error al listar Puestos.");
   			}
   		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
       }
  	
@@ -153,10 +137,10 @@ public class AdminService {
 				ctrl.altaTramite(jsonTramite);
 				return "El tramite con codigo: "+jsonTramite.getCodigo()+ " y nombre: "+jsonTramite.getNombre()+" fue dado de alta satisfactoriamente";
 			}catch(Exception e){
-				throw new BadRequestException("Error al crear el Tramite");
+				throw new InternalServerErrorException("Error al crear el Tramite");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 		
 	}
@@ -172,10 +156,10 @@ public class AdminService {
 				ctrl.bajaTramite(jsonTramite);
 				return "El tramite de codigo "+jsonTramite.getCodigo()+" fue dado de baja";
 			}catch(Exception e){
-				throw new BadRequestException("Error al eliminar el Tramite");
+				throw new InternalServerErrorException("Error al eliminar el Tramite");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
 	
@@ -193,7 +177,7 @@ public class AdminService {
 				throw new BadRequestException("Error al modificar el Tramite");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 		
 	}
@@ -207,7 +191,7 @@ public class AdminService {
 			AdminActionsController aac = fac.getAdminActionsController();
 			return aac.listarTramites();
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
 	
@@ -225,10 +209,10 @@ public class AdminService {
 			try {
 				return aac.listarSectores();
 			}catch(Exception e){
-				throw new BadRequestException("Error al listar Sectores");
+				throw new InternalServerErrorException("Error al listar Sectores");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
 	
@@ -242,28 +226,28 @@ public class AdminService {
 				AdminActionsController aac = fac.getAdminActionsController();
 				aac.reinicializarColas();
 			}catch(Exception e){
-				throw e;
+				throw new InternalServerErrorException("error al reiniciar la cola");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}			
 
 				
-	@GET
+	@PUT
 	@Path("/actualizarGAFU")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<JSONSector> actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
+    public void actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController aac = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try {
-				return aac.actualizarGAFU();
+				aac.actualizarGAFU();
 			}catch(Exception e){
-				throw new BadRequestException("Error al actualizar GAFU");
+				throw new InternalServerErrorException("Error al actualizar GAFU");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
 
@@ -281,10 +265,10 @@ public class AdminService {
 				ctrl.altaDisplay(display.getIdDisplay());
 				return "Display dado de alta satisfactoriamente";
 			}catch(Exception e){
-				throw new BadRequestException("Error al crear el Display");
+				throw new InternalServerErrorException("Error al crear el Display");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
 	
@@ -299,10 +283,10 @@ public class AdminService {
 				ctrl.bajaDisplay(display.getIdDisplay());
 				return "Display "+display.getIdDisplay()+" fue dado de baja.";
 			}catch(Exception e){
-				throw new BadRequestException("Error al dar de baja el Display.");
+				throw new InternalServerErrorException("Error al dar de baja el Display.");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 		
 	}
@@ -339,10 +323,10 @@ public class AdminService {
 			try{
 				return ctrl.listarDisplays(null);	
 			}catch(Exception e){
-				throw new BadRequestException("Error al listar Display.");
+				throw new InternalServerErrorException("Error al listar Display.");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
 	
@@ -361,10 +345,10 @@ public class AdminService {
   				ctrl.asignarTramiteSector(tramiteSector);
   				return "Se asigno el tramite: "+tramiteSector.getTramiteId().toString()+"al sector"+tramiteSector.getSectorId();
   			}catch(Exception e){
-  				throw new BadRequestException("Error al asignar puesto a tramite.");
+  				throw new InternalServerErrorException("Error al asignar puesto a tramite.");
   			}
   		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   		
   	}
@@ -380,10 +364,10 @@ public class AdminService {
 				ctrl.asignarTramitePuesto(puestoTramite);
 				return "Se asigno el tramite"+puestoTramite.getTramiteId()+" al puesto "+puestoTramite.getNombreMaquina();
 			}catch(Exception e){
-				throw new BadRequestException("Error al asignar el Tramite al puesto");
+				throw new InternalServerErrorException("Error al asignar el Tramite al puesto");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
 	
@@ -399,10 +383,10 @@ public class AdminService {
   				ctrl.asignarPuestoSector(puestoSector);
   				return "Se asigno el tramite: "+puestoSector.getNombreMaquina()+"al sector"+puestoSector.getSectorId();
   			}catch(Exception e){
-  				throw new BadRequestException("Error al modificar Puesto.");
+  				throw new InternalServerErrorException("Error al modificar Puesto.");
   			}
   		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   		
   	}	
@@ -418,10 +402,10 @@ public class AdminService {
 				ctrl.asignarSectorDisplay(secDisp);
 				return "Display asignado satisfactoriamente";
 			}catch(Exception e){
-				throw new BadRequestException("Error al asignar Display a Sector");
+				throw new InternalServerErrorException("Error al asignar Display a Sector");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos para realizar esta accion.");
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 		
     }
@@ -444,10 +428,10 @@ public class AdminService {
   				return listaPuestos;
   				
   			}catch(Exception e){
-  				throw new BadRequestException("Error al listar Puestos.");
+  				throw new InternalServerErrorException("Error al listar Puestos.");
   			}
   		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
       }
   	
@@ -464,10 +448,10 @@ public class AdminService {
   				return listatrm;
   				
   			}catch(Exception e){
-  				throw new BadRequestException("Error al listar Puestos.");
+  				throw new InternalServerErrorException("Error al listar Puestos.");
   			}
   		}else{
-  			throw new BadRequestException("No tiene permisos suficientes.");
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
       }
   	  
@@ -481,7 +465,7 @@ public class AdminService {
 			AdminActionsController aac = fac.getAdminActionsController();
 			return aac.listarTramitesPuesto(NombreMaquina);
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
 	
@@ -497,10 +481,10 @@ public class AdminService {
 			try{
 				return ctrl.listarDisplays(idSector);	
 			}catch(Exception e){
-				throw new BadRequestException("Error al listar Display.");
+				throw new InternalServerErrorException("Error al listar Display.");
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
 	
@@ -518,10 +502,10 @@ public class AdminService {
 				System.out.println("La macoqueada se realizo con exito");
 				return "El sistema fue borrado con exito";
 			}catch(Exception e){
-				throw new BadRequestException("Error al macoquear");
+				throw new InternalServerErrorException("Error al macoquear");
 			}
 		}else{
-			throw new BadRequestException("NO sos macoco");
+			throw new UnauthorizedException("NO sos macoco");
 		}
     }
 	

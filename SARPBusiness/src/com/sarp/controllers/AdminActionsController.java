@@ -128,10 +128,10 @@ public class AdminActionsController {
 		return adminService.listarSectores();
 	}
 
-	public List<JSONSector> actualizarGAFU() throws Exception{
+	public void actualizarGAFU() throws Exception{
 		GAFUController GAFUctrl = new GAFUController();
 		GAFUctrl.actualizarArbolGAFU();
-		return this.listarSectores();
+		
 	}
 
 	/*
