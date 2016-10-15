@@ -10,10 +10,12 @@ import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessSectorQueue;
 import com.sarp.classes.BusinessTramite;
+import com.sarp.controllers.QueueController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.exceptions.ContextException;
+import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.managers.QueuesManager;
@@ -111,29 +113,25 @@ public class AttentionService {
 			// Si el puesto tiene asignado algun sector procedo procedo con la
 			// obtencion de un numero
 			if (sectoresPuesto.size() > 0) {
+				
 				boolean encontreNum = false;
-				QueuesManager managerQueues = QueuesManager.getInstance();
-				BusinessNumero numeroReturn = null;
+				Factory factory = Factory.getInstance();
+				QueueController queueController = factory.getQueueController();
+				JSONNumero numeroReturn = null;
+				
 				while (!encontreNum && sectoresPuesto.size() != 0) {
 					// Selecciono un sector al azar de los sectore posibles que
 					// va a ser de donde llame un numero
 					int randomNum = ThreadLocalRandom.current().nextInt(0, sectoresPuesto.size() + 1);
 					BusinessSector randomSector = sectoresPuesto.get(randomNum);
-
-					// Pido el manejador de la cola del sector
-					BusinessSectorQueue colaSector = managerQueues.obtenerColaSector(randomSector.getSectorId());
-
+					
+					//Traigo los tramites que puede atender el puesto para ese Sector
 					ArrayList<BusinessTramite> tramitesSectorEnPuesto = controladorPuesto.obtenerTramitesDeSector(puestoSend.getNombreMaquina(), randomSector.getSectorId());
-					//JSONSector sectorPuesto = respMaker.sectorFullResponse(sector, tramitesSectorEnPuesto, null, null);
-
-					// Pido numero a la cola con los tramites que puede realizar
-					// el puesto para ese sector
-					// Me pueden retornar un numero, null (en caso de que no
-					// haya numero que puede atender)
-					// O una excepcion en caso de que haya reservado un numero
-					// para atender luego
-					numeroReturn = colaSector.llamarNumeroCola(tramitesSectorEnPuesto);
-
+					
+					//Pido un numero a la cola del sector para un tramite que pueda atender 
+				
+					numeroReturn =queueController.llamarProximoNumero(randomSector.getSectorId(), tramitesSectorEnPuesto) ; 
+					//Si me da null es porque no hay ningun numero que pueda atender en este momento
 					if ( numeroReturn != null){
 						encontreNum = true;
 					} else {
@@ -150,12 +148,12 @@ public class AttentionService {
 				if (numeroReturn != null) {
 					puestoSend.setEstado(EstadoPuesto.LLAMANDO);
 					controladorPuesto.modificarPuesto(puestoSend);
-					controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(),numeroReturn.getInternalId());
+					controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(),numeroReturn.getId());
 					// ACA TENGO QUE COMUNICARME CON LA PANTALLA PARA ASIGNARLE
 					// EL NUMERO
 					// LlamarNumero(numeroReturn.getInternalId())
-					JSONNumero num = respMaker.numeroAtomResponse(numeroReturn);
-					return num;
+			
+					return numeroReturn;
 				} else {
 					return null;
 				}
