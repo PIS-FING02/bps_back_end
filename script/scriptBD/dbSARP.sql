@@ -14,7 +14,6 @@ CREATE TABLE public.DISPLAY
 CREATE TABLE public.SECTOR
 (
   codigo character varying(40),
-  codigo_display character varying(40) references DISPLAY(id_display), --relacion ONETOMANY entre SECTOR y DISPLAY
   nombre character varying(40),
   ruta_sector character varying(40),  
   date_created timestamp default current_timestamp,
@@ -81,6 +80,14 @@ CREATE TABLE public.ATENCION
   CONSTRAINT atencion_pkey PRIMARY KEY (nombre_maquina, internal_id)
 );
 
+--Relacion MANYTOMANY entre DISPLAY y SECTOR
+CREATE TABLE public.DISPLAY_SECTOR
+(
+  codigo_display character varying(40) references DISPLAY(id_display),
+  codigo_sector character varying(40) references SECTOR(codigo),
+  CONSTRAINT display_sector_pkey PRIMARY KEY (codigo_display, codigo_sector)
+);
+
 --Relacion MANYTOMANY entre TRAMITE y SECTOR
 CREATE TABLE public.TRAMITE_SECTOR
 (
@@ -142,5 +149,6 @@ CREATE TABLE public.METRICAS_PUESTO
 );
 
 COMMIT;
+
 
 

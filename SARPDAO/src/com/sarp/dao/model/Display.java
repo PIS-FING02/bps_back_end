@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 
@@ -27,11 +26,19 @@ public class Display implements Serializable {
 	@Column(name="last_updated")
 	private Timestamp lastUpdated;
 
-
-	//bi-directional many-to-one association to Sector
-	@OneToMany(mappedBy="display", fetch=FetchType.EAGER)
-	private List<Sector> sectors;
-
+	//bi-directional many-to-many association to Sector
+		@ManyToMany
+		@JoinTable(
+			name="display_sector"
+			, joinColumns={
+				@JoinColumn(name="codigo_display")
+				}
+			, inverseJoinColumns={
+				@JoinColumn(name="codigo_sector")
+				}
+			)
+		private List<Sector> sectors;
+	
 	public Display() {
 	}
 
@@ -55,7 +62,7 @@ public class Display implements Serializable {
 		return this.id_display;
 	}
 
-	public void setIdDisplay(String idDisplay) {
+	public void setIdDisplay(String id_display) {
 		this.id_display = id_display;
 	}
 
@@ -65,20 +72,6 @@ public class Display implements Serializable {
 
 	public void setSectors(List<Sector> sectors) {
 		this.sectors = sectors;
-	}
-
-	public Sector addSector(Sector sector) {
-		getSectors().add(sector);
-		sector.setDisplay(this);
-
-		return sector;
-	}
-
-	public Sector removeSector(Sector sector) {
-		getSectors().remove(sector);
-		sector.setDisplay(null);
-
-		return sector;
 	}
 
 }

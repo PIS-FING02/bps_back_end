@@ -2,10 +2,6 @@ package com.sarp.test.dao;
 
 
 import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.eclipse.persistence.exceptions.OptimisticLockException;
-
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessNumero;
@@ -17,7 +13,6 @@ import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
-import com.sarp.enumerados.EstadoPuesto;
 
 public class ValoresDePrueba {
 
@@ -46,9 +41,9 @@ public class ValoresDePrueba {
 				ctrlSector.crearSector(s);
 				
 				
-				/*BusinessDisplay d = new BusinessDisplay();
-				d.setIdDisplay("C:/dir/dis" + id + ".txt");
-				ctrlDisplay.crearDisplay(d);*/
+				BusinessDisplay d = new BusinessDisplay();
+				d.setIdDisplay("iddisplay" + id);
+				ctrlDisplay.crearDisplay(d);
 				
 				BusinessPuesto p = new BusinessPuesto();
 				p.setNombreMaquina("NombreMaquina" + i);

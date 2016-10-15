@@ -3,10 +3,7 @@ package com.sarp.dao.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import com.sarp.dao.model.Display;
-import com.sarp.dao.model.Sector;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 
 public class DAODisplay {

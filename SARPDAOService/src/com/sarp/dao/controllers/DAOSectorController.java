@@ -150,18 +150,19 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-	public BusinessDisplay obtenerDisplaySector(String sectorID) throws RollbackException {
+	public List<BusinessDisplay> obtenerDisplaysSector(String sectorID) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
 		Sector s = sectorRepository.selectSector(sectorID);
 		em.close();
-		Display d = s.getDisplay();
-		if(d != null){
-			BusinessDisplay ret = new BusinessDisplay(d.getIdDisplay());
-			return ret;
-		}
-		return null;
+		List<Display> list = s.getDisplays();
+		List<BusinessDisplay> ret = new LinkedList<BusinessDisplay>();
+		for(Display d : list){
+			BusinessDisplay bd = new BusinessDisplay(d.getIdDisplay());
+			ret.add(bd);
+		}	
+		return ret;
 	}
 	
 	public void asignarDisplaySector(String codigoSector, String idDisplay) throws RollbackException{
@@ -171,7 +172,7 @@ public class DAOSectorController {
 		
 		Display d = displayRepository.selectDisplay(idDisplay);
 		Sector s = sectorRepository.selectSector(codigoSector);
-		if(s.getDisplay() == d){
+		if(s.getDisplays().contains(d)){
 			em.close();
 			throw new RollbackException("El display " + idDisplay + " y el sector " + codigoSector + " ya estan asociados");
 		}
@@ -181,14 +182,19 @@ public class DAOSectorController {
 		em.close();
 	}
 	
-	public void desasignarDisplaySector(String codigoSector) throws RollbackException{
+	public void desasignarDisplaySector(String codigoSector, String idDisplay) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
+		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
+		Display d = displayRepository.selectDisplay(idDisplay);
 		Sector s = sectorRepository.selectSector(codigoSector);
-
+		if(!s.getDisplays().contains(d)){
+			em.close();
+			throw new RollbackException("El display " + idDisplay + " y el sector " + codigoSector + " no estan asociados");
+		}
 		em.getTransaction().begin();
-		sectorRepository.desasignarDisplaySector(s.getDisplay(), s);
+		sectorRepository.desasignarDisplaySector(d,s);
 		em.getTransaction().commit();
 		em.close();
 	}
