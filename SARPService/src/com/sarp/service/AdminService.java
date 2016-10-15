@@ -220,12 +220,13 @@ public class AdminService {
 
 	@PUT
 	@Path("/reinicializarColas")
-    public void reinicializarColas(@HeaderParam("secret-command") String secretCommand) throws Exception {
+    public String reinicializarColas(@HeaderParam("secret-command") String secretCommand) throws Exception {
 		if(secretCommand.equals("MacocoReinicializar")){
 			try {
 				Factory fac = Factory.getInstance();
 				AdminActionsController aac = fac.getAdminActionsController();
 				aac.reinicializarColas();
+				return "Se reinicializaron las colas correctamente";
 			}catch(Exception e){
 				throw new InternalServerErrorException("error al reiniciar la cola");
 			}
