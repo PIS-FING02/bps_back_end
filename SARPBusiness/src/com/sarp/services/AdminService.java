@@ -174,7 +174,9 @@ public class AdminService {
 			sectorCtrl.crearSector(sector);
 			ctrl.crearColaSector(sector.getSectorId());
 		} catch (RollbackException ex) {
-			sectorCtrl.modificarSector(sector);
+		    if (ex.getCause().getMessage().contains("unique") || ex.getCause().getMessage().contains("duplicate")){
+		    	sectorCtrl.modificarSector(sector);
+		    }
 		}
 	}
 
