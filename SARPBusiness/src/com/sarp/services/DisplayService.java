@@ -35,13 +35,7 @@ public class DisplayService {
 			DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 			DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
 
-			BusinessDisplay displaySector = controladorSector.obtenerDisplaySector(numero.getIdSector());
-
-			List<BusinessDisplay> displaysSector = new ArrayList();
-			displaysSector.add(displaySector);
-			// chelo tiene que cambiar la base
-			// List<BusinessDisplay> displaysSector =
-			// controladorSector.obtenerDisplaysSector(sectorID);
+			List<BusinessDisplay> displaysSector = controladorSector.obtenerDisplaysSector(numero.getIdSector());
 			String localPath = "/Users/facevedo/";// .property
 			String hora = numero.getHora();
 			String prioridad;
