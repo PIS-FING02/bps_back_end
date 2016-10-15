@@ -1,6 +1,7 @@
 package com.sarp.service.response.maker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.sarp.classes.BusinessDatoComplementario;
@@ -65,7 +66,7 @@ public class ResponseMaker {
 		JSONNumero jsonNumero = new JSONNumero();
 		jsonNumero.setEstado(businessNumero.getEstado());
 		jsonNumero.setExternalId(businessNumero.getExternalId());
-		jsonNumero.setHora(businessNumero.getHora());
+		jsonNumero.setHora(businessNumero.getHora().get(Calendar.YEAR) + "/" + businessNumero.getHora().get(Calendar.MONTH) + "/" + businessNumero.getHora().get(Calendar.DAY_OF_MONTH) + "-" + businessNumero.getHora().get(Calendar.HOUR_OF_DAY) + ":" + businessNumero.getHora().get(Calendar.MINUTE));
 		jsonNumero.setId(businessNumero.getInternalId());
 		jsonNumero.setPrioridad(businessNumero.getPrioridad());
 		
@@ -77,7 +78,7 @@ public class ResponseMaker {
 		JSONNumero jsonNumero = new JSONNumero();
 		jsonNumero.setEstado(businessNumero.getEstado());
 		jsonNumero.setExternalId(businessNumero.getExternalId());
-		jsonNumero.setHora(businessNumero.getHora());
+		jsonNumero.setHora(businessNumero.getHora().get(Calendar.YEAR) + "/" + businessNumero.getHora().get(Calendar.MONTH) + "/" + businessNumero.getHora().get(Calendar.DAY_OF_MONTH) + "-" + businessNumero.getHora().get(Calendar.HOUR_OF_DAY) + ":" + businessNumero.getHora().get(Calendar.MINUTE));
 		jsonNumero.setId(businessNumero.getInternalId());
 		jsonNumero.setPrioridad(businessNumero.getPrioridad());
 		jsonNumero.setDatosComplementarios(this.datosComplementariosResponse(businessDatosComp));

@@ -1,12 +1,10 @@
 package com.sarp.json.modeler;
 
-import java.util.GregorianCalendar;
-
 public class JSONNumero {
 
 	Integer id;
 	String externalId;
-	GregorianCalendar hora;
+	String hora; // la hora siempre se pasa con este formato: "DD/MM/YYYY-HH:MM" donde HH:MM es 24 hrs 
 	String estado;
 	Integer prioridad;
 	JSONDatosComp datosComplementarios;
@@ -31,10 +29,10 @@ public class JSONNumero {
 	public void setExternalId(String externalId) {
 		this.externalId = externalId;
 	}
-	public GregorianCalendar getHora() {
+	public String getHora() {
 		return hora;
 	}
-	public void setHora(GregorianCalendar hora) {
+	public void setHora(String hora) {
 		this.hora = hora;
 	}
 	public String getEstado() {

@@ -33,9 +33,22 @@ public class RequestMaker {
 
 	}
 	
-	public BusinessNumero requestNumero(JSONNumero numero){
-	
-		return numero != null ? new BusinessNumero(numero.getId(),numero.getExternalId(),numero.getHora(),numero.getEstado(),numero.getPrioridad()) : null;
+	public BusinessNumero requestNumero(JSONNumero numero) throws Exception {
+		// 0123456789
+		// DD/MM/YYYY-HH:MM
+		
+		String fecha = numero.getHora();
+		try{
+			int dia = Integer.parseInt(fecha.substring(0, 2));
+			int mes = Integer.parseInt(fecha.substring(3, 5));
+			int ano = Integer.parseInt(fecha.substring(6, 10));
+			int hora= Integer.parseInt(fecha.substring(11, 13));
+			int min = Integer.parseInt(fecha.substring(14));
+			GregorianCalendar horaNumero = new GregorianCalendar(ano, mes, dia, hora, min);
+			return numero != null ? new BusinessNumero(numero.getId(),numero.getExternalId(),horaNumero,numero.getEstado(),numero.getPrioridad()) : null;
+		}catch(Exception e){
+			throw new Exception("El formato del numero no es correcto!");
+		}
 	}
 	
 	public BusinessTramite requestTramite(JSONTramite tramite){
