@@ -225,10 +225,7 @@ public class AdminService {
 		//Traigo los puestos de un sector desde DaoService
 		//si sector es null entonces traigo todos los puestos del sistema		
 		if(sectorid != null){
-			/*Falta implementar en dao*/
-			displays = new ArrayList<BusinessDisplay> ();
-			BusinessDisplay display = controladorsectro.obtenerDisplaySector(sectorid);
-			displays.add(display);
+			displays = controladorsectro.obtenerDisplaysSector(sectorid);
 		}else{
 			displays = controladorDisplay.listarDisplays();
 		}
