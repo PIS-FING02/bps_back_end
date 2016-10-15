@@ -38,6 +38,7 @@ import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
 import com.sarp.json.modeler.JSONTramiteSector;
+import com.sun.mail.iap.Response;
 
 @RequestScoped
 @Path("/adminService")
@@ -237,12 +238,13 @@ public class AdminService {
 	@PUT
 	@Path("/actualizarGAFU")
     @Produces(MediaType.APPLICATION_JSON)
-    public void actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
+    public int actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController aac = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try {
 				aac.actualizarGAFU();
+				return Response.OK;
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al actualizar GAFU");
 			}

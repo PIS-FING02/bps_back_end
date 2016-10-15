@@ -131,7 +131,6 @@ public class AdminActionsController {
 	public void actualizarGAFU() throws Exception{
 		GAFUController GAFUctrl = new GAFUController();
 		GAFUctrl.actualizarArbolGAFU();
-		
 	}
 
 	/*
