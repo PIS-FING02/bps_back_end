@@ -31,7 +31,10 @@ public class GAFUManager {
 		GAFUFacade gf = GAFUFacade.getInstance();
 		BusinessNodeGAFU nuevo = gf.crearArbolGAFU();
 		List<BusinessSector> nuevosSectores = arbolToList(nuevo);
-		actualizarSectores(nuevosSectores, adminServiceCtrl);
+		List<BusinessSector> BDSectores = sectorDAOCtrl.listarSectores();
+		List<BusinessSector> aInsertar = arbolToList(nuevo);
+		aInsertar.removeAll(BDSectores);
+		actualizarSectores(aInsertar, adminServiceCtrl);
 		List<BusinessSector> aBorrar = sectorDAOCtrl.listarSectores();
 		aBorrar.removeAll(nuevosSectores);
 		borrarSectores(aBorrar, adminServiceCtrl);

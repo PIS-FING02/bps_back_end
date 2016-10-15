@@ -232,6 +232,7 @@ public class AdminService {
 		}
     }
 	
+
 	@PUT
 	@Path("/reinicializarColas")
     public void reinicializarColas(@HeaderParam("secret-command") String secretCommand) throws Exception {
@@ -246,11 +247,27 @@ public class AdminService {
 		}else{
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
+	}			
+
+				
+	@GET
+	@Path("/actualizarGAFU")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<JSONSector> actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
+		Factory fac = Factory.getInstance();
+		AdminActionsController aac = fac.getAdminActionsController();
+		if(userRol.equals("Administrador")){
+			try {
+				return aac.actualizarGAFU();
+			}catch(Exception e){
+				throw new BadRequestException("Error al actualizar GAFU");
+			}
+		}else{
+			throw new BadRequestException("No tiene permisos suficientes.");
+		}
     }
-	
 
 	/****************************** Alta, Baja & Modificacion de DISPLAY ******************************/
-	
 
 
 	@POST
