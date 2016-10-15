@@ -238,13 +238,13 @@ public class AdminService {
 	@PUT
 	@Path("/actualizarGAFU")
     @Produces(MediaType.APPLICATION_JSON)
-    public int actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
+    public String actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController aac = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try {
 				aac.actualizarGAFU();
-				return Response.OK;
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al actualizar GAFU");
 			}
