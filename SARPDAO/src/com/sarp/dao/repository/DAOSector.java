@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 
 import com.sarp.dao.model.Display;
+import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
@@ -59,7 +60,7 @@ public class DAOSector {
 		Timestamp t = s.getLastUpdated();
 		s.setNombre(nombre);
 		s.setRutaSector(rutaSector);
-		//s.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
+		s.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 		
 		em.persist(s);
 	}
@@ -67,6 +68,9 @@ public class DAOSector {
 	/* elimino un Sector de la base de datos */
 	public void deleteSector(String codigo) throws RollbackException{		
 		Sector s = selectSector(codigo);
+		for (Numero n: s.getNumeros()){
+            n.setSector(null);
+        }
     	em.remove(s);
     }
 
