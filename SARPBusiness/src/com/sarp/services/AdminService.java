@@ -257,41 +257,42 @@ public class AdminService {
 	}
 	
 	public void asignarTramitePuesto(JSONPuestoTramite puestoTramite) throws Exception {
-
-		/* se controla circularidad entre tramite, sectror y puesto */
-		RequestMaker reqMaker = RequestMaker.getInstance();
-
-		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
-
-		DAOTramiteController controladorTramite = daoServiceFactory.getDAOTramiteController();
-		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-
-		List<BusinessSector> sectoresPuesto = controladorPuesto.obtenerSectoresPuesto(puestoTramite.getNombreMaquina());
-
-		Boolean tieneTramite = false;
-
-		for (BusinessSector sectro : sectoresPuesto) {
-			if (controladorTramite.existeTramiteSector(sectro.getSectorId(), puestoTramite.getTramiteId())) {
-				tieneTramite = true;
-				break;
-			}
-		}
+		if (puestoTramite.getNombreMaquina() != null) {
+			if (puestoTramite.getTramiteId() != null){
+				/* se controla circularidad entre tramite, sectror y puesto */
+				RequestMaker reqMaker = RequestMaker.getInstance();
 		
-		if (tieneTramite) {
-			if ((puestoTramite.getNombreMaquina() != null) && (puestoTramite.getTramiteId() != null)) {
-				if ((!puestoTramite.getNombreMaquina().isEmpty())
-						&& (puestoTramite.getTramiteId() != null
-								|| puestoTramite.getTramiteId() != 0)) {
-					controladorTramite.asociarTramitePuesto(puestoTramite.getTramiteId(),
-							puestoTramite.getNombreMaquina());
+				DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		
+				DAOTramiteController controladorTramite = daoServiceFactory.getDAOTramiteController();
+				DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
+		
+				List<BusinessSector> sectoresPuesto = controladorPuesto.obtenerSectoresPuesto(puestoTramite.getNombreMaquina());
+		
+				Boolean tieneTramite = false;
+				if (sectoresPuesto.isEmpty())
+					throw new Exception("El puesto no tiene ningun sector asignado");
+		
+				for (BusinessSector sectro : sectoresPuesto) {
+					if (controladorTramite.existeTramiteSector(sectro.getSectorId(), puestoTramite.getTramiteId())) {
+						tieneTramite = true;
+						break;
+					}
 				}
+				
+				if (tieneTramite) {
+					controladorTramite.asociarTramitePuesto(puestoTramite.getTramiteId(),puestoTramite.getNombreMaquina());
+				} else {
+					throw new Exception("El puesto no tiene un sector que atienda ese tramite");
+				}
+				
 			} else {
-				throw new Exception("JSONPuestoTramite corrupto");
+				throw new Exception("Debe seleccionar un tramite");
 			}
 		} else {
-			throw new Exception("El puesto no tiene un sector que atienda ese tramite");
+			throw new Exception("Debe seleccionar un puesto");
 		}
-	};
+	}
 		
 	public void asignarSectorDisplay(String sector, String display) throws Exception {
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();

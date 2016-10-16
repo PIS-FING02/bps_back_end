@@ -1,7 +1,10 @@
 package com.sarp.service;
 
+import java.util.List;
+
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
@@ -13,12 +16,14 @@ import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 
+import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.AttentionsController;
 import com.sarp.controllers.UserController;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONTramite;
 
 @RequestScoped
 @Path("/attentionsService")
@@ -164,4 +169,23 @@ public class AttentionsService {
 	
 	
 	//CERRADO, DIPONIBLE, LLAMANDO, ATENDIENDO;
+	
+	@GET
+	@Path("/fakeNumber")
+    @Produces(MediaType.APPLICATION_JSON)
+    public JSONNumero listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user) {
+		if(userRol.equals("Operador")){
+				JSONNumero jnumero = new JSONNumero();
+				jnumero.setId(50);
+				jnumero.setExternalId("50");
+				jnumero.setHora("04/05/1849-20:24");
+				jnumero.setEstado("PAUSADO");
+				jnumero.setPrioridad(1);
+				jnumero.setIdTramite(4990);
+				jnumero.setIdSector("MVD_FIS");
+				return jnumero;
+		}else{
+			throw new UnauthorizedException("No tiene permisos suficientes.");
+		}
+    }
 }
