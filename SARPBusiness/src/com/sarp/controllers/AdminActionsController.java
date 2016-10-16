@@ -57,9 +57,13 @@ public class AdminActionsController {
 		return adServ.listarTramites();
 	}
 
-	public List<JSONTramite> listarTramitesPuesto(String nombreMaquina) {
+	public List<JSONTramite> listarTramitesPuesto(String nombreMaquina) throws Exception{
 		AdminService adServ = new AdminService();
 		return adServ.listarTramitesPuesto(nombreMaquina);
+	}
+	public List<JSONTramite> listarTramitesPosibles(String nombreMaquina) throws Exception{
+		AdminService adServ = new AdminService();
+		return adServ.listarTramitesPosibles(nombreMaquina);
 	}
 
 	public void modificarEstadoPuesto(String nombreMaquina, String estado) {
