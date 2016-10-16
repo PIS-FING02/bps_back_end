@@ -63,9 +63,13 @@ public class ValoresDePrueba {
 				n.setPrioridad(5);
 				n.setHora(new GregorianCalendar());
 				
-				ctrlSector.asociarTramiteSector(i+1, Integer.toString(i));
+				ctrlSector.asociarTramiteSector(i+1, Integer.toString(i));			
+				int num = ctrlNumero.crearNumero(n, i+1, Integer.toString(i), dc);
 				
-				ctrlNumero.crearNumero(n, i+1, Integer.toString(i), dc);
+				ctrlSector.asociarDisplaySector(id, "iddisplay"+id);
+				ctrlSector.asociarSectorPuesto(id, "NombreMaquina" + i);
+				ctrlTramite.asociarTramitePuesto(i+1, "NombreMaquina" + i);
+				ctrlPuesto.asociarNumeroPuesto("NombreMaquina" + i, num);
 			}
 		}
 		
