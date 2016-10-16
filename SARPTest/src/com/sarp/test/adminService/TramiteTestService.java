@@ -88,11 +88,19 @@ public class TramiteTestService {
 				BusinessSector s1 = new BusinessSector();
 				s1.setSectorId(codigoTest);
 				s1.setRuta("/pcunix666/ban");
-				s1.setNombre("Jubilaciones");
+				s1.setNombre("Peperoni");
 				ctrlSector.crearSector(s1);
+			//creo sector2
+				String codigoTest2 = "99999999";
+				BusinessSector s2 = new BusinessSector();
+				s2.setSectorId(codigoTest2);
+				s2.setRuta("/pcunix666/ban/2");
+				s2.setNombre("Jubilaciones2");
+				ctrlSector.crearSector(s2);
+								
 			//creo tramite
 				DAOTramiteController ctrlTramite = new DAOTramiteController();
-				BusinessTramite  t1 = new BusinessTramite();
+				BusinessTramite t1 = new BusinessTramite();
 				t1.setNombre("Consulta");
 				Integer codigoTramite = ctrlTramite.crearTramite(t1);
 			//creo puesto 
@@ -152,10 +160,146 @@ public class TramiteTestService {
 					}
 				}
 				assertEquals(isOk,true); 
+			// asociar ya asociados
+				
+				isOk=false;
+				try{ 
+					ctrl.asignarTramitePuesto(puestoTramite);
+				}catch (Exception e){
+					String exp = "El puesto de " + puestoTramite.getNombreMaquina() + " y el tramite " + puestoTramite.getTramiteId().toString() + " ya estan asociados";
+					isOk = exp.equals(e.getMessage());
+					System.out.println(e.getMessage());
+				}
+				assertEquals(isOk,true); 
+				
 			// se asigna tramite a un puesto que NO tenga un sectro q a su vez tenga el tramite 
+			//creo tramite2
+				
+				BusinessTramite  t2 = new BusinessTramite();
+				t2.setNombre("t2");
+				Integer codigoTramite2 = ctrlTramite.crearTramite(t2);
+			//creo puesto2 
+				
+				BusinessPuesto p2 = new BusinessPuesto();
+				String id2 ="idPuestoJuancho2";
+				p2.setNombreMaquina(id2);
+				p2.setEstado(EstadoPuesto.DISPONIBLE);
+				ctrlPuesto.crearPuesto(p2);
+				
+			//no se asignan 
+				
+				JSONPuestoTramite puestoTramite2 = new JSONPuestoTramite();
+				puestoTramite2.setNombreMaquina(p2.getNombreMaquina());
+			
+				puestoTramite2.setTramiteId(codigoTramite2);
+				
+				JSONPuestoSector puestoSec2= new JSONPuestoSector();
+				
+				puestoSec2.setSectorId(s2.getSectorId());
+				puestoSec2.setNombreMaquina(p2.getNombreMaquina());
+				   
+				ctrl.asignarPuestoSector(puestoSec2);
+				
+			// se asigna tramite a un puesto que tenga un sectro q a su vez tenga el tramite
+				isOk=false;
+				try{ 
+					ctrl.asignarTramitePuesto(puestoTramite2);
+				}catch (Exception e){
+					isOk = "El puesto no tiene un sector que atienda ese tramite".equals(e.getMessage());
+					System.out.println(e.getMessage());
+				}
+				assertEquals(isOk,true); 
+				
+			
+			//se asigna tramite  nulo a un puesto 	
+			
+				
+				JSONPuestoTramite puestoTramite3 = new JSONPuestoTramite();
+
+				puestoTramite3.setNombreMaquina(p2.getNombreMaquina());
+	
+				isOk=false;
+				try{ 
+					ctrl.asignarTramitePuesto(puestoTramite3);
+				}catch (Exception e){
+					isOk = "Debe seleccionar un tramite".equals(e.getMessage());
+					System.out.println(e.getMessage());
+				}
+				assertEquals(isOk,true); 
+				
 			
 			//se asigna tramite a un puesto nulo
-					   
+				
+				JSONPuestoTramite puestoTramite4 = new JSONPuestoTramite();
+
+				puestoTramite4.setTramiteId(codigoTramite2);
+	
+				isOk=false;
+				try{ 
+					ctrl.asignarTramitePuesto(puestoTramite4);
+				}catch (Exception e){
+					isOk = "Debe seleccionar un puesto".equals(e.getMessage());
+					System.out.println(e.getMessage());
+					
+				}
+				assertEquals(isOk,true); 
+			//se asigna tramite nulo a puesto nulo
+				
+				JSONPuestoTramite puestoTramite5 = new JSONPuestoTramite();
+				
+				isOk=false;
+				try{ 
+					ctrl.asignarTramitePuesto(puestoTramite5);
+				}catch (Exception e){
+					isOk = "Debe seleccionar un puesto".equals(e.getMessage());
+					System.out.println(e.getMessage());
+				}
+				assertEquals(isOk,true); 
+			//se asigna tramite inexitete a puesto
+				JSONPuestoTramite puestoTramite6 = new JSONPuestoTramite();
+			//se asigna  puesto a sector1
+				
+				
+				ctrlTramite.eliminarTramite(codigoTramite2);
+				puestoTramite6.setTramiteId(codigoTramite2);/*no existe porque lo acabo de borrar*/
+				puestoTramite6.setNombreMaquina(p2.getNombreMaquina());
+				
+				
+				
+				isOk=false;
+				try{ 
+					ctrl.asignarTramitePuesto(puestoTramite6);
+				}catch (Exception e){
+					isOk = e.getMessage().indexOf("No existe el Tramite") > -1;	
+					System.out.println(e.getMessage());
+				}
+				assertEquals(isOk,true); 
+			//vuelvo a crear tramite 2
+				
+				t2 = new BusinessTramite();
+				t2.setNombre("t2");
+				codigoTramite2 = ctrlTramite.crearTramite(t2);
+				
+			//se asigna tramite a puesto inexitete
+				
+				
+				JSONPuestoTramite puestoTramite7 = new JSONPuestoTramite();
+				ctrlPuesto.eliminarPuesto(p2.getNombreMaquina()); 
+				puestoTramite7.setNombreMaquina(p2.getNombreMaquina());/*no existe porque lo acabo de borrar*/
+				puestoTramite7.setTramiteId(codigoTramite2);
+				isOk=false;
+				try{ 
+					ctrl.asignarTramitePuesto(puestoTramite7);
+				}catch (Exception e){
+					isOk = e.getMessage().indexOf("No existe el Puesto") > -1;
+					System.out.println(e.getMessage());
+				}
+				assertEquals(isOk,true); 
+				
+				
+				
+				ctrlTramite.eliminarTramite(codigoTramite2);
+				ctrlSector.eliminarSector(s2.getSectorId());
 				ctrlSector.eliminarSector(s1.getSectorId());
 				ctrlTramite.eliminarTramite(codigoTramite);
 				ctrlPuesto.eliminarPuesto(p1.getNombreMaquina());   
