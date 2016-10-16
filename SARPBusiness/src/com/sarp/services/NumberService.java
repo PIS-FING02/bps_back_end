@@ -45,17 +45,24 @@ public class NumberService {
 	public void solicitarNumero(JSONNumero num) throws Exception {
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessNumero numero = reqMaker.requestNumero(num);
+		/***  Generar external id ***/
+		GregorianCalendar diaActual = new GregorianCalendar();
+		String externalID = numero.getCodSector().length() > 1 ? numero.getCodSector().substring(0, 2) : numero.getCodSector();
+		externalID = externalID + "-" + (Integer.toString(numero.getCodTramite()).length() > 1 ? Integer.toString(numero.getCodTramite()).substring(0, 2) : Integer.toString(numero.getCodTramite()));
+		externalID = externalID + "-" + Integer.toString(diaActual.get(Calendar.HOUR_OF_DAY)) + Integer.toString(diaActual.get(Calendar.MINUTE)) + Integer.toString(diaActual.get(Calendar.SECOND));
+		numero.setExternalId(externalID);
+		/**  fin generar external id ***/
+		numero.setEstado("DISPONIBLE");
 		BusinessDatoComplementario bDatosComplementario = reqMaker.requestDatoComplementario(num);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
 		Integer id = controladorNumero.crearNumero(numero, num.getIdTramite(), num.getIdSector(), bDatosComplementario);
-
+		numero = controladorNumero.obtenerNumero(id); 
+		
 		// se agrega a la cola el numero solicitado
 		this.horaCargarBatch = 7; // esto en un futuro se reemplaza por el config.properties horaCargarBatch
 		this.minCargarBatch = 30; // idem
-		GregorianCalendar diaActual = new GregorianCalendar();
 		boolean loAgrego = false;
-		
 		if (numero.getPrioridad() == 2) {
 			// Si el numero que esta entrando al sistema, tiene prioridad 2 (o sea atril/recepcionista) se agrega a la cola
 			loAgrego = true;

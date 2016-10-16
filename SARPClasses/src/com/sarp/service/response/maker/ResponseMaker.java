@@ -32,14 +32,21 @@ public class ResponseMaker {
 	
 	/*     JSONPUESTO      */
 	public JSONPuesto puestoAtomResponse(BusinessPuesto bussinesPuesto){
-		JSONPuesto jsonPuesto = new JSONPuesto();
-		jsonPuesto.setEstado(bussinesPuesto.getEstado() != null ? bussinesPuesto.getEstado().toString() : null);
-		jsonPuesto.setNombreMaquina(bussinesPuesto.getNombreMaquina());
-		//jsonPuesto.setNumeroAsignado(businessNumero != null ? this.numeroAtomResponse(businessNumero): null);
-		jsonPuesto.setUsuarioId(bussinesPuesto.getUsuarioId());
-		jsonPuesto.setNumeroPuesto(bussinesPuesto.getNumeroPuesto());
+		if(bussinesPuesto != null){
+			JSONPuesto jsonPuesto = new JSONPuesto();
+			jsonPuesto.setEstado(bussinesPuesto.getEstado() != null ? bussinesPuesto.getEstado().toString() : null);
+			jsonPuesto.setNombreMaquina(bussinesPuesto.getNombreMaquina());
+			//jsonPuesto.setNumeroAsignado(businessNumero != null ? this.numeroAtomResponse(businessNumero): null);
+			jsonPuesto.setUsuarioId(bussinesPuesto.getUsuarioId());
+			jsonPuesto.setNumeroPuesto(bussinesPuesto.getNumeroPuesto());
+			
+			return jsonPuesto;
+		}else{
+			return null;
+		}
 		
-		return jsonPuesto;
+		
+		
 	}
 	
 	public JSONPuesto puestoFullResponse(BusinessPuesto bussinesPuesto, List<BusinessSector> businessSectores, List<BusinessTramite> businessTramites, BusinessNumero businessNumero){
@@ -63,14 +70,22 @@ public class ResponseMaker {
 	
 	/*     JSONNUMERO      */
 	public JSONNumero numeroAtomResponse(BusinessNumero businessNumero) {
-		JSONNumero jsonNumero = new JSONNumero();
-		jsonNumero.setEstado(businessNumero.getEstado());
-		jsonNumero.setExternalId(businessNumero.getExternalId());
-		jsonNumero.setHora(businessNumero.getHora().get(Calendar.YEAR) + "/" + businessNumero.getHora().get(Calendar.MONTH) + "/" + businessNumero.getHora().get(Calendar.DAY_OF_MONTH) + "-" + businessNumero.getHora().get(Calendar.HOUR_OF_DAY) + ":" + businessNumero.getHora().get(Calendar.MINUTE));
-		jsonNumero.setId(businessNumero.getInternalId());
-		jsonNumero.setPrioridad(businessNumero.getPrioridad());
 		
-		return jsonNumero;
+		if(businessNumero != null){
+			JSONNumero jsonNumero = new JSONNumero();
+			jsonNumero.setEstado(businessNumero.getEstado());
+			jsonNumero.setExternalId(businessNumero.getExternalId());
+			jsonNumero.setHora(businessNumero.getHora().get(Calendar.YEAR) + "/" + businessNumero.getHora().get(Calendar.MONTH) + "/" + businessNumero.getHora().get(Calendar.DAY_OF_MONTH) + "-" + businessNumero.getHora().get(Calendar.HOUR_OF_DAY) + ":" + businessNumero.getHora().get(Calendar.MINUTE));
+			jsonNumero.setId(businessNumero.getInternalId());
+			jsonNumero.setPrioridad(businessNumero.getPrioridad());
+			jsonNumero.setIdSector(businessNumero.getCodSector());
+			jsonNumero.setIdTramite(businessNumero.getCodTramite());
+			
+			return jsonNumero;
+		}else{
+			return null;
+		}
+
 	}
 	
 	public JSONNumero numeroFullResponse(BusinessNumero businessNumero, BusinessDatoComplementario businessDatosComp, BusinessTramiteSector businessTramiteSector, BusinessTramite businessTramite, BusinessSector businessSector ) {
@@ -99,12 +114,18 @@ public class ResponseMaker {
 
 	/*     JSONSector     */
 	public JSONSector sectorAtomResponse(BusinessSector businessSector) {
-		JSONSector jsonSector = new JSONSector();
-		jsonSector.setCodigo(businessSector.getSectorId());
-		jsonSector.setNombre(businessSector.getNombre());
-		jsonSector.setRutaSector(businessSector.getRuta());
 		
-		return jsonSector;
+		if(businessSector != null){
+			JSONSector jsonSector = new JSONSector();
+			jsonSector.setCodigo(businessSector.getSectorId());
+			jsonSector.setNombre(businessSector.getNombre());
+			jsonSector.setRutaSector(businessSector.getRuta());
+			
+			return jsonSector;
+		}else{
+			return null;
+		}
+
 	}
 
 	public JSONSector sectorFullResponse(BusinessSector businessSector, List<BusinessTramite> businessTramites, List<BusinessDisplay> businessDisplays, List<BusinessPuesto> businessPuestos) {
@@ -119,11 +140,16 @@ public class ResponseMaker {
 	
 	/*     JSONTRAMITE     */
 	public JSONTramite tramiteAtomResponse(BusinessTramite businessTramite) {
-		JSONTramite jsonTramite = new JSONTramite();
-		jsonTramite.setCodigo(businessTramite.getCodigo());
-		jsonTramite.setNombre(businessTramite.getNombre());
-		
-		return jsonTramite;
+		if(businessTramite != null){
+			JSONTramite jsonTramite = new JSONTramite();
+			jsonTramite.setCodigo(businessTramite.getCodigo());
+			jsonTramite.setNombre(businessTramite.getNombre());
+			
+			return jsonTramite;
+		}else{
+			return null;
+		}
+
 	}
 
 	public JSONTramite tramiteFullResponse(BusinessTramite businessTramite,  List<BusinessSector> businessSectores, List<BusinessPuesto> businessPuestos) {
@@ -146,11 +172,15 @@ public class ResponseMaker {
 	
 	/*     JSONDISPLAY     */
 	public JSONDisplay displayAtomResponse(BusinessDisplay businessDisplay) {
-		JSONDisplay jsonDisplay = new JSONDisplay();
-		jsonDisplay.setIdDisplay(businessDisplay.getIdDisplay());
+		if(businessDisplay != null){
+			JSONDisplay jsonDisplay = new JSONDisplay();
+			jsonDisplay.setIdDisplay(businessDisplay.getIdDisplay());
 
-	
-		return jsonDisplay;
+			return jsonDisplay;
+		}else{
+			return null;
+		}
+
 	}
 	
 	public JSONDisplay displayFullResponse(BusinessDisplay businessDisplay, List<BusinessSector> businessSectores) {
@@ -179,36 +209,54 @@ public class ResponseMaker {
 	}
 	
 	public List<JSONSector> createArrayAtomSectores(List<BusinessSector> businessSectores) {
-		
-		List<JSONSector> listJSONSector = new ArrayList<JSONSector>();
-		for(BusinessSector businessSector : businessSectores){
-			listJSONSector.add(this.sectorAtomResponse(businessSector));
+		if(businessSectores!= null){
+			List<JSONSector> listJSONSector = new ArrayList<JSONSector>();
+			for(BusinessSector businessSector : businessSectores){
+				listJSONSector.add(this.sectorAtomResponse(businessSector));
+			}
+			return listJSONSector;
+		}else{
+			return null;
 		}
-		return listJSONSector;
 	}
 
 	public List<JSONPuesto> createArrayAtomPuestos(List<BusinessPuesto> businessPuestos) {
-		List<JSONPuesto> listJSONPuesto = new ArrayList<JSONPuesto>();
-		for(BusinessPuesto businessPuesto : businessPuestos){
-			listJSONPuesto.add(this.puestoAtomResponse(businessPuesto));
+		if(businessPuestos != null){
+			List<JSONPuesto> listJSONPuesto = new ArrayList<JSONPuesto>();
+			for(BusinessPuesto businessPuesto : businessPuestos){
+				listJSONPuesto.add(this.puestoAtomResponse(businessPuesto));
+			}
+			return listJSONPuesto;
+		}else{
+			return null;
 		}
-		return listJSONPuesto;
+
 	}
 	
 	private List<JSONDisplay> createArrayAtomDisplay(List<BusinessDisplay> businessDisplays) {
-		List<JSONDisplay> listJSONDisplay = new ArrayList<JSONDisplay>();
-		for(BusinessDisplay businessDisplay : businessDisplays){
-			listJSONDisplay.add(this.displayAtomResponse(businessDisplay));
+		if(businessDisplays != null){
+			List<JSONDisplay> listJSONDisplay = new ArrayList<JSONDisplay>();
+			for(BusinessDisplay businessDisplay : businessDisplays){
+				listJSONDisplay.add(this.displayAtomResponse(businessDisplay));
+			}
+			return listJSONDisplay;
+		}else{
+			return null;
 		}
-		return listJSONDisplay;
+
 	}
 	
 	public List<JSONNumero> createListJSONNumeros(List<BusinessNumero> listaNumeros){
-		List<JSONNumero> listaJsonNros = new ArrayList<JSONNumero>();
-		for(BusinessNumero bn : listaNumeros){
-			listaJsonNros.add(numeroAtomResponse(bn));
+		if(listaNumeros != null){
+			List<JSONNumero> listaJsonNros = new ArrayList<JSONNumero>();
+			for(BusinessNumero bn : listaNumeros){
+				listaJsonNros.add(numeroAtomResponse(bn));
+			}
+			return listaJsonNros;
+		}else{
+			return null;
 		}
-		return listaJsonNros;
+
 	}
 
 

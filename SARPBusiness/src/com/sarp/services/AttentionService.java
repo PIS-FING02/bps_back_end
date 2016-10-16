@@ -58,17 +58,18 @@ public class AttentionService {
 
 	public void comenzarAtencion(JSONPuesto puesto) throws Exception {
 		RequestMaker reqMaker = RequestMaker.getInstance();
-		BusinessNumero bNumero = reqMaker.requestNumero(puesto.getNumeroAsignado());
-
+		
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+		
+		BusinessNumero bNumero = controladorPuesto.obtenerNumeroActualPuesto(puesto.getNombreMaquina());
+		
 		if (puestoSend.getEstado() == EstadoPuesto.LLAMANDO) {
-			if (puesto.getNumeroAsignado() != null) {
+			if (bNumero != null) {
 				puestoSend.setEstado(EstadoPuesto.ATENDIENDO);
 				// Se delega a DaoService
 				controladorPuesto.modificarPuesto(puestoSend);
-				controladorPuesto.asociarNumeroPuestoActual(puestoSend.getNombreMaquina(), bNumero.getInternalId());
 
 			} else {
 				throw new ContextException("PuestoSinNumeroAsignado");
@@ -84,18 +85,22 @@ public class AttentionService {
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+		
 		if (puestoSend.getEstado() == EstadoPuesto.ATENDIENDO) {
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
 			// Se delega a DaoService
-			controladorPuesto.modificarPuesto(bPuesto);
+			controladorPuesto.modificarPuesto(puestoSend);
+			BusinessNumero bNumero = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
 			controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
+			controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(), bNumero.getInternalId());
+			
 		} else {
 			throw new ContextException("PuestoNoAtendiendo");
 		}
 
 	}
 
-	public JSONNumero llamarNumero(JSONPuesto puesto) throws Exception {
+	public JSONNumero llamarNumero(String puesto) throws Exception {
 		//RequestMaker reqMaker = RequestMaker.getInstance();
 		ResponseMaker respMaker = ResponseMaker.getInstance();
 
@@ -103,7 +108,7 @@ public class AttentionService {
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 
 		// Traigo el puesto desde la base
-		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto);
 		if (puestoSend.getEstado() == EstadoPuesto.DISPONIBLE) {
 
 			// Traigo todos los sectores del puesto
@@ -122,7 +127,7 @@ public class AttentionService {
 				while (!encontreNum && sectoresPuesto.size() != 0) {
 					// Selecciono un sector al azar de los sectore posibles que
 					// va a ser de donde llame un numero
-					int randomNum = ThreadLocalRandom.current().nextInt(0, sectoresPuesto.size() + 1);
+					int randomNum = ThreadLocalRandom.current().nextInt(0, sectoresPuesto.size());
 					BusinessSector randomSector = sectoresPuesto.get(randomNum);
 					
 					//Traigo los tramites que puede atender el puesto para ese Sector
@@ -148,8 +153,8 @@ public class AttentionService {
 				if (numeroReturn != null) {
 					puestoSend.setEstado(EstadoPuesto.LLAMANDO);
 					controladorPuesto.modificarPuesto(puestoSend);
-					controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(),numeroReturn.getId());
-
+					controladorPuesto.asociarNumeroPuestoActual(puestoSend.getNombreMaquina(), numeroReturn.getId());
+					
 					//llamo al display
 					DisplayService dispService = DisplayService.getInstance();
 					dispService.llamarEnDisplay( puestoSend.getNumeroPuesto().toString(), numeroReturn);
