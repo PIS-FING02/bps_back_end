@@ -296,7 +296,7 @@ public class AdminService {
 	public void asignarSectorDisplay(String sector, String display) throws Exception {
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
-		sectorCtrl.asignarDisplaySector(sector, display);
+		sectorCtrl.asociarDisplaySector(sector, display);
 	}
 
 	/************ LISTAR ***********/

@@ -165,7 +165,7 @@ public class DAOSectorController {
 		return ret;
 	}
 	
-	public void asignarDisplaySector(String codigoSector, String idDisplay) throws RollbackException{
+	public void asociarDisplaySector(String codigoSector, String idDisplay) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -182,7 +182,7 @@ public class DAOSectorController {
 		em.close();
 	}
 	
-	public void desasignarDisplaySector(String codigoSector, String idDisplay) throws RollbackException{
+	public void desasociarDisplaySector(String codigoSector, String idDisplay) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);

@@ -21,7 +21,7 @@ public class Puesto implements Serializable {
 	@Column(name="nombre_maquina")
 	private String nombreMaquina;
 
-	@Column(name="date_created")
+	@Column(name="date_created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp dateCreated;
 
 	private String estado;

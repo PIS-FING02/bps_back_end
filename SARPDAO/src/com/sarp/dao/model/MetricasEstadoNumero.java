@@ -20,7 +20,7 @@ public class MetricasEstadoNumero implements Serializable {
 	@EmbeddedId
 	private MetricasEstadoNumeroPK id;
 
-	@Column(name="date_created")
+	@Column(name = "date_created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp dateCreated;
 
 	@Version
