@@ -25,7 +25,7 @@ public class MetricasNumero implements Serializable {
 	@Column(name="codigo_tramite")
 	private Integer codigoTramite;
 
-	@Column(name="date_created")
+	@Column(name = "date_created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp dateCreated;
 
 	private String estado;

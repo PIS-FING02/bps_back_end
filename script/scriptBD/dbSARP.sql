@@ -7,7 +7,7 @@ CREATE TABLE public.DISPLAY
 (
   id_display character varying(40),
   date_created timestamp default current_timestamp,
-  last_updated timestamp,
+  last_updated timestamp default current_timestamp,
   CONSTRAINT display_pkey PRIMARY KEY (id_display)
 );
 
@@ -17,7 +17,7 @@ CREATE TABLE public.SECTOR
   nombre character varying(40),
   ruta_sector character varying(40),  
   date_created timestamp default current_timestamp,
-  last_updated timestamp,
+  last_updated timestamp default current_timestamp,
   CONSTRAINT sector_pkey PRIMARY KEY (codigo)
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE public.TRAMITE
   codigo serial,
   nombre character varying(40),
   date_created timestamp default current_timestamp,
-  last_updated timestamp,
+  last_updated timestamp default current_timestamp,
   CONSTRAINT tramite_pkey PRIMARY KEY (codigo)
 );
 
@@ -41,7 +41,7 @@ CREATE TABLE public.NUMERO
   estado character varying(40),
   prioridad int,
   date_created timestamp default current_timestamp,
-  last_updated timestamp,  
+  last_updated timestamp default current_timestamp,  
   CONSTRAINT numero_pkey PRIMARY KEY (internal_id)
 );
 --Trigger para insert/update en numero
@@ -54,7 +54,7 @@ CREATE TABLE public.PUESTO
   estado character varying(40),
   usuario_id character varying(40),
   date_created timestamp default current_timestamp,
-  last_updated timestamp,
+  last_updated timestamp default current_timestamp,
   CONSTRAINT puesto_pkey PRIMARY KEY (nombre_maquina)
 );
 ALTER TABLE NUMERO ADD  FOREIGN KEY(puesto_asignado) REFERENCES PUESTO(nombre_maquina);
@@ -68,7 +68,7 @@ CREATE TABLE public.DATOS_COMPLEMENTARIOS
   nombre_completo character varying(40),
   tipo_doc character varying(40),  
   date_created timestamp default current_timestamp,
-  last_updated timestamp,
+  last_updated timestamp default current_timestamp,
   CONSTRAINT datos_complementarios_pkey PRIMARY KEY (internal_id)
 );
 
@@ -122,7 +122,7 @@ CREATE TABLE public.METRICAS_NUMERO
   usuario_atencion int,
   resultado_final character varying(40),
   date_created timestamp default current_timestamp,
-  last_updated timestamp,  
+  last_updated timestamp default current_timestamp,  
   CONSTRAINT metricas_numero_pkey PRIMARY KEY (internal_id)
 );
 
@@ -132,7 +132,7 @@ CREATE TABLE public.METRICAS_ESTADO_NUMERO
   numero_internal_id int,
   time_spent int,
   date_created timestamp default current_timestamp,
-  last_updated timestamp,  
+  last_updated timestamp default current_timestamp,  
   CONSTRAINT metricas_estado_numero_pkey PRIMARY KEY (estado, numero_internal_id)
 );
 
@@ -144,7 +144,7 @@ CREATE TABLE public.METRICAS_PUESTO
   estado character varying(40),
   time_spent int,
   date_created timestamp default current_timestamp,
-  last_updated timestamp,  
+  last_updated timestamp default current_timestamp,  
   CONSTRAINT metricas_puesto_pkey PRIMARY KEY (codigo_puesto, usuario_atencion, dia_mes_anio, estado)
 );
 

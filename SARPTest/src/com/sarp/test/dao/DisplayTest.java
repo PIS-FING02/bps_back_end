@@ -2,7 +2,9 @@ package com.sarp.test.dao;
 
 import org.junit.Test;
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessSector;
 import com.sarp.dao.controllers.DAODisplayController;
+import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.factory.DAOServiceFactory;
 
 import org.junit.AfterClass;
@@ -16,16 +18,19 @@ import javax.persistence.RollbackException;
 
 public class DisplayTest {
 	private static DAODisplayController ctrlDisplay;
+	private static DAOSectorController ctrlSector;
 	private static List<String> id;	
 	
 	@BeforeClass
     public static void setUpClassDisplayTest(){   
 		ctrlDisplay = DAOServiceFactory.getInstance().getDAODisplayController();
+		ctrlSector = DAOServiceFactory.getInstance().getDAOSectorController();
 		id = new ArrayList<String>();
 		for(int i = 0; i < 4; i++){
 	        BusinessDisplay d = new BusinessDisplay();
 	        d.setIdDisplay("iddisplaytest" + i);
 	        id.add(ctrlDisplay.crearDisplay(d));
+	        ctrlSector.asociarDisplaySector("0", "iddisplaytest" + i);
 		}
     }
     
@@ -113,6 +118,12 @@ public class DisplayTest {
 //		   assertEquals(e.getCause() instanceof OptimisticLockException, true);
 //	   }
 //   }
+   
+	   @Test
+	   public void testObtenerSectoresDisplay(){
+		   List<BusinessSector> l = ctrlDisplay.obtenerSectoresDisplay(id.get(1)); // tramite con sectores
+		   assertEquals(l.size() > 0, true);
+	   }
    
   
 }

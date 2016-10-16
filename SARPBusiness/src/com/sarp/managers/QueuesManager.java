@@ -34,10 +34,10 @@ public class QueuesManager {
 			BusinessSectorQueue cola = new BusinessSectorQueue(idSector);
 			manejadorDeColas.put(idSector, cola);
 		}
-		else{
-			IOException e = new IOException("El sector ya tiene una cola asociada");
-			throw e;
-		}
+//		else{
+//			IOException e = new IOException("El sector " + idSector + "  ya tiene una cola asociada");
+//			throw e;
+//		}
 	}
 	
 	public synchronized void borrarColaSector(String idSector) throws IOException {
