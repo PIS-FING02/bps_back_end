@@ -21,7 +21,7 @@ public class DatosComplementario implements Serializable {
 	@Column(name="doc_identidad")
 	private String docIdentidad;
 
-	@Column(name="date_created")
+	@Column(name = "date_created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp dateCreated;
 
 	@Version

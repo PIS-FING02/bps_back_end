@@ -1,13 +1,20 @@
 package com.sarp.dao.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessSector;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.Display;
+import com.sarp.dao.model.Sector;
+import com.sarp.dao.model.Tramite;
 import com.sarp.dao.repository.DAODisplay;
+import com.sarp.dao.repository.DAOTramite;
 
 public class DAODisplayController {
 			
@@ -69,6 +76,21 @@ public class DAODisplayController {
 		displayRepository.deleteDisplay(codigo);
 		em.getTransaction().commit();
 		em.close();
+	}
+	
+	public List<BusinessSector> obtenerSectoresDisplay(String idDisplay) throws RollbackException {
+		EntityManager em = EMFactory.getEntityManager();
+		DAODisplay displayRepository = factory.getDisplayRepository(em);
+		
+		Display d = displayRepository.selectDisplay(idDisplay);
+		em.close();
+		List<Sector> list = d.getSectors();
+		List<BusinessSector> ret = new LinkedList<BusinessSector>();
+		for(Sector s : list){
+			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
+			ret.add(bs);
+		}	
+		return ret;
 	}
 
 }

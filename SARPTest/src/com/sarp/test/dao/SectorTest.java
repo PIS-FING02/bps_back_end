@@ -165,24 +165,24 @@ public class SectorTest {
    
    @Test(expected=RollbackException.class)
    public void testAsociarDisplaySectorInvalido() throws Exception{
-	   ctrlSector.asignarDisplaySector("idsectortest3", "iddisplay7");
-	   ctrlSector.asignarDisplaySector("idsectortest3", "iddisplay7");	  
+	   ctrlSector.asociarDisplaySector("idsectortest3", "iddisplay7");
+	   ctrlSector.asociarDisplaySector("idsectortest3", "iddisplay7");	  
    }
    
    @Test()
    public void testAsociarDisplaySector() throws Exception{
 	   String id = "idsectortest5";
-	   ctrlSector.asignarDisplaySector(id, "iddisplay1");
+	   ctrlSector.asociarDisplaySector(id, "iddisplay1");
 	   List<BusinessDisplay> l = ctrlSector.obtenerDisplaysSector(id);
 	   assertEquals(l.get(0).getIdDisplay(), "iddisplay1");
-	   ctrlSector.desasignarDisplaySector(id, "iddisplay1");
+	   ctrlSector.desasociarDisplaySector(id, "iddisplay1");
 	   l = ctrlSector.obtenerDisplaysSector(id);
 	   assertEquals(l.size() == 0, true); 
    }
    
    @Test(expected=RollbackException.class)
    public void testDesociarDisplaySectorInvalido() throws Exception{
-	   ctrlSector.desasignarDisplaySector("idsectortest6", "iddisplay4");
+	   ctrlSector.desasociarDisplaySector("idsectortest6", "iddisplay4");
    }
    
    @Test()

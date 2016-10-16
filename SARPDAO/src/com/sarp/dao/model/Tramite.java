@@ -21,7 +21,7 @@ public class Tramite implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer codigo;
 
-	@Column(name="date_created")
+	@Column(name = "date_created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp dateCreated;
 
 	@Version

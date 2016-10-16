@@ -246,7 +246,7 @@ public class AdminService {
 				aac.actualizarGAFU();
 				return "OK";
 			}catch(Exception e){
-				throw new InternalServerErrorException("Error al actualizar GAFU");
+				throw new InternalServerErrorException("Error al actualizar GAFU" + e.getMessage());
 			}
 		}else{
 			throw new UnauthorizedException("No tiene permisos suficientes.");
