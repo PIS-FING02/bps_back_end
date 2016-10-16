@@ -48,8 +48,12 @@ public class NumberService {
 		BusinessDatoComplementario bDatosComplementario = reqMaker.requestDatoComplementario(num);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
+		
 		Integer id = controladorNumero.crearNumero(numero, num.getIdTramite(), num.getIdSector(), bDatosComplementario);
-
+		numero = controladorNumero.obtenerNumero(id);
+		numero.setExternalId(id.toString());//DEBERIA DEVOLVER DE LA BASE UN BUSINESS NUMERO 
+		controladorNumero.modificarNumero(numero);
+		
 		// se agrega a la cola el numero solicitado
 		this.horaCargarBatch = 7; // esto en un futuro se reemplaza por el config.properties horaCargarBatch
 		this.minCargarBatch = 30; // idem

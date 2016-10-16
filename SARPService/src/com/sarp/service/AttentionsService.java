@@ -69,6 +69,7 @@ public class AttentionsService {
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
+	
 	@PUT
 	@Path("/comenzarAtencion")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -107,9 +108,8 @@ public class AttentionsService {
 	
 	@PUT
 	@Path("/llamarNumero")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONNumero llamarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
+	public JSONNumero llamarNumero(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String puesto){
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
@@ -120,7 +120,7 @@ public class AttentionsService {
 				}else{
 					throw new NotFoundException("No hay numero disponible en este momento");
 				}
-				
+			
 			}catch(Exception e){
 				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
 				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");

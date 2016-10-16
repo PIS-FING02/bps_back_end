@@ -44,7 +44,7 @@ public class AttentionsController {
 		
 	}
 	
-	public JSONNumero llamarNumero(JSONPuesto puesto) throws Exception{
+	public JSONNumero llamarNumero(String puesto) throws Exception{
 		//Se delega a AttentionService la implementacion
 		AttentionService attentionService = new AttentionService();
 		return attentionService.llamarNumero(puesto);

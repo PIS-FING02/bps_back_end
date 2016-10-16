@@ -45,7 +45,8 @@ public class RequestMaker {
 			int hora= Integer.parseInt(fecha.substring(11, 13));
 			int min = Integer.parseInt(fecha.substring(14));
 			GregorianCalendar horaNumero = new GregorianCalendar(ano, mes, dia, hora, min);
-			return numero != null ? new BusinessNumero(numero.getId(),numero.getExternalId(),horaNumero,numero.getEstado(),numero.getPrioridad()) : null;
+
+			return numero != null ? new BusinessNumero(numero.getId(),numero.getExternalId(),horaNumero,numero.getEstado(),numero.getPrioridad(),numero.getIdTramite(),numero.getIdSector()) : null;
 		}catch(Exception e){
 			throw new Exception("El formato del numero no es correcto!");
 		}

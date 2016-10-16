@@ -33,18 +33,27 @@ public class UserService {
 	@PUT
 	@Path("/initPuestosNum")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String initPuestoNum(@HeaderParam("user-rol") String userRol, JSONPuesto puesto) throws Exception{
+	public String initPuestoNum(JSONPuesto puesto) throws Exception{
 		
-		String idPuesto = puesto.getUsuarioId();
-		String sector = "MVD";
+		//Controllers
+		
+		Factory fac = Factory.getInstance();
+		AttentionsController ctrlAttention = fac.getAttentionsController();
+		AdminActionsController ctrlAdmin = fac.getAdminActionsController();
+		
+		String idPuesto = puesto.getNombreMaquina();
+		String sector = "0";
+		
+		//PUESTO
+		//ctrlAdmin.altaPuesto(puesto);
+		ctrlAdmin.modificarPuesto(puesto);
 		
 		//Tramite
 		
 		JSONTramite tram1 = new JSONTramite();
-		tram1.setCodigo(1);
 		tram1.setNombre("TramiteNombre1");
 		//Me aseguro de que haya por lo menos un tramite en la base asi el tramite id 1 funciona
-		Integer tramiteid = 1;
+		Integer tramiteid = 2;
 		
 		//PuestoSector
 		JSONPuestoSector puestoSector = new JSONPuestoSector();
@@ -60,50 +69,54 @@ public class UserService {
 		//TramiteSector
 		JSONTramiteSector tramiteSector = new JSONTramiteSector();
 		tramiteSector.setSectorId(sector);
-		tramiteSector.setTramiteId(1);
+		tramiteSector.setTramiteId(tramiteid);
 		
 		//Numero
 		JSONNumero numero = new JSONNumero();
 		numero.setIdSector(sector);
-		numero.setIdTramite(1);
-		numero.setHora("15/08/2016-12:33");
+		numero.setIdTramite(tramiteid);
+		numero.setHora("16/08/2016-14:25");
 		numero.setPrioridad(2);
 		
 		//Display
 		JSONDisplay display = new JSONDisplay();
-		display.setIdDisplay("displaySabe");
+		display.setIdDisplay("displaySabe2");
 		
 		//DisplaySector
 		JSONSectorDisplay secDisp = new JSONSectorDisplay();
-		secDisp.setDisplayId("displaySabe");
+		secDisp.setDisplayId("displaySabe2");
 		secDisp.setSectorId(sector);
-		
-		
-		//Controllers
-		
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrlAttention = fac.getAttentionsController();
-		AdminActionsController ctrlAdmin = fac.getAdminActionsController();
-		
 		
 		try{
 			
-			//PUESTO
-			ctrlAdmin.altaPuesto(puesto);
-			ctrlAdmin.modificarEstadoPuesto(idPuesto, "DISPONIBLE");
-			
 			//ASIGNO 
-			ctrlAdmin.asignarPuestoSector(puestoSector);
-			ctrlAdmin.asignarTramitePuesto(puestoTramite);
-			ctrlAdmin.asignarTramiteSector(tramiteSector);
+			//ctrlAdmin.asignarPuestoSector(puestoSector);
+			System.out.println("asignarPuestoSector");
+			//ctrlAdmin.asignarTramiteSector(tramiteSector);
+			System.out.println("asignarTramiteSector");
+			//ctrlAdmin.asignarTramitePuesto(puestoTramite);
+			System.out.println("asignarTramitePuesto");
+			
+			//ctrlAdmin.altaDisplay(display.getIdDisplay());
+			//System.out.println("altaDisplay");
 			ctrlAdmin.asignarSectorDisplay(secDisp);
+			System.out.println("asignarSectorDisplay");
+			
+			//REUNICIALIZO COLAS
+			ctrlAdmin.reinicializarColas();
 			
 			//SOLICITO NUMERO
 			ctrlAttention.solicitarNumero(numero);
 			
 			//LLAMAR NUMERO
-			JSONNumero numeroFinal = ctrlAttention.llamarNumero(puesto);
+			JSONNumero numeroFinal = ctrlAttention.llamarNumero(idPuesto);
 			
+			//COMMENZAR ATENCION
+			//ctrlAttention.comenzarAtencion(puesto);
+			
+			//FINALIZAR ATENCION
+			
+			//ctrlAttention.finalizarAtencion(puesto);
 			
 	
 			return "OK";
