@@ -83,6 +83,9 @@ public class DAONumero {
 		if(d != null){
 			em.remove(d);
 		}
+		if(n.getPuesto() != null){
+			n.getPuesto().setNumero_puesto(null);
+		}
     	em.remove(n);
 	}
 

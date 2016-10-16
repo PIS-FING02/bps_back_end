@@ -62,6 +62,9 @@ public class DAOPuesto {
 	/* elimino un display de la base de datos */
 	public void deletePuesto(String nombreMaquina) throws RollbackException{		
 		Puesto p = selectPuesto(nombreMaquina);
+		if(p.getNumero_puesto() != null){
+			p.getNumero_puesto().setPuesto(null);
+		}
     	em.remove(p);
     }
 	
