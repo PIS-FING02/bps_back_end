@@ -1,5 +1,7 @@
 package com.sarp.service;
 
+import java.util.List;
+
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,6 +18,7 @@ import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONTramiteSector;
 
 @RequestScoped
 @Path("/attentionsService")
@@ -109,7 +112,7 @@ public class AttentionsService {
 				}else{
 					throw new NotFoundException("No hay numero disponible en este momento");
 				}
-			
+				
 			}catch(Exception e){
 				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
 				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
@@ -119,7 +122,25 @@ public class AttentionsService {
 		}
 	}
 	
-	
+	@GET
+	@Path("/tramitesRecepcion")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public List<JSONTramiteSector> tramitesRecepcion(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String codigoMaquina){
+		Factory fac = Factory.getInstance();
+		AttentionsController ctrl = fac.getAttentionsController();
+		if(userRol.equals("Recepcion")){
+			try{
+				List<JSONTramiteSector> tramitesRecepcion =  ctrl.tramitesRecepcion(codigoMaquina);
+				return tramitesRecepcion;
+				
+			}catch(Exception e){
+				throw new InternalServerErrorException("Error: "+e.getMessage());
+			} 
+		}else{
+			throw new UnauthorizedException("No tiene permisos suficientes.");
+		}
+	}
+
 	/*@PUT
 	@Path("/atrasarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)

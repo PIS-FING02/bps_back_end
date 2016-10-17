@@ -52,6 +52,7 @@ public class NumberService {
 		BusinessDatoComplementario bDatosComplementario = reqMaker.requestDatoComplementario(num);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
+		
 		Integer id = controladorNumero.crearNumero(numero, num.getIdTramite(), num.getIdSector(), bDatosComplementario);
 		numero = controladorNumero.obtenerNumero(id);
 

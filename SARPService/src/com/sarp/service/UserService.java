@@ -1,5 +1,7 @@
 package com.sarp.service;
 
+import java.util.List;
+
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
@@ -42,16 +44,16 @@ public class UserService {
 		AdminActionsController ctrlAdmin = fac.getAdminActionsController();
 		
 		String idPuesto = puesto.getNombreMaquina();
-		String sector = "0";
+		String sector = "1";
 		
 		//PUESTO
-		//ctrlAdmin.altaPuesto(puesto);
+	//	ctrlAdmin.altaPuesto(puesto);
 		ctrlAdmin.modificarPuesto(puesto);
 		
 		//Tramite
 		
 		JSONTramite tram1 = new JSONTramite();
-		tram1.setNombre("TramiteNombre1");
+		tram1.setNombre("TramiteNombrea");
 		//Me aseguro de que haya por lo menos un tramite en la base asi el tramite id 1 funciona
 		Integer tramiteid = 2;
 		
@@ -80,11 +82,11 @@ public class UserService {
 		
 		//Display
 		JSONDisplay display = new JSONDisplay();
-		display.setIdDisplay("displaySabe2");
+		display.setIdDisplay("displaySabe3");
 		
 		//DisplaySector
 		JSONSectorDisplay secDisp = new JSONSectorDisplay();
-		secDisp.setDisplayId("displaySabe2");
+		secDisp.setDisplayId("displaySabe3");
 		secDisp.setSectorId(sector);
 		
 		try{
@@ -94,29 +96,34 @@ public class UserService {
 			System.out.println("asignarPuestoSector");
 			//ctrlAdmin.asignarTramiteSector(tramiteSector);
 			System.out.println("asignarTramiteSector");
-			//ctrlAdmin.asignarTramitePuesto(puestoTramite);
+			ctrlAdmin.asignarTramitePuesto(puestoTramite);
 			System.out.println("asignarTramitePuesto");
 			
 			//ctrlAdmin.altaDisplay(display.getIdDisplay());
-			//System.out.println("altaDisplay");
-			ctrlAdmin.asignarSectorDisplay(secDisp);
+			System.out.println("altaDisplay");
+			//ctrlAdmin.asignarSectorDisplay(secDisp);
 			System.out.println("asignarSectorDisplay");
 			
 			//REUNICIALIZO COLAS
-			ctrlAdmin.reinicializarColas();
+			//ctrlAdmin.reinicializarColas();
 			
 			//SOLICITO NUMERO
-			ctrlAttention.solicitarNumero(numero);
+			//ctrlAttention.solicitarNumero(numero);
 			
 			//LLAMAR NUMERO
-			JSONNumero numeroFinal = ctrlAttention.llamarNumero(idPuesto);
+			//JSONNumero numeroFinal = ctrlAttention.llamarNumero(idPuesto);
+			//ctrlAdmin.modificarPuesto(puesto);
+			//numeroFinal = ctrlAttention.llamarNumero(idPuesto);
 			
+			//numeroFinal = null;
 			//COMMENZAR ATENCION
 			//ctrlAttention.comenzarAtencion(puesto);
 			
 			//FINALIZAR ATENCION
 			
 			//ctrlAttention.finalizarAtencion(puesto);
+			String a = "sa";
+			List<JSONTramiteSector>  tramitesRecepcion = ctrlAttention.tramitesRecepcion(puesto.getNombreMaquina());
 			
 	
 			return "OK";

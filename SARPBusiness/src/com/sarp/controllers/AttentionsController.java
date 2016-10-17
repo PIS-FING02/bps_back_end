@@ -1,7 +1,10 @@
 package com.sarp.controllers;
 
+import java.util.List;
+
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.services.AttentionService;
 import com.sarp.services.NumberService;
 
@@ -44,6 +47,11 @@ public class AttentionsController {
 		
 	}
 	
+	public List<JSONTramiteSector> tramitesRecepcion(String puesto) throws Exception{
+		//Se delega a AttentionService la implementacion
+		AttentionService attentionService = new AttentionService();
+		return attentionService.tramitesRecepcion(puesto);
+	}
 	public JSONNumero llamarNumero(String puesto) throws Exception{
 		//Se delega a AttentionService la implementacion
 		AttentionService attentionService = new AttentionService();
