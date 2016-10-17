@@ -30,7 +30,7 @@ public class NumberService {
 			Factory fac = Factory.getInstance();
 			AttentionsController ctrl = fac.getAttentionsController();
 			ctrl.solicitarNumero(num);
-			return "El numero se dio de alta exitosamente";
+			return "OK";
 		} catch (Exception e) {
 			throw new InternalServerErrorException("Error al soliticar numero");
 		}
