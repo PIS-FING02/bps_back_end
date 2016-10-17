@@ -74,7 +74,7 @@ public class AdminService {
   		if(userRol.equals("ResponsableSector")){
   			try{
   				ctrl.bajaPuesto(puesto);
-  				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
+  				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al dar de baja el Puesto: " + e.getMessage());
   			}
@@ -94,7 +94,7 @@ public class AdminService {
   			try{
   				
   				ctrl.modificarPuesto(puesto);
-  				return "Puesto "+puesto.getNombreMaquina()+" fue dado de baja";
+  				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al modificar Puesto: " + e.getMessage());
   			}
@@ -155,7 +155,7 @@ public class AdminService {
 		if(userRol.equals("Administrador")){
 			try{
 				ctrl.bajaTramite(jsonTramite);
-				return "El tramite de codigo "+jsonTramite.getCodigo()+" fue dado de baja";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al eliminar el Tramite: " + e.getMessage());
 			}
@@ -173,7 +173,7 @@ public class AdminService {
 		if(userRol.equals("Administrador")){
 			try{
 				ctrl.modificarTramite(jsonTramite);
-				return "El tramite de codigo: "+jsonTramite.getCodigo()+" fue modificado exitosamente";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al modificar el Tramite: " + e.getMessage());
 			}
@@ -226,7 +226,7 @@ public class AdminService {
 				Factory fac = Factory.getInstance();
 				AdminActionsController aac = fac.getAdminActionsController();
 				aac.reinicializarColas();
-				return "Se reinicializaron las colas correctamente";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("error al reiniciar la cola: " + e.getMessage());
 			}
@@ -283,7 +283,7 @@ public class AdminService {
 		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ){
 			try{
 				ctrl.bajaDisplay(display.getIdDisplay());
-				return "Display "+display.getIdDisplay()+" fue dado de baja.";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al dar de baja el Display: " + e.getMessage());
 			}
@@ -423,7 +423,7 @@ public class AdminService {
 		if(userRol.equals("Administrador")){
 			try{
 				ctrl.desasignarSectorDisplay(secDisp);
-				return "Se desasigno el display: "+secDisp.getDisplayId()+" del sector "+secDisp.getSectorId();
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al desasignar Display a Sector: " + e.getMessage());
 			}
@@ -443,7 +443,7 @@ public class AdminService {
   		if(userRol.equals("ResponsableSector")){
   			try{
   				ctrl.desasignarTramiteSector(tramiteSector);
-  				return "Se desasigno el tramite: "+tramiteSector.getTramiteId().toString()+"del sector"+tramiteSector.getSectorId();
+  				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al desasignar puesto a tramite: " + e.getMessage());
   			}
@@ -462,7 +462,7 @@ public class AdminService {
   		if(userRol.equals("ResponsableSector")){
   			try{
   				ctrl.desasignarPuestoSector(puestoSector);
-  				return "Se desasigno el tramite: "+puestoSector.getNombreMaquina()+" del sector "+puestoSector.getSectorId();
+  				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al Asignar Puesto a Sector: " + e.getMessage());
   			}
@@ -481,7 +481,7 @@ public class AdminService {
 		if(userRol.equals("ResponsableSector")){
 			try{
 				ctrl.desasignarTramitePuesto(puestoTramite);
-				return "Se desasigno el tramite "+puestoTramite.getTramiteId()+" del puesto "+puestoTramite.getNombreMaquina();
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al desasignar el Tramite al puesto: " + e.getMessage());
 			}
@@ -600,7 +600,7 @@ public class AdminService {
 			try{
 				ctrl.borrarTodoElSistema();
 				System.out.println("La macoqueada se realizo con exito");
-				return "El sistema fue borrado con exito";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al macoquear: " + e.getMessage());
 			}
