@@ -65,6 +65,11 @@ public class QueueController {
 		QueueService qServ = new QueueService(idSector);
 		return qServ.listarPausados(tramites);
 	}
+	
+	public List<JSONNumero> listarEnEspera(String idSector, List<BusinessTramite> tramites){
+		QueueService qServ = new QueueService(idSector);
+		return qServ.listarEnEspera(tramites);
+	}
 
 	public void quitarNumeroDeCola(String idSector, Integer idNumero) throws Exception{
 		QueueService qServ = new QueueService(idSector);

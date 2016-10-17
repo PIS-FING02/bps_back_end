@@ -37,15 +37,15 @@ public class NumberService {
 	}
 
 	@GET
-	@Path("/listarSectorNumeros")
+	@Path("/listarNumerosSector")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<JSONNumero> listarNumeros(@HeaderParam("user-rol") String userRol,
+	public List<JSONNumero> listarNumerosSector(@HeaderParam("user-rol") String userRol,
 			@QueryParam("idSector") String idSector) {
 		if (userRol.equals("Administrador")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
-				return ctrl.listarNumeros(idSector);
+				return ctrl.listarNumerosSector(idSector);
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
@@ -58,12 +58,12 @@ public class NumberService {
 	@Path("/listarNumerosPausados")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosPausados(@HeaderParam("user-rol") String userRol,
-			@QueryParam("idSector") String idSector) {
+			@QueryParam("idPuesto") String idPuesto) {
 		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
-				return ctrl.listarNumerosPausados(idSector);
+				return ctrl.listarNumerosPausados(idPuesto);
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
@@ -72,4 +72,40 @@ public class NumberService {
 		}
 	}
 
+	@GET
+	@Path("/listarNumerosAtrasados")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JSONNumero> listarNumerosAtrasados(@HeaderParam("user-rol") String userRol,
+			@QueryParam("idPuesto") String idPuesto) {
+		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+			try {
+				Factory fac = Factory.getInstance();
+				NumberController ctrl = fac.getNumberController();
+				return ctrl.listarNumerosAtrasados(idPuesto);
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
+	@GET
+	@Path("/listarNumerosEnEspera")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JSONNumero> listarNumerosEnEspera(@HeaderParam("user-rol") String userRol,
+			@QueryParam("idPuesto") String idPuesto) {
+		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+			try {
+				Factory fac = Factory.getInstance();
+				NumberController ctrl = fac.getNumberController();
+				return ctrl.listarNumerosEnEspera(idPuesto);
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
 }

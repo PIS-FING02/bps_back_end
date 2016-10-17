@@ -84,7 +84,7 @@ public class NumberService {
 		}
 	}
 
-	public List<JSONNumero> listarNumeros(String idSector) throws Exception {
+	public List<JSONNumero> listarNumerosSector(String idSector) throws Exception {
 		Factory fac = Factory.getInstance();
 		QueueController ctrl = fac.getQueueController();
 		return ctrl.obtenerTodosLosNumeros(idSector);
@@ -121,5 +121,22 @@ public class NumberService {
 		}
 		return listaNumeros;
 	}
+	
+	public List<JSONNumero> listarNumerosEnEspera(String idPuesto) throws Exception {
+
+		DAOServiceFactory daoFac = DAOServiceFactory.getInstance();
+		DAOPuestoController daoCtrl = daoFac.getDAOPuestoController();
+		List<BusinessSector> listaSectores = daoCtrl.obtenerSectoresPuesto(idPuesto);
+		List<BusinessTramite> listaTramites = daoCtrl.obtenerTramitesPuesto(idPuesto);
+		List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
+		Factory fac = Factory.getInstance();
+		QueueController ctrl = fac.getQueueController();
+		for (BusinessSector sec : listaSectores) {
+			List<JSONNumero> numeros = ctrl.listarEnEspera(sec.getSectorId(), listaTramites);
+			listaNumeros.addAll(numeros);
+		}
+		return listaNumeros;
+	}
+	
 
 }

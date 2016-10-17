@@ -78,6 +78,12 @@ public class QueueService {
 		List<BusinessNumero> listaNros = this.cola.obtenerListaPausados(tramites);
 		return respMaker.createListJSONNumeros(listaNros);
 	}
+	
+	public List<JSONNumero> listarEnEspera(List<BusinessTramite> tramites) {
+		ResponseMaker respMaker = ResponseMaker.getInstance();
+		List<BusinessNumero> listaNros = this.cola.obtenerListaEnEspera(tramites);
+		return respMaker.createListJSONNumeros(listaNros);
+	}
 
 	public void quitarNumeroDeCola(Integer idNumero) throws Exception {
 		try {

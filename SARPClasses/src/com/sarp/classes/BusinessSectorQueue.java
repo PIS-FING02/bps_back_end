@@ -240,6 +240,19 @@ public class BusinessSectorQueue {
 		throw new IOException("No existe un numero pausado con el id :" + idNumero);
 	}
 
+	public synchronized List<BusinessNumero> obtenerListaEnEspera(List<BusinessTramite> tramites) {
+		List<BusinessNumero> enEspera = new ArrayList<BusinessNumero>();
+		for (BusinessNumero bn : this.colaPrioridad1) {
+			if (this.puedeAtenderNumero(tramites, bn))
+				enEspera.add(bn);
+		}
+		for (BusinessNumero bn : this.colaPrioridad2) {
+			if (this.puedeAtenderNumero(tramites, bn))
+				enEspera.add(bn);
+		}
+		return enEspera;
+	}
+	
 	public List<BusinessNumero> listarNumeros() {
 		List<BusinessNumero> lista = new ArrayList<BusinessNumero>();
 		for (BusinessNumero bn : this.colaPrioridad1)
