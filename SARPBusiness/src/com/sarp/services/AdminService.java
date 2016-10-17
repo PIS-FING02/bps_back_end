@@ -174,7 +174,8 @@ public class AdminService {
 			sectorCtrl.crearSector(sector);
 			ctrl.crearColaSector(sector.getSectorId());
 		} catch (RollbackException ex) {
-		    if (ex.getCause().getMessage().contains("unique") || ex.getCause().getMessage().contains("duplicate")){
+			Throwable a = ex.getCause();
+		    if (ex.getCause().getMessage().contains("unique") || ex.getCause().getMessage().contains("duplicate") || ex.getCause().getMessage().contains("unicidad")){
 		    	BusinessSector s = sectorCtrl.obtenerSector(sector.getSectorId());
 		    	sector.setLastUpdated(s.getLastUpdated());
 		    	sectorCtrl.modificarSector(sector);
@@ -186,9 +187,7 @@ public class AdminService {
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 
-		BusinessSector sector = sectorCtrl.obtenerSector(idSector);
-		// setear sector como invalido en bd
-		sectorCtrl.modificarSector(sector);
+		sectorCtrl.bajaLogicarSector(idSector);
 	}
 
 	public List<JSONSector> listarSectores() throws Exception {

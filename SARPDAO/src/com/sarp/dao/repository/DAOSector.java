@@ -56,7 +56,7 @@ public class DAOSector {
 		s.setNombre(nombre);
 		s.setRutaSector(rutaSector);
 		s.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
-		
+		s.setHabilitado(true);
 		em.persist(s);
 	}
 	
