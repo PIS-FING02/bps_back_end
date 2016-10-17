@@ -475,7 +475,24 @@ public class AdminService {
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
-	
+  	@GET
+	@Path("/listarTramitesPosibles")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<JSONTramite> listarTramitesPosibles(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("nombreMaquina") String NombreMaquina ) {
+		///System.out.println("entro a listar");
+		if(userRol.equals("ResponsableSector")){
+			Factory fac = Factory.getInstance();
+			AdminActionsController aac = fac.getAdminActionsController();
+			try{
+				return aac.listarTramitesPosibles(NombreMaquina);
+			}
+			catch(Exception e){
+				throw new InternalServerErrorException("Error al listar los posibles tramites del Puesto: " + e.getMessage());
+			}
+		}else{
+			throw new UnauthorizedException("No tiene permisos suficientes.");
+		}
+    }
   	
 	@GET
 	@Path("/listarDisplaysSector")

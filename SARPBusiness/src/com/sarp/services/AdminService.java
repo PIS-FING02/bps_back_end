@@ -263,7 +263,7 @@ public class AdminService {
 		if (puestoTramite.getNombreMaquina() != null) {
 			if (puestoTramite.getTramiteId() != null){
 				/* se controla circularidad entre tramite, sectror y puesto */
-				RequestMaker reqMaker = RequestMaker.getInstance();
+				
 		
 				DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		
@@ -316,10 +316,40 @@ public class AdminService {
 		return jsonTram;
 
 	}
+		
+	 public List<JSONTramite> listarTramitesPosibles(String nombreMaquina)throws Exception {
+
+			ResponseMaker resMaker = ResponseMaker.getInstance();
+			DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+			DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
+			DAOSectorController contorladorSector = daoServiceFactory.getDAOSectorController();
 			
-	 //listardisplayporsectro es el mismo listar 
+			List<BusinessTramite> listaTramites = new ArrayList<BusinessTramite>();
+			List<BusinessTramite> tramitesdelsector = new ArrayList<BusinessTramite>();
+			
+			List<BusinessSector> sectoresPuesto = controladorPuesto.obtenerSectoresPuesto(nombreMaquina);
+			if (sectoresPuesto.isEmpty())
+				throw new Exception("El puesto no tiene ningun sector asignado");
+	
+			for (BusinessSector sectro : sectoresPuesto) {
+				tramitesdelsector = contorladorSector.obtenerTramitesSector(sectro.getSectorId());
+				for (BusinessTramite tramite : tramitesdelsector){
+								
+					if (!listaTramites.contains(tramite)) listaTramites.add(tramite);
+					
+				}
+				tramitesdelsector.clear();
+			}
+			
+			
+			List<JSONTramite> jsonTram = resMaker.createArrayAtomTramites(listaTramites);
+					
+			return jsonTram;
+
+		} 
+	 //listardisplayporsectro es el mismo listar del abm
 	 
-	 //listarpuestoporsectro es el mismo listar 
+	 //listarpuestoporsectro es el mismo listar del abm
 		
 	  
 	 public List<JSONTramite> listarTramitesSector(String idSector) {
