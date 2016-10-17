@@ -18,9 +18,9 @@ public class AttentionsController {
 		return instance;
 	}
 	
-	public void solicitarNumero(JSONNumero num) throws Exception {
+	public String solicitarNumero(JSONNumero num) throws Exception {
 		NumberService serv = new NumberService();
-		serv.solicitarNumero(num);
+		return serv.solicitarNumero(num);
 	}
 	
 	public void abrirPuesto(JSONPuesto puesto) throws Exception{	

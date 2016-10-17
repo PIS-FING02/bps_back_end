@@ -122,6 +122,7 @@ public class AttentionsService {
 		}
 	}
 	
+
 	@GET
 	@Path("/tramitesRecepcion")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -158,9 +159,9 @@ public class AttentionsService {
 			throw new BadRequestException("No tiene permisos suficientes.");
 		}
 	}
-	/*
+	*/
 	
-	@PUT
+	/*@PUT
 	@Path("/pausarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String pausarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
