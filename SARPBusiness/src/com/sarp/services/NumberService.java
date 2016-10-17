@@ -15,25 +15,12 @@ import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.service.response.maker.RequestMaker;
+import com.sarp.utils.UtilService;
 
 public class NumberService {
 
-	private int horaCargarBatch;
-	private int minCargarBatch;
-
-	/*
-	 * public NumberService(){ String[] result; String path; String location =
-	 * NumberService.class.getProtectionDomain().getCodeSource().getLocation().
-	 * getPath().toString(); result = location.split("/standalone"); path=
-	 * result[0] + "/modules/conf/config_cola.properties"; Properties prop = new
-	 * Properties(); InputStream input; try { input = new FileInputStream(path);
-	 * prop.load(input); this.horaCargarBatch =
-	 * Integer.parseInt(prop.getProperty("HORA_CARGAR_BATCH"));
-	 * this.minCargarBatch =
-	 * Integer.parseInt(prop.getProperty("MIN_CARGAR_BATCH")); } catch
-	 * (FileNotFoundException e) { e.printStackTrace(); } catch (IOException e)
-	 * { e.printStackTrace(); } }
-	 */
+	private int horaCargarBatch = UtilService.getIntegerProperty("COLA_HORA_CARGAR_BATCH");
+	private int minCargarBatch 	= UtilService.getIntegerProperty("COLA_MINUTOS_CARGAR_BATCH");
 
 	public void solicitarNumero(JSONNumero num) throws Exception {
 		RequestMaker reqMaker = RequestMaker.getInstance();
