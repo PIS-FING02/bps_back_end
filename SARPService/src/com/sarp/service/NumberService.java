@@ -29,10 +29,9 @@ public class NumberService {
 		try {
 			Factory fac = Factory.getInstance();
 			AttentionsController ctrl = fac.getAttentionsController();
-			ctrl.solicitarNumero(num);
-			return "OK";
+			return ctrl.solicitarNumero(num); 
 		} catch (Exception e) {
-			throw new InternalServerErrorException("Error al soliticar numero");
+			throw new InternalServerErrorException("Error al soliticar numero"+e.getMessage());
 		}
 	}
 

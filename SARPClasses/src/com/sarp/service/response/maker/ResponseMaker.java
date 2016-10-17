@@ -75,7 +75,13 @@ public class ResponseMaker {
 			JSONNumero jsonNumero = new JSONNumero();
 			jsonNumero.setEstado(businessNumero.getEstado());
 			jsonNumero.setExternalId(businessNumero.getExternalId());
-			jsonNumero.setHora(businessNumero.getHora().get(Calendar.YEAR) + "/" + businessNumero.getHora().get(Calendar.MONTH) + "/" + businessNumero.getHora().get(Calendar.DAY_OF_MONTH) + "-" + businessNumero.getHora().get(Calendar.HOUR_OF_DAY) + ":" + businessNumero.getHora().get(Calendar.MINUTE));
+			String fecha = Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH));
+			fecha = fecha +"/" + (Integer.toString(businessNumero.getHora().get(Calendar.MONTH)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.MONTH)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.MONTH)));
+			fecha = fecha + "/" + Integer.toString(businessNumero.getHora().get(Calendar.YEAR));
+			fecha = fecha + "-";
+			fecha = fecha + (Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)));
+			fecha = fecha + ":" + (Integer.toString(businessNumero.getHora().get(Calendar.MINUTE)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.MINUTE)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.MINUTE)));
+			jsonNumero.setHora(fecha);
 			jsonNumero.setId(businessNumero.getInternalId());
 			jsonNumero.setPrioridad(businessNumero.getPrioridad());
 			jsonNumero.setIdSector(businessNumero.getCodSector());

@@ -22,7 +22,7 @@ public class NumberService {
 	private int horaCargarBatch = UtilService.getIntegerProperty("COLA_HORA_CARGAR_BATCH");
 	private int minCargarBatch 	= UtilService.getIntegerProperty("COLA_MINUTOS_CARGAR_BATCH");
 
-	public void solicitarNumero(JSONNumero num) throws Exception {
+	public String solicitarNumero(JSONNumero num) throws Exception {
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessNumero numero = reqMaker.requestNumero(num);
 		/*** Generar external id ***/
@@ -44,7 +44,9 @@ public class NumberService {
 		numero = controladorNumero.obtenerNumero(id);
 
 		// se agrega a la cola el numero solicitado
-		this.horaCargarBatch = 7; // esto en un futuro se reemplaza por el
+		System.out.println("hora agarrada por el properties: "+this.horaCargarBatch);
+		System.out.println("minutos agarrados por el properties: "+this.minCargarBatch);
+		this.horaCargarBatch = 0; // esto en un futuro se reemplaza por el
 									// config.properties horaCargarBatch
 		this.minCargarBatch = 30; // idem
 		boolean loAgrego = false;
@@ -70,6 +72,8 @@ public class NumberService {
 			QueueController ctrl = fac.getQueueController();
 			ctrl.agregarNumero(num.getIdSector(), numero);
 		}
+		
+		return numero.getExternalId();
 	}
 
 	public List<JSONNumero> listarNumerosSector(String idSector) throws Exception {
