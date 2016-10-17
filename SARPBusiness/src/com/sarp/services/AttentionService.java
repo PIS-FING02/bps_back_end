@@ -4,7 +4,6 @@ package com.sarp.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSector;
@@ -21,8 +20,6 @@ import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.managers.QueuesManager;
-import com.sarp.service.response.maker.RequestMaker;
-import com.sarp.service.response.maker.ResponseMaker;
 
 public class AttentionService {
 
@@ -59,7 +56,6 @@ public class AttentionService {
 	}
 
 	public void comenzarAtencion(JSONPuesto puesto) throws Exception {
-		RequestMaker reqMaker = RequestMaker.getInstance();
 
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
@@ -82,8 +78,6 @@ public class AttentionService {
 	}
 
 	public void finalizarAtencion(JSONPuesto puesto) throws Exception {
-		RequestMaker reqMaker = RequestMaker.getInstance();
-		BusinessPuesto bPuesto = reqMaker.requestPuesto(puesto);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
@@ -103,8 +97,6 @@ public class AttentionService {
 	}
 
 	public JSONNumero llamarNumero(String puesto) throws Exception {
-		// RequestMaker reqMaker = RequestMaker.getInstance();
-		ResponseMaker respMaker = ResponseMaker.getInstance();
 
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
@@ -181,13 +173,10 @@ public class AttentionService {
 	}
 
 	public List<JSONTramiteSector> tramitesRecepcion(String puesto) throws Exception {
-		// RequestMaker reqMaker = RequestMaker.getInstance();
-		ResponseMaker respMaker = ResponseMaker.getInstance();
-
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		
-		List<JSONTramiteSector> tramitesRecepcion = new ArrayList();
+		List<JSONTramiteSector> tramitesRecepcion = new ArrayList<JSONTramiteSector>();
 		
 		// Traigo el puesto desde la base
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto);
@@ -263,13 +252,11 @@ public class AttentionService {
 		if (puestoSend.getEstado() == EstadoPuesto.ATENDIENDO) {
 			// Traigo el numero que se esta atendiendo desde la base
 			BusinessNumero numeroActual = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
-			QueuesManager managerQueues = QueuesManager.getInstance();
 
-			// Pido el manejador de la cola del sector
-			BusinessSectorQueue colaSector = managerQueues.obtenerColaSector(numeroActual.getCodSector());
-
-			// Atraso el numero
-			colaSector.agregarNumeroAtrasado(numeroActual);
+			//se pausa el numero
+			Factory fac = Factory.getInstance();
+			QueueController ctrl = fac.getQueueController();
+			ctrl.transferirAColaPausados(numeroActual.getCodSector(), numeroActual);
 
 			// Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);

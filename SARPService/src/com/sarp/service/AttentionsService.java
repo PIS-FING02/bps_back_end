@@ -1,7 +1,6 @@
 package com.sarp.service;
 
 import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -161,24 +160,23 @@ public class AttentionsService {
 	}
 	*/
 	
-	/*@PUT
+	@PUT
 	@Path("/pausarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String pausarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+			Factory fac = Factory.getInstance();
+			AttentionsController ctrl = fac.getAttentionsController();
 			try{
-				ctrl.finalizarAtencion(puesto);
-				return "Puesto "+puesto.getNombreMaquina()+" finalizo atencion satisfactoriamente";
+				ctrl.pausarNumero(puesto);
+				return "El numero fue pausado correctamente";
 			}catch(Exception e){
-				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+				throw new InternalServerErrorException("No se pudo pausar el numero "+e.getMessage());
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
-	}*/
-	
+	}
 	
 	//CERRADO, DIPONIBLE, LLAMANDO, ATENDIENDO;
 	

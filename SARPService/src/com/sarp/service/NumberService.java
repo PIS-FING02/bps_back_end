@@ -29,7 +29,7 @@ public class NumberService {
 		try {
 			Factory fac = Factory.getInstance();
 			AttentionsController ctrl = fac.getAttentionsController();
-			return ctrl.solicitarNumero(num); 
+			return ctrl.solicitarNumero(num);
 		} catch (Exception e) {
 			throw new InternalServerErrorException("Error al soliticar numero"+e.getMessage());
 		}
@@ -106,5 +106,4 @@ public class NumberService {
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
-	
 }

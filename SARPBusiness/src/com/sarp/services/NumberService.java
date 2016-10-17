@@ -44,8 +44,6 @@ public class NumberService {
 		numero = controladorNumero.obtenerNumero(id);
 
 		// se agrega a la cola el numero solicitado
-		System.out.println("hora agarrada por el properties: "+this.horaCargarBatch);
-		System.out.println("minutos agarrados por el properties: "+this.minCargarBatch);
 		this.horaCargarBatch = 0; // esto en un futuro se reemplaza por el
 									// config.properties horaCargarBatch
 		this.minCargarBatch = 30; // idem
@@ -58,9 +56,10 @@ public class NumberService {
 				&& numero.getHora().get(Calendar.MONTH) == diaActual.get(Calendar.MONTH)
 				&& numero.getHora().get(Calendar.DAY_OF_MONTH) == diaActual.get(Calendar.DAY_OF_MONTH)) {
 			// si es el numero es para el mismo dia
-
-			if (!(numero.getHora().get(Calendar.HOUR) < this.horaCargarBatch)
-					|| (numero.getHora().get(Calendar.HOUR) == this.horaCargarBatch
+			System.out.println("Hora del numero: "+ numero.getHora().get(Calendar.HOUR_OF_DAY)+":"+numero.getHora().get(Calendar.MINUTE));
+			System.out.println("Hora del sistema: "+this.horaCargarBatch+":"+this.minCargarBatch);
+			if ((numero.getHora().get(Calendar.HOUR_OF_DAY) > this.horaCargarBatch)
+					|| (numero.getHora().get(Calendar.HOUR_OF_DAY) == this.horaCargarBatch
 							&& numero.getHora().get(Calendar.MINUTE) > this.minCargarBatch))
 				// y si la hora del numero NO es anterior a la hora de inicio el
 				// batch

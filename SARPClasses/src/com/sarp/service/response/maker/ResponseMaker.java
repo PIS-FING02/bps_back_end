@@ -76,7 +76,7 @@ public class ResponseMaker {
 			jsonNumero.setEstado(businessNumero.getEstado());
 			jsonNumero.setExternalId(businessNumero.getExternalId());
 			String fecha = Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH));
-			fecha = fecha +"/" + (Integer.toString(businessNumero.getHora().get(Calendar.MONTH)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.MONTH)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.MONTH)));
+			fecha = fecha +"/" + (Integer.toString(businessNumero.getHora().get(Calendar.MONTH)+1).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.MONTH)+1) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.MONTH)+1));
 			fecha = fecha + "/" + Integer.toString(businessNumero.getHora().get(Calendar.YEAR));
 			fecha = fecha + "-";
 			fecha = fecha + (Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)));
