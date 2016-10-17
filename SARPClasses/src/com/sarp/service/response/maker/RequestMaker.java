@@ -40,7 +40,7 @@ public class RequestMaker {
 		String fecha = numero.getHora();
 		try{
 			int dia = Integer.parseInt(fecha.substring(0, 2));
-			int mes = Integer.parseInt(fecha.substring(3, 5));
+			int mes = Integer.parseInt(fecha.substring(3, 5)) - 1;
 			int ano = Integer.parseInt(fecha.substring(6, 10));
 			int hora= Integer.parseInt(fecha.substring(11, 13));
 			int min = Integer.parseInt(fecha.substring(14));
