@@ -57,7 +57,6 @@ public class DAOSector {
 	/* Modifico la ruta de un Sector dado por su codigo */
 	public void updateSector(String codigo, String nombre, String rutaSector, Timestamp lastUpdated) throws RollbackException{		
 		Sector s = selectSector(codigo);
-		Timestamp t = s.getLastUpdated();
 		s.setNombre(nombre);
 		s.setRutaSector(rutaSector);
 		s.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
