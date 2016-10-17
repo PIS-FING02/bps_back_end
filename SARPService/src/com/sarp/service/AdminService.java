@@ -56,7 +56,7 @@ public class AdminService {
   		if(userRol.equals("ResponsableSector")){
   			try{
   				ctrl.altaPuesto(puesto);
-  				return "Puesto "+puesto.getNombreMaquina()+" dado de alta satisfactoriamente";
+  				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al crear el Puesto: " + e.getMessage());
   			}
@@ -136,7 +136,7 @@ public class AdminService {
 		if(userRol.equals("Administrador")){
 			try{				
 				ctrl.altaTramite(jsonTramite);
-				return "El tramite con codigo: "+jsonTramite.getCodigo()+ " y nombre: "+jsonTramite.getNombre()+" fue dado de alta satisfactoriamente";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al crear el Tramite: " + e.getMessage());
 			}
@@ -265,7 +265,7 @@ public class AdminService {
 		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ) {
 			try{
 				ctrl.altaDisplay(display.getIdDisplay());
-				return "Display dado de alta satisfactoriamente";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al crear el Display: " + e.getMessage());
 			}
@@ -345,7 +345,7 @@ public class AdminService {
   		if(userRol.equals("ResponsableSector")){
   			try{
   				ctrl.asignarTramiteSector(tramiteSector);
-  				return "Se asigno el tramite: "+tramiteSector.getTramiteId().toString()+"al sector"+tramiteSector.getSectorId();
+  				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al asignar puesto a tramite: " + e.getMessage());
   			}
@@ -364,7 +364,7 @@ public class AdminService {
 		if(userRol.equals("ResponsableSector")){
 			try{
 				ctrl.asignarTramitePuesto(puestoTramite);
-				return "Se asigno el tramite"+puestoTramite.getTramiteId()+" al puesto "+puestoTramite.getNombreMaquina();
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al asignar el Tramite al puesto: " + e.getMessage());
 			}
@@ -383,7 +383,7 @@ public class AdminService {
   		if(userRol.equals("ResponsableSector")){
   			try{
   				ctrl.asignarPuestoSector(puestoSector);
-  				return "Se asigno el tramite: "+puestoSector.getNombreMaquina()+"al sector"+puestoSector.getSectorId();
+  				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al Asignar Puesto a Sector: " + e.getMessage());
   			}
@@ -402,7 +402,7 @@ public class AdminService {
 		if(userRol.equals("Administrador")){
 			try{
 				ctrl.asignarSectorDisplay(secDisp);
-				return "Display asignado satisfactoriamente";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al asignar Display a Sector: " + e.getMessage());
 			}
