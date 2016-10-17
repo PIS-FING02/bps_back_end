@@ -20,6 +20,7 @@ import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.managers.QueuesManager;
+import com.sarp.service.response.maker.RequestMaker;
 
 public class AttentionService {
 
@@ -98,6 +99,8 @@ public class AttentionService {
 
 	public JSONNumero llamarNumero(String puesto) throws Exception {
 
+		// RequestMaker reqMaker = RequestMaker.getInstance();
+
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 
@@ -173,6 +176,7 @@ public class AttentionService {
 	}
 
 	public List<JSONTramiteSector> tramitesRecepcion(String puesto) throws Exception {
+
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		
