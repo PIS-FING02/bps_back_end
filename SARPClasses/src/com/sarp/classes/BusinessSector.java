@@ -73,4 +73,5 @@ public class BusinessSector  {
 	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
+
 }

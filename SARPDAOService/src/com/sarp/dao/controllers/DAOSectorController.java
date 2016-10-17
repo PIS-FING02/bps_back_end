@@ -80,7 +80,17 @@ public class DAOSectorController {
 		DAOSector sectorRepository = factory.getSectorRepository(em);	
 
 		em.getTransaction().begin();
-		sectorRepository.updateSector(s.getSectorId(), s.getNombre(), s.getRuta(),s.getLastUpdated());
+		sectorRepository.updateSector(s.getSectorId(), s.getNombre(), s.getRuta(), s.getLastUpdated());
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public void bajaLogicarSector(String idSector) throws RollbackException{
+		EntityManager em = EMFactory.getEntityManager();
+		DAOSector sectorRepository = factory.getSectorRepository(em);	
+
+		em.getTransaction().begin();
+		sectorRepository.bajaLogicaSector(idSector);
 		em.getTransaction().commit();
 		em.close();
 	}

@@ -2,18 +2,13 @@ package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
 import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+
 
 public class DAOSector {
 	
@@ -31,6 +26,7 @@ public class DAOSector {
 		s.setCodigo(codigo);
 		s.setNombre(nombre);
 		s.setRutaSector(ruta);
+		s.setHabilitado(true);
 		
 		em.persist(s);
 	}
@@ -50,17 +46,24 @@ public class DAOSector {
 	/* Obtengo todos los Sectores en la base de datos */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Sector> selectSectores(){		
-		ArrayList<Sector> res = new ArrayList<Sector>(em.createQuery("select s from Sector s").getResultList());
+		ArrayList<Sector> res = new ArrayList<Sector>(em.createQuery("select s from Sector s where s.habilitado = true").getResultList());
 		return res;
 	}
 	
 	/* Modifico la ruta de un Sector dado por su codigo */
-	public void updateSector(String codigo, String nombre, String rutaSector, Timestamp lastUpdated) throws RollbackException{		
+	public void updateSector(String codigo, String nombre, String rutaSector,Timestamp lastUpdated) throws RollbackException{		
 		Sector s = selectSector(codigo);
-		Timestamp t = s.getLastUpdated();
 		s.setNombre(nombre);
 		s.setRutaSector(rutaSector);
 		s.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
+		
+		em.persist(s);
+	}
+	
+	/* Dada de baja lógica de un Sector dado por su codigo */
+	public void bajaLogicaSector(String codigo) throws RollbackException{		
+		Sector s = selectSector(codigo);
+		s.setHabilitado(false);
 		
 		em.persist(s);
 	}
