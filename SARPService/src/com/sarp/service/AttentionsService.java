@@ -97,7 +97,7 @@ public class AttentionsService {
 		}
 	}
 	
-	@PUT
+	@GET
 	@Path("/llamarNumero")
 	@Produces(MediaType.APPLICATION_JSON)
 	public JSONNumero llamarNumero(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String puesto){
