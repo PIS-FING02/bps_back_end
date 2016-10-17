@@ -351,17 +351,36 @@ public class AdminService {
 			
 			List<BusinessTramite> listaTramites = new ArrayList<BusinessTramite>();
 			List<BusinessTramite> tramitesdelsector = new ArrayList<BusinessTramite>();
+			List<BusinessTramite> tramitesYaAsignados = new ArrayList<BusinessTramite>();
 			
 			List<BusinessSector> sectoresPuesto = controladorPuesto.obtenerSectoresPuesto(nombreMaquina);
 			if (sectoresPuesto.isEmpty())
 				throw new Exception("El puesto no tiene ningun sector asignado");
-	
+			tramitesYaAsignados = controladorPuesto.obtenerTramitesPuesto(nombreMaquina);
 			for (BusinessSector sectro : sectoresPuesto) {
 				tramitesdelsector = contorladorSector.obtenerTramitesSector(sectro.getSectorId());
 				for (BusinessTramite tramite : tramitesdelsector){
-								
-					if (!listaTramites.contains(tramite)) listaTramites.add(tramite);
+					/* NO SE PORQUE PERO NO ME FUNCIONA
+					if (! ( listaTramites.contains(tramite) || tramitesYaAsignados.contains(tramite)) )
+						listaTramites.add(tramite);*/
 					
+					//si no lo agrege antes 
+					Boolean esta = false;
+					for (BusinessTramite t : listaTramites ){
+						if (t.getCodigo() ==  tramite.getCodigo() ){
+							esta = true;
+							break;
+						}			
+					}
+					//y no esta ya asignado 
+					for (BusinessTramite t : tramitesYaAsignados){
+						if (t.getCodigo() ==  tramite.getCodigo() ){
+							esta = true;
+							break;
+						}	
+					}
+					//lo agrego
+					if (!esta) listaTramites.add(tramite);
 				}
 				tramitesdelsector.clear();
 			}
