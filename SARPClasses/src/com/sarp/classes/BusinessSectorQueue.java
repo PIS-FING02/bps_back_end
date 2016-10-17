@@ -27,7 +27,7 @@ public class BusinessSectorQueue {
 
 	/***** Metodos de la Cola *****/
 
-	public synchronized void agregarNumeroCola(BusinessNumero numero) {
+	public synchronized void agregarNumeroCola(BusinessNumero numero) throws Exception {
 
 		switch (numero.getPrioridad()) {
 		case 1:
@@ -50,19 +50,16 @@ public class BusinessSectorQueue {
 			break;
 
 		default:
-			// se tiene q hablar si se mete en atril o se tira excepcion por
-			// mal
-			// prioridad
-			break;
+			throw new Exception("La prioridad del numero no pertenece a la jerarquia actual");
 		}
 
 	}
 
-	public synchronized void agregarNumeroColaBatch(ArrayList<BusinessNumero> numeros) {
+	public synchronized void agregarNumeroColaBatch(List<BusinessNumero> numeros) {
 		this.colaPrioridad1.addAll(numeros);
 	}
 
-	public synchronized void quitarNumeroCola(int idNumero) throws Exception {
+	public synchronized void quitarNumeroCola(Integer idNumero) throws Exception {
 		ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
@@ -79,13 +76,10 @@ public class BusinessSectorQueue {
 				return;
 			}
 		}
-		// si no corto la ejecucion antes es porque no existia el numero con el
-		// id
-		// pasado como parametro
-		throw new Exception("No tiene permisos suficientes.");
+		throw new Exception("EL numero a quitar no pertenecia a la cola");
 	}
 
-	public synchronized BusinessNumero llamarNumeroCola(ArrayList<BusinessTramite> tramites) {
+	public synchronized BusinessNumero llamarNumeroCola(List<BusinessTramite> tramites) {
 
 		if (!this.atrasados.isEmpty()) {
 			ListIterator<BusinessNumero> it = this.atrasados.listIterator();
@@ -171,12 +165,12 @@ public class BusinessSectorQueue {
 		 * e) { e.printStackTrace(); }
 		 */
 
-		int tiempoProperties = 20;
+		Integer tiempoProperties = 20;
 		numero.getHora().add(Calendar.MINUTE, tiempoProperties);
 		this.atrasados.addLast(numero);
 	}
 
-	public synchronized void quitarNumeroAtrasado(int idNumero) {
+	public synchronized void quitarNumeroAtrasado(Integer idNumero) {
 		ListIterator<BusinessNumero> it = this.atrasados.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
@@ -196,7 +190,7 @@ public class BusinessSectorQueue {
 		return atrasados;
 	}
 
-	public synchronized BusinessNumero obtenerNumeroAtrasado(int idNumero) throws IOException {
+	public synchronized BusinessNumero obtenerNumeroAtrasado(Integer idNumero) throws Exception {
 		ListIterator<BusinessNumero> it = this.atrasados.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
@@ -205,8 +199,7 @@ public class BusinessSectorQueue {
 				return numero;
 			}
 		}
-		IOException e = new IOException("No existe un numero atrasado con el id :" + idNumero);
-		throw e;
+		throw new Exception("No existe un numero atrasado con el id :" + idNumero);
 	}
 
 	/***** Metodos de Pausados *****/
@@ -215,7 +208,7 @@ public class BusinessSectorQueue {
 		this.pausados.addLast(numero);
 	}
 
-	public synchronized void quitarNumeroPausado(int idNumero) {
+	public synchronized void quitarNumeroPausado(Integer idNumero) {
 		ListIterator<BusinessNumero> it = this.pausados.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
@@ -235,7 +228,7 @@ public class BusinessSectorQueue {
 		return pausados;
 	}
 
-	public synchronized BusinessNumero obtenerNumeroPausado(int idNumero) throws IOException {
+	public synchronized BusinessNumero obtenerNumeroPausado(Integer idNumero) throws IOException {
 		ListIterator<BusinessNumero> it = this.pausados.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
@@ -244,10 +237,22 @@ public class BusinessSectorQueue {
 				return numero;
 			}
 		}
-		IOException e = new IOException("No existe un numero pausado con el id :" + idNumero);
-		throw e;
+		throw new IOException("No existe un numero pausado con el id :" + idNumero);
 	}
 
+	public synchronized List<BusinessNumero> obtenerListaEnEspera(List<BusinessTramite> tramites) {
+		List<BusinessNumero> enEspera = new ArrayList<BusinessNumero>();
+		for (BusinessNumero bn : this.colaPrioridad1) {
+			if (this.puedeAtenderNumero(tramites, bn))
+				enEspera.add(bn);
+		}
+		for (BusinessNumero bn : this.colaPrioridad2) {
+			if (this.puedeAtenderNumero(tramites, bn))
+				enEspera.add(bn);
+		}
+		return enEspera;
+	}
+	
 	public List<BusinessNumero> listarNumeros() {
 		List<BusinessNumero> lista = new ArrayList<BusinessNumero>();
 		for (BusinessNumero bn : this.colaPrioridad1)

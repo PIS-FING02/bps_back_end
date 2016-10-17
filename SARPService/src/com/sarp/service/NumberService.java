@@ -1,64 +1,111 @@
 
 package com.sarp.service;
-import java.util.List;
 
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
-
-import com.sarp.classes.BusinessNumero;
 import com.sarp.controllers.AttentionsController;
-import com.sarp.controllers.QueueController;
-import com.sarp.dao.controllers.DAONumeroController;
+import com.sarp.controllers.NumberController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
-
 
 @RequestScoped
 @Path("/numberService")
 public class NumberService {
-	
+
 	@POST
 	@Path("/solicitarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String SolicitarNumero(@HeaderParam("user-rol") String userRol, JSONNumero num){
-		try{
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrl = fac.getAttentionsController();
-		ctrl.solicitarNumero(num);
-		return "El numero se dio de alta exitosamente";
-		}catch(Exception e){
+	public String SolicitarNumero(JSONNumero num) {
+		try {
+			Factory fac = Factory.getInstance();
+			AttentionsController ctrl = fac.getAttentionsController();
+			ctrl.solicitarNumero(num);
+			return "El numero se dio de alta exitosamente";
+		} catch (Exception e) {
 			throw new InternalServerErrorException("Error al soliticar numero");
+		}
+	}
+
+	@GET
+	@Path("/listarNumerosSector")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JSONNumero> listarNumerosSector(@HeaderParam("user-rol") String userRol,
+			@QueryParam("idSector") String idSector) {
+		if (userRol.equals("Administrador")) {
+			try {
+				Factory fac = Factory.getInstance();
+				NumberController ctrl = fac.getNumberController();
+				return ctrl.listarNumerosSector(idSector);
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
 	
 	@GET
-	@Path("/listarNumeros")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<JSONNumero> listarNumeros(@HeaderParam("user-rol") String userRol, @QueryParam("idSector") String idSector) {
-		if(userRol.equals("Administrador")){
-			try{
+	@Path("/listarNumerosPausados")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JSONNumero> listarNumerosPausados(@HeaderParam("user-rol") String userRol,
+			@QueryParam("idPuesto") String idPuesto) {
+		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+			try {
 				Factory fac = Factory.getInstance();
-				QueueController ctrl = fac.getQueueController();
-				return ctrl.obtenerTodosLosNumeros(idSector);
-			}catch(Exception e){
+				NumberController ctrl = fac.getNumberController();
+				return ctrl.listarNumerosPausados(idPuesto);
+			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
-		}else{
+		} else {
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
-    }
+	}
 
-
+	@GET
+	@Path("/listarNumerosAtrasados")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JSONNumero> listarNumerosAtrasados(@HeaderParam("user-rol") String userRol,
+			@QueryParam("idPuesto") String idPuesto) {
+		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+			try {
+				Factory fac = Factory.getInstance();
+				NumberController ctrl = fac.getNumberController();
+				return ctrl.listarNumerosAtrasados(idPuesto);
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
+	@GET
+	@Path("/listarNumerosEnEspera")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JSONNumero> listarNumerosEnEspera(@HeaderParam("user-rol") String userRol,
+			@QueryParam("idPuesto") String idPuesto) {
+		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+			try {
+				Factory fac = Factory.getInstance();
+				NumberController ctrl = fac.getNumberController();
+				return ctrl.listarNumerosEnEspera(idPuesto);
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
 }

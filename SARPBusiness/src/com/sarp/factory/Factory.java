@@ -6,6 +6,7 @@ import com.sarp.controllers.AttentionsController;
 import com.sarp.controllers.UserController;
 import com.sarp.controllers.WaitingController;
 import com.sarp.controllers.GAFUController;
+import com.sarp.controllers.NumberController;
 import com.sarp.controllers.QueueController;
 
 public class Factory {
@@ -44,6 +45,10 @@ public class Factory {
 	
 	public GAFUController GAFUController(){
 		return new GAFUController();
+	}
+	
+	public NumberController getNumberController(){
+		return new NumberController();
 	}
 	
 }
