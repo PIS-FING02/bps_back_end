@@ -175,16 +175,20 @@ public class AdminService {
 			ctrl.crearColaSector(sector.getSectorId());
 		} catch (RollbackException ex) {
 		    if (ex.getCause().getMessage().contains("unique") || ex.getCause().getMessage().contains("duplicate")){
+		    	BusinessSector s = sectorCtrl.obtenerSector(sector.getSectorId());
+		    	sector.setLastUpdated(s.getLastUpdated());
 		    	sectorCtrl.modificarSector(sector);
 		    }
 		}
 	}
 
-	public void bajaSector(String idSector) throws Exception {
+	public void bajaLogicaSector(String idSector) throws Exception {
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 
-		sectorCtrl.eliminarSector(idSector);
+		BusinessSector sector = sectorCtrl.obtenerSector(idSector);
+		// setear sector como invalido en bd
+		sectorCtrl.modificarSector(sector);
 	}
 
 	public List<JSONSector> listarSectores() throws Exception {

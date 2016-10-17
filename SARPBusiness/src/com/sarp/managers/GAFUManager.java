@@ -52,7 +52,7 @@ public class GAFUManager {
 	private void borrarSectores(List<BusinessSector> sectores, AdminActionsController ctrl) throws Exception {
 		Iterator<BusinessSector> iterator = sectores.iterator();
 		while (iterator.hasNext()) {
-			ctrl.bajaSector(iterator.next().getSectorId());
+			ctrl.bajaLogicaSector(iterator.next().getSectorId());
 		}
 	}
 

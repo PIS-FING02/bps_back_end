@@ -118,9 +118,9 @@ public class AdminActionsController {
 		adminService.asignarPuestoSector(puestoSec.getSectorId(), puestoSec.getNombreMaquina());
 	}
 
-	public void bajaSector(String idSector) throws Exception {
+	public void bajaLogicaSector(String idSector) throws Exception {
 		AdminService adminService = new AdminService();
-		adminService.bajaSector(idSector);
+		adminService.bajaLogicaSector(idSector);
 	}
 
 	public List<JSONSector> listarSectores() throws Exception {
