@@ -44,6 +44,8 @@ public class NumberService {
 		numero = controladorNumero.obtenerNumero(id);
 
 		// se agrega a la cola el numero solicitado
+		System.out.println("hora agarrada por el properties: "+this.horaCargarBatch);
+		System.out.println("minutos agarrados por el properties: "+this.minCargarBatch);
 		this.horaCargarBatch = 0; // esto en un futuro se reemplaza por el
 									// config.properties horaCargarBatch
 		this.minCargarBatch = 30; // idem
