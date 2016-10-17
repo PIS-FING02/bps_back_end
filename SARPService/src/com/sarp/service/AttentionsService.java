@@ -1,7 +1,5 @@
 package com.sarp.service;
 
-import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -10,25 +8,18 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
-
-import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.jboss.resteasy.spi.UnauthorizedException;
-
-import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.AttentionsController;
-import com.sarp.controllers.UserController;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
-import com.sarp.json.modeler.JSONTramite;
 
 @RequestScoped
 @Path("/attentionsService")
 public class AttentionsService {
-
 
 	@PUT
 	@Path("/abrirPuesto")
@@ -40,10 +31,8 @@ public class AttentionsService {
 			try{
 				ctrl.abrirPuesto(puesto);
 				return "Puesto "+puesto.getNombreMaquina()+" ha sido abierto con exito";
-			
 			}catch(ContextException e){
 				throw new InternalServerErrorException("Error: El puesto ya se encuentra abierto");
-			
 			}catch(Exception e){	
 				throw new InternalServerErrorException("Error al abrir el Puesto");
 			}
@@ -130,6 +119,7 @@ public class AttentionsService {
 		}
 	}
 	
+	
 	/*@PUT
 	@Path("/atrasarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -188,4 +178,25 @@ public class AttentionsService {
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
+	
+	@GET
+	@Path("/llamarPausado")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONNumero LlamarNumeroPausado(@HeaderParam("user-rol") String userRol,  @HeaderParam("idNumero") Integer idNumero, @HeaderParam("idPuesto") String idPuesto) {
+		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+			try {
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
+				JSONNumero num = ctrl.llamarNumeroPausado(idNumero, idPuesto);
+				return num;
+			} catch (Exception e) {
+				throw new InternalServerErrorException("Error al soliticar numero pausado: "+e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
+	
+	
 }

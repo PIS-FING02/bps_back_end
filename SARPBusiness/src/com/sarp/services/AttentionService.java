@@ -11,6 +11,7 @@ import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessSectorQueue;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.controllers.QueueController;
+import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
@@ -229,7 +230,15 @@ public class AttentionService {
 		} else {
 			throw new ContextException("El puesto no se encuentra en estado ATENDIENDO");
 		}
-
+	}
+	
+	public JSONNumero llamarNumeroPausado(Integer idNumero, String idPuesto) throws Exception {
+		DAOServiceFactory fac = DAOServiceFactory.getInstance();
+		DAONumeroController ctrlNumero = fac.getDAONumeroController();
+		Factory facBusiness = Factory.getInstance();
+		QueueController ctrlQueue = facBusiness.getQueueController();
+		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
+		return ctrlQueue.obtenerNumeroPausado(num.getCodSector(), idNumero);
 	}
 
 }

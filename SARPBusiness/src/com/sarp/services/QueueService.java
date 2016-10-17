@@ -40,14 +40,14 @@ public class QueueService {
 		manejador.borrarColaSector(this.idSector);
 	}
 
-	public void agregarNumero(BusinessNumero numero) {
+	public void agregarNumero(BusinessNumero numero) throws Exception {
 		this.cola.agregarNumeroCola(numero);
 	}
 
 	public void agregarNumerosBatch() {
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAONumeroController daoNumero = factory.getDAONumeroController();
-		ArrayList<BusinessNumero> numerosDiarios = daoNumero.listarNumerosDelDia();
+		List<BusinessNumero> numerosDiarios = daoNumero.listarNumerosDelDia();
 		this.cola.agregarNumeroColaBatch(numerosDiarios);
 	}
 
@@ -61,7 +61,7 @@ public class QueueService {
 		this.cola.agregarNumeroPausado(numero);
 	}
 
-	public JSONNumero llamarProximoNumero(ArrayList<BusinessTramite> tramites) {
+	public JSONNumero llamarProximoNumero(List<BusinessTramite> tramites) {
 		ResponseMaker respMaker = ResponseMaker.getInstance();
 		BusinessNumero numero = this.cola.llamarNumeroCola(tramites);
 		return respMaker.numeroAtomResponse(numero);
@@ -87,21 +87,21 @@ public class QueueService {
 		}
 	}
 
-	public void quitarNumeroDeAtrasados(int idNumero) {
+	public void quitarNumeroDeAtrasados(Integer idNumero) {
 		this.cola.quitarNumeroAtrasado(idNumero);
 	}
 
-	public void quitarNumeroDePausados(int idNumero) {
+	public void quitarNumeroDePausados(Integer idNumero) {
 		this.cola.quitarNumeroPausado(idNumero);
 	}
 
-	public JSONNumero obtenerNumeroAtrasado(int idNumero) throws IOException {
+	public JSONNumero obtenerNumeroAtrasado(Integer idNumero) throws Exception {
 		ResponseMaker respMaker = ResponseMaker.getInstance();
 		BusinessNumero numero = this.cola.obtenerNumeroAtrasado(idNumero);
 		return respMaker.numeroAtomResponse(numero);
 	}
 
-	public JSONNumero obtenerNumeroPausado(int idNumero) throws IOException {
+	public JSONNumero obtenerNumeroPausado(Integer idNumero) throws IOException {
 		ResponseMaker respMaker = ResponseMaker.getInstance();
 		BusinessNumero numero = this.cola.obtenerNumeroPausado(idNumero);
 		return respMaker.numeroAtomResponse(numero);

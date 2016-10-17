@@ -3,11 +3,9 @@ package com.sarp.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.json.modeler.JSONNumero;
-import com.sarp.managers.QueuesManager;
 import com.sarp.services.QueueService;
 
 public class QueueController {
@@ -30,7 +28,7 @@ public class QueueController {
 		qServ.borrarColaSector();
 	}
 	
-	public void agregarNumero(String idSector, BusinessNumero numero){
+	public void agregarNumero(String idSector, BusinessNumero numero) throws Exception {
 		//Este metodo agrega un nuevo numero a la cola.
 		QueueService qServ = new QueueService(idSector);
 		qServ.agregarNumero(numero);
@@ -77,27 +75,27 @@ public class QueueController {
 		}
 	}
 
-	public void quitarNumeroDeAtrasados(String idSector, int idNumero){
+	public void quitarNumeroDeAtrasados(String idSector, Integer idNumero){
 		QueueService qServ = new QueueService(idSector);
 		qServ.quitarNumeroDeAtrasados(idNumero);
 	}
 
-	public void quitarNumeroDePausados(String idSector, int idNumero){
+	public void quitarNumeroDePausados(String idSector, Integer idNumero){
 		QueueService qServ = new QueueService(idSector);
 		qServ.quitarNumeroDePausados(idNumero);
 	}
 
-	public JSONNumero obtenerNumeroAtrasado(String idSector, int idNumero) throws IOException{
+	public JSONNumero obtenerNumeroAtrasado(String idSector, Integer idNumero) throws Exception{
 		QueueService qServ = new QueueService(idSector);
 		return qServ.obtenerNumeroAtrasado(idNumero);
 	}
 	
-	public JSONNumero obtenerNumeroPausado(String idSector, int idNumero) throws IOException{
+	public JSONNumero obtenerNumeroPausado(String idSector, Integer idNumero) throws Exception{
 		QueueService qServ = new QueueService(idSector);
 		return qServ.obtenerNumeroPausado(idNumero);
 	}
 	
-	public List<JSONNumero> obtenerTodosLosNumeros(String idSector) throws IOException{
+	public List<JSONNumero> obtenerTodosLosNumeros(String idSector) throws Exception{
 		QueueService qServ = new QueueService(idSector);
 		return qServ.obtenerTodosLosNumeros();
 	}
