@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class UtilService {
 
-	private static final String propertiesPath = UtilService.class.getProtectionDomain().getCodeSource().getLocation().getPath().toString().split("/standalone")[0] + "/modules/conf/sarp.properties";  
+	private static final String propertiesPath = "/home/ubuntu/EAP-6.4.0/modules/conf/sarp.properties";  
 
 	public static Integer getIntegerProperty(String key){    
 		return  Integer.valueOf(getProperty().getProperty(key));
