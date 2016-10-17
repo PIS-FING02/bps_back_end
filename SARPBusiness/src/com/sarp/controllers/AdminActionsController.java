@@ -104,6 +104,11 @@ public class AdminActionsController {
 		AdminService adminService = new AdminService();
 		adminService.asignarTramitePuesto(puestoTramite);
 	}
+	
+	public void desasignarTramitePuesto(JSONPuestoTramite puestoTramite) throws Exception {
+		AdminService adminService = new AdminService();
+		adminService.desasignarTramitePuesto(puestoTramite);
+	}
 
 	/** Alta, Baja & Modificacion Sector **/
 
@@ -116,10 +121,20 @@ public class AdminActionsController {
 		AdminService adminService = new AdminService();
 		adminService.asignarTramiteSector(tramSec.getTramiteId(), tramSec.getSectorId());
 	}
+	
+	public void desasignarTramiteSector(JSONTramiteSector tramSec) throws Exception {
+		AdminService adminService = new AdminService();
+		adminService.desasignarTramiteSector(tramSec.getTramiteId(), tramSec.getSectorId());
+	}
 
 	public void asignarPuestoSector(JSONPuestoSector puestoSec) throws Exception {
 		AdminService adminService = new AdminService();
 		adminService.asignarPuestoSector(puestoSec.getSectorId(), puestoSec.getNombreMaquina());
+	}
+	
+	public void desasignarPuestoSector(JSONPuestoSector puestoSec) throws Exception {
+		AdminService adminService = new AdminService();
+		adminService.desasignarPuestoSector(puestoSec.getSectorId(), puestoSec.getNombreMaquina());
 	}
 
 	public void bajaLogicaSector(String idSector) throws Exception {
@@ -181,6 +196,12 @@ public class AdminActionsController {
 		adminService.asignarSectorDisplay(secDisplay.getSectorId(), secDisplay.getDisplayId());
 	}
 
+	public void desasignarSectorDisplay(JSONSectorDisplay secDisplay) throws Exception {
+		AdminService adminService = new AdminService();
+		adminService.desasignarSectorDisplay(secDisplay.getSectorId(), secDisplay.getDisplayId());
+	}
+
+	
 	public List<JSONTramite> listarTramitesSector(String idSector) {
 
 		AdminService adServ = new AdminService();

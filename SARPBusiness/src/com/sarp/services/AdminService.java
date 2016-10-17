@@ -259,6 +259,12 @@ public class AdminService {
 		sectorCtrl.asociarSectorPuesto(sector, puesto);
 	}
 	
+	public void desasignarPuestoSector(String sector, String puesto) throws Exception {
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		sectorCtrl.desasociarSectorPuesto(sector, puesto);
+	}
+	
 	public void asignarTramitePuesto(JSONPuestoTramite puestoTramite) throws Exception {
 		if (puestoTramite.getNombreMaquina() != null) {
 			if (puestoTramite.getTramiteId() != null){
@@ -296,13 +302,32 @@ public class AdminService {
 			throw new Exception("Debe seleccionar un puesto");
 		}
 	}
+	
+	public void desasignarTramitePuesto(JSONPuestoTramite puestoTramite) throws Exception {
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOTramiteController tramiteCtrl = factory.getDAOTramiteController();
+		tramiteCtrl.desasociarTramitePuesto(puestoTramite.getTramiteId(),puestoTramite.getNombreMaquina());
+	}
 		
 	public void asignarSectorDisplay(String sector, String display) throws Exception {
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 		sectorCtrl.asociarDisplaySector(sector, display);
 	}
+	
+	/************ ASIGNACIONES ************/
+	
+	public void desasignarTramiteSector(Integer idTramite, String idSector) throws Exception {
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		sectorCtrl.desasociarTramiteSector(idTramite, idSector);
+	}
 
+	public void desasignarSectorDisplay(String sector, String display) throws Exception {
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController sectorCtrl = factory.getDAOSectorController();
+		sectorCtrl.desasociarDisplaySector(sector, display);
+	}
 	/************ LISTAR ***********/
 	 
 	 public List<JSONTramite> listarTramitesPuesto(String nombreMaquina) {
