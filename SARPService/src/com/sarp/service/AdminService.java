@@ -412,7 +412,83 @@ public class AdminService {
 		
     }
 	
+	/************************** DESASIGNACIONES *****************************/
 	
+	@DELETE
+	@Path("/desasignarSectorDisplay")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String desasignarSectorDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONSectorDisplay secDisp) {
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if(userRol.equals("Administrador")){
+			try{
+				ctrl.desasignarSectorDisplay(secDisp);
+				return "Se desasigno el display: "+secDisp.getDisplayId()+" del sector "+secDisp.getSectorId();
+			}catch(Exception e){
+				throw new InternalServerErrorException("Error al desasignar Display a Sector: " + e.getMessage());
+			}
+		}else{
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+		
+    }
+	
+	@DELETE
+  	@Path("/desasignarTramiteSector")
+	
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String desasignarTramiteSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramiteSector tramiteSector){	
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(userRol.equals("ResponsableSector")){
+  			try{
+  				ctrl.desasignarTramiteSector(tramiteSector);
+  				return "Se desasigno el tramite: "+tramiteSector.getTramiteId().toString()+"del sector"+tramiteSector.getSectorId();
+  			}catch(Exception e){
+  				throw new InternalServerErrorException("Error al desasignar puesto a tramite: " + e.getMessage());
+  			}
+  		}else{
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
+  		}
+  		
+  	}
+	
+	@DELETE
+  	@Path("/desasignarPuestoSector")/*ok*/
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String desasignarPuestoSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user , JSONPuestoSector puestoSector){	
+  		Factory fac = Factory.getInstance();
+  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		if(userRol.equals("ResponsableSector")){
+  			try{
+  				ctrl.desasignarPuestoSector(puestoSector);
+  				return "Se desasigno el tramite: "+puestoSector.getNombreMaquina()+" del sector "+puestoSector.getSectorId();
+  			}catch(Exception e){
+  				throw new InternalServerErrorException("Error al Asignar Puesto a Sector: " + e.getMessage());
+  			}
+  		}else{
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
+  		}
+  		
+  	}
+	
+	@DELETE
+	@Path("/desasignarTramitePuesto")/*ok*/
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String desasignarTramitePuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuestoTramite puestoTramite){	
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if(userRol.equals("ResponsableSector")){
+			try{
+				ctrl.desasignarTramitePuesto(puestoTramite);
+				return "Se desasigno el tramite "+puestoTramite.getTramiteId()+" del puesto "+puestoTramite.getNombreMaquina();
+			}catch(Exception e){
+				throw new InternalServerErrorException("Error al desasignar el Tramite al puesto: " + e.getMessage());
+			}
+		}else{
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
 	
 	/************************** LISTAR POR *****************************/
 	
