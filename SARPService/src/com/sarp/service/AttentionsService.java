@@ -33,7 +33,7 @@ public class AttentionsService {
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
 				ctrl.abrirPuesto(puesto);
-				return "Puesto "+puesto.getNombreMaquina()+" ha sido abierto con exito";
+				return "OK";
 			}catch(ContextException e){
 				throw new InternalServerErrorException("Error: El puesto ya se encuentra abierto");
 			}catch(Exception e){	
@@ -53,7 +53,7 @@ public class AttentionsService {
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
 				ctrl.cerrarPuesto(puesto);
-				return "Puesto "+puesto.getNombreMaquina()+" ha sido cerrado con exito";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error: El puesto ya se encuentra cerrado");
 			}
@@ -71,7 +71,7 @@ public class AttentionsService {
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
 				ctrl.comenzarAtencion(puesto);
-				return "Puesto "+puesto.getNombreMaquina()+" comenzo atencion satisfactoriamente";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
 			}
@@ -89,7 +89,7 @@ public class AttentionsService {
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
 				ctrl.finalizarAtencion(puesto);
-				return "Puesto "+puesto.getNombreMaquina()+" finalizo atencion satisfactoriamente";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
 			}
