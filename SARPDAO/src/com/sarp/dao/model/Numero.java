@@ -161,5 +161,26 @@ public class Numero implements Serializable {
 	public void setPuesto(Puesto puesto) {
 		this.puesto = puesto;
 	}
+	
+	public Integer getCodigoTramite(){
+		if(this.getTramite() != null){
+			return this.getTramite().getCodigo();
+		}
+		return null;
+	}
+	
+	public String getCodigoSector(){
+		if(this.getSector() != null){
+			return this.getSector().getCodigo();
+		}
+		return null;
+	}
+	
+	public String getNombreMaquinaPuestoActual(){
+		if(this.getPuesto() != null){
+			return this.getPuesto().getNombreMaquina();
+		}
+		return null;
+	}
 
 }
