@@ -57,8 +57,8 @@ public class DAONumeroController {
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
 			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
-			numero.setCodSector(n.getSector().getCodigo());
-			numero.setCodTramite(n.getTramite().getCodigo());
+			numero.setCodSector(n.getCodigoSector());
+			numero.setCodTramite(n.getCodigoTramite());
 			numero.setLastUpdated(n.getLastUpdated());
 			ret.add(numero);
 		}
@@ -71,7 +71,7 @@ public class DAONumeroController {
 		
 		Numero n = numeroRepository.selectNumero(id);
 		em.close();
-		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),n.getTramite().getCodigo(),n.getSector().getCodigo());
+		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),n.getCodigoTramite(),n.getCodigoSector());
 		numero.setLastUpdated(n.getLastUpdated());
 		return numero;
 	}
@@ -143,8 +143,8 @@ public class DAONumeroController {
 		for (Numero n : list){
 			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
 			numero.setLastUpdated(n.getLastUpdated());
-			numero.setCodSector(n.getSector().getCodigo());
-			numero.setCodTramite(n.getTramite().getCodigo());
+			numero.setCodSector(n.getCodigoSector());
+			numero.setCodTramite(n.getCodigoTramite());
 			ret.add(numero);
 		}
 		return ret;
