@@ -113,8 +113,8 @@ public class AttentionsService {
 				}
 				
 			}catch(Exception e){
-				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
-				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
+				
+				throw new InternalServerErrorException("Error: "+e.getMessage());
 			}
 		}else{
 			throw new UnauthorizedException("No tiene permisos suficientes.");
