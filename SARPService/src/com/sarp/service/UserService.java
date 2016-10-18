@@ -44,7 +44,7 @@ public class UserService {
 		AdminActionsController ctrlAdmin = fac.getAdminActionsController();
 		
 		String idPuesto = puesto.getNombreMaquina();
-		String sector = "1";
+		String sector = "0";
 		
 		//PUESTO
 	//	ctrlAdmin.altaPuesto(puesto);
@@ -55,7 +55,7 @@ public class UserService {
 		JSONTramite tram1 = new JSONTramite();
 		tram1.setNombre("TramiteNombrea");
 		//Me aseguro de que haya por lo menos un tramite en la base asi el tramite id 1 funciona
-		Integer tramiteid = 2;
+		Integer tramiteid = 1;
 		
 		//PuestoSector
 		JSONPuestoSector puestoSector = new JSONPuestoSector();
@@ -96,7 +96,7 @@ public class UserService {
 			System.out.println("asignarPuestoSector");
 			//ctrlAdmin.asignarTramiteSector(tramiteSector);
 			System.out.println("asignarTramiteSector");
-			ctrlAdmin.asignarTramitePuesto(puestoTramite);
+			//ctrlAdmin.asignarTramitePuesto(puestoTramite);
 			System.out.println("asignarTramitePuesto");
 			
 			//ctrlAdmin.altaDisplay(display.getIdDisplay());
@@ -105,10 +105,10 @@ public class UserService {
 			System.out.println("asignarSectorDisplay");
 			
 			//REUNICIALIZO COLAS
-			//ctrlAdmin.reinicializarColas();
+			ctrlAdmin.reinicializarColas();
 			
 			//SOLICITO NUMERO
-			//ctrlAttention.solicitarNumero(numero);
+			ctrlAttention.solicitarNumero(numero);
 			
 			//LLAMAR NUMERO
 			//JSONNumero numeroFinal = ctrlAttention.llamarNumero(idPuesto);
@@ -123,7 +123,7 @@ public class UserService {
 			
 			//ctrlAttention.finalizarAtencion(puesto);
 			String a = "sa";
-			List<JSONTramiteSector>  tramitesRecepcion = ctrlAttention.tramitesRecepcion(puesto.getNombreMaquina());
+			//List<JSONTramiteSector>  tramitesRecepcion = ctrlAttention.tramitesRecepcion(puesto.getNombreMaquina());
 			
 	
 			return "OK";

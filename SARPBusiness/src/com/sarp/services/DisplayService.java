@@ -15,6 +15,7 @@ import com.sarp.classes.BusinessDisplay;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.json.modeler.JSONNumero;
+import com.sarp.utils.UtilService;
 
 public class DisplayService {
 
@@ -36,17 +37,21 @@ public class DisplayService {
 			DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
 
 			List<BusinessDisplay> displaysSector = controladorSector.obtenerDisplaysSector(numero.getIdSector());
-			String localPath = "/Users/facevedo/";// .property
+			
+			//Saco el path desde archivo property 
+			String localPath = UtilService.getStringProperty("DISPLAYS_PATH");
 			
 			String hora = numero.getHora();
 			String prioridad;
 			
+			//Me fijo el tipo de prioridad
 			if(numero.getPrioridad() == 1){
 				prioridad = "SAE";
 			}else{
 				prioridad = "ATRIL";
 			}
-
+			
+			//Recorro todos los displays que tiene asociado el sector del numero que quiero mostrar
 			for (BusinessDisplay display : displaysSector) {
 
 				String idDisplay = display.getIdDisplay();
@@ -60,6 +65,7 @@ public class DisplayService {
 					displayFile.createNewFile();
 				}
 				
+				//Se utiliza para bloquear el exceso al archivo .txt evitando que dos escriban al mismo tiempo
 				FileChannel channel = new RandomAccessFile(displayFile, "rw").getChannel();
 				// Use the file channel to create a lock on the file.
 				// This method blocks until it can retrieve the lock.
