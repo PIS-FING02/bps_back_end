@@ -23,7 +23,6 @@ public class DAONumero {
 	}
 	
 	public Numero insertNumero(Tramite tramite, Sector sector, String externalId, GregorianCalendar hora, Integer prioridad, String estado){
-		//Creo la nueva entidad Numero y la asocio con el Tramite
 		Numero n = new Numero();
 		n.setExternalId(externalId);
 		n.setHora(hora);
@@ -42,7 +41,6 @@ public class DAONumero {
 		dc.setNombreCompleto(nombreCompleto);
 		dc.setTipoDoc(tipoDoc);
 		dc.setNumero(numero);
-		//numero.setDatosComplementario(dc);
 		
 		em.persist(dc);
 	}

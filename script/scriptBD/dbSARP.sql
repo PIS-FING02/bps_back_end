@@ -139,14 +139,13 @@ CREATE TABLE public.METRICAS_ESTADO_NUMERO
 
 CREATE TABLE public.METRICAS_PUESTO
 (
-  codigo_puesto int,
-  usuario_atencion int,
-  dia_mes_anio character varying(40),
+  codigo_puesto character varying(40),
+  usuario_atencion character varying(40),
   estado character varying(40),
-  time_spent int,
+  time_spent character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,  
-  CONSTRAINT metricas_puesto_pkey PRIMARY KEY (codigo_puesto, usuario_atencion, dia_mes_anio, estado)
+  CONSTRAINT metricas_puesto_pkey PRIMARY KEY (codigo_puesto, usuario_atencion, date_created, estado)
 );
 
 COMMIT;

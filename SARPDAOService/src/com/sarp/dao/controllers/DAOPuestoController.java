@@ -143,6 +143,12 @@ public class DAOPuestoController {
 			throw new RollbackException("El numero actual del puesto " + nombreMaquina + " ya es el numero con id " + codigoNumero);
 		}
 		em.getTransaction().begin();
+		if(n.getPuesto() != null){
+			numeroRepository.desasociarNumeroPuestoActual(n, n.getPuesto());
+		}
+		if(p.getNumero_puesto() != null){
+			numeroRepository.desasociarNumeroPuestoActual(p.getNumero_puesto(), p);
+		}
 		numeroRepository.asociarNumeroPuestoActual(n, p);
 		em.getTransaction().commit();
 		em.close();

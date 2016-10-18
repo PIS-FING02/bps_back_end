@@ -174,11 +174,21 @@ public class PuestoTest {
    @Test()
    public void testAsociarNumeroActualPuesto() throws Exception{
 	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest4", 3);
-	   BusinessNumero n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest2");
+	   BusinessNumero n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest4");
 	   assertEquals(n.getInternalId() == 3, true);
 	   ctrlPuesto.desasociarNumeroPuestoActual("nombremaquinatest4");
 	   n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest4");
 	   assertEquals(n, null);   
+   }
+   
+   @Test()
+   public void testAsociarNumeroActualPuesto2() throws Exception{
+	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest4", 3);
+	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest3", 3);
+	   BusinessNumero n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest4");
+	   assertEquals(n, null);
+	   n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest3");
+	   assertEquals(n.getInternalId() == 3, true);   
    }
    
    @Test(expected=RollbackException.class)
