@@ -124,7 +124,7 @@ public class AttentionsService {
 
 	@GET
 	@Path("/tramitesRecepcion")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONTramiteSector> tramitesRecepcion(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String codigoMaquina){
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();
