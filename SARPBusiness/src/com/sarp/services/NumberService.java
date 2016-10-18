@@ -19,8 +19,8 @@ import com.sarp.utils.UtilService;
 
 public class NumberService {
 
-	private int horaCargarBatch; //UtilService.getIntegerProperty("COLA_HORA_CARGAR_BATCH");
-	private int minCargarBatch; //UtilService.getIntegerProperty("COLA_MINUTOS_CARGAR_BATCH");
+	private int horaCargarBatch = UtilService.getIntegerProperty("COLA_HORA_CARGAR_BATCH");
+	private int minCargarBatch = UtilService.getIntegerProperty("COLA_MINUTOS_CARGAR_BATCH");
 
 	public String solicitarNumero(JSONNumero num) throws Exception {
 		RequestMaker reqMaker = RequestMaker.getInstance();
@@ -44,9 +44,9 @@ public class NumberService {
 		numero = controladorNumero.obtenerNumero(id);
 
 		// se agrega a la cola el numero solicitado
-		this.horaCargarBatch = 0; // esto en un futuro se reemplaza por el
+		//this.horaCargarBatch = 0; // esto en un futuro se reemplaza por el
 									// config.properties horaCargarBatch
-		this.minCargarBatch = 30; // idem
+		//this.minCargarBatch = 30; // idem 
 		boolean loAgrego = false;
 		if (numero.getPrioridad() == 2) {
 			// Si el numero que esta entrando al sistema, tiene prioridad 2 (o
