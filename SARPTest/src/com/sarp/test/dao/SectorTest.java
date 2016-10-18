@@ -60,6 +60,7 @@ public class SectorTest {
 	   BusinessSector s = new BusinessSector();
 	   s.setSectorId("idsectortest0"); //id repetido
 	   ctrlSector.crearSector(s);
+
    }
     
    @Test
