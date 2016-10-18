@@ -43,12 +43,10 @@ public class DAOTramite {
 		return new ArrayList<Tramite>(em.createQuery("select t from Tramite t").getResultList());
 	}
 	
-	
-
 	public void deleteTramite(int codigo) throws RollbackException {		
 		Tramite t = selectTramite(codigo);
 		for (Numero n: t.getNumeros()){
-            n.setSector(null);
+            n.setTramite(null);
         }
     	em.remove(t);
 	}
