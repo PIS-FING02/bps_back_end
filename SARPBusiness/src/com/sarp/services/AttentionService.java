@@ -20,7 +20,7 @@ import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.managers.QueuesManager;
-import com.sarp.service.response.maker.RequestMaker;
+
 
 public class AttentionService {
 
