@@ -256,16 +256,17 @@ public class AttentionService {
 		if (puestoSend.getEstado() == EstadoPuesto.ATENDIENDO) {
 			// Traigo el numero que se esta atendiendo desde la base
 			BusinessNumero numeroActual = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
-
+			
 			//se pausa el numero
 			Factory fac = Factory.getInstance();
 			QueueController ctrl = fac.getQueueController();
 			ctrl.transferirAColaPausados(numeroActual.getCodSector(), numeroActual);
-
+			numeroActual.setEstado("PAUSADO");
+			
 			// Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
-			// falta esto igual q caso atrasar
-			// controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
+
+			controladorPuesto.desasociarNumeroPuesto(puestoSend.getNombreMaquina(), numeroActual.getInternalId());
 			controladorPuesto.modificarPuesto(puestoSend);
 		} else {
 			throw new ContextException("El puesto no se encuentra en estado ATENDIENDO");
