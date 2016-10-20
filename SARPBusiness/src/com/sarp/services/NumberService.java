@@ -19,8 +19,8 @@ import com.sarp.utils.UtilService;
 
 public class NumberService {
 
-	private int horaCargarBatch = UtilService.getIntegerProperty("COLA_HORA_CARGAR_BATCH");
-	private int minCargarBatch = UtilService.getIntegerProperty("COLA_MINUTOS_CARGAR_BATCH");
+	private int horaCargarBatch = 7;//UtilService.getIntegerProperty("COLA_HORA_CARGAR_BATCH");
+	private int minCargarBatch = 0;//UtilService.getIntegerProperty("COLA_MINUTOS_CARGAR_BATCH");
 
 	public String solicitarNumero(JSONNumero num) throws Exception {
 		RequestMaker reqMaker = RequestMaker.getInstance();

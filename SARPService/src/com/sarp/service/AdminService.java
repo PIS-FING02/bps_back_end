@@ -3,7 +3,6 @@ package com.sarp.service;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Qualifier;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,22 +12,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
-import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
-
-import com.sarp.classes.BusinessPuesto;
-import com.sarp.classes.BusinessSector;
-import com.sarp.classes.BusinessTramite;
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.controllers.AdminActionsController;
-import com.sarp.dao.controllers.DAOSectorController;
-import com.sarp.dao.controllers.DAOTramiteController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONPuesto;
@@ -38,7 +28,6 @@ import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
 import com.sarp.json.modeler.JSONTramiteSector;
-import com.sun.mail.iap.Response;
 
 @RequestScoped
 @Path("/adminService")

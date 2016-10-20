@@ -103,7 +103,7 @@ public class AttentionService {
 
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-
+		
 		// Traigo el puesto desde la base
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto);
 		if (puestoSend.getEstado() == EstadoPuesto.DISPONIBLE) {
@@ -226,19 +226,18 @@ public class AttentionService {
 		if (puestoSend.getEstado() == EstadoPuesto.LLAMANDO) {
 			// Traigo el numero que se esta atendiendo desde la base
 			BusinessNumero numeroActual = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
-			QueuesManager managerQueues = QueuesManager.getInstance();
-
-			// Pido el manejador de la cola del sector
-			BusinessSectorQueue colaSector = managerQueues.obtenerColaSector(numeroActual.getCodSector());
-
-			// Atraso el numero
-			colaSector.agregarNumeroAtrasado(numeroActual);
-
+			
+			//se atrasa el numero
+			Factory fac = Factory.getInstance();
+			QueueController ctrl = fac.getQueueController();
+			ctrl.transferirAColaAtrasados(numeroActual.getCodSector(), numeroActual);
+			numeroActual.setEstado("ATRASADO");
+			
 			// Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
+			
 			controladorPuesto.modificarPuesto(puestoSend);
-			// falta crear la operacion siguiente q desasocia el nro del puesto
-			// controladorPuesto.removerNumeroActual(puestoSend.getNombreMaquina());
+			controladorPuesto.desasociarNumeroPuesto(puestoSend.getNombreMaquina(), numeroActual.getInternalId());
 
 		} else {
 			throw new ContextException("El puesto no se encuentra en estado LLAMANDO");
@@ -266,8 +265,8 @@ public class AttentionService {
 			// Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
 
-			controladorPuesto.desasociarNumeroPuesto(puestoSend.getNombreMaquina(), numeroActual.getInternalId());
 			controladorPuesto.modificarPuesto(puestoSend);
+			controladorPuesto.desasociarNumeroPuesto(puestoSend.getNombreMaquina(), numeroActual.getInternalId());
 		} else {
 			throw new ContextException("El puesto no se encuentra en estado ATENDIENDO");
 		}

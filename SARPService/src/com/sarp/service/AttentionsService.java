@@ -27,10 +27,10 @@ public class AttentionsService {
 	@Path("/abrirPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String abrirPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
 				ctrl.abrirPuesto(puesto);
 				return "OK";
 			}catch(ContextException e){
@@ -65,10 +65,10 @@ public class AttentionsService {
 	@Path("/comenzarAtencion")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String comenzarAtencion(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
 				ctrl.comenzarAtencion(puesto);
 				return "OK";
 			}catch(Exception e){
@@ -101,19 +101,17 @@ public class AttentionsService {
 	@Path("/llamarNumero")
 	@Produces(MediaType.APPLICATION_JSON)
 	public JSONNumero llamarNumero(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String puesto){
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
 				JSONNumero num = ctrl.llamarNumero(puesto);
 				if(num != null){
 					return num;
 				}else{
 					throw new NotFoundException("No hay numero disponible en este momento");
 				}
-				
 			}catch(Exception e){
-				
 				throw new InternalServerErrorException("Error: "+e.getMessage());
 			}
 		}else{
@@ -141,24 +139,25 @@ public class AttentionsService {
 		}
 	}
 
-	/*@PUT
+	@PUT
 	@Path("/atrasarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String atrasarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
-				JSONNumero num = null;//ctrl.atrasarNumero(puesto);				
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
+				ctrl.atrasarNumero(puesto);	
+				return "OK";
 			}catch(Exception e){
 				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
-				throw new BadRequestException("Error: El puesto no se encuentra en un estado correcto");
+				throw new InternalServerErrorException("No se pudo atrasar el numero "+e.getMessage());
 			}
 		}else{
-			throw new BadRequestException("No tiene permisos suficientes.");
+			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
-	*/
+	
 	
 	@PUT
 	@Path("/pausarNumero")
@@ -169,7 +168,7 @@ public class AttentionsService {
 			AttentionsController ctrl = fac.getAttentionsController();
 			try{
 				ctrl.pausarNumero(puesto);
-				return "El numero fue pausado correctamente";
+				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("No se pudo pausar el numero "+e.getMessage());
 			}
