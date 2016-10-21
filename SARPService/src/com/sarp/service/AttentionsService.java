@@ -216,6 +216,24 @@ public class AttentionsService {
 		}
 	}
 	
+	@GET
+	@Path("/llamarAtrasado")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONNumero LlamarNumeroAtrasado(@HeaderParam("user-rol") String userRol,  @HeaderParam("idNumero") Integer idNumero, @HeaderParam("idPuesto") String idPuesto) {
+		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+			try {
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
+				JSONNumero num = ctrl.llamarNumeroAtrasado(idNumero, idPuesto);
+				return num;
+			} catch (Exception e) {
+				throw new InternalServerErrorException("Error al soliticar numero atrasado: "+e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
 	
 	
 }
