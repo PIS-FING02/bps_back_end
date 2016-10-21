@@ -11,6 +11,7 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.controllers.QueueController;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
+import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
@@ -97,6 +98,17 @@ public class NumberService {
 		return listaNumeros;
 	}
 	
+	public List<JSONNumero> listarNumerosPausadosSector(String idSector) throws Exception {
+
+		DAOServiceFactory daoFac = DAOServiceFactory.getInstance();
+		DAOSectorController daoCtrl = daoFac.getDAOSectorController();
+		List<BusinessTramite> listaTramites = daoCtrl.obtenerTramitesSector(idSector);
+		Factory fac = Factory.getInstance();
+		QueueController ctrl = fac.getQueueController();
+		return ctrl.listarPausados(idSector, listaTramites);
+	}
+	
+	
 	public List<JSONNumero> listarNumerosAtrasados(String idPuesto) throws Exception {
 
 		DAOServiceFactory daoFac = DAOServiceFactory.getInstance();
@@ -111,6 +123,15 @@ public class NumberService {
 			listaNumeros.addAll(numeros);
 		}
 		return listaNumeros;
+	}
+	
+	public List<JSONNumero> listarNumerosAtrasadosSector(String idSector) throws Exception {
+		DAOServiceFactory daoFac = DAOServiceFactory.getInstance();
+		DAOSectorController daoCtrl = daoFac.getDAOSectorController();
+		List<BusinessTramite> listaTramites = daoCtrl.obtenerTramitesSector(idSector);
+		Factory fac = Factory.getInstance();
+		QueueController ctrl = fac.getQueueController();
+		return ctrl.listarAtrasados(idSector, listaTramites);
 	}
 	
 	public List<JSONNumero> listarNumerosEnEspera(String idPuesto) throws Exception {

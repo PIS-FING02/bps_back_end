@@ -237,7 +237,7 @@ public class AttentionService {
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
 			
 			controladorPuesto.modificarPuesto(puestoSend);
-			controladorPuesto.desasociarNumeroPuesto(puestoSend.getNombreMaquina(), numeroActual.getInternalId());
+			controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
 
 		} else {
 			throw new ContextException("El puesto no se encuentra en estado LLAMANDO");
@@ -266,7 +266,7 @@ public class AttentionService {
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
 
 			controladorPuesto.modificarPuesto(puestoSend);
-			controladorPuesto.desasociarNumeroPuesto(puestoSend.getNombreMaquina(), numeroActual.getInternalId());
+			controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
 		} else {
 			throw new ContextException("El puesto no se encuentra en estado ATENDIENDO");
 		}

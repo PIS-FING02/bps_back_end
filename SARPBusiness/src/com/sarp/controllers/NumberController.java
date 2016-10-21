@@ -17,9 +17,19 @@ public class NumberController {
 		return serv.listarNumerosPausados(idPuesto);
 	}
 	
+	public List<JSONNumero> listarNumerosPausadosSector(String idSector) throws Exception {
+		NumberService serv = new NumberService();
+		return serv.listarNumerosPausadosSector(idSector);
+	}
+	
 	public List<JSONNumero> listarNumerosAtrasados(String idPuesto) throws Exception {
 		NumberService serv = new NumberService();
 		return serv.listarNumerosAtrasados(idPuesto);
+	}
+	
+	public List<JSONNumero> listarNumerosAtrasadosSector(String idSector) throws Exception {
+		NumberService serv = new NumberService();
+		return serv.listarNumerosAtrasadosSector(idSector);
 	}
 	
 	public List<JSONNumero> listarNumerosEnEspera(String idPuesto) throws Exception {
