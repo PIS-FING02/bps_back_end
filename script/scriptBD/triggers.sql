@@ -61,7 +61,7 @@ DECLARE
 		UPDATE metricas_numero SET
 			external_id = NEW.external_id,
 			usuario_atencion = usuario,
-			resultado_final = NEW.resultado_final,
+			resultado_final = NEW.resultado_final
 			WHERE internal_id = NEW.internal_id;
 		RETURN NULL;
     END;	

@@ -34,7 +34,7 @@ public class DAONumeroController {
 		Sector s = sectorRepository.selectSector(sector);
 		if(t.getSectors().contains(s)){
 			em.getTransaction().begin();
-			Numero n = numeroRepository.insertNumero(t, s, numero.getExternalId(), numero.getHora(), numero.getPrioridad(), numero.getEstado());
+			Numero n = numeroRepository.insertNumero(t, s, numero.getExternalId(), numero.getHora(), numero.getPrioridad());
 			if(dc != null){
 				numeroRepository.insertDatoComplementario(n, dc.getDocIdentidad(),dc.getNombreCompleto(),dc.getTipoDoc());
 			}
