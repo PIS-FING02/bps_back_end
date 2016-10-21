@@ -14,10 +14,10 @@ public class BusinessSectorQueue {
 	private LinkedList<BusinessNumero> colaPrioridad2;
 	private LinkedList<BusinessNumero> atrasados;
 	private LinkedList<BusinessNumero> pausados;
-	private final String idSector;
+	// private final String idSector;
 
 	public BusinessSectorQueue(String idSec) {
-		this.idSector = idSec;
+		// this.idSector = idSec;
 		this.colaPrioridad1 = new LinkedList<BusinessNumero>();
 		this.colaPrioridad2 = new LinkedList<BusinessNumero>();
 		this.atrasados = new LinkedList<BusinessNumero>();
@@ -165,8 +165,10 @@ public class BusinessSectorQueue {
 		 * e) { e.printStackTrace(); }
 		 */
 
-		Integer tiempoProperties = 20;
-		numero.getHora().add(Calendar.MINUTE, tiempoProperties);
+		Integer tiempoProperties = 2;
+		GregorianCalendar horaActual = new GregorianCalendar();
+		horaActual.add(Calendar.MINUTE, tiempoProperties);
+		numero.setHora(horaActual);
 		this.atrasados.addLast(numero);
 	}
 
