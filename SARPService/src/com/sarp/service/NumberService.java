@@ -58,7 +58,7 @@ public class NumberService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosPausados(@HeaderParam("user-rol") String userRol,
 			@QueryParam("idPuesto") String idPuesto) {
-		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+		if (userRol.equals("Operador") || userRol.equals("OperadorSenior") || userRol.equals("Consultor") || userRol.equals("ResponsableSector")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
