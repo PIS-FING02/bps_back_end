@@ -112,6 +112,12 @@ public class QueueService {
 		BusinessNumero numero = this.cola.obtenerNumeroPausado(idNumero);
 		return respMaker.numeroAtomResponse(numero);
 	}
+	
+	public JSONNumero obtenerNumeroDemanda(Integer idNumero) throws IOException {
+		ResponseMaker respMaker = ResponseMaker.getInstance();
+		BusinessNumero numero = this.cola.obtenerNumeroDemanda(idNumero);
+		return respMaker.numeroAtomResponse(numero);
+	}
 
 	/**** listar numeros *******/
 	public List<JSONNumero> obtenerTodosLosNumeros() throws IOException {
