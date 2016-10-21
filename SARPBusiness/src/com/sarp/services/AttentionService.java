@@ -293,5 +293,16 @@ public class AttentionService {
 		ctrlPuesto.asociarNumeroPuestoActual(idPuesto, idNumero);
 		return ctrlQueue.obtenerNumeroAtrasado(num.getCodSector(), idNumero);
 	}
+	
+	public JSONNumero llamarNumeroDemanda(Integer idNumero, String idPuesto) throws Exception {
+		DAOServiceFactory fac = DAOServiceFactory.getInstance();
+		DAONumeroController ctrlNumero = fac.getDAONumeroController();
+		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
+		Factory facBusiness = Factory.getInstance();
+		QueueController ctrlQueue = facBusiness.getQueueController();
+		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
+		ctrlPuesto.asociarNumeroPuestoActual(idPuesto, idNumero);
+		return ctrlQueue.obtenerNumeroDemanda(num.getCodSector(), idNumero);
+	}
 
 }

@@ -80,5 +80,9 @@ public class AttentionsController {
 		return attentionService.llamarNumeroAtrasado(idNumero, idPuesto);
 	}
 	
+	public JSONNumero llamarNumeroDemanda(Integer idNumero, String idPuesto) throws Exception{
+		AttentionService attentionService = new AttentionService();
+		return attentionService.llamarNumeroDemanda(idNumero, idPuesto);
+	}
 
 }

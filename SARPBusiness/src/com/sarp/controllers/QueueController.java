@@ -100,6 +100,11 @@ public class QueueController {
 		return qServ.obtenerNumeroPausado(idNumero);
 	}
 	
+	public JSONNumero obtenerNumeroDemanda(String idSector, Integer idNumero) throws Exception{
+		QueueService qServ = new QueueService(idSector);
+		return qServ.obtenerNumeroDemanda(idNumero);
+	}
+	
 	public List<JSONNumero> obtenerTodosLosNumeros(String idSector) throws Exception{
 		QueueService qServ = new QueueService(idSector);
 		return qServ.obtenerTodosLosNumeros();

@@ -241,6 +241,30 @@ public class BusinessSectorQueue {
 		}
 		throw new IOException("No existe un numero pausado con el id :" + idNumero);
 	}
+	
+	public synchronized BusinessNumero obtenerNumeroDemanda(Integer idNumero) throws IOException {
+		if (!this.colaPrioridad1.isEmpty()) {
+			ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
+			while (it.hasNext()) {
+				BusinessNumero numero = it.next();
+				if(numero.getInternalId().intValue() == idNumero.intValue()){
+					this.colaPrioridad1.remove(numero);
+					return numero;
+				}
+			} // - end while
+		}
+		if (!this.colaPrioridad2.isEmpty()) {
+			ListIterator<BusinessNumero> it = this.colaPrioridad2.listIterator();
+			while (it.hasNext()) {
+				BusinessNumero numero = it.next();
+				if(numero.getInternalId().intValue() == idNumero.intValue()){
+					this.colaPrioridad2.remove(numero);
+					return numero;
+				}
+			}
+		}
+		throw new IOException("No existe un numero con el id :" + idNumero);
+	}
 
 	public synchronized List<BusinessNumero> obtenerListaEnEspera(List<BusinessTramite> tramites) {
 		List<BusinessNumero> enEspera = new ArrayList<BusinessNumero>();

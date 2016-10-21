@@ -365,7 +365,8 @@ public class AdminService {
 	@POST
   	@Path("/asignarPuestoSector")/*ok*/
   	@Consumes(MediaType.APPLICATION_JSON)
-  	public String asignarPuestoSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user , JSONPuestoSector puestoSector){	
+  	public String asignarPuestoSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
+  			JSONPuestoSector puestoSector){	
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("ResponsableSector")){
