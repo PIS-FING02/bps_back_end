@@ -27,7 +27,7 @@ public class AttentionsService {
 	@Path("/abrirPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String abrirPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+		if(userRol.equals("Operador") || userRol.equals("OperadorSenior")){
 			try{
 				Factory fac = Factory.getInstance();
 				AttentionsController ctrl = fac.getAttentionsController();
@@ -49,7 +49,7 @@ public class AttentionsService {
 	public String cerrarPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();
-		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+		if(userRol.equals("Operador") || userRol.equals("OperadorSenior")){
 			try{
 				ctrl.cerrarPuesto(puesto);
 				return "OK";
@@ -65,7 +65,7 @@ public class AttentionsService {
 	@Path("/comenzarAtencion")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String comenzarAtencion(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+		if(userRol.equals("Operador") || userRol.equals("OperadorSenior")){
 			try{
 				Factory fac = Factory.getInstance();
 				AttentionsController ctrl = fac.getAttentionsController();
@@ -101,7 +101,7 @@ public class AttentionsService {
 	@Path("/llamarNumero")
 	@Produces(MediaType.APPLICATION_JSON)
 	public JSONNumero llamarNumero(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String puesto){
-		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+		if(userRol.equals("Operador") || userRol.equals("OperadorSenior")){
 			try{
 				Factory fac = Factory.getInstance();
 				AttentionsController ctrl = fac.getAttentionsController();
@@ -126,7 +126,7 @@ public class AttentionsService {
 	public List<JSONTramiteSector> tramitesRecepcion(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String codigoMaquina){
 		Factory fac = Factory.getInstance();
 		AttentionsController ctrl = fac.getAttentionsController();
-		if(userRol.equals("Recepcion")){
+		if(userRol.equals("Recepcionista")){
 			try{
 				List<JSONTramiteSector> tramitesRecepcion =  ctrl.tramitesRecepcion(codigoMaquina);
 				return tramitesRecepcion;
@@ -143,7 +143,7 @@ public class AttentionsService {
 	@Path("/atrasarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String atrasarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+		if(userRol.equals("Operador") || userRol.equals("OperadorSenior")){
 			try{
 				Factory fac = Factory.getInstance();
 				AttentionsController ctrl = fac.getAttentionsController();
@@ -162,7 +162,7 @@ public class AttentionsService {
 	@Path("/pausarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String pausarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
+		if(userRol.equals("Operador") || userRol.equals("OperadorSenior")){
 			Factory fac = Factory.getInstance();
 			AttentionsController ctrl = fac.getAttentionsController();
 			try{
@@ -220,7 +220,9 @@ public class AttentionsService {
 	@GET
 	@Path("/llamarAtrasado")
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONNumero LlamarNumeroAtrasado(@HeaderParam("user-rol") String userRol,  @HeaderParam("idNumero") Integer idNumero, @HeaderParam("idPuesto") String idPuesto) {
+	public JSONNumero LlamarNumeroAtrasado(@HeaderParam("user-rol") String userRol,  
+			@HeaderParam("idNumero") Integer idNumero, 
+			@HeaderParam("idPuesto") String idPuesto) {
 		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
 			try {
 				Factory fac = Factory.getInstance();
@@ -234,7 +236,5 @@ public class AttentionsService {
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
-	
-	
 	
 }

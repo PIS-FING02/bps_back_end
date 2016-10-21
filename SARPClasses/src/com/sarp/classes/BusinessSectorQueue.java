@@ -63,7 +63,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.colaPrioridad1.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
-			if (numero.getInternalId() == idNumero) {
+			if (numero.getInternalId().intValue() == idNumero.intValue()) {
 				this.colaPrioridad1.remove(numero);
 				return;
 			}
@@ -71,7 +71,7 @@ public class BusinessSectorQueue {
 		it = this.colaPrioridad2.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
-			if (numero.getInternalId() == idNumero) {
+			if (numero.getInternalId().intValue() == idNumero.intValue()) {
 				this.colaPrioridad2.remove(numero);
 				return;
 			}
@@ -139,7 +139,7 @@ public class BusinessSectorQueue {
 
 	private boolean puedeAtenderNumero(List<BusinessTramite> listaTramites, BusinessNumero nro) {
 		for (BusinessTramite t : listaTramites) {
-			if (t.getCodigo() == nro.getCodTramite())
+			if (t.getCodigo().intValue() == nro.getCodTramite().intValue())
 				return true;
 		}
 		return false;
@@ -176,7 +176,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.atrasados.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
-			if (numero.getInternalId() == idNumero) {
+			if (numero.getInternalId().intValue() == idNumero.intValue()) {
 				this.atrasados.remove(numero);
 				break;
 			}
@@ -196,7 +196,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.atrasados.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
-			if (numero.getInternalId() == idNumero) {
+			if (numero.getInternalId().intValue() == idNumero.intValue()) {
 				this.atrasados.remove(numero);
 				return numero;
 			}
@@ -214,7 +214,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.pausados.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
-			if (numero.getInternalId() == idNumero) {
+			if (numero.getInternalId().intValue() == idNumero.intValue()) {
 				this.pausados.remove(numero);
 				break;
 			}
@@ -234,7 +234,7 @@ public class BusinessSectorQueue {
 		ListIterator<BusinessNumero> it = this.pausados.listIterator();
 		while (it.hasNext()) {
 			BusinessNumero numero = it.next();
-			if (numero.getInternalId() == idNumero) {
+			if (numero.getInternalId().intValue() == idNumero.intValue()) {
 				this.pausados.remove(numero);
 				return numero;
 			}
