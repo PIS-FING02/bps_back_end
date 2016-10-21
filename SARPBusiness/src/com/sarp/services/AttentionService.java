@@ -69,7 +69,7 @@ public class AttentionService {
 				puestoSend.setEstado(EstadoPuesto.ATENDIENDO);
 				// Se delega a DaoService
 				controladorPuesto.modificarPuesto(puestoSend);
-
+				
 			} else {
 				throw new ContextException("PuestoSinNumeroAsignado");
 			}

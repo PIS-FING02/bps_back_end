@@ -121,8 +121,8 @@ public class DAONumero {
 	}
 
 	public void desasociarNumeroPuesto(Numero numero, Puesto puesto) {
-		numero.getPuestos().remove(puesto);
-		puesto.getNumeros().remove(numero);
+		numero.setPuesto(null); // cambio pancho-guzman
+		puesto.setNumero_puesto(null); // cambio pancho-guzman
 		
 		em.persist(puesto);	
 		em.persist(numero);

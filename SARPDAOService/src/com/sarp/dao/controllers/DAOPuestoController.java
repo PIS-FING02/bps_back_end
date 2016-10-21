@@ -121,7 +121,8 @@ public class DAOPuestoController {
 
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		Numero n = numeroRepository.selectNumero(codigoNumero);
-		if(!n.getPuestos().contains(p)){
+		
+		if(!n.getPuesto().equals(p)){
 			em.close();
 			throw new RollbackException("El puesto de " + nombreMaquina + " y el numero " + codigoNumero + " no estan asociados");
 		}
