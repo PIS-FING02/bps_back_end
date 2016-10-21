@@ -39,8 +39,9 @@ CREATE TABLE public.NUMERO
   puesto_asignado character varying(40), -- relacion ONETOONE entre NUMERO y PUESTO
   external_id character varying(40),
   hora timestamp,
-  estado character varying(40),
+  estado character varying(40) default 'PENDIENTE',
   prioridad int,
+  resultado_final character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,  
   CONSTRAINT numero_pkey PRIMARY KEY (internal_id)
@@ -52,7 +53,7 @@ CREATE TABLE public.PUESTO
   nombre_maquina character varying(40),
   numero int,
   numero_puesto int references NUMERO(internal_id), -- relacion ONETOONE entre PUESTO y NUMERO
-  estado character varying(40),
+  estado character varying(40) default 'CERRADO',
   usuario_id character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,
@@ -116,11 +117,11 @@ CREATE TABLE public.PUESTO_TRAMITE
 CREATE TABLE public.METRICAS_NUMERO
 (
   internal_id int,
-  external_id int,
-  estado character varying(40),
+  external_id character varying(40),
+  estado character varying(40) default 'PENDIENTE',
   codigo_tramite int,
   ruta_sector character varying(40),
-  usuario_atencion int,
+  usuario_atencion character varying(40),
   resultado_final character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,  
@@ -129,23 +130,23 @@ CREATE TABLE public.METRICAS_NUMERO
 
 CREATE TABLE public.METRICAS_ESTADO_NUMERO
 (
-  estado character varying(40),
-  numero_internal_id int,
-  time_spent int,
+  internal_id int,
+  estado character varying(40) default 'PENDIENTE',  
+  time_spent character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,  
-  CONSTRAINT metricas_estado_numero_pkey PRIMARY KEY (estado, numero_internal_id)
+  CONSTRAINT metricas_estado_numero_pkey PRIMARY KEY (internal_id, estado,date_created)
 );
 
 CREATE TABLE public.METRICAS_PUESTO
 (
-  codigo_puesto character varying(40),
-  usuario_atencion character varying(40),
-  estado character varying(40),
+  nombre_maquina character varying(40),
+  usuario_atencion character varying(40) default '-',
+  estado character varying(40) default 'CERRADO',
   time_spent character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,  
-  CONSTRAINT metricas_puesto_pkey PRIMARY KEY (codigo_puesto, usuario_atencion, date_created, estado)
+  CONSTRAINT metricas_puesto_pkey PRIMARY KEY (nombre_maquina, usuario_atencion,estado, date_created)
 );
 
 COMMIT;
