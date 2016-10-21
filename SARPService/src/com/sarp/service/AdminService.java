@@ -98,7 +98,6 @@ public class AdminService {
   	@Path("/listarPuestos")
       @Produces(MediaType.APPLICATION_JSON)
       public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
-  		System.out.println("entro a listar");
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals( "ResponsableSector")){
@@ -485,8 +484,9 @@ public class AdminService {
   	  @GET
   	  @Path("/listarPuestosSector")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @QueryParam("sectorId") String idSector) {
-  		System.out.println("entro a listar por sector");
+      public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
+    		  @QueryParam("sectorId") String idSector) {
+  		
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals( "ResponsableSector")){
@@ -505,7 +505,8 @@ public class AdminService {
   	  @GET
   	  @Path("/listarTramitesSector")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<JSONTramite> listarTramitesSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @QueryParam("sectorId") String idSector) {
+      public List<JSONTramite> listarTramitesSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
+    		  @QueryParam("sectorId") String idSector) {
   		System.out.println("entro a listar por sector");
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
@@ -525,7 +526,8 @@ public class AdminService {
   	@GET
 	@Path("/listarTramitesPuesto")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<JSONTramite> listarTramitesPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("nombreMaquina") String NombreMaquina ) {
+    public List<JSONTramite> listarTramitesPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,
+    		@QueryParam("nombreMaquina") String NombreMaquina ) {
 		System.out.println("entro a listar");
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
