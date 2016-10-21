@@ -1,7 +1,11 @@
 package com.sarp.dao.controllers;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 
@@ -126,6 +130,26 @@ public class DAOSectorController {
 		}
 		em.getTransaction().begin();
 		sectorRepository.desasociarSectorPuesto(s,p);
+		
+		//TODO: sacarle al puesto los tramites que no deba tener
+		List<Tramite> tramitesDelPuesto = p.getTramites();
+		List<Tramite> tramitesQuedan = new LinkedList<Tramite>(); //Los tramites que deben sacarse del puesto
+		List<Sector> sectoresDelPuesto = p.getSectors();
+		for(Tramite t : tramitesDelPuesto){
+			boolean queda = false;
+			for(Sector se : sectoresDelPuesto){
+				if(se.getTramites().contains(t)){
+					queda = true;
+					break;
+				}
+			}
+			if(queda){
+				tramitesQuedan.add(t);
+			}
+		}
+		p.setTramites(tramitesQuedan);
+		
+		
 		em.getTransaction().commit();
 		em.close();
 	}

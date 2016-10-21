@@ -51,6 +51,9 @@ public class DAOPuesto {
 		Puesto p = selectPuesto(nombreMaquina);
 		p.setEstado(estado);
 		p.setNumero(numero);
+		if(usuarioId == null || usuarioId.equals("")){
+			usuarioId = "-";
+		}
 		p.setUsuarioId(usuarioId);
 		p.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 		

@@ -22,12 +22,12 @@ public class DAONumero {
 		this.em = em;
 	}
 	
-	public Numero insertNumero(Tramite tramite, Sector sector, String externalId, GregorianCalendar hora, Integer prioridad, String estado){
+	public Numero insertNumero(Tramite tramite, Sector sector, String externalId, GregorianCalendar hora, Integer prioridad){
 		Numero n = new Numero();
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
-		n.setEstado(estado);
+		n.setEstado("PENDIENTE");
 		tramite.addNumero(n);
 		sector.addNumero(n);
 
@@ -116,17 +116,15 @@ public class DAONumero {
 		puesto.getNumeros().add(numero);
 		
 		em.persist(puesto);	
-		em.persist(numero);
-		
+		em.persist(numero);		
 	}
 
 	public void desasociarNumeroPuesto(Numero numero, Puesto puesto) {
-		numero.setPuesto(null); // cambio pancho-guzman
-		puesto.setNumero_puesto(null); // cambio pancho-guzman
+		numero.getPuestos().remove(puesto);
+		puesto.getNumeros().remove(numero);
 		
 		em.persist(puesto);	
-		em.persist(numero);
-			
+		em.persist(numero);			
 	}
 
 	public void desasociarNumeroPuestoActual(Numero numero, Puesto puesto) {

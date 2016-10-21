@@ -9,6 +9,7 @@ import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
+import com.sarp.dao.model.MetricasPuesto;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
@@ -122,7 +123,7 @@ public class DAOPuestoController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		Numero n = numeroRepository.selectNumero(codigoNumero);
 		
-		if(!n.getPuesto().equals(p)){
+		if(!n.getPuestos().contains(p)){
 			em.close();
 			throw new RollbackException("El puesto de " + nombreMaquina + " y el numero " + codigoNumero + " no estan asociados");
 		}
@@ -239,6 +240,30 @@ public class DAOPuestoController {
 			}	
 			return ret;
 		}	
+	}
+	
+	public BusinessMetricaPuesto obtenerMetricasPuesto(String nombreMaquina) throws RollbackException {
+		EntityManager em = EMFactory.getEntityManager();
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+
+		MetricasPuesto p = puestoRepository.selectMetricasPuesto(nombreMaquina);
+		em.close();
+		BusinessMetricaPuesto ret = new BusinessMetricaPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(), p.getNumero());
+		return ret;
+	}
+
+	public ArrayList<BusinessPuesto> listarMetricasPuestos() {
+		EntityManager em = EMFactory.getEntityManager();
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+
+		ArrayList<Puesto> lista = puestoRepository.selectMetricasPuestos();
+		em.close();
+		ArrayList<BusinessPuesto> ret = new ArrayList<BusinessPuesto>();
+		for (Puesto p : lista) {
+			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(), p.getNumero());
+			ret.add(bp);
+		}
+		return ret;
 	}
 
 }
