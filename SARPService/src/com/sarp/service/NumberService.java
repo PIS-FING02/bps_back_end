@@ -57,8 +57,8 @@ public class NumberService {
 	@Path("/listarNumerosPausados")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosPausados(@HeaderParam("user-rol") String userRol,
-			@QueryParam("idPuesto") String idPuesto) {
-		if (userRol.equals("Operador") || userRol.equals("OperadorSenior") || userRol.equals("Consultor") || userRol.equals("ResponsableSector")) {
+			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
+		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
@@ -66,7 +66,15 @@ public class NumberService {
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
-		} else {
+		} else if(userRol.equals("Consultor") || userRol.equals("ResponsableSector")){ 
+			try {
+				Factory fac = Factory.getInstance();
+				NumberController ctrl = fac.getNumberController();
+				return ctrl.listarNumerosPausadosSector(idSector);
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}
+		}else {
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -75,12 +83,20 @@ public class NumberService {
 	@Path("/listarNumerosAtrasados")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosAtrasados(@HeaderParam("user-rol") String userRol,
-			@QueryParam("idPuesto") String idPuesto) {
+			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
 		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
 				return ctrl.listarNumerosAtrasados(idPuesto);
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}
+		}else if(userRol.equals("Consultor") || userRol.equals("ResponsableSector")){ 
+			try {
+				Factory fac = Factory.getInstance();
+				NumberController ctrl = fac.getNumberController();
+				return ctrl.listarNumerosAtrasadosSector(idSector);
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}

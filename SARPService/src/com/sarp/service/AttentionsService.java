@@ -158,7 +158,6 @@ public class AttentionsService {
 		}
 	}
 	
-	
 	@PUT
 	@Path("/pausarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -201,7 +200,9 @@ public class AttentionsService {
 	@GET
 	@Path("/llamarPausado")
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONNumero LlamarNumeroPausado(@HeaderParam("user-rol") String userRol,  @HeaderParam("idNumero") Integer idNumero, @HeaderParam("idPuesto") String idPuesto) {
+	public JSONNumero LlamarNumeroPausado(@HeaderParam("user-rol") String userRol,  
+			@HeaderParam("idNumero") Integer idNumero, 
+			@HeaderParam("idPuesto") String idPuesto) {
 		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
 			try {
 				Factory fac = Factory.getInstance();
