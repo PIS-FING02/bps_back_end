@@ -223,6 +223,15 @@ public class AdminActionsController {
 		}
 	}
 	
+	public void recuperarColas() throws Exception {
+		try {
+			AdminService adminServ = new AdminService();
+			adminServ.recuperarColas();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 	/************* Metricas ****************/
 
 	public List<JSONMetricasPuesto> listarMetricasPuestos(String nombreMaquina) {

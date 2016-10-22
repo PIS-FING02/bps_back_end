@@ -222,8 +222,25 @@ public class AdminService {
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}			
-
-				
+	
+	@POST
+	@Path("/recuperarColas")
+	public String recuperarCola(@HeaderParam("secret-command") String secretCommand) throws Exception {
+		if(secretCommand.equals("MacocoRecuperar")){
+			try {
+				Factory fac = Factory.getInstance();
+				AdminActionsController aac = fac.getAdminActionsController();
+				aac.reinicializarColas();
+				aac.recuperarColas();
+				return "OK";
+			}catch(Exception e){
+				throw new InternalServerErrorException("error al reiniciar la cola: " + e.getMessage());
+			}
+		}else{
+			throw new UnauthorizedException("No tiene permisos suficientes.");
+		}
+	}
+	
 	@PUT
 	@Path("/actualizarGAFU")
     public String actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
@@ -591,7 +608,6 @@ public class AdminService {
 		if (secretCommand.equals( "MacocoBorrador")){
 			try{
 				ctrl.borrarTodoElSistema();
-				System.out.println("La macoqueada se realizo con exito");
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al macoquear: " + e.getMessage());
