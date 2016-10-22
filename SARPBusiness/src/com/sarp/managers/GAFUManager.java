@@ -3,13 +3,25 @@ package com.sarp.managers;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.xml.ws.BindingProvider;
+
 import com.sarp.classes.BusinessNodeGAFU;
 import com.sarp.classes.BusinessSector;
+import com.sarp.classes.BusinessSectorRol;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.facade.GAFUFacade;
 import com.sarp.factory.Factory;
+
+import uy.gub.bps.apph.wsgafuservice.v001.AreaFuncional;
+import uy.gub.bps.apph.wsgafuservice.v001.ErrorNegocio;
+import uy.gub.bps.apph.wsgafuservice.v001.ParamObtenerAreasFuncionalesUsuario;
+import uy.gub.bps.apph.wsgafuservice.v001.ResultObtenerAreasFuncionalesUsuario;
+import uy.gub.bps.apph.wsgafuservice.v001.SOAPException_Exception;
+import uy.gub.bps.apph.wsgafuservice.v001.WsGafuService;
+import uy.gub.bps.apph.wsgafuservice.v001.WsGafuServiceService;
 
 
 public class GAFUManager {
@@ -113,5 +125,62 @@ public class GAFUManager {
 		}
 	}
 	
+	//Sobrecarga de operador 
+	public List<BusinessSectorRol>  obtenerSectorRolesUsuario ( String idUsuario, String rol ) throws Exception {
+		//se filtra por rol
+		List<BusinessSectorRol> lista = new ArrayList<BusinessSectorRol>();
+		List<BusinessSectorRol> listaResultado = new ArrayList<BusinessSectorRol>();
+		lista = this.obtenerSectorRolesUsuario(idUsuario);
+		for (BusinessSectorRol sr : lista ){
+			if ( sr.getRol().equals(rol) ){
+				listaResultado.add(sr);
+			}
+		}
+		return listaResultado;
+	}
+	
+	public List<BusinessSectorRol>  obtenerSectorRolesUsuario ( String idUsuario ) throws Exception {
+
+		List<BusinessSectorRol> lista = new ArrayList<BusinessSectorRol>();
+		GAFUFacade gf = GAFUFacade.getInstance();
+		System.out.println("inicialice la lista");
+		ResultObtenerAreasFuncionalesUsuario result = gf.obtenerAreasFuncionalesUsuario(idUsuario);
+		
+		if (result!=null ){		
+			List<ErrorNegocio> Errores = result.getErroresNegocio();
+			if (!Errores.isEmpty())
+				throw new Exception(Errores.toString());
+			else{
+				AreaFuncional areaFuncional = new AreaFuncional();
+				areaFuncional = result.getAreaFuncional();
+				this.ObtenerSectorRol(areaFuncional , lista);
+			}
+		}else
+			throw new Exception("Error de conexion con sistema de usuarios (GAFU)");
+		
+		return lista;
+	}
+	
+	//Metodo Recursivo para obtenerSectorRolesUsuario
+	private void ObtenerSectorRol(  AreaFuncional raiz,  List<BusinessSectorRol> resultado  ) throws Exception{
+		if  (raiz!=null) {
+			if ( ( raiz.getRestriccion()!=null ) && ( !"".equals(raiz.getRestriccion()) ) ){
+				String roles = raiz.getRestriccion();
+				roles = roles.substring(10);
+				String[] listRoles = roles.split(",");
+				String codigoSector = raiz.getCodigo();
+				for (int i =0 ; i<listRoles.length; i++){
+					BusinessSectorRol secRol = new BusinessSectorRol(codigoSector,listRoles[i]);
+					resultado.add(secRol);
+				}
+			}
+			
+			List<AreaFuncional> hijos = raiz.getHijos();
+			Iterator<AreaFuncional> it = hijos.iterator();
+			while (it.hasNext()){
+				ObtenerSectorRol(it.next(),resultado );
+			}
+		}
+	}
 		
 }

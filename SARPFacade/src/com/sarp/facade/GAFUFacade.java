@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -13,10 +14,14 @@ import javax.xml.registry.infomodel.User;
 import javax.xml.ws.BindingProvider;
 
 import com.sarp.classes.BusinessNodeGAFU;
+import com.sarp.classes.BusinessSectorRol;
 
 import uy.gub.bps.apph.wsgafuservice.v001.AreaFuncional;
+import uy.gub.bps.apph.wsgafuservice.v001.ErrorNegocio;
 import uy.gub.bps.apph.wsgafuservice.v001.ParamObtenerArbolAreaFuncional;
+import uy.gub.bps.apph.wsgafuservice.v001.ParamObtenerAreasFuncionalesUsuario;
 import uy.gub.bps.apph.wsgafuservice.v001.ResultObtenerArbolAreaFuncional;
+import uy.gub.bps.apph.wsgafuservice.v001.ResultObtenerAreasFuncionalesUsuario;
 import uy.gub.bps.apph.wsgafuservice.v001.SOAPException_Exception;
 import uy.gub.bps.apph.wsgafuservice.v001.WsGafuService;
 import uy.gub.bps.apph.wsgafuservice.v001.WsGafuServiceService;
@@ -110,5 +115,22 @@ public class GAFUFacade {
 		result = obtenerSectoresGAFU();
 		return crearArbol(null,result.getAreaFuncional());
 	}
-
+	
+	public ResultObtenerAreasFuncionalesUsuario obtenerAreasFuncionalesUsuario( String idUsuario ) {
+		WsGafuServiceService service1 = new WsGafuServiceService();
+		WsGafuService port1 = service1.getWsGafuServicePort();
+		((BindingProvider) port1).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,this.endpoint);
+		ParamObtenerAreasFuncionalesUsuario paramObtenerAreasFuncionalesUsuario = new ParamObtenerAreasFuncionalesUsuario();
+		paramObtenerAreasFuncionalesUsuario.setUsuarioNt(idUsuario);
+		paramObtenerAreasFuncionalesUsuario.setCodSistema(this.codSistema);
+		
+		try {
+			ResultObtenerAreasFuncionalesUsuario result = new ResultObtenerAreasFuncionalesUsuario();
+			result =  port1.obtenerAreasFuncionalesUsuario(paramObtenerAreasFuncionalesUsuario);
+			return result;
+		} catch (SOAPException_Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

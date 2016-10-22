@@ -1,6 +1,9 @@
 package com.sarp.controllers;
 
+import java.util.List;
+
 import com.sarp.classes.BusinessNodeGAFU;
+import com.sarp.classes.BusinessSectorRol;
 import com.sarp.managers.GAFUManager;
 
 public class GAFUController {
@@ -26,7 +29,12 @@ public class GAFUController {
 	public BusinessNodeGAFU BusquedaNodo(String codigo){
 		return this.gafumgr.BusquedaNodo(codigo);
 	}
-
-
+	public List<BusinessSectorRol>  obtenerSectorRolesUsuario ( String idUsuario ) throws Exception{
+		System.out.println("entro al controler");
+		return this.gafumgr.obtenerSectorRolesUsuario(idUsuario);
+	}
+	public List<BusinessSectorRol>  obtenerSectorRolesUsuario ( String idUsuario, String rol )throws Exception{
+		return this.gafumgr.obtenerSectorRolesUsuario(idUsuario,rol);
+	}
 }
 
