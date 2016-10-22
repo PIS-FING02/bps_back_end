@@ -1,5 +1,6 @@
 package com.sarp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -18,7 +19,9 @@ import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessSectorRol;
 import com.sarp.controllers.AdminActionsController;
+import com.sarp.controllers.GAFUController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONPuesto;
@@ -32,7 +35,9 @@ import com.sarp.json.modeler.JSONTramiteSector;
 @RequestScoped
 @Path("/adminService")
 public class AdminService {
+	private final String ResponsableSectorGAFU = "GAP_ADMINAF";
 	
+	private final String ConsultorGAFU = "GAP_CONSAF";
 	@Context ServletContext context;
 
 	/************ABM PUESTO ***************/	
@@ -70,7 +75,6 @@ public class AdminService {
   		}else{
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
-  		
   	}
   	
   	@PUT
@@ -100,11 +104,16 @@ public class AdminService {
       public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
+		GAFUController controladorGAFU = fac.GAFUController();
+  		
   		if(userRol.equals( "ResponsableSector")){
   			try{
-  				List<JSONPuesto> listaPuestos = ctrl.listarPuestos(null);
+  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+  				List<JSONPuesto> listaPuestos = new ArrayList<JSONPuesto>();
+  				for  (BusinessSectorRol as : respde){
+  					 listaPuestos.addAll( ctrl.listarPuestos(as.getSectorId()) );
+  				}
   				return listaPuestos;
-  				
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al listar Puestos: " + e.getMessage());
   			}
@@ -176,6 +185,7 @@ public class AdminService {
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user) {
+		
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController aac = fac.getAdminActionsController();
