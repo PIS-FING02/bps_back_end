@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessMetricasEstadoNumero;
+import com.sarp.classes.BusinessMetricasNumero;
 import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
@@ -15,6 +17,8 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.classes.BusinessTramiteSector;
 import com.sarp.json.modeler.JSONDatosComp;
 import com.sarp.json.modeler.JSONDisplay;
+import com.sarp.json.modeler.JSONMetricasEstadoNumero;
+import com.sarp.json.modeler.JSONMetricasNumero;
 import com.sarp.json.modeler.JSONMetricasPuesto;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONNumeroPuesto;
@@ -223,6 +227,40 @@ public class ResponseMaker {
 		}	
 	}
 	
+	public JSONMetricasEstadoNumero metricasEstadoNumeroAtomResponse(BusinessMetricasEstadoNumero businessMetricasEstadoNumero) {
+		if(businessMetricasEstadoNumero != null){
+			JSONMetricasEstadoNumero jsonMetricasEstadoNumero = new JSONMetricasEstadoNumero();			
+			jsonMetricasEstadoNumero.setEstado(businessMetricasEstadoNumero.getEstado() != null ? businessMetricasEstadoNumero.getEstado().toString() : null);
+			jsonMetricasEstadoNumero.setInternalId(businessMetricasEstadoNumero.getInternalId());			
+			jsonMetricasEstadoNumero.setTimeSpent(businessMetricasEstadoNumero.getTimeSpent());
+			jsonMetricasEstadoNumero.setDateCreated(CalendarToString(businessMetricasEstadoNumero.getDateCreated()));
+			jsonMetricasEstadoNumero.setLastUpdated(CalendarToString(businessMetricasEstadoNumero.getLastUpdated()));			
+			return jsonMetricasEstadoNumero;
+		}else{
+			return null;
+		}
+	}
+	
+	public JSONMetricasNumero metricasNumeroAtomResponse(BusinessMetricasNumero businessMetricasNumero) {
+		if(businessMetricasNumero != null){
+			JSONMetricasNumero jsonMetricasNumero = new JSONMetricasNumero();			
+			jsonMetricasNumero.setEstado(businessMetricasNumero.getEstado() != null ? businessMetricasNumero.getEstado().toString() : null);
+			jsonMetricasNumero.setInternalId(businessMetricasNumero.getInternalId());			
+			jsonMetricasNumero.setCodigoTramite(businessMetricasNumero.getCodigoTramite());
+			jsonMetricasNumero.setExternalId(businessMetricasNumero.getExternalId());
+			jsonMetricasNumero.setResultadoFinal(businessMetricasNumero.getResultadoFinal());
+			jsonMetricasNumero.setRutaSector(businessMetricasNumero.getRutaSector());
+			jsonMetricasNumero.setUsuarioAtencion(businessMetricasNumero.getUsuarioAtencion());			
+			jsonMetricasNumero.setDateCreated(CalendarToString(businessMetricasNumero.getDateCreated()));
+			jsonMetricasNumero.setLastUpdated(CalendarToString(businessMetricasNumero.getLastUpdated()));			
+			return jsonMetricasNumero;
+		}else{
+			return null;
+		}
+	}
+	
+	
+	
 	/* UTILS */
 	public List<JSONTramite> createArrayAtomTramites(List<BusinessTramite> businessTramites) {
 		List<JSONTramite> listJSONTramite = new ArrayList<JSONTramite>();
@@ -295,6 +333,30 @@ public class ResponseMaker {
 		}
 	}
 	
+	public List<JSONMetricasEstadoNumero> createArrayAtomMetricasEstadoNumero(List<BusinessMetricasEstadoNumero> businessMetricasEstadoNumeros) {
+		if(businessMetricasEstadoNumeros != null){
+			List<JSONMetricasEstadoNumero> listJSONMetricasEstadoNumero = new ArrayList<JSONMetricasEstadoNumero>();
+			for(BusinessMetricasEstadoNumero businessMetricasEstadoNumero : businessMetricasEstadoNumeros){
+				listJSONMetricasEstadoNumero.add(this.metricasEstadoNumeroAtomResponse(businessMetricasEstadoNumero));
+			}
+			return listJSONMetricasEstadoNumero;
+		}else{
+			return null;
+		}
+	}
+	
+	public List<JSONMetricasNumero> createArrayAtomMetricasNumero(List<BusinessMetricasNumero> businessMetricasNumeros) {
+		if(businessMetricasNumeros != null){
+			List<JSONMetricasNumero> listJSONMetricasNumero = new ArrayList<JSONMetricasNumero>();
+			for(BusinessMetricasNumero businessMetricasNumero : businessMetricasNumeros){
+				listJSONMetricasNumero.add(this.metricasNumeroAtomResponse(businessMetricasNumero));
+			}
+			return listJSONMetricasNumero;
+		}else{
+			return null;
+		}
+	}
+	
 	private static String CalendarToString(GregorianCalendar c){
 		String fecha = Integer.toString(c.get(Calendar.DAY_OF_MONTH)).length() > 1 ? Integer.toString(c.get(Calendar.DAY_OF_MONTH)) : "0"+Integer.toString(c.get(Calendar.DAY_OF_MONTH));
 		fecha = fecha +"/" + (Integer.toString(c.get(Calendar.MONTH)+1).length() > 1 ? Integer.toString(c.get(Calendar.MONTH)+1) : "0"+Integer.toString(c.get(Calendar.MONTH)+1));
@@ -304,6 +366,7 @@ public class ResponseMaker {
 		fecha = fecha + ":" + (Integer.toString(c.get(Calendar.MINUTE)).length() > 1 ? Integer.toString(c.get(Calendar.MINUTE)) : "0"+Integer.toString(c.get(Calendar.MINUTE)));
 		return fecha;
 	}
+
 
 
 }

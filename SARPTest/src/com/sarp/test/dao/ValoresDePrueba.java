@@ -13,6 +13,8 @@ import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
+import com.sarp.enumerados.EstadoNumero;
+import com.sarp.enumerados.EstadoPuesto;
 
 public class ValoresDePrueba {
 
@@ -74,10 +76,10 @@ public class ValoresDePrueba {
 			}
 		}
 		
+		BusinessPuesto p = ctrlPuesto.obtenerPuesto("NombreMaquina7");
+		p.setEstado(EstadoPuesto.CERRADO);
+		ctrlPuesto.modificarPuesto(p);
 		
-		BusinessNumero n = ctrlPuesto.obtenerNumeroActualPuesto("NombreMaquina0");
-		n.setExternalId("cambia");
-		ctrlNumero.modificarNumero(n);
 		System.out.println("FIN cargar=" + cargar);
 	}
 	

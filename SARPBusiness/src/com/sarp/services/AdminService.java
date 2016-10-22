@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.RollbackException;
 
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessMetricasEstadoNumero;
+import com.sarp.classes.BusinessMetricasNumero;
 import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
@@ -14,6 +16,7 @@ import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.controllers.QueueController;
 import com.sarp.dao.controllers.DAODisplayController;
+import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
@@ -21,6 +24,8 @@ import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONMetricasEstadoNumero;
+import com.sarp.json.modeler.JSONMetricasNumero;
 import com.sarp.json.modeler.JSONMetricasPuesto;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONPuestoTramite;
@@ -465,6 +470,55 @@ public class AdminService {
 		List<JSONMetricasPuesto> metricasPuestosJson = resMaker.createArrayAtomMetricasPuestos(metricasPuestos);
 
 		return metricasPuestosJson;
+	}
+
+	public List<JSONMetricasEstadoNumero> listarMetricasEstadoNumero(Integer internalId) {
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
+		List<BusinessMetricasEstadoNumero> metricasEstadoNumero;
+		// Traigo los puestos de un sector desde DaoService
+		// si sector es null entonces traigo todos los puestos del sistema
+		if (internalId != null) {
+			metricasEstadoNumero = controladorNumero.listarMetricasEstadoDeNumero(internalId);
+		} else {
+			metricasEstadoNumero = controladorNumero.listarMetricasEstadoNumero();
+		}
+
+		List<JSONMetricasEstadoNumero> metricasEstadoNumeroJson = resMaker.createArrayAtomMetricasEstadoNumero(metricasEstadoNumero);
+
+		return metricasEstadoNumeroJson;
+	}
+
+	public List<JSONMetricasNumero> listarMetricasNumero() {
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
+		List<BusinessMetricasNumero> metricasNumero;
+		// Traigo los puestos de un sector desde DaoService
+
+		metricasNumero = controladorNumero.listarMetricasNumero();
+		
+		List<JSONMetricasNumero> metricasNumeroJson = resMaker.createArrayAtomMetricasNumero(metricasNumero);
+
+		return metricasNumeroJson;
+	}
+	
+	public JSONMetricasNumero listarMetricasDeNumero(Integer internalId) {
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
+		BusinessMetricasNumero metricasNumero;
+		// Traigo los puestos de un sector desde DaoService
+
+		metricasNumero = controladorNumero.listarMetricasDeNumero(internalId);
+		
+		JSONMetricasNumero metricasNumeroJson = resMaker.metricasNumeroAtomResponse(metricasNumero);
+
+		return metricasNumeroJson;
 	}
 
 }
