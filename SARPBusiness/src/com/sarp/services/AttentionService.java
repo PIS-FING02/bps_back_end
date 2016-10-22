@@ -71,6 +71,11 @@ public class AttentionService {
 				// Se delega a DaoService
 				controladorPuesto.modificarPuesto(puestoSend);
 				
+				// se cambia estado de numero
+				bNumero.setEstado(EstadoNumero.ATENDIENDO);
+				DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
+				daoCtrl.modificarNumero(bNumero);
+				
 			} else {
 				throw new ContextException("PuestoSinNumeroAsignado");
 			}
@@ -91,7 +96,12 @@ public class AttentionService {
 			BusinessNumero bNumero = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
 			controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
 			controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(), bNumero.getInternalId());
-
+			
+			//se cambia el estado del numero
+			bNumero.setEstado(EstadoNumero.FINALIZADO);
+			DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
+			daoCtrl.modificarNumero(bNumero);
+			
 		} else {
 			throw new ContextException("PuestoNoAtendiendo");
 		}
@@ -161,7 +171,13 @@ public class AttentionService {
 					// llamo al display
 					DisplayService dispService = DisplayService.getInstance();
 					dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
-
+					
+					// se cambia el estado del numero en la base
+					DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
+					BusinessNumero num = daoCtrl.obtenerNumero(numeroReturn.getId());
+					num.setEstado(EstadoNumero.LLAMADO);
+					daoCtrl.modificarNumero(num);
+					
 					return numeroReturn;
 				} else {
 					return null;
@@ -232,7 +248,10 @@ public class AttentionService {
 			Factory fac = Factory.getInstance();
 			QueueController ctrl = fac.getQueueController();
 			ctrl.transferirAColaAtrasados(numeroActual.getCodSector(), numeroActual);
+
 			numeroActual.setEstado(EstadoNumero.ATRASADO);
+			DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
+			daoCtrl.modificarNumero(numeroActual);
 			
 			// Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
@@ -261,7 +280,10 @@ public class AttentionService {
 			Factory fac = Factory.getInstance();
 			QueueController ctrl = fac.getQueueController();
 			ctrl.transferirAColaPausados(numeroActual.getCodSector(), numeroActual);
+			
 			numeroActual.setEstado(EstadoNumero.PAUSADO);
+			DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
+			daoCtrl.modificarNumero(numeroActual);
 			
 			// Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
@@ -278,9 +300,14 @@ public class AttentionService {
 		DAONumeroController ctrlNumero = fac.getDAONumeroController();
 		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
 		Factory facBusiness = Factory.getInstance();
+		
 		QueueController ctrlQueue = facBusiness.getQueueController();
 		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
 		ctrlPuesto.asociarNumeroPuestoActual(idPuesto, idNumero);
+		
+		num.setEstado(EstadoNumero.ATENDIENDO);
+		ctrlNumero.modificarNumero(num);
+		
 		return ctrlQueue.obtenerNumeroPausado(num.getCodSector(), idNumero);
 	}
 	
@@ -288,10 +315,15 @@ public class AttentionService {
 		DAOServiceFactory fac = DAOServiceFactory.getInstance();
 		DAONumeroController ctrlNumero = fac.getDAONumeroController();
 		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
+		
 		Factory facBusiness = Factory.getInstance();
 		QueueController ctrlQueue = facBusiness.getQueueController();
 		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
 		ctrlPuesto.asociarNumeroPuestoActual(idPuesto, idNumero);
+		
+		num.setEstado(EstadoNumero.ATENDIENDO);
+		ctrlNumero.modificarNumero(num);
+		
 		return ctrlQueue.obtenerNumeroAtrasado(num.getCodSector(), idNumero);
 	}
 	
@@ -299,10 +331,15 @@ public class AttentionService {
 		DAOServiceFactory fac = DAOServiceFactory.getInstance();
 		DAONumeroController ctrlNumero = fac.getDAONumeroController();
 		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
+		
 		Factory facBusiness = Factory.getInstance();
 		QueueController ctrlQueue = facBusiness.getQueueController();
 		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
 		ctrlPuesto.asociarNumeroPuestoActual(idPuesto, idNumero);
+		
+		num.setEstado(EstadoNumero.ATENDIENDO);
+		ctrlNumero.modificarNumero(num);
+		
 		return ctrlQueue.obtenerNumeroDemanda(num.getCodSector(), idNumero);
 	}
 

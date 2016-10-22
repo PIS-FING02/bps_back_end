@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.sarp.enumerados.EstadoNumero;
+
 public class BusinessSectorQueue {
 
 	private LinkedList<BusinessNumero> colaPrioridad1;
@@ -22,13 +24,13 @@ public class BusinessSectorQueue {
 		this.colaPrioridad2 = new LinkedList<BusinessNumero>();
 		this.atrasados = new LinkedList<BusinessNumero>();
 		this.pausados = new LinkedList<BusinessNumero>();
-
 	}
 
 	/***** Metodos de la Cola *****/
 
 	public synchronized void agregarNumeroCola(BusinessNumero numero) throws Exception {
-
+		
+		numero.setEstado(EstadoNumero.DISPONIBLE);
 		switch (numero.getPrioridad()) {
 		case 1:
 			if (this.colaPrioridad1.isEmpty())
@@ -48,7 +50,6 @@ public class BusinessSectorQueue {
 		case 2:
 			this.colaPrioridad2.addLast(numero);
 			break;
-
 		default:
 			throw new Exception("La prioridad del numero no pertenece a la jerarquia actual");
 		}
@@ -88,6 +89,7 @@ public class BusinessSectorQueue {
 				if (this.horaMayorHoraActual(numero.getHora())) {
 					if (this.puedeAtenderNumero(tramites, numero)) {
 						this.atrasados.remove(numero);
+						numero.setEstado(EstadoNumero.LLAMADO);
 						return numero;
 					} // - end if puedeAtenderNumero
 				} else // - end if horaMayor
@@ -102,6 +104,7 @@ public class BusinessSectorQueue {
 				if (this.horaMayorHoraActual(numero.getHora())) {
 					if (this.puedeAtenderNumero(tramites, numero)) {
 						this.colaPrioridad1.remove(numero);
+						numero.setEstado(EstadoNumero.LLAMADO);
 						return numero;
 					} // - end if puedeAtenderNumero
 				} else // - end if horaMayor
@@ -114,6 +117,7 @@ public class BusinessSectorQueue {
 				BusinessNumero numero = it.next();
 				if (this.puedeAtenderNumero(tramites, numero)) {
 					this.colaPrioridad2.remove(numero);
+					numero.setEstado(EstadoNumero.LLAMADO);
 					return numero;
 				}
 			}
@@ -169,6 +173,7 @@ public class BusinessSectorQueue {
 		GregorianCalendar horaActual = new GregorianCalendar();
 		horaActual.add(Calendar.MINUTE, tiempoProperties);
 		numero.setHora(horaActual);
+		numero.setEstado(EstadoNumero.ATRASADO);
 		this.atrasados.addLast(numero);
 	}
 
@@ -198,6 +203,7 @@ public class BusinessSectorQueue {
 			BusinessNumero numero = it.next();
 			if (numero.getInternalId().intValue() == idNumero.intValue()) {
 				this.atrasados.remove(numero);
+				numero.setEstado(EstadoNumero.ATENDIENDO);
 				return numero;
 			}
 		}
@@ -207,6 +213,7 @@ public class BusinessSectorQueue {
 	/***** Metodos de Pausados *****/
 
 	public synchronized void agregarNumeroPausado(BusinessNumero numero) {
+		numero.setEstado(EstadoNumero.PAUSADO);
 		this.pausados.addLast(numero);
 	}
 
@@ -236,6 +243,7 @@ public class BusinessSectorQueue {
 			BusinessNumero numero = it.next();
 			if (numero.getInternalId().intValue() == idNumero.intValue()) {
 				this.pausados.remove(numero);
+				numero.setEstado(EstadoNumero.ATENDIENDO);
 				return numero;
 			}
 		}
@@ -249,6 +257,7 @@ public class BusinessSectorQueue {
 				BusinessNumero numero = it.next();
 				if(numero.getInternalId().intValue() == idNumero.intValue()){
 					this.colaPrioridad1.remove(numero);
+					numero.setEstado(EstadoNumero.ATENDIENDO);
 					return numero;
 				}
 			} // - end while
@@ -259,6 +268,7 @@ public class BusinessSectorQueue {
 				BusinessNumero numero = it.next();
 				if(numero.getInternalId().intValue() == idNumero.intValue()){
 					this.colaPrioridad2.remove(numero);
+					numero.setEstado(EstadoNumero.ATENDIENDO);
 					return numero;
 				}
 			}
