@@ -17,9 +17,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
-
-import com.sarp.classes.BusinessDisplay;
-
 import com.sarp.classes.BusinessSectorRol;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.GAFUController;
@@ -103,6 +100,7 @@ public class AdminService {
   	@GET
   	@Path("/listarPuestos")
       @Produces(MediaType.APPLICATION_JSON)
+
       public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
 	  	Factory fac = Factory.getInstance();
 	  	AdminActionsController ctrl = fac.getAdminActionsController();
@@ -201,6 +199,7 @@ public class AdminService {
 	@GET
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
+
     public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectroId") String sectorId ){
 
 		if(userRol.equals("ResponsableSector")){
