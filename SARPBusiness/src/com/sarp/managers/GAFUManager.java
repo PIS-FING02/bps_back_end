@@ -148,8 +148,16 @@ public class GAFUManager {
 		
 		if (result!=null ){		
 			List<ErrorNegocio> Errores = result.getErroresNegocio();
-			if (!Errores.isEmpty())
-				throw new Exception(Errores.toString());
+			if (!Errores.isEmpty()){
+				
+				String errorresString ="";
+				for (ErrorNegocio e : Errores){
+					errorresString= e.getDescripcion() +","; 
+				}
+				errorresString = errorresString.substring(0,errorresString.length()-1 );//saco la ultima coma 
+				System.out.println(errorresString);
+				throw new Exception(errorresString);
+			}
 			else{
 				AreaFuncional areaFuncional = new AreaFuncional();
 				areaFuncional = result.getAreaFuncional();
@@ -166,7 +174,7 @@ public class GAFUManager {
 		if  (raiz!=null) {
 			if ( ( raiz.getRestriccion()!=null ) && ( !"".equals(raiz.getRestriccion()) ) ){
 				String roles = raiz.getRestriccion();
-				roles = roles.substring(10);
+				roles = roles.substring(9);
 				String[] listRoles = roles.split(",");
 				String codigoSector = raiz.getCodigo();
 				for (int i =0 ; i<listRoles.length; i++){
