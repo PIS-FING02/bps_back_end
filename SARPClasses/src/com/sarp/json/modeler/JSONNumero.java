@@ -10,6 +10,7 @@ public class JSONNumero {
 	JSONDatosComp datosComplementarios;
 	Integer idTramite;
 	String idSector;
+	String resultadoFinal;
 	
 	public JSONDatosComp getDatosComplementarios() {
 		return datosComplementarios;
@@ -58,6 +59,12 @@ public class JSONNumero {
 	}
 	public void setIdSector(String idSector) {
 		this.idSector = idSector;
+	}
+	public String getResultadoFinal() {
+		return resultadoFinal;
+	}
+	public void setResultadoFinal(String resultadoFinal) {
+		this.resultadoFinal = resultadoFinal;
 	}
 
 }

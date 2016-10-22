@@ -38,6 +38,9 @@ public class Numero implements Serializable {
 	@Column(name="last_updated")
 	private Timestamp lastUpdated;
 
+	@Column(name="resultado_final")
+	private String resultadoFinal;
+	
 	private Integer prioridad;
 
 	//bi-directional one-to-one association to DatosComplementario
@@ -120,6 +123,14 @@ public class Numero implements Serializable {
 
 	public void setPrioridad(Integer prioridad) {
 		this.prioridad = prioridad;
+	}
+	
+	public String getResultadoFinal() {
+		return this.resultadoFinal;
+	}
+
+	public void setResultadoFinal(String resultadoFinal) {
+		this.resultadoFinal = resultadoFinal;
 	}
 
 	public DatosComplementario getDatosComplementario() {

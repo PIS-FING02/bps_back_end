@@ -3,6 +3,9 @@ package com.sarp.test.dao;
 import org.junit.Test;
 
 import com.sarp.classes.BusinessDatoComplementario;
+import com.sarp.classes.BusinessMetricasEstadoNumero;
+import com.sarp.classes.BusinessMetricasNumero;
+import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -10,6 +13,8 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.factory.DAOServiceFactory;
+import com.sarp.enumerados.EstadoPuesto;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
@@ -233,6 +238,59 @@ public class NumeroTest {
 	   catch(RollbackException e){
 		   assertEquals(e.getCause() instanceof OptimisticLockException, true);
 	   }
+   }
+   
+   @Test
+   public void testListarMetricasEstadoNumero(){
+	   System.out.print("\ntestListarMetricasEstadoNumero");
+	   ArrayList<BusinessMetricasEstadoNumero> lista = ctrlNumero.listarMetricasEstadoNumero();
+	   for(BusinessMetricasEstadoNumero bmen : lista){
+		   System.out.println("\n"+bmen.getInternalId() + "-" + bmen.getEstado() + "-" + bmen.getTimeSpent() + "-" + bmen.getDateCreated().toString() + "-" + bmen.getLastUpdated().toString());
+	   }
+   }
+   
+   @Test
+   public void testListarMetricasEstadoDeNumero(){
+	   System.out.print("\ntestListarMetricasEstadoDeNumero");
+	   BusinessNumero n = new BusinessNumero();
+	   n.setExternalId("external");
+	   Integer id = ctrlNumero.crearNumero(n, 3, "2", null);
+	   n = ctrlNumero.obtenerNumero(id);
+	   n.setEstado("segundoestado");
+	   ctrlNumero.modificarNumero(n);
+	   n = ctrlNumero.obtenerNumero(id);
+	   n.setEstado("tercerestado");
+	   ctrlNumero.modificarNumero(n);
+	   ctrlNumero.eliminarNumero(id);
+	   
+	   ArrayList<BusinessMetricasEstadoNumero> lista = ctrlNumero.listarMetricasEstadoDeNumero(id);
+	   for(BusinessMetricasEstadoNumero bmen : lista){
+		   System.out.println("\n"+bmen.getInternalId() + "-" + bmen.getEstado() + "-" + bmen.getTimeSpent() + "-" + bmen.getDateCreated().toString() + "-" + bmen.getLastUpdated().toString());
+	   }
+   }
+   
+   @Test
+   public void testListarMetricasNumero(){
+	   System.out.print("\ntestListarMetricasNumero");
+	   ArrayList<BusinessMetricasNumero> lista = ctrlNumero.listarMetricasNumero();
+	   for(BusinessMetricasNumero bmn : lista){
+		   System.out.println("\n"+bmn.getInternalId() + "-" + bmn.getExternalId() + "-" + bmn.getRutaSector() + "-" + bmn.getEstado() + "-" + bmn.getCodigoTramite() + "-" + bmn.getResultadoFinal());
+	   }
+   }
+   
+   @Test
+   public void testListarMetricasDeNumero(){
+	   System.out.print("\ntestListarMetricasDeNumero");
+	   BusinessNumero n = new BusinessNumero();
+	   n.setExternalId("external");
+	   Integer id = ctrlNumero.crearNumero(n, 3, "2", null);
+	   n = ctrlNumero.obtenerNumero(id);
+	   n.setEstado("segundoestado");
+	   ctrlPuesto.asociarNumeroPuesto("NombreMaquina5", id);
+	   ctrlNumero.eliminarNumero(id);
+	   
+	   BusinessMetricasNumero bmn = ctrlNumero.obtenerMetricasDeNumero(id);
+	   System.out.println("\n"+bmn.getInternalId() + "-" + bmn.getExternalId() + "-" + bmn.getRutaSector() + "-" + bmn.getEstado() + "-" + bmn.getCodigoTramite() + "-" + bmn.getResultadoFinal());
    }
   
 }

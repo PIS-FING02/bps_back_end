@@ -1,16 +1,14 @@
 package com.sarp.classes;
 
-import java.sql.Timestamp;
 import java.util.GregorianCalendar;
-
 import com.sarp.enumerados.EstadoPuesto;
 
-public class BusinessMetricaPuesto {
+public class BusinessMetricasPuesto {
 	
 	//Constructores
-	public BusinessMetricaPuesto(){}
-	public BusinessMetricaPuesto(String nombreMaquina, String usuarioAtencion, String estado, Integer timeSpent, GregorianCalendar lastUpdated, GregorianCalendar dateCreated) {
-		this.setNombreMaquina(nombreMaquina);
+	public BusinessMetricasPuesto(){}
+	public BusinessMetricasPuesto(String nombreMaquina, String usuarioAtencion, String estado, String timeSpent, GregorianCalendar lastUpdated, GregorianCalendar dateCreated) {
+		this.nombreMaquina = nombreMaquina;
 		this.usuarioAtencion = usuarioAtencion;
 		this.estado = (estado != null && !estado.equals("")) ? EstadoPuesto.valueOf(estado) : null;
 		this.timeSpent = timeSpent;
@@ -22,7 +20,7 @@ public class BusinessMetricaPuesto {
 	private String nombreMaquina;
 	private String usuarioAtencion;
 	private EstadoPuesto estado;
-	private Integer timeSpent;
+	private String timeSpent;
 	private GregorianCalendar lastUpdated;
 	private GregorianCalendar dateCreated;
 	
@@ -45,10 +43,10 @@ public class BusinessMetricaPuesto {
 	public void setEstado(EstadoPuesto estado) {
 		this.estado = estado;
 	}
-	public Integer getTimeSpent() {
+	public String getTimeSpent() {
 		return timeSpent;
 	}
-	public void setTimeSpent(Integer timeSpent) {
+	public void setTimeSpent(String timeSpent) {
 		this.timeSpent = timeSpent;
 	}
 	public GregorianCalendar getLastUpdated() {

@@ -31,7 +31,7 @@ public class SectorTest {
 		ctrlTramite = DAOServiceFactory.getInstance().getDAOTramiteController();
 		ctrlPuesto = DAOServiceFactory.getInstance().getDAOPuestoController();
 		id = new ArrayList<String>();
-		for(int i = 0; i < 9; i++){
+		for(int i = 0; i < 10; i++){
 			BusinessSector s = new BusinessSector();		
 			String idS = "idsectortest" + i;
 			s.setSectorId(idS);
@@ -229,6 +229,11 @@ public class SectorTest {
    public void testDesasociarPuestoSectorInvalido2() throws Exception{
 	   ctrlSector.desasociarSectorPuesto("sectorquenoexiste", "NombreMaquina2"); //Sector invalido
    }    
+   
+   @Test
+   public void testBajaLogicaSector(){
+	   ctrlSector.bajaLogicarSector(id.get(9));
+   }
    
    @Test
    public void testOptimisticLockSector(){

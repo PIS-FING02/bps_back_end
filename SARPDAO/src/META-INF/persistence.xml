@@ -7,6 +7,9 @@
 		<class>com.sarp.dao.model.Numero</class>
 		<class>com.sarp.dao.model.Tramite</class>
 		<class>com.sarp.dao.model.DatosComplementario</class>
+		<class>com.sarp.dao.model.MetricasPuesto</class>
+		<class>com.sarp.dao.model.MetricasEstadoNumero</class>
+		<class>com.sarp.dao.model.MetricasNumero</class>
 		<properties>
 	      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dbSARP"/> 
 	      <property name="javax.persistence.jdbc.user" value="postgres"/>

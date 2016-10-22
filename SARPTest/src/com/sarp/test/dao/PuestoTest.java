@@ -2,6 +2,7 @@ package com.sarp.test.dao;
 
 import org.junit.Test;
 
+import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -176,6 +177,9 @@ public class PuestoTest {
 	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest4", 3);
 	   BusinessNumero n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest4");
 	   assertEquals(n.getInternalId() == 3, true);
+	   ctrlPuesto.asociarNumeroPuestoActual("nombremaquinatest4", 4);
+	   n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest4");
+	   assertEquals(n.getInternalId() == 4, true);
 	   ctrlPuesto.desasociarNumeroPuestoActual("nombremaquinatest4");
 	   n = ctrlPuesto.obtenerNumeroActualPuesto("nombremaquinatest4");
 	   assertEquals(n, null);   
@@ -271,7 +275,34 @@ public class PuestoTest {
 	   ctrlPuesto.obtenerTramitesDeSector("nombremaquinatest6", "4");
    }
    
-
+   @Test
+   public void testListarMetricasPuestos(){
+	   System.out.print("\ntestListarMetricasPuestos");
+	   ArrayList<BusinessMetricasPuesto> lista = ctrlPuesto.listarMetricasPuestos();
+	   for(BusinessMetricasPuesto bpm : lista){
+		   System.out.println(bpm.getNombreMaquina() + "-" + bpm.getUsuarioAtencion() + "-" + bpm.getEstado() + "-" + bpm.getTimeSpent());
+	   }
+   }
+   
+   @Test
+   public void testListarMetricasDePuestos(){
+	   System.out.print("\ntestListarMetricasDePuestos");
+	   BusinessPuesto p = new BusinessPuesto();
+	   p.setNombreMaquina("puestoobtenermetricas");
+	   ctrlPuesto.crearPuesto(p);
+	   p = ctrlPuesto.obtenerPuesto("puestoobtenermetricas");
+	   p.setEstado(EstadoPuesto.DISPONIBLE);
+	   ctrlPuesto.modificarPuesto(p);
+	   p = ctrlPuesto.obtenerPuesto("puestoobtenermetricas");
+	   p.setEstado(EstadoPuesto.LLAMANDO);
+	   ctrlPuesto.modificarPuesto(p);
+	   ctrlPuesto.eliminarPuesto("puestoobtenermetricas");
+	   
+	   ArrayList<BusinessMetricasPuesto> lista = ctrlPuesto.listarMetricasDePuestos("puestoobtenermetricas");
+	   for(BusinessMetricasPuesto bpm : lista){
+		   System.out.println(bpm.getNombreMaquina() + "-" + bpm.getUsuarioAtencion() + "-" + bpm.getEstado() + "-" + bpm.getTimeSpent());
+	   }
+   }
    
   
 }

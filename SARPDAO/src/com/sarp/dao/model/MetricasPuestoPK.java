@@ -1,6 +1,9 @@
 package com.sarp.dao.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.GregorianCalendar;
+
 import javax.persistence.*;
 
 /**
@@ -12,42 +15,46 @@ public class MetricasPuestoPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="codigo_puesto")
-	private Integer codigoPuesto;
+	@Column(name="nombre_maquina")
+	private String nombreMaquina;
 
 	@Column(name="usuario_atencion")
-	private Integer usuarioAtencion;
-
-	@Column(name="dia_mes_anio")
-	private String diaMesAnio;
+	private String usuarioAtencion;
 
 	private String estado;
+	
+	@Column(name = "date_created")
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar dateCreated;
 
 	public MetricasPuestoPK() {
 	}
-	public Integer getCodigoPuesto() {
-		return this.codigoPuesto;
+	public String getNombreMaquina() {
+		return this.nombreMaquina;
 	}
-	public void setCodigoPuesto(Integer codigoPuesto) {
-		this.codigoPuesto = codigoPuesto;
+	public void setNombreMaquina(String nombreMaquina) {
+		this.nombreMaquina = nombreMaquina;
 	}
-	public Integer getUsuarioAtencion() {
+	public String getUsuarioAtencion() {
 		return this.usuarioAtencion;
 	}
-	public void setUsuarioAtencion(Integer usuarioAtencion) {
+	public void setUsuarioAtencion(String usuarioAtencion) {
 		this.usuarioAtencion = usuarioAtencion;
 	}
-	public String getDiaMesAnio() {
-		return this.diaMesAnio;
-	}
-	public void setDiaMesAnio(String diaMesAnio) {
-		this.diaMesAnio = diaMesAnio;
-	}
+
 	public String getEstado() {
 		return this.estado;
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	
+	public GregorianCalendar getDateCreated() {
+		return this.dateCreated;
+	}
+
+	public void setDateCreated(GregorianCalendar dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 
 	public boolean equals(Object other) {
@@ -59,18 +66,16 @@ public class MetricasPuestoPK implements Serializable {
 		}
 		MetricasPuestoPK castOther = (MetricasPuestoPK)other;
 		return 
-			this.codigoPuesto.equals(castOther.codigoPuesto)
+			this.nombreMaquina.equals(castOther.nombreMaquina)
 			&& this.usuarioAtencion.equals(castOther.usuarioAtencion)
-			&& this.diaMesAnio.equals(castOther.diaMesAnio)
 			&& this.estado.equals(castOther.estado);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + this.codigoPuesto.hashCode();
+		hash = hash * prime + this.nombreMaquina.hashCode();
 		hash = hash * prime + this.usuarioAtencion.hashCode();
-		hash = hash * prime + this.diaMesAnio.hashCode();
 		hash = hash * prime + this.estado.hashCode();
 		
 		return hash;
