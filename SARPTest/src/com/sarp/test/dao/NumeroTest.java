@@ -59,7 +59,7 @@ public class NumeroTest {
 	   assertEquals(n2.getInternalId(), id);
 	   assertEquals(n2.getCodSector(), "7");
 	   assertEquals(n2.getCodTramite() == 8, true);
-	   assertEquals(n2.getEstado(), "PENDIENTE");
+	   assertEquals(n2.getEstado(), EstadoNumero.DISPONIBLE);
 	   assertEquals(n2.getHora(), null);
 	   assertEquals(n2.getExternalId(), null);
 	   assertEquals(n2.getPrioridad(), null);	   
@@ -79,7 +79,7 @@ public class NumeroTest {
 	   assertEquals(n2.getInternalId(), id);
 	   assertEquals(n2.getCodSector(), "7");
 	   assertEquals(n2.getCodTramite() == 8, true);
-	   assertEquals(n2.getEstado(), EstadoNumero.ATRASADO);
+	   assertEquals(n2.getEstado(), EstadoNumero.DISPONIBLE);
 	   assertEquals(n2.getHora().getTimeInMillis(), hora.getTimeInMillis());
 	   assertEquals(n2.getExternalId(), "external2");
 	   assertEquals(n2.getPrioridad() == 9, true);	   
@@ -290,7 +290,7 @@ public class NumeroTest {
 	   ctrlPuesto.asociarNumeroPuesto("NombreMaquina5", id);
 	   ctrlNumero.eliminarNumero(id);
 	   
-	   BusinessMetricasNumero bmn = ctrlNumero.obtenerMetricasDeNumero(id);
+	   BusinessMetricasNumero bmn = ctrlNumero.listarMetricasDeNumero(id);
 	   System.out.println("\n"+bmn.getInternalId() + "-" + bmn.getExternalId() + "-" + bmn.getRutaSector() + "-" + bmn.getEstado() + "-" + bmn.getCodigoTramite() + "-" + bmn.getResultadoFinal());
    }
   

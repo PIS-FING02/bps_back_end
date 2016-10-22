@@ -65,7 +65,7 @@ public class DAONumeroController {
 		
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(),n.getResultadoFinal());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(),n.getResultadoFinal(),n.isFueAtrasado());
 			numero.setCodSector(n.getCodigoSector());
 			numero.setCodTramite(n.getCodigoTramite());
 			numero.setLastUpdated(n.getLastUpdated());
@@ -80,7 +80,7 @@ public class DAONumeroController {
 		
 		Numero n = numeroRepository.selectNumero(id);
 		em.close();
-		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),n.getCodigoTramite(),n.getCodigoSector(), n.getResultadoFinal());
+		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),n.getCodigoTramite(),n.getCodigoSector(), n.getResultadoFinal(),n.isFueAtrasado());
 		numero.setLastUpdated(n.getLastUpdated());
 		return numero;
 	}
@@ -102,7 +102,7 @@ public class DAONumeroController {
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		em.getTransaction().begin();
-		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado() != null ? numero.getEstado().toString() : "",numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.getLastUpdated(),numero.getResultadoFinal());
+		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado() != null ? numero.getEstado().toString() : "",numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.getLastUpdated(),numero.getResultadoFinal(),numero.isFueAtrasado());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -150,7 +150,7 @@ public class DAONumeroController {
 		
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal(),n.isFueAtrasado());
 			numero.setLastUpdated(n.getLastUpdated());
 			numero.setCodSector(n.getCodigoSector());
 			numero.setCodTramite(n.getCodigoTramite());
@@ -232,7 +232,7 @@ public class DAONumeroController {
 		return ret;
 	}
 	
-	public BusinessMetricasNumero obtenerMetricasDeNumero(int id) throws RollbackException{
+	public BusinessMetricasNumero listarMetricasDeNumero(Integer id) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		

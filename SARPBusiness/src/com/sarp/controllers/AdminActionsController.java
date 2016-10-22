@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessSector;
+import com.sarp.json.modeler.JSONMetricasEstadoNumero;
+import com.sarp.json.modeler.JSONMetricasNumero;
 import com.sarp.json.modeler.JSONMetricasPuesto;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONPuestoTramite;
@@ -226,6 +228,21 @@ public class AdminActionsController {
 	public List<JSONMetricasPuesto> listarMetricasPuestos(String nombreMaquina) {
 		AdminService adminService = new AdminService();
 		return adminService.listarMetricasPuestos(nombreMaquina);
+	}
+
+	public List<JSONMetricasEstadoNumero> listarMetricasEstadoNumero(Integer internalId) {
+		AdminService adminService = new AdminService();
+		return adminService.listarMetricasEstadoNumero(internalId);
+	}
+
+	public List<JSONMetricasNumero> listarMetricasNumero() {
+		AdminService adminService = new AdminService();
+		return adminService.listarMetricasNumero();
+	}
+	
+	public JSONMetricasNumero listarMetricasDeNumero(Integer internalId) {
+		AdminService adminService = new AdminService();
+		return adminService.listarMetricasDeNumero(internalId);
 	}
 
 }

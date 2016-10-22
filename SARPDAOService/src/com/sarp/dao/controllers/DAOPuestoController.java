@@ -187,7 +187,7 @@ public class DAOPuestoController {
 		ArrayList<Numero> list = new ArrayList<Numero>(p.getNumeros());
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list) {
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal(),n.isFueAtrasado());
 			res.setLastUpdated(n.getLastUpdated());
 			ret.add(res);
 		}
@@ -218,7 +218,7 @@ public class DAOPuestoController {
 		em.close();
 		Numero n = p.getNumero_puesto();
 		if(n != null){			
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(),n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(),n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal(),n.isFueAtrasado());
 			res.setLastUpdated(n.getLastUpdated());
 			return res;
 		}
