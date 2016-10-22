@@ -22,6 +22,7 @@ import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
+import com.sarp.enumerados.EstadoNumero;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONMetricasEstadoNumero;
@@ -448,6 +449,28 @@ public class AdminService {
 			manejador.reinicializarColas(listaSectores);
 		} catch (Exception e) {
 			throw e;
+		}
+	}
+	
+	public void recuperarColas() throws Exception {
+		DAOServiceFactory fac = DAOServiceFactory.getInstance();
+		DAONumeroController daoCtrl = fac.getDAONumeroController();
+		List<BusinessNumero> listaNumeros = daoCtrl.listarNumerosDelDia();
+		QueueService qServ;
+		for(BusinessNumero bn : listaNumeros){
+			qServ = new QueueService(bn.getCodSector());
+			if(bn.getEstado().equals(EstadoNumero.PAUSADO)){
+				qServ.transferirAColaPausados(bn);
+			}else if(bn.getEstado().equals(EstadoNumero.ATRASADO)){
+				qServ.transferirAColaAtrasados(bn);
+			}else if(bn.getEstado().equals(EstadoNumero.DISPONIBLE)){
+				qServ.agregarNumero(bn);
+			}else if(!bn.getEstado().equals(EstadoNumero.NOATENDIDO) && !bn.getEstado().equals(EstadoNumero.FINALIZADO)){
+				// los numeros q quedaron en el limbo en LLAMADO o ATENDIENDO, se pausan asi se pueden reanudar manual
+				bn.setEstado(EstadoNumero.PAUSADO);
+				daoCtrl.modificarNumero(bn);
+				qServ.transferirAColaPausados(bn);
+			}
 		}
 	}
 	
