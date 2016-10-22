@@ -102,7 +102,7 @@ public class DAONumeroController {
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		em.getTransaction().begin();
-		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.getLastUpdated(),numero.getResultadoFinal());
+		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado() != null ? numero.getEstado().toString() : "",numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.getLastUpdated(),numero.getResultadoFinal());
 		em.getTransaction().commit();
 		em.close();
 	}

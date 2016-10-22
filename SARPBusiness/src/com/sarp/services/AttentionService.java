@@ -13,6 +13,7 @@ import com.sarp.controllers.QueueController;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.factory.DAOServiceFactory;
+import com.sarp.enumerados.EstadoNumero;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
@@ -231,7 +232,7 @@ public class AttentionService {
 			Factory fac = Factory.getInstance();
 			QueueController ctrl = fac.getQueueController();
 			ctrl.transferirAColaAtrasados(numeroActual.getCodSector(), numeroActual);
-			numeroActual.setEstado("ATRASADO");
+			numeroActual.setEstado(EstadoNumero.ATRASADO);
 			
 			// Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
@@ -260,7 +261,7 @@ public class AttentionService {
 			Factory fac = Factory.getInstance();
 			QueueController ctrl = fac.getQueueController();
 			ctrl.transferirAColaPausados(numeroActual.getCodSector(), numeroActual);
-			numeroActual.setEstado("PAUSADO");
+			numeroActual.setEstado(EstadoNumero.PAUSADO);
 			
 			// Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);

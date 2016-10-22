@@ -23,7 +23,7 @@ public class ValoresDePrueba {
 		DAONumeroController ctrlNumero = new DAONumeroController();
 		DAOPuestoController ctrlPuesto = new DAOPuestoController();
 		
-		boolean cargar = true;
+		boolean cargar = false;
 		
 		/*VALORES DE PRUEBA*/
 		if(cargar){
@@ -59,7 +59,7 @@ public class ValoresDePrueba {
 				dc.setTipo_doc("cedula");
 				
 				BusinessNumero n = new BusinessNumero();
-				n.setEstado("nuevo");
+				//n.setEstado();
 				n.setExternalId("external");
 				n.setPrioridad(5);
 				n.setHora(new GregorianCalendar());
@@ -74,6 +74,10 @@ public class ValoresDePrueba {
 			}
 		}
 		
+		
+		BusinessNumero n = ctrlPuesto.obtenerNumeroActualPuesto("NombreMaquina0");
+		n.setExternalId("cambia");
+		ctrlNumero.modificarNumero(n);
 		System.out.println("FIN cargar=" + cargar);
 	}
 	

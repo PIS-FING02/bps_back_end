@@ -54,7 +54,7 @@ CREATE TABLE public.PUESTO
   numero int,
   numero_puesto int references NUMERO(internal_id), -- relacion ONETOONE entre PUESTO y NUMERO
   estado character varying(40) default 'CERRADO',
-  usuario_id character varying(40),
+  usuario_id character varying(40) default '-',
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,
   CONSTRAINT puesto_pkey PRIMARY KEY (nombre_maquina)

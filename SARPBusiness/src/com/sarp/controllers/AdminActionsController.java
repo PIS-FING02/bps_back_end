@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessSector;
+import com.sarp.json.modeler.JSONMetricasPuesto;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONPuestoTramite;
 import com.sarp.json.modeler.JSONPuestoSector;
@@ -218,6 +219,13 @@ public class AdminActionsController {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	/************* Metricas ****************/
+
+	public List<JSONMetricasPuesto> listarMetricasPuestos(String nombreMaquina) {
+		AdminService adminService = new AdminService();
+		return adminService.listarMetricasPuestos(nombreMaquina);
 	}
 
 }

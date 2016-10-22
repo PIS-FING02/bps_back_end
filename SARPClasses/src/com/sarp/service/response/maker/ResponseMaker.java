@@ -2,10 +2,12 @@ package com.sarp.service.response.maker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -13,6 +15,7 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.classes.BusinessTramiteSector;
 import com.sarp.json.modeler.JSONDatosComp;
 import com.sarp.json.modeler.JSONDisplay;
+import com.sarp.json.modeler.JSONMetricasPuesto;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONNumeroPuesto;
 import com.sarp.json.modeler.JSONPuesto;
@@ -43,10 +46,7 @@ public class ResponseMaker {
 			return jsonPuesto;
 		}else{
 			return null;
-		}
-		
-		
-		
+		}	
 	}
 	
 	public JSONPuesto puestoFullResponse(BusinessPuesto bussinesPuesto, List<BusinessSector> businessSectores, List<BusinessTramite> businessTramites, BusinessNumero businessNumero){
@@ -73,14 +73,15 @@ public class ResponseMaker {
 		
 		if(businessNumero != null){
 			JSONNumero jsonNumero = new JSONNumero();
-			jsonNumero.setEstado(businessNumero.getEstado());
+			jsonNumero.setEstado(businessNumero.getEstado() != null ? businessNumero.getEstado().toString() : null);
 			jsonNumero.setExternalId(businessNumero.getExternalId());
-			String fecha = Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH));
-			fecha = fecha +"/" + (Integer.toString(businessNumero.getHora().get(Calendar.MONTH)+1).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.MONTH)+1) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.MONTH)+1));
-			fecha = fecha + "/" + Integer.toString(businessNumero.getHora().get(Calendar.YEAR));
-			fecha = fecha + "-";
-			fecha = fecha + (Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)));
-			fecha = fecha + ":" + (Integer.toString(businessNumero.getHora().get(Calendar.MINUTE)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.MINUTE)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.MINUTE)));
+//			String fecha = Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.DAY_OF_MONTH));
+//			fecha = fecha +"/" + (Integer.toString(businessNumero.getHora().get(Calendar.MONTH)+1).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.MONTH)+1) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.MONTH)+1));
+//			fecha = fecha + "/" + Integer.toString(businessNumero.getHora().get(Calendar.YEAR));
+//			fecha = fecha + "-";
+//			fecha = fecha + (Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.HOUR_OF_DAY)));
+//			fecha = fecha + ":" + (Integer.toString(businessNumero.getHora().get(Calendar.MINUTE)).length() > 1 ? Integer.toString(businessNumero.getHora().get(Calendar.MINUTE)) : "0"+Integer.toString(businessNumero.getHora().get(Calendar.MINUTE)));
+			String fecha = CalendarToString(businessNumero.getHora());
 			jsonNumero.setHora(fecha);
 			jsonNumero.setId(businessNumero.getInternalId());
 			jsonNumero.setPrioridad(businessNumero.getPrioridad());
@@ -97,7 +98,7 @@ public class ResponseMaker {
 	public JSONNumero numeroFullResponse(BusinessNumero businessNumero, BusinessDatoComplementario businessDatosComp, BusinessTramiteSector businessTramiteSector, BusinessTramite businessTramite, BusinessSector businessSector ) {
 		
 		JSONNumero jsonNumero = new JSONNumero();
-		jsonNumero.setEstado(businessNumero.getEstado());
+		jsonNumero.setEstado(businessNumero.getEstado() != null ? businessNumero.getEstado().toString() : null);
 		jsonNumero.setExternalId(businessNumero.getExternalId());
 		jsonNumero.setHora(businessNumero.getHora().get(Calendar.YEAR) + "/" + businessNumero.getHora().get(Calendar.MONTH) + "/" + businessNumero.getHora().get(Calendar.DAY_OF_MONTH) + "-" + businessNumero.getHora().get(Calendar.HOUR_OF_DAY) + ":" + businessNumero.getHora().get(Calendar.MINUTE));
 		jsonNumero.setId(businessNumero.getInternalId());
@@ -205,6 +206,23 @@ public class ResponseMaker {
 		return jsonNumeroPuesto;
 	}
 	
+	/* METRICAS */
+	public JSONMetricasPuesto metricasPuestoAtomResponse(BusinessMetricasPuesto bussinesMetricasPuesto){
+		if(bussinesMetricasPuesto != null){
+			JSONMetricasPuesto jsonMetricasPuesto = new JSONMetricasPuesto();			
+			jsonMetricasPuesto.setEstado(bussinesMetricasPuesto.getEstado() != null ? bussinesMetricasPuesto.getEstado().toString() : null);
+			jsonMetricasPuesto.setNombreMaquina(bussinesMetricasPuesto.getNombreMaquina());
+			jsonMetricasPuesto.setUsuarioAtencion(bussinesMetricasPuesto.getUsuarioAtencion());
+			jsonMetricasPuesto.setTimeSpent(bussinesMetricasPuesto.getTimeSpent());
+			jsonMetricasPuesto.setDateCreated(CalendarToString(bussinesMetricasPuesto.getDateCreated()));
+			jsonMetricasPuesto.setLastUpdated(CalendarToString(bussinesMetricasPuesto.getLastUpdated()));
+			
+			return jsonMetricasPuesto;
+		}else{
+			return null;
+		}	
+	}
+	
 	/* UTILS */
 	public List<JSONTramite> createArrayAtomTramites(List<BusinessTramite> businessTramites) {
 		List<JSONTramite> listJSONTramite = new ArrayList<JSONTramite>();
@@ -263,6 +281,28 @@ public class ResponseMaker {
 			return null;
 		}
 
+	}
+
+	public List<JSONMetricasPuesto> createArrayAtomMetricasPuestos(List<BusinessMetricasPuesto> businessMetricasPuestos) {
+		if(businessMetricasPuestos != null){
+			List<JSONMetricasPuesto> listJSONMetricasPuesto = new ArrayList<JSONMetricasPuesto>();
+			for(BusinessMetricasPuesto businessMetricasPuesto : businessMetricasPuestos){
+				listJSONMetricasPuesto.add(this.metricasPuestoAtomResponse(businessMetricasPuesto));
+			}
+			return listJSONMetricasPuesto;
+		}else{
+			return null;
+		}
+	}
+	
+	private static String CalendarToString(GregorianCalendar c){
+		String fecha = Integer.toString(c.get(Calendar.DAY_OF_MONTH)).length() > 1 ? Integer.toString(c.get(Calendar.DAY_OF_MONTH)) : "0"+Integer.toString(c.get(Calendar.DAY_OF_MONTH));
+		fecha = fecha +"/" + (Integer.toString(c.get(Calendar.MONTH)+1).length() > 1 ? Integer.toString(c.get(Calendar.MONTH)+1) : "0"+Integer.toString(c.get(Calendar.MONTH)+1));
+		fecha = fecha + "/" + Integer.toString(c.get(Calendar.YEAR));
+		fecha = fecha + "-";
+		fecha = fecha + (Integer.toString(c.get(Calendar.HOUR_OF_DAY)).length() > 1 ? Integer.toString(c.get(Calendar.HOUR_OF_DAY)) : "0"+Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
+		fecha = fecha + ":" + (Integer.toString(c.get(Calendar.MINUTE)).length() > 1 ? Integer.toString(c.get(Calendar.MINUTE)) : "0"+Integer.toString(c.get(Calendar.MINUTE)));
+		return fecha;
 	}
 
 

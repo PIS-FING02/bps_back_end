@@ -88,6 +88,7 @@ public class DAODisplayController {
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for(Sector s : list){
 			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
+			bs.setLastUpdated(s.getLastUpdated());
 			ret.add(bs);
 		}	
 		return ret;
