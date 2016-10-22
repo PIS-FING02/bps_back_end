@@ -1,7 +1,6 @@
 package com.sarp.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.ServletContext;
