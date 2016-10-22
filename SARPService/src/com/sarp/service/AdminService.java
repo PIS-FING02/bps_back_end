@@ -1,9 +1,7 @@
 package com.sarp.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -19,8 +17,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
-import com.sarp.classes.BusinessDisplay;
-import com.sarp.classes.BusinessNodeGAFU;
 import com.sarp.classes.BusinessSectorRol;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.GAFUController;
@@ -33,7 +29,7 @@ import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
 import com.sarp.json.modeler.JSONTramiteSector;
-import com.sun.istack.internal.Nullable;
+
 
 @RequestScoped
 @Path("/adminService")
@@ -104,6 +100,7 @@ public class AdminService {
   	@GET
   	@Path("/listarPuestos")
       @Produces(MediaType.APPLICATION_JSON)
+
       public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
 	  	Factory fac = Factory.getInstance();
 	  	AdminActionsController ctrl = fac.getAdminActionsController();
@@ -202,8 +199,9 @@ public class AdminService {
 	@GET
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
+
     public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectroId") String sectorId ){
-		 
+
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController ctrl = fac.getAdminActionsController();
