@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -13,22 +14,19 @@ import java.util.Date;
  */
 @Entity
 @Table(name="metricas_puesto")
-@NamedQuery(name="MetricasPuesto.findAll", query="SELECT m FROM MetricasPuesto m")
+@NamedQuery(name="MetricasPuesto.findAll", query="SELECT mp FROM MetricasPuesto mp")
 public class MetricasPuesto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private MetricasPuestoPK id;
 
-	@Column(name = "date_created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Timestamp dateCreated;
-
-	@Version
 	@Column(name="last_updated")
-	private Timestamp lastUpdated;
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar lastUpdated;
 
 	@Column(name="time_spent")
-	private Integer timeSpent;
+	private String timeSpent;
 
 	public MetricasPuesto() {
 	}
@@ -41,27 +39,19 @@ public class MetricasPuesto implements Serializable {
 		this.id = id;
 	}
 
-	public Timestamp getDateCreated() {
-		return this.dateCreated;
-	}
-
-	public void setDateCreated(Timestamp dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
-	public Timestamp getLastUpdated() {
+	public GregorianCalendar getLastUpdated() {
 		return this.lastUpdated;
 	}
 
-	public void setLastUpdated(Timestamp lastUpdated) {
+	public void setLastUpdated(GregorianCalendar lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 
-	public Integer getTimeSpent() {
+	public String getTimeSpent() {
 		return this.timeSpent;
 	}
 
-	public void setTimeSpent(Integer timeSpent) {
+	public void setTimeSpent(String timeSpent) {
 		this.timeSpent = timeSpent;
 	}
 

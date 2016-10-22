@@ -5,7 +5,9 @@ import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
+import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
+import com.sarp.dao.controllers.DAOTramiteController;
 import com.sarp.dao.factory.DAOServiceFactory;
 
 import org.junit.AfterClass;
@@ -19,13 +21,17 @@ import javax.persistence.RollbackException;
 
 public class SectorTest {
 	private static DAOSectorController ctrlSector;
+	private static DAOPuestoController ctrlPuesto;
+	private static DAOTramiteController ctrlTramite;
 	private static List<String> id;	
 	
 	@BeforeClass
     public static void setUpClassSectorTest(){  
 		ctrlSector = DAOServiceFactory.getInstance().getDAOSectorController();
+		ctrlTramite = DAOServiceFactory.getInstance().getDAOTramiteController();
+		ctrlPuesto = DAOServiceFactory.getInstance().getDAOPuestoController();
 		id = new ArrayList<String>();
-		for(int i = 0; i < 9; i++){
+		for(int i = 0; i < 10; i++){
 			BusinessSector s = new BusinessSector();		
 			String idS = "idsectortest" + i;
 			s.setSectorId(idS);
@@ -225,6 +231,11 @@ public class SectorTest {
    }    
    
    @Test
+   public void testBajaLogicaSector(){
+	   ctrlSector.bajaLogicarSector(id.get(9));
+   }
+   
+   @Test
    public void testOptimisticLockSector(){
 	   try{
 		   System.out.println("\testOptimisticLockSector");	 
@@ -239,6 +250,69 @@ public class SectorTest {
 	   catch(RollbackException e){
 		   assertEquals(e.getCause() instanceof OptimisticLockException, true);
 	   }
+   }
+   
+   @Test
+   public void testdesasociarSectorPuesto2(){
+	   System.out.print("\ntestdesasociarSectorPuesto2");
+	   BusinessSector s1 = new BusinessSector();
+	   BusinessSector s2 = new BusinessSector();
+	   s1.setSectorId("s1");	   
+	   s2.setSectorId("s2");
+	   BusinessPuesto p1 = new BusinessPuesto();
+	   BusinessPuesto p2 = new BusinessPuesto();
+	   p1.setNombreMaquina("p1");
+	   p2.setNombreMaquina("p2");
+	   BusinessTramite t1 = new BusinessTramite();
+	   BusinessTramite t2 = new BusinessTramite();
+	   BusinessTramite t3 = new BusinessTramite();
+	   
+	   Integer idt1 = ctrlTramite.crearTramite(t1);
+	   Integer idt2 = ctrlTramite.crearTramite(t2);
+	   Integer idt3 = ctrlTramite.crearTramite(t3);
+	   ctrlSector.crearSector(s1);
+	   ctrlSector.crearSector(s2);
+	   ctrlPuesto.crearPuesto(p1);
+	   ctrlPuesto.crearPuesto(p2);
+	   
+	   ctrlSector.asociarSectorPuesto("s1", "p1");
+	   ctrlSector.asociarSectorPuesto("s1", "p2");
+	   ctrlSector.asociarSectorPuesto("s2", "p2");
+	   ctrlSector.asociarTramiteSector(idt1, "s1");
+	   ctrlSector.asociarTramiteSector(idt2, "s1");
+	   ctrlSector.asociarTramiteSector(idt3, "s1");
+	   ctrlSector.asociarTramiteSector(idt2, "s2");
+	   ctrlSector.asociarTramiteSector(idt3, "s2");
+	   ctrlTramite.asociarTramitePuesto(idt1, "p1");
+	   ctrlTramite.asociarTramitePuesto(idt2, "p1");
+	   ctrlTramite.asociarTramitePuesto(idt2, "p2");
+	   ctrlTramite.asociarTramitePuesto(idt3, "p2");
+	   
+	   
+	   System.out.print("\nLista1");
+	   ArrayList<BusinessTramite> l1 = ctrlPuesto.obtenerTramitesPuesto("p2");
+	   for(BusinessTramite tl1 : l1){
+		   System.out.println("\n"+tl1.getCodigo());
+	   }
+	   ctrlSector.desasociarSectorPuesto("s1", "p2");
+	   System.out.print("\nLista2");
+	   ArrayList<BusinessTramite> l2 = ctrlPuesto.obtenerTramitesPuesto("p2");
+	   for(BusinessTramite tl2 : l2){
+		   System.out.println("\n"+tl2.getCodigo());
+	   }
+	   
+	   ctrlSector.eliminarSector("s1");
+	   ctrlSector.eliminarSector("s2");
+	   ctrlPuesto.eliminarPuesto("p1");
+	   ctrlPuesto.eliminarPuesto("p2");
+	   ctrlTramite.eliminarTramite(idt1);
+	   ctrlTramite.eliminarTramite(idt2);
+	   ctrlTramite.eliminarTramite(idt3);
+	   
+	   
+	   
+	   System.out.print("\nFIN - testdesasociarSectorPuesto2");
+	   
    }
   
 }

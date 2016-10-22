@@ -1,8 +1,12 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import com.sarp.dao.model.DatosComplementario;
+import com.sarp.dao.model.MetricasEstadoNumero;
+import com.sarp.dao.model.MetricasNumero;
+import com.sarp.dao.model.MetricasPuesto;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
@@ -22,12 +26,12 @@ public class DAONumero {
 		this.em = em;
 	}
 	
-	public Numero insertNumero(Tramite tramite, Sector sector, String externalId, GregorianCalendar hora, Integer prioridad, String estado){
+	public Numero insertNumero(Tramite tramite, Sector sector, String externalId, GregorianCalendar hora, Integer prioridad){
 		Numero n = new Numero();
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
-		n.setEstado(estado);
+		n.setEstado("PENDIENTE");
 		tramite.addNumero(n);
 		sector.addNumero(n);
 
@@ -87,12 +91,13 @@ public class DAONumero {
     	em.remove(n);
 	}
 
-	public void updateNumero(Integer internalId, String estado, String externalId, GregorianCalendar hora, Integer prioridad, Timestamp lastUpdated) throws RollbackException {
+	public void updateNumero(Integer internalId, String estado, String externalId, GregorianCalendar hora, Integer prioridad, Timestamp lastUpdated, String resultadoFinal) throws RollbackException {
 		Numero n = selectNumero(internalId);
 		n.setEstado(estado);
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
+		n.setResultadoFinal(resultadoFinal);
 		n.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 
 		em.persist(n);	
@@ -116,17 +121,15 @@ public class DAONumero {
 		puesto.getNumeros().add(numero);
 		
 		em.persist(puesto);	
-		em.persist(numero);
-		
+		em.persist(numero);		
 	}
 
 	public void desasociarNumeroPuesto(Numero numero, Puesto puesto) {
-		numero.setPuesto(null); // cambio pancho-guzman
-		puesto.setNumero_puesto(null); // cambio pancho-guzman
+		numero.getPuestos().remove(puesto);
+		puesto.getNumeros().remove(numero);
 		
 		em.persist(puesto);	
-		em.persist(numero);
-			
+		em.persist(numero);			
 	}
 
 	public void desasociarNumeroPuestoActual(Numero numero, Puesto puesto) {
@@ -136,5 +139,32 @@ public class DAONumero {
 		em.persist(puesto);	
 		em.persist(numero);		
 	}
+	
+	public ArrayList<MetricasEstadoNumero> selectMetricasEstadoNumero() {
+		ArrayList<MetricasEstadoNumero> res = new ArrayList<MetricasEstadoNumero>(em.createQuery("SELECT men FROM MetricasEstadoNumero men").getResultList());
+		return res;
+	}
+
+	public ArrayList<MetricasEstadoNumero> selectMetricasEstadoDeNumero(Integer internalId) {		
+		Query q = em.createQuery("SELECT men FROM MetricasEstadoNumero men WHERE men.id.internalId=:arg1");
+		q.setParameter("arg1", internalId);
+		ArrayList<MetricasEstadoNumero> res = new ArrayList<MetricasEstadoNumero>(q.getResultList());
+		return res;
+	}
+	
+	public ArrayList<MetricasNumero> selectMetricasNumero() {
+		ArrayList<MetricasNumero> res = new ArrayList<MetricasNumero>(em.createQuery("SELECT mn FROM MetricasNumero mn").getResultList());
+		return res;
+	}
+	
+	public MetricasNumero selectMetricasDeNumero(int internalId) throws RollbackException{
+		MetricasNumero mn = em.find(MetricasNumero.class, internalId);
+		if (mn != null){
+			return mn;
+		}
+		else{
+			throw new RollbackException("No hay metricas para el Numero con codigo " + internalId);
+		}
+    }
 	
 }

@@ -1,9 +1,14 @@
 package com.sarp.dao.controllers;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import com.sarp.classes.BusinessDatoComplementario;
+import com.sarp.classes.BusinessMetricasEstadoNumero;
+import com.sarp.classes.BusinessMetricasNumero;
+import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -11,11 +16,15 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.DatosComplementario;
+import com.sarp.dao.model.MetricasEstadoNumero;
+import com.sarp.dao.model.MetricasNumero;
+import com.sarp.dao.model.MetricasPuesto;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
 import com.sarp.dao.repository.DAONumero;
+import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
 
@@ -34,7 +43,7 @@ public class DAONumeroController {
 		Sector s = sectorRepository.selectSector(sector);
 		if(t.getSectors().contains(s)){
 			em.getTransaction().begin();
-			Numero n = numeroRepository.insertNumero(t, s, numero.getExternalId(), numero.getHora(), numero.getPrioridad(), numero.getEstado());
+			Numero n = numeroRepository.insertNumero(t, s, numero.getExternalId(), numero.getHora(), numero.getPrioridad());
 			if(dc != null){
 				numeroRepository.insertDatoComplementario(n, dc.getDocIdentidad(),dc.getNombreCompleto(),dc.getTipoDoc());
 			}
@@ -56,7 +65,7 @@ public class DAONumeroController {
 		
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(),n.getResultadoFinal());
 			numero.setCodSector(n.getCodigoSector());
 			numero.setCodTramite(n.getCodigoTramite());
 			numero.setLastUpdated(n.getLastUpdated());
@@ -71,7 +80,7 @@ public class DAONumeroController {
 		
 		Numero n = numeroRepository.selectNumero(id);
 		em.close();
-		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),n.getCodigoTramite(),n.getCodigoSector());
+		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),n.getCodigoTramite(),n.getCodigoSector(), n.getResultadoFinal());
 		numero.setLastUpdated(n.getLastUpdated());
 		return numero;
 	}
@@ -93,7 +102,7 @@ public class DAONumeroController {
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		em.getTransaction().begin();
-		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.getLastUpdated());
+		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado(),numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.getLastUpdated(),numero.getResultadoFinal());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -141,7 +150,7 @@ public class DAONumeroController {
 		
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
 			numero.setLastUpdated(n.getLastUpdated());
 			numero.setCodSector(n.getCodigoSector());
 			numero.setCodTramite(n.getCodigoTramite());
@@ -179,6 +188,58 @@ public class DAONumeroController {
 			return res;
 		}
 		return null;
+	}
+	
+	public ArrayList<BusinessMetricasEstadoNumero> listarMetricasEstadoNumero() throws RollbackException {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+
+		ArrayList<MetricasEstadoNumero> lista = numeroRepository.selectMetricasEstadoNumero();
+		em.close();
+		ArrayList<BusinessMetricasEstadoNumero> ret = new ArrayList<BusinessMetricasEstadoNumero>();
+		for (MetricasEstadoNumero men : lista) {
+			BusinessMetricasEstadoNumero bmen = new BusinessMetricasEstadoNumero(men.getId().getInternalId(), men.getId().getEstado(), men.getTimeSpent(), men.getLastUpdated(), men.getId().getDateCreated());
+			ret.add(bmen);
+		}
+		return ret;
+	}
+
+	public ArrayList<BusinessMetricasEstadoNumero> listarMetricasEstadoDeNumero(Integer internalId) {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+
+		ArrayList<MetricasEstadoNumero> lista = numeroRepository.selectMetricasEstadoDeNumero(internalId);
+		em.close();
+		ArrayList<BusinessMetricasEstadoNumero> ret = new ArrayList<BusinessMetricasEstadoNumero>();
+		for (MetricasEstadoNumero men : lista) {
+			BusinessMetricasEstadoNumero bmen = new BusinessMetricasEstadoNumero(men.getId().getInternalId(), men.getId().getEstado(), men.getTimeSpent(), men.getLastUpdated(), men.getId().getDateCreated());
+			ret.add(bmen);
+		}
+		return ret;
+	}
+	
+	public ArrayList<BusinessMetricasNumero> listarMetricasNumero() throws RollbackException {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+
+		ArrayList<MetricasNumero> lista = numeroRepository.selectMetricasNumero();
+		em.close();
+		ArrayList<BusinessMetricasNumero> ret = new ArrayList<BusinessMetricasNumero>();
+		for (MetricasNumero mn : lista) {
+			BusinessMetricasNumero bmn = new BusinessMetricasNumero(mn.getInternalId(), mn.getExternalId(), mn.getEstado(), mn.getCodigoTramite(), mn.getRutaSector(), mn.getUsuarioAtencion(), mn.getResultadoFinal(), mn.getLastUpdated(), mn.getDateCreated());
+			ret.add(bmn);
+		}
+		return ret;
+	}
+	
+	public BusinessMetricasNumero obtenerMetricasDeNumero(int id) throws RollbackException{
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		
+		MetricasNumero mn = numeroRepository.selectMetricasDeNumero(id);
+		em.close();
+		BusinessMetricasNumero bmn = new BusinessMetricasNumero(mn.getInternalId(), mn.getExternalId(), mn.getEstado(), mn.getCodigoTramite(), mn.getRutaSector(), mn.getUsuarioAtencion(), mn.getResultadoFinal(), mn.getLastUpdated(), mn.getDateCreated());
+		return bmn;
 	}
 
 }

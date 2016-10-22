@@ -46,7 +46,7 @@ public class RequestMaker {
 			int min = Integer.parseInt(fecha.substring(14));
 			GregorianCalendar horaNumero = new GregorianCalendar(ano, mes, dia, hora, min);
 
-			return numero != null ? new BusinessNumero(numero.getId(),numero.getExternalId(),horaNumero,numero.getEstado(),numero.getPrioridad(),numero.getIdTramite(),numero.getIdSector()) : null;
+			return numero != null ? new BusinessNumero(numero.getId(),numero.getExternalId(),horaNumero,numero.getEstado(),numero.getPrioridad(),numero.getIdTramite(),numero.getIdSector(), numero.getResultadoFinal()) : null;
 		}catch(Exception e){
 			throw new Exception("El formato del numero no es correcto!");
 		}
@@ -94,7 +94,7 @@ public class RequestMaker {
 	public BusinessNumero requestNumeroFromNumPuesto(JSONNumeroPuesto numPuesto){
 		
 		if(numPuesto != null){
-			BusinessNumero numero =  new BusinessNumero(numPuesto.getNumeroId(), null, null, null, null, null, null);
+			BusinessNumero numero =  new BusinessNumero(numPuesto.getNumeroId(), null, null, null, null, null, null,null);
 			return numero;
 		}else{
 			return null;

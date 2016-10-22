@@ -1,14 +1,19 @@
 package com.sarp.dao.controllers;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
+
+import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
+import com.sarp.dao.model.MetricasPuesto;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
@@ -122,7 +127,7 @@ public class DAOPuestoController {
 		Puesto p = puestoRepository.selectPuesto(nombreMaquina);
 		Numero n = numeroRepository.selectNumero(codigoNumero);
 		
-		if(!n.getPuesto().equals(p)){
+		if(!n.getPuestos().contains(p)){
 			em.close();
 			throw new RollbackException("El puesto de " + nombreMaquina + " y el numero " + codigoNumero + " no estan asociados");
 		}
@@ -180,7 +185,7 @@ public class DAOPuestoController {
 		ArrayList<Numero> list = new ArrayList<Numero>(p.getNumeros());
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list) {
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
 			ret.add(res);
 		}
 		return ret;
@@ -209,7 +214,7 @@ public class DAOPuestoController {
 		em.close();
 		Numero n = p.getNumero_puesto();
 		if(n != null){			
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(),n.getTramite().getCodigo(),n.getSector().getCodigo());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(),n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
 			return res;
 		}
 		return null;
@@ -239,6 +244,34 @@ public class DAOPuestoController {
 			}	
 			return ret;
 		}	
+	}
+	
+	public ArrayList<BusinessMetricasPuesto> listarMetricasDePuestos(String nombreMaquina) throws RollbackException {
+		EntityManager em = EMFactory.getEntityManager();
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+
+		ArrayList<MetricasPuesto> lista = puestoRepository.selectMetricasDePuesto(nombreMaquina);
+		em.close();
+		ArrayList<BusinessMetricasPuesto> ret = new ArrayList<BusinessMetricasPuesto>();
+		for (MetricasPuesto mp : lista) {
+			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent(), mp.getLastUpdated(), mp.getId().getDateCreated());
+			ret.add(bmp);
+		}
+		return ret;
+	}
+
+	public ArrayList<BusinessMetricasPuesto> listarMetricasPuestos() {
+		EntityManager em = EMFactory.getEntityManager();
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+
+		ArrayList<MetricasPuesto> lista = puestoRepository.selectMetricasPuestos();
+		em.close();
+		ArrayList<BusinessMetricasPuesto> ret = new ArrayList<BusinessMetricasPuesto>();
+		for (MetricasPuesto mp : lista) {
+			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent(), mp.getLastUpdated(), mp.getId().getDateCreated());
+			ret.add(bmp);
+		}
+		return ret;
 	}
 
 }

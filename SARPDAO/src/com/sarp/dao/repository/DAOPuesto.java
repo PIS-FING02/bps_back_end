@@ -1,10 +1,16 @@
 package com.sarp.dao.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.RollbackException;
+
+import com.sarp.dao.model.MetricasEstadoNumeroPK;
+import com.sarp.dao.model.MetricasPuesto;
+import com.sarp.dao.model.MetricasPuestoPK;
 import com.sarp.dao.model.Puesto;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class DAOPuesto {
 	
@@ -51,6 +57,9 @@ public class DAOPuesto {
 		Puesto p = selectPuesto(nombreMaquina);
 		p.setEstado(estado);
 		p.setNumero(numero);
+		if(usuarioId == null || usuarioId.equals("")){
+			usuarioId = "-";
+		}
 		p.setUsuarioId(usuarioId);
 		p.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 		
@@ -65,5 +74,17 @@ public class DAOPuesto {
 		}
     	em.remove(p);
     }
+
+	public ArrayList<MetricasPuesto> selectMetricasPuestos() {
+		ArrayList<MetricasPuesto> res = new ArrayList<MetricasPuesto>(em.createQuery("SELECT mp FROM MetricasPuesto mp").getResultList());
+		return res;
+	}
+
+	public ArrayList<MetricasPuesto> selectMetricasDePuesto(String nombreMaquina) {		
+		Query q = em.createQuery("SELECT mp FROM MetricasPuesto mp WHERE mp.id.nombreMaquina=:arg1");
+		q.setParameter("arg1", nombreMaquina);
+		ArrayList<MetricasPuesto> res = new ArrayList<MetricasPuesto>(q.getResultList());
+		return res;
+	}
 	
 }

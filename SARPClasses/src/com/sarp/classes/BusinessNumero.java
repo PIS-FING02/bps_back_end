@@ -11,6 +11,7 @@ public class BusinessNumero {
 	private GregorianCalendar hora;
 	private String estado;
 	private Integer prioridad;
+	private String resultadoFinal;
 	private Timestamp lastUpdated;
 	private Integer codTramite;
 	private String codSector;
@@ -18,25 +19,15 @@ public class BusinessNumero {
 	// Constructores
 	public BusinessNumero(){}
 	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado,
-			Integer prioridad, Integer codT, String codS) {
+			Integer prioridad, Integer codT, String codS, String resultadoFinal) {
 		this.internalId = internalId;
 		this.externalId = externalId;
 		this.hora = hora;
 		this.estado = estado;
 		this.prioridad = prioridad;
+		this.resultadoFinal = resultadoFinal;
 		this.codTramite = codT;
 		this.codSector = codS;
-	}
-
-	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado,
-			Integer prioridad) {
-		/* (1) duda pancho-guzman */
-		this.internalId = internalId;
-		this.externalId = externalId;
-		this.hora = hora;
-		this.estado = estado;
-		this.prioridad = prioridad;
-
 	}
 
 	// Operaciones
@@ -103,6 +94,13 @@ public class BusinessNumero {
 	public void setCodSector(String codSector) {
 		this.codSector = codSector;
 	}
+	
+	public String getResultadoFinal() {
+		return resultadoFinal;
+	}
+	public void setResultadoFinal(String resultadoFinal) {
+		this.resultadoFinal = resultadoFinal;
+	}
 
 	/*********** Metodos auxiliares para testing ****************/
 
@@ -118,6 +116,6 @@ public class BusinessNumero {
 				+ hora.getTime().toString() + "\n" 
 				+ "Prioridad " + prioridad.toString() + "\n"
 				+ "Estado: "+estado);
-	}
+	}	
 	
 }
