@@ -42,6 +42,7 @@ public class DAOTramiteController {
 		List<BusinessTramite> ret = new LinkedList<BusinessTramite>();
 		for (Tramite t : list){
 			BusinessTramite dt = new BusinessTramite(t.getCodigo(), t.getNombre());
+			dt.setLastUpdated(t.getLastUpdated());
 			ret.add(dt);
 		}	
 		return ret;
@@ -88,6 +89,7 @@ public class DAOTramiteController {
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for(Sector s : list){
 			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
+			bs.setLastUpdated(s.getLastUpdated());
 			ret.add(bs);
 		}	
 		return ret;
@@ -138,6 +140,7 @@ public class DAOTramiteController {
 		List<BusinessPuesto> ret = new LinkedList<BusinessPuesto>();
 		for(Puesto p : list){
 			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(),p.getNumero());
+			bp.setLastUpdated(p.getLastUpdated());
 			ret.add(bp);
 		}	
 		return ret;

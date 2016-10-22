@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.RollbackException;
 
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -20,7 +21,7 @@ import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.factory.Factory;
-
+import com.sarp.json.modeler.JSONMetricasPuesto;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONPuestoTramite;
 import com.sarp.json.modeler.JSONSector;
@@ -443,6 +444,27 @@ public class AdminService {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	/************* Metricas ****************/
+
+	public List<JSONMetricasPuesto> listarMetricasPuestos(String nombreMaquina) {
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
+		List<BusinessMetricasPuesto> metricasPuestos;
+		// Traigo los puestos de un sector desde DaoService
+		// si sector es null entonces traigo todos los puestos del sistema
+		if (nombreMaquina != null) {
+			metricasPuestos = controladorPuesto.listarMetricasDePuestos(nombreMaquina);
+		} else {
+			metricasPuestos = controladorPuesto.listarMetricasPuestos();
+		}
+
+		List<JSONMetricasPuesto> metricasPuestosJson = resMaker.createArrayAtomMetricasPuestos(metricasPuestos);
+
+		return metricasPuestosJson;
 	}
 
 }

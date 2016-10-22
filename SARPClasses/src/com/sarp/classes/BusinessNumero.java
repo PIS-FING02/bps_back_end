@@ -3,13 +3,16 @@ package com.sarp.classes;
 import java.sql.Timestamp;
 import java.util.GregorianCalendar;
 
+import com.sarp.enumerados.EstadoNumero;
+import com.sarp.enumerados.EstadoPuesto;
+
 public class BusinessNumero {
 
 	// Atributos
 	private Integer internalId;
 	private String externalId;
 	private GregorianCalendar hora;
-	private String estado;
+	private EstadoNumero estado;
 	private Integer prioridad;
 	private String resultadoFinal;
 	private Timestamp lastUpdated;
@@ -23,7 +26,7 @@ public class BusinessNumero {
 		this.internalId = internalId;
 		this.externalId = externalId;
 		this.hora = hora;
-		this.estado = estado;
+		this.estado = (estado != null && !estado.equals("")) ? EstadoNumero.valueOf(estado) : null;
 		this.prioridad = prioridad;
 		this.resultadoFinal = resultadoFinal;
 		this.codTramite = codT;
@@ -55,11 +58,11 @@ public class BusinessNumero {
 		this.hora = hora;
 	}
 
-	public String getEstado() {
+	public EstadoNumero getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(EstadoNumero estado) {
 		this.estado = estado;
 	}
 

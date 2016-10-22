@@ -12,6 +12,7 @@ import org.junit.Test;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSectorQueue;
 import com.sarp.classes.BusinessTramite;
+import com.sarp.enumerados.EstadoNumero;
 
 public class TestBusinessSectorQueue {
 
@@ -290,7 +291,7 @@ public class TestBusinessSectorQueue {
 		// obtengo el numero para atender
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo pauseo
-		nro.setEstado("Pausado");
+		nro.setEstado(EstadoNumero.PAUSADO);
 		this.cola.agregarNumeroPausado(nro);
 		// obtengo la lista de pausados a ver si se transfirio
 		List<BusinessNumero> pausados = this.cola.obtenerListaPausados(tramites);
@@ -328,7 +329,7 @@ public class TestBusinessSectorQueue {
 		// obtengo el numero para atender
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo pauseo
-		nro.setEstado("Pausado");
+		nro.setEstado(EstadoNumero.PAUSADO);
 		this.cola.agregarNumeroPausado(nro);
 
 		tramites = new ArrayList<BusinessTramite>();
@@ -395,19 +396,19 @@ public class TestBusinessSectorQueue {
 		// obtengo el numero para atender
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo pauseo
-		nro.setEstado("Pausado");
+		nro.setEstado(EstadoNumero.PAUSADO);
 		this.cola.agregarNumeroPausado(nro);
 
 		// obtengo el numero para atender
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo pauseo
-		nro.setEstado("Pausado");
+		nro.setEstado(EstadoNumero.PAUSADO);
 		this.cola.agregarNumeroPausado(nro);
 
 		// obtengo el numero para atender
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo pauseo
-		nro.setEstado("Pausado");
+		nro.setEstado(EstadoNumero.PAUSADO);
 		this.cola.agregarNumeroPausado(nro);
 
 		// obtengo la lista de pausados a ver si se transfirieron los nros
@@ -480,19 +481,19 @@ public class TestBusinessSectorQueue {
 		// obtengo el numero para atender
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo pauseo
-		nro.setEstado("Pausado");
+		nro.setEstado(EstadoNumero.PAUSADO);
 		this.cola.agregarNumeroPausado(nro);
 
 		// obtengo el numero para atender
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo pauseo
-		nro.setEstado("Pausado");
+		nro.setEstado(EstadoNumero.PAUSADO);
 		this.cola.agregarNumeroPausado(nro);
 
 		// obtengo el numero para atender
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo pauseo
-		nro.setEstado("Pausado");
+		nro.setEstado(EstadoNumero.PAUSADO);
 		this.cola.agregarNumeroPausado(nro);
 
 		// obtengo la lista de pausados a ver si se transfirieron los nros
@@ -546,7 +547,7 @@ public class TestBusinessSectorQueue {
 		nro.printNumero();
 
 		// lo atraso
-		nro.setEstado("Atrasado");
+		nro.setEstado(EstadoNumero.ATRASADO);
 		this.cola.agregarNumeroAtrasado(nro);
 
 		System.out.println("Luego de atrasar ");
@@ -577,7 +578,7 @@ public class TestBusinessSectorQueue {
 		nro.printNumero();
 
 		// lo atraso
-		nro.setEstado("Atrasado");
+		nro.setEstado(EstadoNumero.ATRASADO);
 		this.cola.agregarNumeroAtrasado(nro);
 
 		System.out.println("Luego de atrasar ");
@@ -636,7 +637,7 @@ public class TestBusinessSectorQueue {
 		nro.printNumero();
 
 		// lo atraso
-		nro.setEstado("Atrasado");
+		nro.setEstado(EstadoNumero.ATRASADO);
 		this.cola.agregarNumeroAtrasado(nro);
 
 		System.out.println("Luego de atrasar ");
@@ -695,17 +696,17 @@ public class TestBusinessSectorQueue {
 
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo atraso
-		nro.setEstado("Atrasado");
+		nro.setEstado(EstadoNumero.ATRASADO);
 		this.cola.agregarNumeroAtrasado(nro);
 
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo atraso
-		nro.setEstado("Atrasado");
+		nro.setEstado(EstadoNumero.ATRASADO);
 		this.cola.agregarNumeroAtrasado(nro);
 
 		nro = this.cola.llamarNumeroCola(tramites);
 		// lo atraso
-		nro.setEstado("Atrasado");
+		nro.setEstado(EstadoNumero.ATRASADO);
 		this.cola.agregarNumeroAtrasado(nro);
 
 		// reviso q esten los tres nros atrasados

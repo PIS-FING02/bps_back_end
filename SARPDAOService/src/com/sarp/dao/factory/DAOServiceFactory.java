@@ -18,7 +18,7 @@ public class DAOServiceFactory {
 	}
 	
 	public DAONumeroController getDAONumeroController(){
-		return new  DAONumeroController();
+		return new DAONumeroController();
 	}
 	
 	public DAOAdminController getDAOAdminController(){

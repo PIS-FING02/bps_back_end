@@ -13,6 +13,7 @@ import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.factory.DAOServiceFactory;
+import com.sarp.enumerados.EstadoNumero;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.service.response.maker.RequestMaker;
@@ -36,7 +37,7 @@ public class NumberService {
 				+ Integer.toString(diaActual.get(Calendar.MINUTE)) + Integer.toString(diaActual.get(Calendar.SECOND));
 		numero.setExternalId(externalID);
 		/** fin generar external id ***/
-		numero.setEstado("DISPONIBLE");
+		numero.setEstado(EstadoNumero.PENDIENTE);
 		BusinessDatoComplementario bDatosComplementario = reqMaker.requestDatoComplementario(num);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();

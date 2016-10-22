@@ -27,9 +27,9 @@ public class DAOPuesto {
 	public void insertPuesto(String nombreMaquina, String usuarioId, Integer numero){				
 		Puesto p = new Puesto();
 		p.setNombreMaquina(nombreMaquina);
-		p.setUsuarioId(usuarioId);
-		p.setEstado("CERRADO");
 		p.setNumero(numero);
+		p.setUsuarioId("-");
+		p.setEstado("CERRADO");
 		
 		em.persist(p);
 	}

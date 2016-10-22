@@ -13,6 +13,7 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.factory.DAOServiceFactory;
+import com.sarp.enumerados.EstadoNumero;
 import com.sarp.enumerados.EstadoPuesto;
 
 import org.junit.AfterClass;
@@ -68,7 +69,7 @@ public class NumeroTest {
    @Test
    public void testCrearNumero2() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   n.setEstado("estado2");
+	   n.setEstado(EstadoNumero.ATRASADO);
 	   GregorianCalendar hora = new GregorianCalendar();
 	   n.setHora(hora);
 	   n.setPrioridad(9);
@@ -78,7 +79,7 @@ public class NumeroTest {
 	   assertEquals(n2.getInternalId(), id);
 	   assertEquals(n2.getCodSector(), "7");
 	   assertEquals(n2.getCodTramite() == 8, true);
-	   assertEquals(n2.getEstado(), "PENDIENTE");
+	   assertEquals(n2.getEstado(), EstadoNumero.ATRASADO);
 	   assertEquals(n2.getHora().getTimeInMillis(), hora.getTimeInMillis());
 	   assertEquals(n2.getExternalId(), "external2");
 	   assertEquals(n2.getPrioridad() == 9, true);	   
@@ -154,7 +155,7 @@ public class NumeroTest {
 	   assertEquals(n.getExternalId(), "external1");
 	   assertEquals(n.getInternalId(), i);
 	   n.setPrioridad(7);
-	   n.setEstado("estadotest");
+	   n.setEstado(EstadoNumero.NOATENDIDO);
 	   n.setExternalId("externaltest");
 	   GregorianCalendar c = new GregorianCalendar();
 	   n.setHora(c);
@@ -162,7 +163,7 @@ public class NumeroTest {
 	   BusinessNumero n2 = ctrlNumero.obtenerNumero(i);
 	   assertEquals(n2.getInternalId(), i);
 	   assertEquals(n2.getPrioridad() == 7, true);
-	   assertEquals(n2.getEstado(), "estadotest");
+	   assertEquals(n2.getEstado(), EstadoNumero.NOATENDIDO);
 	   assertEquals(n2.getExternalId(), "externaltest");
 	   assertEquals(n2.getHora().getTimeInMillis(), c.getTimeInMillis());
    }
@@ -256,10 +257,10 @@ public class NumeroTest {
 	   n.setExternalId("external");
 	   Integer id = ctrlNumero.crearNumero(n, 3, "2", null);
 	   n = ctrlNumero.obtenerNumero(id);
-	   n.setEstado("segundoestado");
+	   n.setEstado(EstadoNumero.FINALIZADO);
 	   ctrlNumero.modificarNumero(n);
 	   n = ctrlNumero.obtenerNumero(id);
-	   n.setEstado("tercerestado");
+	   n.setEstado(EstadoNumero.LLAMADO);
 	   ctrlNumero.modificarNumero(n);
 	   ctrlNumero.eliminarNumero(id);
 	   
@@ -285,7 +286,7 @@ public class NumeroTest {
 	   n.setExternalId("external");
 	   Integer id = ctrlNumero.crearNumero(n, 3, "2", null);
 	   n = ctrlNumero.obtenerNumero(id);
-	   n.setEstado("segundoestado");
+	   n.setEstado(EstadoNumero.LLAMADO);
 	   ctrlPuesto.asociarNumeroPuesto("NombreMaquina5", id);
 	   ctrlNumero.eliminarNumero(id);
 	   

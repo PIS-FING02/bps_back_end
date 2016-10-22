@@ -164,6 +164,7 @@ public class DAOSectorController {
 		List<BusinessPuesto> ret = new LinkedList<BusinessPuesto>();
 		for(Puesto p : list){
 			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado() ,p.getNumero());
+			bp.setLastUpdated(p.getLastUpdated());
 			ret.add(bp);
 		}	
 		return ret;
@@ -179,6 +180,7 @@ public class DAOSectorController {
 		List<BusinessTramite> ret = new LinkedList<BusinessTramite>();
 		for(Tramite t : list){
 			BusinessTramite bt = new BusinessTramite(t.getCodigo(), t.getNombre());
+			bt.setLastUpdated(t.getLastUpdated());
 			ret.add(bt);
 		}	
 		return ret;
@@ -194,6 +196,7 @@ public class DAOSectorController {
 		List<BusinessDisplay> ret = new LinkedList<BusinessDisplay>();
 		for(Display d : list){
 			BusinessDisplay bd = new BusinessDisplay(d.getIdDisplay());
+			bd.setLastUpdated(d.getLastUpdated());
 			ret.add(bd);
 		}	
 		return ret;

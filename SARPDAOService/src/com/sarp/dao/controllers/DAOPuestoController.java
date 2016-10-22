@@ -70,6 +70,7 @@ public class DAOPuestoController {
 		ArrayList<BusinessPuesto> ret = new ArrayList<BusinessPuesto>();
 		for (Puesto p : lista) {
 			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(), p.getNumero());
+			bp.setLastUpdated(p.getLastUpdated());
 			ret.add(bp);
 		}
 		return ret;
@@ -97,6 +98,7 @@ public class DAOPuestoController {
 		ArrayList<BusinessSector> ret = new ArrayList<BusinessSector>();
 		for (Sector s : list) {
 			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
+			bs.setLastUpdated(s.getLastUpdated());
 			ret.add(bs);
 		}
 		return ret;
@@ -186,6 +188,7 @@ public class DAOPuestoController {
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list) {
 			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
+			res.setLastUpdated(n.getLastUpdated());
 			ret.add(res);
 		}
 		return ret;
@@ -201,6 +204,7 @@ public class DAOPuestoController {
 		ArrayList<BusinessTramite> ret = new ArrayList<BusinessTramite>();
 		for (Tramite t : list) {
 			BusinessTramite bt = new BusinessTramite(t.getCodigo(), t.getNombre());
+			bt.setLastUpdated(t.getLastUpdated());
 			ret.add(bt);
 		}
 		return ret;
@@ -215,6 +219,7 @@ public class DAOPuestoController {
 		Numero n = p.getNumero_puesto();
 		if(n != null){			
 			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(),n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
+			res.setLastUpdated(n.getLastUpdated());
 			return res;
 		}
 		return null;
@@ -240,6 +245,7 @@ public class DAOPuestoController {
 			ArrayList<BusinessTramite> ret = new ArrayList<BusinessTramite>();
 			for (Tramite t : list){
 				BusinessTramite dt = new BusinessTramite(t.getCodigo(), t.getNombre());
+				dt.setLastUpdated(t.getLastUpdated());
 				ret.add(dt);
 			}	
 			return ret;
