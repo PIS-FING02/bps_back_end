@@ -67,10 +67,10 @@ public class AdminActionsController {
 		return adServ.listarTramitesPosibles(nombreMaquina);
 	}
 
-	public void modificarEstadoPuesto(String nombreMaquina, String estado) {
+	//public void modificarEstadoPuesto(String nombreMaquina, String estado) {
 		// TODO Auto-generated method stub
 
-	}
+	//}
 
 	/** Alta, Baja & Modificacion Tramite **/
 
