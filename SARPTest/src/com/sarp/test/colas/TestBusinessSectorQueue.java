@@ -40,7 +40,7 @@ public class TestBusinessSectorQueue {
 			date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 			date.set(Calendar.MINUTE, 0);
 			date.add(Calendar.MINUTE, i);
-			nro = new BusinessNumero(i, Integer.toString(i), date, "estado", 1, 1, "1");
+			nro = new BusinessNumero(i, Integer.toString(i), date, "estado", 1, 1, "1",null);
 			nro.setLastUpdated(new Timestamp(1));
 			listaNros.add(nro);
 		}
@@ -74,7 +74,7 @@ public class TestBusinessSectorQueue {
 			date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 			date.set(Calendar.MINUTE, 0);
 			date.add(Calendar.MINUTE, i);
-			nro = new BusinessNumero(i, Integer.toString(i), date, "estado", 1, i % 2, "1");
+			nro = new BusinessNumero(i, Integer.toString(i), date, "estado", 1, i % 2, "1",null);
 			nro.setLastUpdated(new Timestamp(1));
 			listaNros.add(nro);
 		}
@@ -102,7 +102,7 @@ public class TestBusinessSectorQueue {
 			date.set(Calendar.HOUR_OF_DAY, this.hrActual);
 			date.set(Calendar.MINUTE, 0);
 			date.add(Calendar.MINUTE, i);
-			nro = new BusinessNumero(i, Integer.toString(i), date, "estado", 1, (i % 2) + 1, "1");
+			nro = new BusinessNumero(i, Integer.toString(i), date, "estado", 1, (i % 2) + 1, "1",null);
 			nro.setLastUpdated(new Timestamp(1));
 			listaNros.add(nro);
 		}
@@ -132,7 +132,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual + 1);
 		date.set(Calendar.MINUTE, 0);
-		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		listaNros.add(nro);
 
@@ -155,7 +155,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 0);
-		nro = new BusinessNumero(1, "1", date, "estado", 2, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 2, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 
 		try {
@@ -191,7 +191,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 0);
-		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			try {
@@ -205,7 +205,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 0);
-		nro = new BusinessNumero(2, "2", date, "estado", 2, 1, "1");
+		nro = new BusinessNumero(2, "2", date, "estado", 2, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -235,7 +235,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual + 1);
 		date.set(Calendar.MINUTE, 0);
-		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -246,7 +246,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual + 1);
 		date.set(Calendar.MINUTE, 0);
-		nro = new BusinessNumero(2, "2", date, "estado", 2, 1, "1");
+		nro = new BusinessNumero(2, "2", date, "estado", 2, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -275,7 +275,7 @@ public class TestBusinessSectorQueue {
 		GregorianCalendar date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 15);
-		BusinessNumero nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		BusinessNumero nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -313,7 +313,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 18);
-		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -358,7 +358,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 18);
-		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -369,7 +369,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 19);
-		nro = new BusinessNumero(2, "2", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(2, "2", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -380,7 +380,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 20);
-		nro = new BusinessNumero(3, "3", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(3, "3", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -443,7 +443,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 18);
-		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -454,7 +454,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 19);
-		nro = new BusinessNumero(2, "2", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(2, "2", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -465,7 +465,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 20);
-		nro = new BusinessNumero(3, "3", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(3, "3", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -530,7 +530,7 @@ public class TestBusinessSectorQueue {
 		GregorianCalendar date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 18);
-		BusinessNumero nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		BusinessNumero nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -561,7 +561,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 18);
-		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -598,7 +598,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual);
 		date.set(Calendar.MINUTE, this.minActual - 10);
-		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -609,7 +609,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual);
 		date.set(Calendar.MINUTE, this.minActual - 5);
-		nro = new BusinessNumero(2, "2", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(2, "2", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -620,7 +620,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual);
 		date.set(Calendar.MINUTE, this.minActual);
-		nro = new BusinessNumero(3, "3", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(3, "3", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -659,7 +659,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual);
 		date.set(Calendar.MINUTE, this.minActual - 10);
-		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(1, "1", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -670,7 +670,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual);
 		date.set(Calendar.MINUTE, this.minActual - 5);
-		nro = new BusinessNumero(2, "2", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(2, "2", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -681,7 +681,7 @@ public class TestBusinessSectorQueue {
 		date = new GregorianCalendar();
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual);
 		date.set(Calendar.MINUTE, this.minActual - 1);
-		nro = new BusinessNumero(3, "3", date, "estado", 1, 1, "1");
+		nro = new BusinessNumero(3, "3", date, "estado", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 		try {
 			this.cola.agregarNumeroCola(nro);
@@ -739,7 +739,7 @@ public class TestBusinessSectorQueue {
 			date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 			date.set(Calendar.MINUTE, 0);
 			date.add(Calendar.MINUTE, i);
-			nro = new BusinessNumero(i, Integer.toString(i), date, "NO_ATENDIDO", 1, 1, "1");
+			nro = new BusinessNumero(i, Integer.toString(i), date, "NO_ATENDIDO", 1, 1, "1",null);
 			nro.setLastUpdated(new Timestamp(1));
 			listaNros.add(nro);
 		}
@@ -749,7 +749,7 @@ public class TestBusinessSectorQueue {
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 0);
 		date.add(Calendar.MINUTE, 5);
-		nro = new BusinessNumero(5, "5", date, "NO_ATENDIDO", 2, 1, "1");
+		nro = new BusinessNumero(5, "5", date, "NO_ATENDIDO", 2, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 
 		try {
@@ -762,7 +762,7 @@ public class TestBusinessSectorQueue {
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 0);
 		date.add(Calendar.MINUTE, 6);
-		nro = new BusinessNumero(6, "6", date, "NO_ATENDIDO", 2, 1, "1");
+		nro = new BusinessNumero(6, "6", date, "NO_ATENDIDO", 2, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 
 		try {
@@ -775,7 +775,7 @@ public class TestBusinessSectorQueue {
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 0);
 		date.add(Calendar.MINUTE, 7);
-		nro = new BusinessNumero(7, "7", date, "NO_ATENDIDO", 2, 1, "1");
+		nro = new BusinessNumero(7, "7", date, "NO_ATENDIDO", 2, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 
 		try {
@@ -788,7 +788,7 @@ public class TestBusinessSectorQueue {
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 0);
 		date.add(Calendar.MINUTE, 8);
-		nro = new BusinessNumero(8, "8", date, "PAUSADO", 2, 1, "1");
+		nro = new BusinessNumero(8, "8", date, "PAUSADO", 2, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 
 		this.cola.agregarNumeroPausado(nro);
@@ -797,7 +797,7 @@ public class TestBusinessSectorQueue {
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 0);
 		date.add(Calendar.MINUTE, 9);
-		nro = new BusinessNumero(9, "9", date, "PAUSADO", 1, 1, "1");
+		nro = new BusinessNumero(9, "9", date, "PAUSADO", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 
 		this.cola.agregarNumeroPausado(nro);
@@ -806,7 +806,7 @@ public class TestBusinessSectorQueue {
 		date.set(Calendar.HOUR_OF_DAY, this.hrActual - 1);
 		date.set(Calendar.MINUTE, 0);
 		date.add(Calendar.MINUTE, 10);
-		nro = new BusinessNumero(10, "10", date, "ATRASADO", 1, 1, "1");
+		nro = new BusinessNumero(10, "10", date, "ATRASADO", 1, 1, "1",null);
 		nro.setLastUpdated(new Timestamp(1));
 
 		this.cola.agregarNumeroAtrasado(nro);

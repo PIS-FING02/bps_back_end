@@ -1,6 +1,8 @@
 package com.sarp.dao.model;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
+
 import javax.persistence.*;
 
 /**
@@ -14,8 +16,12 @@ public class MetricasEstadoNumeroPK implements Serializable {
 
 	private String estado;
 
-	@Column(name="numero_internal_id")
-	private Integer numeroInternalId;
+	@Column(name="internal_id")
+	private Integer internalId;
+	
+	@Column(name = "date_created")
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar dateCreated;
 
 	public MetricasEstadoNumeroPK() {
 	}
@@ -25,11 +31,19 @@ public class MetricasEstadoNumeroPK implements Serializable {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public Integer getNumeroInternalId() {
-		return this.numeroInternalId;
+	public Integer getInternalId() {
+		return this.internalId;
 	}
-	public void setNumeroInternalId(Integer numeroInternalId) {
-		this.numeroInternalId = numeroInternalId;
+	public void setInternalId(Integer internalId) {
+		this.internalId = internalId;
+	}
+	
+	public GregorianCalendar getDateCreated() {
+		return this.dateCreated;
+	}
+
+	public void setDateCreated(GregorianCalendar dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 
 	public boolean equals(Object other) {
@@ -42,14 +56,14 @@ public class MetricasEstadoNumeroPK implements Serializable {
 		MetricasEstadoNumeroPK castOther = (MetricasEstadoNumeroPK)other;
 		return 
 			this.estado.equals(castOther.estado)
-			&& this.numeroInternalId.equals(castOther.numeroInternalId);
+			&& this.internalId.equals(castOther.internalId);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + this.estado.hashCode();
-		hash = hash * prime + this.numeroInternalId.hashCode();
+		hash = hash * prime + this.internalId.hashCode();
 		
 		return hash;
 	}

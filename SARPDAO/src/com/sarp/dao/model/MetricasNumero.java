@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -18,24 +19,24 @@ public class MetricasNumero implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="internal_id")
 	private Integer internalId;
 
 	@Column(name="codigo_tramite")
 	private Integer codigoTramite;
 
-	@Column(name = "date_created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Timestamp dateCreated;
+	@Column(name = "date_created")
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar dateCreated;
 
 	private String estado;
 
 	@Column(name="external_id")
-	private Integer externalId;
+	private String externalId;
 
-	@Version
 	@Column(name="last_updated")
-	private Timestamp lastUpdated;
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar lastUpdated;
 
 	@Column(name="resultado_final")
 	private String resultadoFinal;
@@ -44,7 +45,7 @@ public class MetricasNumero implements Serializable {
 	private String rutaSector;
 
 	@Column(name="usuario_atencion")
-	private Integer usuarioAtencion;
+	private String usuarioAtencion;
 
 	public MetricasNumero() {
 	}
@@ -73,27 +74,27 @@ public class MetricasNumero implements Serializable {
 		this.estado = estado;
 	}
 
-	public Integer getExternalId() {
+	public String getExternalId() {
 		return this.externalId;
 	}
 
-	public void setExternalId(Integer externalId) {
+	public void setExternalId(String externalId) {
 		this.externalId = externalId;
 	}
 
-	public Timestamp getDateCreated() {
+	public GregorianCalendar getDateCreated() {
 		return this.dateCreated;
 	}
 
-	public void setDateCreated(Timestamp dateCreated) {
+	public void setDateCreated(GregorianCalendar dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Timestamp getLastUpdated() {
+	public GregorianCalendar getLastUpdated() {
 		return this.lastUpdated;
 	}
 
-	public void setLastUpdated(Timestamp lastUpdated) {
+	public void setLastUpdated(GregorianCalendar lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 
@@ -113,11 +114,11 @@ public class MetricasNumero implements Serializable {
 		this.rutaSector = rutaSector;
 	}
 
-	public Integer getUsuarioAtencion() {
+	public String getUsuarioAtencion() {
 		return this.usuarioAtencion;
 	}
 
-	public void setUsuarioAtencion(Integer usuarioAtencion) {
+	public void setUsuarioAtencion(String usuarioAtencion) {
 		this.usuarioAtencion = usuarioAtencion;
 	}
 

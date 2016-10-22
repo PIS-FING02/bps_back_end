@@ -1,8 +1,12 @@
 package com.sarp.dao.controllers;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
+
+import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -181,7 +185,7 @@ public class DAOPuestoController {
 		ArrayList<Numero> list = new ArrayList<Numero>(p.getNumeros());
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list) {
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
 			ret.add(res);
 		}
 		return ret;
@@ -210,7 +214,7 @@ public class DAOPuestoController {
 		em.close();
 		Numero n = p.getNumero_puesto();
 		if(n != null){			
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(),n.getTramite().getCodigo(),n.getSector().getCodigo());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(),n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal());
 			return res;
 		}
 		return null;
@@ -242,26 +246,30 @@ public class DAOPuestoController {
 		}	
 	}
 	
-	public BusinessMetricaPuesto obtenerMetricasPuesto(String nombreMaquina) throws RollbackException {
+	public ArrayList<BusinessMetricasPuesto> listarMetricasDePuestos(String nombreMaquina) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
 
-		MetricasPuesto p = puestoRepository.selectMetricasPuesto(nombreMaquina);
+		ArrayList<MetricasPuesto> lista = puestoRepository.selectMetricasDePuesto(nombreMaquina);
 		em.close();
-		BusinessMetricaPuesto ret = new BusinessMetricaPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(), p.getNumero());
+		ArrayList<BusinessMetricasPuesto> ret = new ArrayList<BusinessMetricasPuesto>();
+		for (MetricasPuesto mp : lista) {
+			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent(), mp.getLastUpdated(), mp.getId().getDateCreated());
+			ret.add(bmp);
+		}
 		return ret;
 	}
 
-	public ArrayList<BusinessPuesto> listarMetricasPuestos() {
+	public ArrayList<BusinessMetricasPuesto> listarMetricasPuestos() {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
 
-		ArrayList<Puesto> lista = puestoRepository.selectMetricasPuestos();
+		ArrayList<MetricasPuesto> lista = puestoRepository.selectMetricasPuestos();
 		em.close();
-		ArrayList<BusinessPuesto> ret = new ArrayList<BusinessPuesto>();
-		for (Puesto p : lista) {
-			BusinessPuesto bp = new BusinessPuesto(p.getNombreMaquina(), p.getUsuarioId(), p.getEstado(), p.getNumero());
-			ret.add(bp);
+		ArrayList<BusinessMetricasPuesto> ret = new ArrayList<BusinessMetricasPuesto>();
+		for (MetricasPuesto mp : lista) {
+			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent(), mp.getLastUpdated(), mp.getId().getDateCreated());
+			ret.add(bmp);
 		}
 		return ret;
 	}
