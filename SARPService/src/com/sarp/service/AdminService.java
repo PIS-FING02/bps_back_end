@@ -199,6 +199,7 @@ public class AdminService {
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectroId") String sectorId ){
+
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController ctrl = fac.getAdminActionsController();
