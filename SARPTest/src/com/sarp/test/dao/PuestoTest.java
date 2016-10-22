@@ -82,7 +82,7 @@ public class PuestoTest {
 	   BusinessPuesto p2 = ctrlPuesto.obtenerPuesto("nombretest2");
 	   assertEquals(p2.getNombreMaquina(), p.getNombreMaquina());
 	   assertEquals(p2.getNumeroPuesto(), p.getNumeroPuesto());
-	   assertEquals(p2.getUsuarioId(), p.getUsuarioId());
+	   assertEquals(p2.getUsuarioId(), "-");
 	   assertEquals(p2.getEstado(),EstadoPuesto.CERRADO);
 	   ctrlPuesto.eliminarPuesto("nombretest2");
    }
@@ -95,7 +95,7 @@ public class PuestoTest {
 	   BusinessPuesto p2 = ctrlPuesto.obtenerPuesto("nombretest3");
 	   assertEquals(p2.getNombreMaquina(), "nombretest3");
 	   assertEquals(p2.getNumeroPuesto(), null);
-	   assertEquals(p2.getUsuarioId(), null);
+	   assertEquals(p2.getUsuarioId(), "-");
 	   assertEquals(p2.getEstado(),EstadoPuesto.CERRADO);
 	   ctrlPuesto.eliminarPuesto("nombretest3");
    }

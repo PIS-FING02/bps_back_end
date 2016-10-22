@@ -91,12 +91,13 @@ public class DAONumero {
     	em.remove(n);
 	}
 
-	public void updateNumero(Integer internalId, String estado, String externalId, GregorianCalendar hora, Integer prioridad, Timestamp lastUpdated, String resultadoFinal) throws RollbackException {
+	public void updateNumero(Integer internalId, String estado, String externalId, GregorianCalendar hora, Integer prioridad, Timestamp lastUpdated, String resultadoFinal, boolean fueAtrasado) throws RollbackException {
 		Numero n = selectNumero(internalId);
 		n.setEstado(estado);
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
+		n.setFueAtrasado(fueAtrasado);
 		n.setResultadoFinal(resultadoFinal);
 		n.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 

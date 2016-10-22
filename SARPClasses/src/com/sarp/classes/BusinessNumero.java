@@ -18,11 +18,12 @@ public class BusinessNumero {
 	private Timestamp lastUpdated;
 	private Integer codTramite;
 	private String codSector;
+	private boolean fueAtrasado;
 
 	// Constructores
 	public BusinessNumero(){}
 	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado,
-			Integer prioridad, Integer codT, String codS, String resultadoFinal) {
+			Integer prioridad, Integer codT, String codS, String resultadoFinal, boolean fueAtrasado) {
 		this.internalId = internalId;
 		this.externalId = externalId;
 		this.hora = hora;
@@ -31,6 +32,7 @@ public class BusinessNumero {
 		this.resultadoFinal = resultadoFinal;
 		this.codTramite = codT;
 		this.codSector = codS;
+		this.fueAtrasado = fueAtrasado;
 	}
 
 	// Operaciones
@@ -104,7 +106,13 @@ public class BusinessNumero {
 	public void setResultadoFinal(String resultadoFinal) {
 		this.resultadoFinal = resultadoFinal;
 	}
-
+	public boolean isFueAtrasado() {
+		return fueAtrasado;
+	}
+	public void setFueAtrasado(boolean fueAtrasado) {
+		this.fueAtrasado = fueAtrasado;
+	}
+	
 	/*********** Metodos auxiliares para testing ****************/
 
 	public String obtenerImpresion() {

@@ -43,6 +43,9 @@ public class Numero implements Serializable {
 	
 	private Integer prioridad;
 
+	@Column(name="fue_atrasado")
+	private boolean fueAtrasado;
+	
 	//bi-directional one-to-one association to DatosComplementario
 	@OneToOne(mappedBy="numero", fetch=FetchType.EAGER)
 	private DatosComplementario datosComplementario;
@@ -172,7 +175,15 @@ public class Numero implements Serializable {
 	public void setPuesto(Puesto puesto) {
 		this.puesto = puesto;
 	}
-	
+			
+	public boolean isFueAtrasado() {
+		return fueAtrasado;
+	}
+
+	public void setFueAtrasado(boolean fueAtrasado) {
+		this.fueAtrasado = fueAtrasado;
+	}
+
 	public Integer getCodigoTramite(){
 		if(this.getTramite() != null){
 			return this.getTramite().getCodigo();

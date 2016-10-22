@@ -41,6 +41,7 @@ CREATE TABLE public.NUMERO
   hora timestamp,
   estado character varying(40) default 'PENDIENTE',
   prioridad int,
+  fue_atrasado boolean default false,
   resultado_final character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,  

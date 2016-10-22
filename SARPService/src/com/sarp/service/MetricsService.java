@@ -11,6 +11,7 @@ import org.jboss.resteasy.spi.InternalServerErrorException;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONMetricasEstadoNumero;
+import com.sarp.json.modeler.JSONMetricasNumero;
 import com.sarp.json.modeler.JSONMetricasPuesto;
 
 @RequestScoped
@@ -32,34 +33,47 @@ public class MetricsService {
 		}
 	}
 	
-//	@GET
-//  	@Path("/listarMetricasEstadoNumero")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	/* Si internalId es null, devuelvo todas las metricas, sino se filtran las metricas */
-//		public List<JSONMetricasEstadoNumero> listarMetricasEstadoNumero(@QueryParam("internalId") Integer internalId) {
-//		Factory fac = Factory.getInstance();
-//		AdminActionsController ctrl = fac.getAdminActionsController();
-//		try{
-//			List<JSONMetricasEstadoNumero> listaMetricasPuestos = ctrl.listarMetricasPuestos(nombreMaquina);
-//			return listaMetricasPuestos;			
-//		}catch(Exception e){
-//			throw new InternalServerErrorException("Error al listar Metricas de Puestos: " + e.getMessage());
-//		}
-//	}
+	@GET
+  	@Path("/listarMetricasEstadoNumero")
+	@Produces(MediaType.APPLICATION_JSON)
+	/* Si internalId es null, devuelvo todas las metricas, sino se filtran las metricas */
+		public List<JSONMetricasEstadoNumero> listarMetricasEstadoNumero(@QueryParam("internalId") Integer internalId) {
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		try{
+			List<JSONMetricasEstadoNumero> listaMetricasEstadoNumero = ctrl.listarMetricasEstadoNumero(internalId);
+			return listaMetricasEstadoNumero;			
+		}catch(Exception e){
+			throw new InternalServerErrorException("Error al listar Metricas de Estado de Numero: " + e.getMessage());
+		}
+	}
 
-//	@GET
-//	@Path("/listarMetricasNumero")
-//  @Produces(MediaType.APPLICATION_JSON)
-//	public List<JSONMetricasEstadoPuesto> listarPuestos(@QueryParam("nombreMaquina") String nombreMaquina) {
-//	Factory fac = Factory.getInstance();
-//	AdminActionsController ctrl = fac.getAdminActionsController();
-//	try{
-//		List<JSONMetricasPuesto> listaMetricasPuestos = ctrl.listarMetricasPuestos(nombreMaquina);
-//		return listaMetricasPuestos;			
-//	}catch(Exception e){
-//		throw new InternalServerErrorException("Error al listar Metricas de Puestos: " + e.getMessage());
-//	}
-//}
+	@GET
+	@Path("/listarMetricasDeNumero")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONMetricasNumero listarMetricasDeNumero(@QueryParam("internalId") Integer internalId) {
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		try{
+			JSONMetricasNumero listaMetricasNumero = ctrl.listarMetricasDeNumero(internalId);
+			return listaMetricasNumero;			
+		}catch(Exception e){
+			throw new InternalServerErrorException("Error al listar Metricas del Numero " + internalId + ": " + e.getMessage());
+		}
+	}
 	
+	@GET
+	@Path("/listarMetricasNumero")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JSONMetricasNumero> listarMetricasNumero() {
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		try{
+			List<JSONMetricasNumero> listaMetricasNumero = ctrl.listarMetricasNumero();
+			return listaMetricasNumero;			
+		}catch(Exception e){
+			throw new InternalServerErrorException("Error al listar Metricas  de Numero: " + e.getMessage());
+		}
+	}
 	
 }
