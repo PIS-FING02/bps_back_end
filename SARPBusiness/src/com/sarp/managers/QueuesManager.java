@@ -77,9 +77,8 @@ public class QueuesManager {
 				manejadorDeColas.put(sec.getSectorId(), cola);
 			}
 			else{
-				IOException e = new IOException("No se pudieron reinicializar las colas");
 				this.manejadorDeColas = new HashMap<String,BusinessSectorQueue>();
-				throw e;
+				throw new IOException("No se pudieron reinicializar las colas");
 			}
 		}
 	}

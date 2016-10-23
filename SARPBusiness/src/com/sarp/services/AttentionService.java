@@ -169,8 +169,8 @@ public class AttentionService {
 					controladorPuesto.asociarNumeroPuestoActual(puestoSend.getNombreMaquina(), numeroReturn.getId());
 
 					// llamo al display
-					DisplayService dispService = DisplayService.getInstance();
-					dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
+					//DisplayService dispService = DisplayService.getInstance();
+					//dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
 					
 					// se cambia el estado del numero en la base
 					DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
