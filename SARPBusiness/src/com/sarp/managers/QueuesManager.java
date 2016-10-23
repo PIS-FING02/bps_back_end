@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.sarp.classes.BusinessSector;
-import com.sarp.classes.BusinessSectorQueue;
 
 public class QueuesManager {
 	

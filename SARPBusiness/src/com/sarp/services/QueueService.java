@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSector;
-import com.sarp.classes.BusinessSectorQueue;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.dao.controllers.DAOAdminController;
@@ -16,6 +15,7 @@ import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONSector;
+import com.sarp.managers.BusinessSectorQueue;
 import com.sarp.managers.QueuesManager;
 import com.sarp.service.response.maker.RequestMaker;
 import com.sarp.service.response.maker.ResponseMaker;

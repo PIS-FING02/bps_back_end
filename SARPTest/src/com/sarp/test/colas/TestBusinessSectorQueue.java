@@ -10,9 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sarp.classes.BusinessNumero;
-import com.sarp.classes.BusinessSectorQueue;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.enumerados.EstadoNumero;
+import com.sarp.managers.BusinessSectorQueue;
 
 public class TestBusinessSectorQueue {
 

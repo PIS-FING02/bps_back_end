@@ -8,7 +8,6 @@ import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSector;
-import com.sarp.classes.BusinessSectorQueue;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.controllers.QueueController;
 import com.sarp.dao.controllers.DAONumeroController;
@@ -22,6 +21,7 @@ import com.sarp.json.modeler.JSONDatosComp;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteSector;
+import com.sarp.managers.BusinessSectorQueue;
 import com.sarp.managers.QueuesManager;
 import com.sarp.service.response.maker.ResponseMaker;
 

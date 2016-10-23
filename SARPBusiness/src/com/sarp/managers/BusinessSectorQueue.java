@@ -1,4 +1,4 @@
-package com.sarp.classes;
+package com.sarp.managers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,8 +7,12 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.logging.Logger;
 
+import com.sarp.classes.BusinessNumero;
+import com.sarp.classes.BusinessTramite;
 import com.sarp.enumerados.EstadoNumero;
+import com.sarp.utils.UtilService;
 
 public class BusinessSectorQueue {
 
@@ -155,21 +159,13 @@ public class BusinessSectorQueue {
 	/***** Metodos de Atrasados *****/
 
 	public synchronized void agregarNumeroAtrasado(BusinessNumero numero) {
-
-		/*
-		 * String[] result; String path; String location =
-		 * GAFUFacade.class.getProtectionDomain().getCodeSource().getLocation().
-		 * getPath().toString(); result = location.split("/standalone");
-		 * 
-		 * path= result[0] + "/modules/conf/config_cola.properties"; Properties
-		 * prop = new Properties(); InputStream input; try { input = new
-		 * FileInputStream(path); prop.load(input); tiempoAtrasado=
-		 * prop.getProperty(this.idSector).toString(); } catch
-		 * (FileNotFoundException e) { e.printStackTrace(); } catch (IOException
-		 * e) { e.printStackTrace(); }
-		 */
-
-		Integer tiempoProperties = 2;
+		Integer tiempoProperties;
+		try{
+			tiempoProperties = UtilService.getIntegerProperty("LATE_TIME_MINUTES");
+		}catch(Exception e){
+			
+			tiempoProperties = 30;
+		}
 		GregorianCalendar horaActual = new GregorianCalendar();
 		horaActual.add(Calendar.MINUTE, tiempoProperties);
 		numero.setHora(horaActual);
