@@ -1,6 +1,7 @@
 package com.sarp.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.ServletContext;
@@ -100,7 +101,6 @@ public class AdminService {
   	@GET
   	@Path("/listarPuestos")
       @Produces(MediaType.APPLICATION_JSON)
-
       public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
 	  	Factory fac = Factory.getInstance();
 	  	AdminActionsController ctrl = fac.getAdminActionsController();
@@ -110,7 +110,6 @@ public class AdminService {
 	  			try{
 	  				List <JSONPuesto> listaPuestosSector = ctrl.listarPuestos(sectorId);
 	  				List <JSONPuesto> listaPuestos=  ctrl.listarPuestos(null );
-	  				
 	  				listaPuestos.removeAll(listaPuestosSector);
 	  				return listaPuestos;
 	  			}catch(Exception e){
