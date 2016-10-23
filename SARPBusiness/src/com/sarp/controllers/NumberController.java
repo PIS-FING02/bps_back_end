@@ -36,4 +36,9 @@ public class NumberController {
 		NumberService serv = new NumberService();
 		return serv.listarNumerosEnEspera(idPuesto);
 	}
+	
+	public List<JSONNumero> listarNumerosEnEsperaSector(String idSector) throws Exception {
+		NumberService serv = new NumberService();
+		return serv.listarNumerosEnEsperaSector(idSector);
+	}
 }

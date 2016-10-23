@@ -151,5 +151,13 @@ public class NumberService {
 		return listaNumeros;
 	}
 	
+	public List<JSONNumero> listarNumerosEnEsperaSector(String idSector) throws Exception {
+		DAOServiceFactory daoFac = DAOServiceFactory.getInstance();
+		DAOSectorController daoCtrl = daoFac.getDAOSectorController();
+		List<BusinessTramite> listaTramites = daoCtrl.obtenerTramitesSector(idSector);
+		Factory fac = Factory.getInstance();
+		QueueController ctrl = fac.getQueueController();
+		return ctrl.listarEnEspera(idSector, listaTramites);
+	}
 
 }
