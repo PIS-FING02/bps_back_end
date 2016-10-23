@@ -109,12 +109,20 @@ public class NumberService {
 	@Path("/listarNumerosEnEspera")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosEnEspera(@HeaderParam("user-rol") String userRol,
-			@QueryParam("idPuesto") String idPuesto) {
+			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
 		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
 				return ctrl.listarNumerosEnEspera(idPuesto);
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}
+		}else if(userRol.equals("ResponsableSector")){ 
+			try {
+				Factory fac = Factory.getInstance();
+				NumberController ctrl = fac.getNumberController();
+				return ctrl.listarNumerosEnEsperaSector(idSector);
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
