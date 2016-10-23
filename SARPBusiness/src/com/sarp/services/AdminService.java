@@ -465,11 +465,12 @@ public class AdminService {
 				qServ.transferirAColaAtrasados(bn);
 			}else if(bn.getEstado().equals(EstadoNumero.DISPONIBLE)){
 				qServ.agregarNumero(bn);
-			}else if(!bn.getEstado().equals(EstadoNumero.NOATENDIDO) && !bn.getEstado().equals(EstadoNumero.FINALIZADO)){
-				// los numeros q quedaron en el limbo en LLAMADO o ATENDIENDO, se pausan asi se pueden reanudar manual
+			}else if(bn.getEstado().equals(EstadoNumero.LLAMADO) || bn.getEstado().equals(EstadoNumero.ATENDIENDO)){
 				bn.setEstado(EstadoNumero.PAUSADO);
 				daoCtrl.modificarNumero(bn);
 				qServ.transferirAColaPausados(bn);
+			}else{
+				// finalizado, no atendido y desviado no son agregados a la cola
 			}
 		}
 	}
