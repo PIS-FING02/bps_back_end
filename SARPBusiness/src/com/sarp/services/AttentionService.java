@@ -354,7 +354,7 @@ public class AttentionService {
 		DAOServiceFactory fac = DAOServiceFactory.getInstance();
 		DAONumeroController ctrlNumero = fac.getDAONumeroController();
 		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
-		
+		//fede pijins
 		Factory facBusiness = Factory.getInstance();
 		QueueController ctrlQueue = facBusiness.getQueueController();
 		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
@@ -442,15 +442,14 @@ public void desviarNumero(String idPuesto,String idSectorDesvio) throws Exceptio
 						String sectorId = sectorHora[0];
 						
 						if(sectorId.equals(idSectorDesvio)){
+
 							if(sectorHora.length == 2){
 								String sectorHoraSplit  = sectorHora[1].split("MIN")[0];
 								Integer minutos = Integer.parseInt(sectorHoraSplit);
 								GregorianCalendar horaActual = new GregorianCalendar();
 								System.out.print(horaActual.getTime());
-								horaActual.add(GregorianCalendar.MINUTE, minutos);
-								
-								System.out.print(horaActual.getTime());
-								
+								horaActual.add(GregorianCalendar.MINUTE, minutos);	
+								System.out.print(horaActual.getTime());	
 								BusinessTramite tramiteGenerico =  ctrlTramite.obtenerTramite("1");//Tramite generico
 								if(tramiteGenerico != null){
 									
@@ -471,7 +470,7 @@ public void desviarNumero(String idPuesto,String idSectorDesvio) throws Exceptio
 							}else{
 								throw new Exception("Sector destino mal configurado en sector origen"+ idSectorDesvio);
 							}
-						
+
 							break;
 						}
 						

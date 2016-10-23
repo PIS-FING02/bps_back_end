@@ -1,5 +1,7 @@
 package com.sarp.service;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -12,14 +14,25 @@ import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.jboss.resteasy.spi.UnauthorizedException;
-
+import com.sarp.classes.BusinessNumero;
+import com.sarp.classes.BusinessSector;
+import com.sarp.classes.BusinessTramite;
 import com.sarp.controllers.AttentionsController;
+import com.sarp.dao.controllers.DAONumeroController;
+import com.sarp.dao.controllers.DAOPuestoController;
+import com.sarp.dao.controllers.DAOSectorController;
+import com.sarp.dao.controllers.DAOTramiteController;
+import com.sarp.dao.factory.DAOServiceFactory;
+import com.sarp.enumerados.EstadoNumero;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
+import com.sarp.service.response.maker.ResponseMaker;
+import com.sarp.utils.DesvioSectoresUtils;
 
 @RequestScoped
 @Path("/attentionsService")
@@ -258,5 +271,52 @@ public class AttentionsService {
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
+	
+	@PUT
+	@Path("/obtenerSectoresDesvio")
+	@Produces(MediaType.APPLICATION_JSON)
+	public  List<JSONSector> obtenerSectoresDesvio(@HeaderParam("user-rol") String userRol,  
+			@HeaderParam("idSector") String idSector) {
+		if (userRol.equals("OperadorSenior") || userRol.equals("Operador")) {
+			try {
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
+				List<JSONSector> sectoresDesvio = ctrl.obtenerSectoresDesvio(idSector);
+				
+				return sectoresDesvio;
+		
+			} catch (Exception e) {
+				throw new InternalServerErrorException("Error al soliticar numero atrasado: "+e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
+	@PUT
+	@Path("/desviarNumero")
+	public  String desviarNumero(@HeaderParam("user-rol") String userRol,  
+			@HeaderParam("idPuesto") String idPuesto,
+			@HeaderParam("idSectorDesvio") String idSectorDesvio) {
+		
+		if (userRol.equals("OperadorSenior") || userRol.equals("Operador")) {
+			try {
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
+				ctrl.desviarNumero(idPuesto,idSectorDesvio);
+				
+				return "El numero fue desviado con exito";
+		
+			} catch (Exception e) {
+				throw new InternalServerErrorException("Error al soliticar numero atrasado: "+e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
+	
+	
+	
 	
 }
