@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import com.sarp.classes.BusinessPuesto;
+import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessSectorQueue;
@@ -17,10 +18,12 @@ import com.sarp.enumerados.EstadoNumero;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONDatosComp;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.managers.QueuesManager;
+import com.sarp.service.response.maker.ResponseMaker;
 
 
 public class AttentionService {
@@ -178,6 +181,10 @@ public class AttentionService {
 					num.setEstado(EstadoNumero.LLAMADO);
 					daoCtrl.modificarNumero(num);
 					
+					BusinessDatoComplementario datosComp = daoCtrl.obtenerDatosNumero(num.getInternalId());
+					ResponseMaker maker = ResponseMaker.getInstance();
+					JSONDatosComp jsonDC = maker.datosComplementariosResponse(datosComp);
+					numeroReturn.setDatosComplementarios(jsonDC);
 					return numeroReturn;
 				} else {
 					return null;
