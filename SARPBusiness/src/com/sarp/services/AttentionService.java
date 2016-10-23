@@ -260,7 +260,7 @@ public class AttentionService {
 			
 			// Modifico el estado del puesto
 			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
-			
+	
 			controladorPuesto.modificarPuesto(puestoSend);
 			controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
 
