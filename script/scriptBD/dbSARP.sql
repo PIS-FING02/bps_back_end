@@ -42,12 +42,12 @@ CREATE TABLE public.NUMERO
   estado character varying(40) default 'PENDIENTE',
   prioridad int,
   fue_atrasado boolean default false,
-  resultado_final character varying(40),
+  desvio int, --relacion ONETOONE entre NUMERO Y NUMERO
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,  
   CONSTRAINT numero_pkey PRIMARY KEY (internal_id)
 );
---Trigger para insert/update en numero
+ALTER TABLE NUMERO ADD FOREIGN KEY(desvio) REFERENCES NUMERO(internal_id);
 
 CREATE TABLE public.PUESTO
 (
@@ -61,8 +61,6 @@ CREATE TABLE public.PUESTO
   CONSTRAINT puesto_pkey PRIMARY KEY (nombre_maquina)
 );
 ALTER TABLE NUMERO ADD  FOREIGN KEY(puesto_asignado) REFERENCES PUESTO(nombre_maquina);
---Trigger para insert/update en puesto
-
 
 CREATE TABLE public.DATOS_COMPLEMENTARIOS
 (
@@ -113,6 +111,15 @@ CREATE TABLE public.PUESTO_TRAMITE
   nombre_maquina character varying(40) references PUESTO(nombre_maquina),
   codigo_tramite int references TRAMITE(codigo),
   CONSTRAINT puesto_tramite_pkey PRIMARY KEY (nombre_maquina, codigo_tramite)
+);
+
+--Relacion MANYTOMANY entre NUMERO y TRAMITE
+CREATE TABLE public.NUMERO_TRAMITE
+(
+  internal_id int references NUMERO(internal_id),
+  codigo_tramite int references TRAMITE(codigo),
+  resultado_final character varying(40),
+  CONSTRAINT numero_tramite_pkey PRIMARY KEY (internal_id, codigo_tramite)
 );
 
 CREATE TABLE public.METRICAS_NUMERO

@@ -37,9 +37,6 @@ public class Numero implements Serializable {
 	@Version
 	@Column(name="last_updated")
 	private Timestamp lastUpdated;
-
-	@Column(name="resultado_final")
-	private String resultadoFinal;
 	
 	private Integer prioridad;
 
@@ -64,11 +61,20 @@ public class Numero implements Serializable {
 	@ManyToMany(mappedBy="numeros")
 	private List<Puesto> puestos;
 	
+	//bi-directional many-to-many association to NumeroTramite
+	@OneToMany(mappedBy = "numero")
+    private List<NumeroTramite> numeroTramites;
+	
 	//bi-directional one-to-one association to Puesto
 	@OneToOne
 	@JoinColumn(name="puesto_asignado")
 	private Puesto puesto;
 
+	//bi-directional one-to-one association to Numero
+	@OneToOne
+	@JoinColumn(name="desvio")
+	private Numero desvio;
+	
 	public Numero() {
 	}
 
@@ -127,14 +133,6 @@ public class Numero implements Serializable {
 	public void setPrioridad(Integer prioridad) {
 		this.prioridad = prioridad;
 	}
-	
-	public String getResultadoFinal() {
-		return this.resultadoFinal;
-	}
-
-	public void setResultadoFinal(String resultadoFinal) {
-		this.resultadoFinal = resultadoFinal;
-	}
 
 	public DatosComplementario getDatosComplementario() {
 		return this.datosComplementario;
@@ -183,6 +181,14 @@ public class Numero implements Serializable {
 	public void setFueAtrasado(boolean fueAtrasado) {
 		this.fueAtrasado = fueAtrasado;
 	}
+	
+	public Numero getDesvio() {
+		return desvio;
+	}
+
+	public void setDesvio(Numero desvio) {
+		this.desvio = desvio;
+	}
 
 	public Integer getCodigoTramite(){
 		if(this.getTramite() != null){
@@ -203,6 +209,18 @@ public class Numero implements Serializable {
 			return this.getPuesto().getNombreMaquina();
 		}
 		return null;
+	}
+	
+	public List<NumeroTramite> getNumeroTramites() {
+		return this.numeroTramites;
+	}
+
+	public void addNumeroTramite(NumeroTramite numeroTramite) {
+		this.numeroTramites.add(numeroTramite);
+	}
+	
+	public void removeNumeroTramite(NumeroTramite numeroTramite) {
+		this.numeroTramites.remove(numeroTramite);
 	}
 
 }

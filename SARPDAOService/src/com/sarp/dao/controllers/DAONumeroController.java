@@ -10,6 +10,7 @@ import com.sarp.classes.BusinessMetricasEstadoNumero;
 import com.sarp.classes.BusinessMetricasNumero;
 import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
+import com.sarp.classes.BusinessNumeroTramite;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
@@ -20,6 +21,8 @@ import com.sarp.dao.model.MetricasEstadoNumero;
 import com.sarp.dao.model.MetricasNumero;
 import com.sarp.dao.model.MetricasPuesto;
 import com.sarp.dao.model.Numero;
+import com.sarp.dao.model.NumeroTramite;
+import com.sarp.dao.model.NumeroTramitePK;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
@@ -65,7 +68,7 @@ public class DAONumeroController {
 		
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(),n.getResultadoFinal(),n.isFueAtrasado());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(),n.isFueAtrasado());
 			numero.setCodSector(n.getCodigoSector());
 			numero.setCodTramite(n.getCodigoTramite());
 			numero.setLastUpdated(n.getLastUpdated());
@@ -80,7 +83,7 @@ public class DAONumeroController {
 		
 		Numero n = numeroRepository.selectNumero(id);
 		em.close();
-		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),n.getCodigoTramite(),n.getCodigoSector(), n.getResultadoFinal(),n.isFueAtrasado());
+		BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(),n.getCodigoTramite(),n.getCodigoSector(),n.isFueAtrasado());
 		numero.setLastUpdated(n.getLastUpdated());
 		return numero;
 	}
@@ -102,7 +105,7 @@ public class DAONumeroController {
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		em.getTransaction().begin();
-		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado() != null ? numero.getEstado().toString() : "",numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.getLastUpdated(),numero.getResultadoFinal(),numero.isFueAtrasado());
+		numeroRepository.updateNumero(numero.getInternalId(),numero.getEstado() != null ? numero.getEstado().toString() : "",numero.getExternalId(),numero.getHora(),numero.getPrioridad(),numero.getLastUpdated(),numero.isFueAtrasado());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -150,7 +153,7 @@ public class DAONumeroController {
 		
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list){
-			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal(),n.isFueAtrasado());
+			BusinessNumero numero = new BusinessNumero(n.getInternalId(),n.getExternalId(),n.getHora(),n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.isFueAtrasado());
 			numero.setLastUpdated(n.getLastUpdated());
 			numero.setCodSector(n.getCodigoSector());
 			numero.setCodTramite(n.getCodigoTramite());
@@ -188,6 +191,65 @@ public class DAONumeroController {
 			return res;
 		}
 		return null;
+	}
+	
+	public void setearDesvio(Integer numeroDesviado, Integer numeroNuevo){
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+			
+		em.getTransaction().begin();
+		numeroRepository.setearDesvio(numeroDesviado, numeroNuevo);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public BusinessNumero obtenerDesvio(Integer internalId) throws RollbackException {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+
+		Numero n = numeroRepository.selectNumero(internalId);
+		em.close();
+		Numero desvio = n.getDesvio();
+		if(desvio != null){			
+			BusinessNumero res = new BusinessNumero(desvio.getInternalId(), desvio.getExternalId(), desvio.getHora(), desvio.getEstado(),desvio.getPrioridad(),desvio.getCodigoTramite(), desvio.getCodigoSector(), desvio.isFueAtrasado());
+			res.setLastUpdated(desvio.getLastUpdated());
+			return res;
+		}
+		return null;
+	}
+	
+	public void asociarNumeroTramite(int codigoTramite, int internalId) throws RollbackException{
+		EntityManager em = EMFactory.getEntityManager();
+		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		
+		Numero n = numeroRepository.selectNumero(internalId);
+		Tramite t = tramiteRepository.selectTramite(codigoTramite);
+		NumeroTramitePK pk = new NumeroTramitePK();
+		pk.setCodigoTramite(codigoTramite);
+		pk.setInternalId(internalId);
+		if(em.find(NumeroTramite.class, pk) != null){
+			throw new RollbackException("El Numero con codigo " + internalId + " y el Tramite con codigo " + codigoTramite + " ya estan asociados");
+		}
+		em.getTransaction().begin();
+		numeroRepository.asociarNumeroTramite(n, t);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public ArrayList<BusinessNumeroTramite> obtenerNumeroTramites(Integer codigoNumero) throws RollbackException {
+		EntityManager em = EMFactory.getEntityManager();
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		
+		Numero n = numeroRepository.selectNumero(codigoNumero);
+		em.close();
+		ArrayList<NumeroTramite> list = new ArrayList<NumeroTramite>(n.getNumeroTramites());
+		ArrayList<BusinessNumeroTramite> ret = new ArrayList<BusinessNumeroTramite>();
+		for(NumeroTramite nt : list){
+			BusinessNumeroTramite bnt = new BusinessNumeroTramite(nt.getTramite().getCodigo(), nt.getResultadoFinal());
+			ret.add(bnt);
+		}	
+		return ret;
 	}
 	
 	public ArrayList<BusinessMetricasEstadoNumero> listarMetricasEstadoNumero() throws RollbackException {

@@ -1,10 +1,11 @@
 package com.sarp.test.dao;
 
-
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessNumero;
+import com.sarp.classes.BusinessNumeroTramite;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
@@ -13,7 +14,6 @@ import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
-import com.sarp.enumerados.EstadoNumero;
 import com.sarp.enumerados.EstadoPuesto;
 
 public class ValoresDePrueba {
@@ -75,11 +75,12 @@ public class ValoresDePrueba {
 				ctrlPuesto.asociarNumeroPuesto("NombreMaquina" + i, num);
 			}
 		}
-		
-		BusinessPuesto p = ctrlPuesto.obtenerPuesto("NombreMaquina7");
-		p.setEstado(EstadoPuesto.CERRADO);
-		ctrlPuesto.modificarPuesto(p);
-		
+
+		ctrlNumero.asociarNumeroTramite(3, 2);
+		ArrayList<BusinessNumeroTramite> a = ctrlNumero.obtenerNumeroTramites(2);
+		for(BusinessNumeroTramite i : a){
+			System.out.println(i.getCodigoTramite());
+		}
 		System.out.println("FIN cargar=" + cargar);
 	}
 	

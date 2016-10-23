@@ -1,5 +1,8 @@
 package com.sarp.dao.controllers;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -187,7 +190,7 @@ public class DAOPuestoController {
 		ArrayList<Numero> list = new ArrayList<Numero>(p.getNumeros());
 		ArrayList<BusinessNumero> ret = new ArrayList<BusinessNumero>();
 		for (Numero n : list) {
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal(),n.isFueAtrasado());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(), n.getCodigoTramite(), n.getCodigoSector(), n.isFueAtrasado());
 			res.setLastUpdated(n.getLastUpdated());
 			ret.add(res);
 		}
@@ -218,7 +221,7 @@ public class DAOPuestoController {
 		em.close();
 		Numero n = p.getNumero_puesto();
 		if(n != null){			
-			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(),n.getCodigoTramite(), n.getCodigoSector(), n.getResultadoFinal(),n.isFueAtrasado());
+			BusinessNumero res = new BusinessNumero(n.getInternalId(), n.getExternalId(), n.getHora(), n.getEstado(),n.getPrioridad(),n.getCodigoTramite(), n.getCodigoSector(),n.isFueAtrasado());
 			res.setLastUpdated(n.getLastUpdated());
 			return res;
 		}
@@ -275,6 +278,14 @@ public class DAOPuestoController {
 		ArrayList<BusinessMetricasPuesto> ret = new ArrayList<BusinessMetricasPuesto>();
 		for (MetricasPuesto mp : lista) {
 			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent(), mp.getLastUpdated(), mp.getId().getDateCreated());
+			if(mp.getTimeSpent() == null){
+//				GregorianCalendar c1 = new GregorianCalendar();
+//				GregorianCalendar c2 = mp.getLastUpdated();
+//				long differenceInSeconds = (c1.getTimeInMillis() - c2.getTimeInMillis()) / 1000;
+//				Period p = new Period();
+//				String s = res.getHours()+":"+res.getMinutes()+":"+res.getSeconds();
+//				bmp.setTimeSpent(s);
+			}
 			ret.add(bmp);
 		}
 		return ret;
