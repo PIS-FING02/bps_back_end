@@ -1,14 +1,13 @@
 package com.sarp.dao.controllers;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
 import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
@@ -255,6 +254,7 @@ public class DAOPuestoController {
 		}	
 	}
 	
+	/* OBTENER METRICAS */
 	public ArrayList<BusinessMetricasPuesto> listarMetricasDePuestos(String nombreMaquina) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
@@ -263,7 +263,19 @@ public class DAOPuestoController {
 		em.close();
 		ArrayList<BusinessMetricasPuesto> ret = new ArrayList<BusinessMetricasPuesto>();
 		for (MetricasPuesto mp : lista) {
-			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent(), mp.getLastUpdated(), mp.getId().getDateCreated());
+			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent().substring(0,8), mp.getLastUpdated(), mp.getId().getDateCreated());
+			if(mp.getTimeSpent() == null){
+				GregorianCalendar c1 = new GregorianCalendar();				
+				GregorianCalendar c2 = mp.getLastUpdated();
+				long diff = c1.getTimeInMillis() - c2.getTimeInMillis();
+				long diffSeconds = diff / 1000 % 60;
+				long diffMinutes = diff / (60 * 1000) % 60;
+				long diffHours = diff / (60 * 60 * 1000) % 24;
+				String s = diffHours+":"+diffMinutes+":"+diffSeconds;
+		        bmp.setTimeSpent(s);
+			}else{
+				bmp.setTimeSpent(mp.getTimeSpent().substring(0,8));
+			}
 			ret.add(bmp);
 		}
 		return ret;
@@ -277,14 +289,18 @@ public class DAOPuestoController {
 		em.close();
 		ArrayList<BusinessMetricasPuesto> ret = new ArrayList<BusinessMetricasPuesto>();
 		for (MetricasPuesto mp : lista) {
-			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent(), mp.getLastUpdated(), mp.getId().getDateCreated());
+			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent(), mp.getLastUpdated(), mp.getId().getDateCreated());			
 			if(mp.getTimeSpent() == null){
-//				GregorianCalendar c1 = new GregorianCalendar();
-//				GregorianCalendar c2 = mp.getLastUpdated();
-//				long differenceInSeconds = (c1.getTimeInMillis() - c2.getTimeInMillis()) / 1000;
-//				Period p = new Period();
-//				String s = res.getHours()+":"+res.getMinutes()+":"+res.getSeconds();
-//				bmp.setTimeSpent(s);
+				GregorianCalendar c1 = new GregorianCalendar();				
+				GregorianCalendar c2 = mp.getLastUpdated();
+				long diff = c1.getTimeInMillis() - c2.getTimeInMillis();
+				long diffSeconds = diff / 1000 % 60;
+				long diffMinutes = diff / (60 * 1000) % 60;
+				long diffHours = diff / (60 * 60 * 1000) % 24;
+				String s = diffHours+":"+diffMinutes+":"+diffSeconds;
+		        bmp.setTimeSpent(s);
+			}else{
+				bmp.setTimeSpent(mp.getTimeSpent().substring(0,8));
 			}
 			ret.add(bmp);
 		}

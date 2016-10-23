@@ -12,9 +12,7 @@ import com.sarp.dao.factory.DAOFactory;
 import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Sector;
-import com.sarp.dao.model.Tramite;
 import com.sarp.dao.repository.DAODisplay;
-import com.sarp.dao.repository.DAOTramite;
 
 public class DAODisplayController {
 			

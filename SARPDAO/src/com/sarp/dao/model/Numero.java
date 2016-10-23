@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
