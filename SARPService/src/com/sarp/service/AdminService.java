@@ -1,6 +1,7 @@
 package com.sarp.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessNodeGAFU;
 import com.sarp.classes.BusinessSectorRol;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.GAFUController;
@@ -101,27 +103,54 @@ public class AdminService {
   	@GET
   	@Path("/listarPuestos")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
-		GAFUController controladorGAFU = fac.GAFUController();
-  		
-  		if(userRol.equals( "ResponsableSector")){
-  			try{
-  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
-  				List<JSONPuesto> listaPuestos = new ArrayList<JSONPuesto>();
-  				for  (BusinessSectorRol as : respde){
-  					 listaPuestos.addAll( ctrl.listarPuestos(as.getSectorId()) );
-  				}
-  				return listaPuestos;
-  			}catch(Exception e){
-  				throw new InternalServerErrorException("Error al listar Puestos: " + e.getMessage());
+      public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
+	  	Factory fac = Factory.getInstance();
+	  	AdminActionsController ctrl = fac.getAdminActionsController();
+			  		
+	  	if(userRol.equals( "ResponsableSector")){
+	  		if (!sectorId.isEmpty()) {
+	  			try{
+	  				List <JSONPuesto> listaPuestosSector = ctrl.listarPuestos(sectorId);
+	  				List <JSONPuesto> listaPuestos=  ctrl.listarPuestos(null );
+	  				
+	  				/*
+	  				Iterator<JSONPuesto> it = listaPuestos.iterator();
+	  				while (it.hasNext()){
+	  					JSONPuesto puesto1=it.next();
+		  				Iterator<JSONPuesto> itSector = listaPuestosSector.iterator();
+	  					while (itSector.hasNext()){
+	  						
+	  						if (puesto1.getNombreMaquina().equals(itSector.next().getNombreMaquina())){
+	  							it.remove();
+	  						}
+	  					}
+	  				}*/
+	  				listaPuestos.removeAll(listaPuestosSector);
+	  				return listaPuestos;
+	  			}catch(Exception e){
+	  				throw new InternalServerErrorException("Error al listar Puestos: " + e.getMessage());
+	  			}
+	  		
+  			}else{
+  				GAFUController controladorGAFU = fac.GAFUController();
+	  	  		try{
+  	  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+  	  				List<JSONPuesto> listaPuestos = new ArrayList<JSONPuesto>();
+  	  				for  (BusinessSectorRol as : respde){
+  	  					 listaPuestos.addAll( ctrl.listarPuestos(as.getSectorId()) );
+  	  				}
+  	  				return listaPuestos;
+  	  			}catch(Exception e){
+  	  				throw new InternalServerErrorException("Error al listar Puestos: " + e.getMessage());
+  	  			}
   			}
   		}else{
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
+  			
       }
  	
+  	
 	/******* Alta, Baja & Modificacion de Tramites *******/
 	
 	@POST
