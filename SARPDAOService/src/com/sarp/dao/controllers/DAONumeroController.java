@@ -33,14 +33,14 @@ public class DAONumeroController {
 	private DAOFactory factory = DAOFactory.getInstance();
 
 	/* Se crea un Numero para un Tramite y Sector dado, opcionalmente se pueden pasar DatosComplementarios */
-	public Integer crearNumero(BusinessNumero numero, int tramite, String sector, BusinessDatoComplementario dc) throws RollbackException{
+	public Integer crearNumero(BusinessNumero numero, BusinessDatoComplementario dc) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		DAOTramite tramiteRespository = factory.getTramiteRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 
-		Tramite t = tramiteRespository.selectTramite(tramite);	
-		Sector s = sectorRepository.selectSector(sector);
+		Tramite t = tramiteRespository.selectTramite(numero.getCodTramite());	
+		Sector s = sectorRepository.selectSector(numero.getCodSector());
 		if(t.getSectors().contains(s)){
 			em.getTransaction().begin();
 			Numero n = numeroRepository.insertNumero(t, s, numero.getExternalId(), numero.getHora(), numero.getPrioridad());
@@ -52,7 +52,7 @@ public class DAONumeroController {
 			return n.getInternalId();	
 		}
 		else{
-			throw new RollbackException("El tramite " + tramite + " y el sector " + sector + " no están asociados");
+			throw new RollbackException("El tramite " + numero.getCodTramite() + " y el sector " + numero.getCodSector() + " no están asociados");
 		}
 	}
 
@@ -91,10 +91,12 @@ public class DAONumeroController {
 		
 		DatosComplementario dc = numeroRepository.selectNumero(id).getDatosComplementario();
 		em.close();
-		
-		BusinessDatoComplementario dato = new BusinessDatoComplementario(dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
-		dato.setLastUpdated(dc.getLastUpdated());
-		return dato;
+		if(dc != null){
+			BusinessDatoComplementario dato = new BusinessDatoComplementario(dc.getDocIdentidad(), dc.getNombreCompleto(), dc.getTipoDoc());
+			dato.setLastUpdated(dc.getLastUpdated());
+			return dato;
+		}
+		return null;
 	}
 	
 	public void modificarNumero(BusinessNumero numero) throws RollbackException{
@@ -124,9 +126,12 @@ public class DAONumeroController {
 		Numero n = numeroRepository.selectNumero(codigoNumero);
 		em.close();
 		Tramite t = n.getTramite();
-		BusinessTramite res = new BusinessTramite(t.getCodigo(), t.getNombre());
-		res.setLastUpdated(t.getLastUpdated());
-		return res;
+		if(t != null){
+			BusinessTramite res = new BusinessTramite(t.getCodigo(), t.getNombre());
+			res.setLastUpdated(t.getLastUpdated());
+			return res;
+		}
+		return null;
 	}
 	
 	public BusinessSector obtenerSectorNumero(Integer codigoNumero) throws RollbackException {
@@ -136,9 +141,12 @@ public class DAONumeroController {
 		Numero n = numeroRepository.selectNumero(codigoNumero);
 		em.close();
 		Sector s = n.getSector();
-		BusinessSector res = new BusinessSector(s.getCodigo(),s.getNombre(),s.getRutaSector());			
-		res.setLastUpdated(s.getLastUpdated());
-		return res;
+		if(s != null){
+			BusinessSector res = new BusinessSector(s.getCodigo(),s.getNombre(),s.getRutaSector());			
+			res.setLastUpdated(s.getLastUpdated());
+			return res;
+		}
+		return null;
 	}
 
 	public ArrayList<BusinessNumero> listarNumerosDelDia() {
@@ -251,7 +259,6 @@ public class DAONumeroController {
 	
 	public void modificarNumeroTramite(int codigoTramite, int internalId, String resultadoFinal){
 		EntityManager em = EMFactory.getEntityManager();
-		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
 		NumeroTramitePK pk = new NumeroTramitePK();
@@ -284,7 +291,7 @@ public class DAONumeroController {
 				long diffSeconds = diff / 1000 % 60;
 				long diffMinutes = diff / (60 * 1000) % 60;
 				long diffHours = diff / (60 * 60 * 1000) % 24;
-				String s = diffHours+":"+diffMinutes+":"+diffSeconds;
+				String s = String.format("%02d", diffHours)+":"+String.format("%02d", diffMinutes)+":"+String.format("%02d", diffSeconds);
 				bmen.setTimeSpent(s);
 			}else{
 				bmen.setTimeSpent(men.getTimeSpent().substring(0,8));
@@ -310,7 +317,7 @@ public class DAONumeroController {
 				long diffSeconds = diff / 1000 % 60;
 				long diffMinutes = diff / (60 * 1000) % 60;
 				long diffHours = diff / (60 * 60 * 1000) % 24;
-				String s = diffHours+":"+diffMinutes+":"+diffSeconds;
+				String s = String.format("%02d", diffHours)+":"+String.format("%02d", diffMinutes)+":"+String.format("%02d", diffSeconds);
 				bmen.setTimeSpent(s);
 			}else{
 				bmen.setTimeSpent(men.getTimeSpent().substring(0,8));
@@ -328,7 +335,7 @@ public class DAONumeroController {
 		em.close();
 		ArrayList<BusinessMetricasNumero> ret = new ArrayList<BusinessMetricasNumero>();
 		for (MetricasNumero mn : lista) {
-			BusinessMetricasNumero bmn = new BusinessMetricasNumero(mn.getInternalId(), mn.getExternalId(), mn.getEstado(), mn.getCodigoTramite(), mn.getRutaSector(), mn.getUsuarioAtencion(), mn.getResultadoFinal(), mn.getLastUpdated(), mn.getDateCreated());
+			BusinessMetricasNumero bmn = new BusinessMetricasNumero(mn.getInternalId(), mn.getExternalId(), mn.getEstado(), mn.getCodigoTramite(), mn.getRutaSector(), mn.getUsuarioAtencion(), mn.getLastUpdated(), mn.getDateCreated());
 			ret.add(bmn);
 		}
 		return ret;
@@ -340,8 +347,8 @@ public class DAONumeroController {
 		
 		MetricasNumero mn = numeroRepository.selectMetricasDeNumero(id);
 		em.close();
-		BusinessMetricasNumero bmn = new BusinessMetricasNumero(mn.getInternalId(), mn.getExternalId(), mn.getEstado(), mn.getCodigoTramite(), mn.getRutaSector(), mn.getUsuarioAtencion(), mn.getResultadoFinal(), mn.getLastUpdated(), mn.getDateCreated());
+		BusinessMetricasNumero bmn = new BusinessMetricasNumero(mn.getInternalId(), mn.getExternalId(), mn.getEstado(), mn.getCodigoTramite(), mn.getRutaSector(), mn.getUsuarioAtencion(), mn.getLastUpdated(), mn.getDateCreated());
 		return bmn;
-	}
+	}	
 
 }

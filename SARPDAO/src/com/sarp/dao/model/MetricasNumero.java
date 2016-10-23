@@ -38,9 +38,6 @@ public class MetricasNumero implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private GregorianCalendar lastUpdated;
 
-	@Column(name="resultado_final")
-	private String resultadoFinal;
-
 	@Column(name="ruta_sector")
 	private String rutaSector;
 
@@ -96,14 +93,6 @@ public class MetricasNumero implements Serializable {
 
 	public void setLastUpdated(GregorianCalendar lastUpdated) {
 		this.lastUpdated = lastUpdated;
-	}
-
-	public String getResultadoFinal() {
-		return this.resultadoFinal;
-	}
-
-	public void setResultadoFinal(String resultadoFinal) {
-		this.resultadoFinal = resultadoFinal;
 	}
 
 	public String getRutaSector() {

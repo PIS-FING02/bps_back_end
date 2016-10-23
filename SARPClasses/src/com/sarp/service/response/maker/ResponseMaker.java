@@ -248,7 +248,6 @@ public class ResponseMaker {
 			jsonMetricasNumero.setInternalId(businessMetricasNumero.getInternalId());			
 			jsonMetricasNumero.setCodigoTramite(businessMetricasNumero.getCodigoTramite());
 			jsonMetricasNumero.setExternalId(businessMetricasNumero.getExternalId());
-			jsonMetricasNumero.setResultadoFinal(businessMetricasNumero.getResultadoFinal());
 			jsonMetricasNumero.setRutaSector(businessMetricasNumero.getRutaSector());
 			jsonMetricasNumero.setUsuarioAtencion(businessMetricasNumero.getUsuarioAtencion());			
 			jsonMetricasNumero.setDateCreated(CalendarToString(businessMetricasNumero.getDateCreated()));

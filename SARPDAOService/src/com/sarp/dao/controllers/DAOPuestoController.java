@@ -1,11 +1,7 @@
 package com.sarp.dao.controllers;
 
-import java.time.Period;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.sql.Date;
 import java.util.GregorianCalendar;
-
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import com.sarp.classes.BusinessMetricasPuesto;
@@ -271,7 +267,7 @@ public class DAOPuestoController {
 				long diffSeconds = diff / 1000 % 60;
 				long diffMinutes = diff / (60 * 1000) % 60;
 				long diffHours = diff / (60 * 60 * 1000) % 24;
-				String s = diffHours+":"+diffMinutes+":"+diffSeconds;
+				String s = String.format("%02d", diffHours)+":"+String.format("%02d", diffMinutes)+":"+String.format("%02d", diffSeconds);
 		        bmp.setTimeSpent(s);
 			}else{
 				bmp.setTimeSpent(mp.getTimeSpent().substring(0,8));
@@ -297,7 +293,7 @@ public class DAOPuestoController {
 				long diffSeconds = diff / 1000 % 60;
 				long diffMinutes = diff / (60 * 1000) % 60;
 				long diffHours = diff / (60 * 60 * 1000) % 24;
-				String s = diffHours+":"+diffMinutes+":"+diffSeconds;
+				String s = String.format("%02d", diffHours)+":"+String.format("%02d", diffMinutes)+":"+String.format("%02d", diffSeconds);
 		        bmp.setTimeSpent(s);
 			}else{
 				bmp.setTimeSpent(mp.getTimeSpent().substring(0,8));
