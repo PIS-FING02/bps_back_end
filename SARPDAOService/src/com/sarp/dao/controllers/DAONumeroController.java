@@ -8,7 +8,6 @@ import javax.persistence.RollbackException;
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessMetricasEstadoNumero;
 import com.sarp.classes.BusinessMetricasNumero;
-import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessNumeroTramite;
 import com.sarp.classes.BusinessPuesto;
@@ -19,7 +18,6 @@ import com.sarp.dao.factory.EMFactory;
 import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.MetricasEstadoNumero;
 import com.sarp.dao.model.MetricasNumero;
-import com.sarp.dao.model.MetricasPuesto;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.NumeroTramite;
 import com.sarp.dao.model.NumeroTramitePK;
@@ -27,7 +25,6 @@ import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
 import com.sarp.dao.repository.DAONumero;
-import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
 
@@ -218,7 +215,7 @@ public class DAONumeroController {
 		return null;
 	}
 	
-	public void asociarNumeroTramite(int codigoTramite, int internalId) throws RollbackException{
+	public void asociarNumeroTramite(int codigoTramite, int internalId,String resultadoFinal) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
@@ -232,7 +229,7 @@ public class DAONumeroController {
 			throw new RollbackException("El Numero con codigo " + internalId + " y el Tramite con codigo " + codigoTramite + " ya estan asociados");
 		}
 		em.getTransaction().begin();
-		numeroRepository.asociarNumeroTramite(n, t);
+		numeroRepository.asociarNumeroTramite(n, t, resultadoFinal);
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -252,6 +249,25 @@ public class DAONumeroController {
 		return ret;
 	}
 	
+	public void modificarNumeroTramite(int codigoTramite, int internalId, String resultadoFinal){
+		EntityManager em = EMFactory.getEntityManager();
+		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
+		DAONumero numeroRepository = factory.getNumeroRepository(em);
+		
+		NumeroTramitePK pk = new NumeroTramitePK();
+		pk.setCodigoTramite(codigoTramite);
+		pk.setInternalId(internalId);
+		NumeroTramite nt = em.find(NumeroTramite.class, pk);
+		if(nt == null){
+			throw new RollbackException("El Numero con codigo " + internalId + " y el Tramite con codigo " + codigoTramite + " no estan asociados");
+		}
+		em.getTransaction().begin();
+		numeroRepository.updateNumeroTramite(nt, resultadoFinal);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	/* OBTENER METRICAS */
 	public ArrayList<BusinessMetricasEstadoNumero> listarMetricasEstadoNumero() throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
@@ -261,6 +277,18 @@ public class DAONumeroController {
 		ArrayList<BusinessMetricasEstadoNumero> ret = new ArrayList<BusinessMetricasEstadoNumero>();
 		for (MetricasEstadoNumero men : lista) {
 			BusinessMetricasEstadoNumero bmen = new BusinessMetricasEstadoNumero(men.getId().getInternalId(), men.getId().getEstado(), men.getTimeSpent(), men.getLastUpdated(), men.getId().getDateCreated());
+			if(men.getTimeSpent() == null){
+				GregorianCalendar c1 = new GregorianCalendar();				
+				GregorianCalendar c2 = men.getLastUpdated();
+				long diff = c1.getTimeInMillis() - c2.getTimeInMillis();
+				long diffSeconds = diff / 1000 % 60;
+				long diffMinutes = diff / (60 * 1000) % 60;
+				long diffHours = diff / (60 * 60 * 1000) % 24;
+				String s = diffHours+":"+diffMinutes+":"+diffSeconds;
+				bmen.setTimeSpent(s);
+			}else{
+				bmen.setTimeSpent(men.getTimeSpent().substring(0,8));
+			}
 			ret.add(bmen);
 		}
 		return ret;
@@ -275,6 +303,18 @@ public class DAONumeroController {
 		ArrayList<BusinessMetricasEstadoNumero> ret = new ArrayList<BusinessMetricasEstadoNumero>();
 		for (MetricasEstadoNumero men : lista) {
 			BusinessMetricasEstadoNumero bmen = new BusinessMetricasEstadoNumero(men.getId().getInternalId(), men.getId().getEstado(), men.getTimeSpent(), men.getLastUpdated(), men.getId().getDateCreated());
+			if(men.getTimeSpent() == null){
+				GregorianCalendar c1 = new GregorianCalendar();				
+				GregorianCalendar c2 = men.getLastUpdated();
+				long diff = c1.getTimeInMillis() - c2.getTimeInMillis();
+				long diffSeconds = diff / 1000 % 60;
+				long diffMinutes = diff / (60 * 1000) % 60;
+				long diffHours = diff / (60 * 60 * 1000) % 24;
+				String s = diffHours+":"+diffMinutes+":"+diffSeconds;
+				bmen.setTimeSpent(s);
+			}else{
+				bmen.setTimeSpent(men.getTimeSpent().substring(0,8));
+			}
 			ret.add(bmen);
 		}
 		return ret;

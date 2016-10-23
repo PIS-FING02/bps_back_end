@@ -14,6 +14,7 @@ import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
+import com.sarp.enumerados.EstadoNumero;
 import com.sarp.enumerados.EstadoPuesto;
 
 public class ValoresDePrueba {
@@ -75,12 +76,11 @@ public class ValoresDePrueba {
 				ctrlPuesto.asociarNumeroPuesto("NombreMaquina" + i, num);
 			}
 		}
-
-		ctrlNumero.asociarNumeroTramite(3, 2);
-		ArrayList<BusinessNumeroTramite> a = ctrlNumero.obtenerNumeroTramites(2);
-		for(BusinessNumeroTramite i : a){
-			System.out.println(i.getCodigoTramite());
-		}
+		
+		BusinessPuesto p = ctrlPuesto.obtenerPuesto("NombreMaquina4");
+		p.setEstado(EstadoPuesto.LLAMANDO);
+		ctrlPuesto.modificarPuesto(p);
+		
 		System.out.println("FIN cargar=" + cargar);
 	}
 	

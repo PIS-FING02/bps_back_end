@@ -6,7 +6,6 @@ import javax.persistence.RollbackException;
 import com.sarp.dao.model.DatosComplementario;
 import com.sarp.dao.model.MetricasEstadoNumero;
 import com.sarp.dao.model.MetricasNumero;
-import com.sarp.dao.model.MetricasPuesto;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.NumeroTramite;
 import com.sarp.dao.model.NumeroTramitePK;
@@ -90,6 +89,9 @@ public class DAONumero {
 		if(n.getPuesto() != null){
 			n.getPuesto().setNumero_puesto(null);
 		}
+		for(NumeroTramite nt : n.getNumeroTramites()){
+			em.remove(nt);
+		}
     	em.remove(n);
 	}
 
@@ -103,11 +105,6 @@ public class DAONumero {
 		n.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 
 		em.persist(n);	
-	}
-	
-	public boolean existsNumero(int internalId){
-		Numero n = em.find(Numero.class, internalId);
-		return n != null;
 	}
 
 	public void asociarNumeroPuestoActual(Numero numero, Puesto puesto) {
@@ -177,7 +174,7 @@ public class DAONumero {
 		}
     }
 
-	public void asociarNumeroTramite(Numero n, Tramite t) {
+	public void asociarNumeroTramite(Numero n, Tramite t, String resultadoFinal) {
 		NumeroTramite nt = new NumeroTramite();
 		NumeroTramitePK pk = new NumeroTramitePK();
 		pk.setCodigoTramite(t.getCodigo());
@@ -185,8 +182,16 @@ public class DAONumero {
 		nt.setId(pk);
 		nt.setNumero(n);
 		nt.setTramite(t);
+		nt.setResultadoFinal(resultadoFinal);
 		
 		em.persist(nt);	
+	}
+
+	public void updateNumeroTramite(NumeroTramite nt, String resultadoFinal) {
+		nt.setResultadoFinal(resultadoFinal);
+		
+		em.persist(nt);
+		
 	}
 	
 }
