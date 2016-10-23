@@ -6,14 +6,13 @@ public class BusinessMetricasNumero{
 	
 	//Constructores
 	public BusinessMetricasNumero(){}
-	public BusinessMetricasNumero(Integer internalId, String externalId, String estado, Integer codigoTramite, String rutaSector, String usuarioAtencion, String resultadoFinal, GregorianCalendar lastUpdated, GregorianCalendar dateCreated) {
+	public BusinessMetricasNumero(Integer internalId, String externalId, String estado, Integer codigoTramite, String rutaSector, String usuarioAtencion, GregorianCalendar lastUpdated, GregorianCalendar dateCreated) {
 		this.internalId = internalId;
 		this.externalId = externalId;
 		this.estado = estado;
 		this.codigoTramite = codigoTramite;
 		this.rutaSector = rutaSector;
 		this.usuarioAtencion = usuarioAtencion;
-		this.resultadoFinal = resultadoFinal;
 		this.lastUpdated = lastUpdated;
 		this.dateCreated = dateCreated;		
 	}
@@ -25,7 +24,6 @@ public class BusinessMetricasNumero{
 	private Integer codigoTramite;
 	private String rutaSector;
 	private String usuarioAtencion;
-	private String resultadoFinal;
 	private GregorianCalendar lastUpdated;
 	private GregorianCalendar dateCreated;
 	
@@ -65,12 +63,6 @@ public class BusinessMetricasNumero{
 	}
 	public void setUsuarioAtencion(String usuarioAtencion) {
 		this.usuarioAtencion = usuarioAtencion;
-	}
-	public String getResultadoFinal() {
-		return resultadoFinal;
-	}
-	public void setResultadoFinal(String resultadoFinal) {
-		this.resultadoFinal = resultadoFinal;
 	}
 	public GregorianCalendar getLastUpdated() {
 		return lastUpdated;
