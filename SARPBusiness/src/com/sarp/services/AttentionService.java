@@ -247,9 +247,14 @@ public class AttentionService {
 			//se atrasa el numero
 			Factory fac = Factory.getInstance();
 			QueueController ctrl = fac.getQueueController();
-			ctrl.transferirAColaAtrasados(numeroActual.getCodSector(), numeroActual);
-
-			numeroActual.setEstado(EstadoNumero.ATRASADO);
+			
+			if(!numeroActual.isFueAtrasado()){
+				ctrl.transferirAColaAtrasados(numeroActual.getCodSector(), numeroActual);
+				numeroActual.setFueAtrasado(true);
+				numeroActual.setEstado(EstadoNumero.ATRASADO);
+			}else{
+				numeroActual.setEstado(EstadoNumero.NOATENDIDO);
+			}
 			DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
 			daoCtrl.modificarNumero(numeroActual);
 			
