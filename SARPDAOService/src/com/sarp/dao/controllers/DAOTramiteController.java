@@ -155,6 +155,6 @@ public class DAOTramiteController {
 		Sector s = sectorRepository.selectSector(sector);
 		return t.getSectors().contains(s);
 	}
-				
+		
 
 }

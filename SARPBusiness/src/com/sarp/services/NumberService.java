@@ -38,11 +38,13 @@ public class NumberService {
 		numero.setExternalId(externalID);
 		/** fin generar external id ***/
 		numero.setEstado(EstadoNumero.PENDIENTE);
+		numero.setCodTramite(num.getIdTramite());
+		numero.setCodSector(num.getIdSector());
 		BusinessDatoComplementario bDatosComplementario = reqMaker.requestDatoComplementario(num);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
 		
-		Integer id = controladorNumero.crearNumero(numero, num.getIdTramite(), num.getIdSector(), bDatosComplementario);
+		Integer id = controladorNumero.crearNumero(numero, bDatosComplementario);
 		numero = controladorNumero.obtenerNumero(id);
 
 		// se agrega a la cola el numero solicitado

@@ -8,7 +8,7 @@ public class JSONMetricasNumero {
 	public String toString() {
 		return "JSONMetricasPuesto [internalId=" + internalId.toString() + ", externalId=" + externalId + ", estado="
 				+ estado + ", codigoTramite=" + codigoTramite + ", rutaSector=" + rutaSector + ", usuarioAtencion=" + usuarioAtencion
-				+ ", resultadoFinal=" + resultadoFinal + ", lastUpdated=" + lastUpdated + ", dateCreated=" + dateCreated + "]";
+				+ ", lastUpdated=" + lastUpdated + ", dateCreated=" + dateCreated + "]";
 	}
 	
 	private Integer internalId;
@@ -17,7 +17,6 @@ public class JSONMetricasNumero {
 	private Integer codigoTramite;
 	private String rutaSector;
 	private String usuarioAtencion;
-	private String resultadoFinal;
 	private String lastUpdated;
 	private String dateCreated;
 	public Integer getInternalId() {
@@ -55,12 +54,6 @@ public class JSONMetricasNumero {
 	}
 	public void setUsuarioAtencion(String usuarioAtencion) {
 		this.usuarioAtencion = usuarioAtencion;
-	}
-	public String getResultadoFinal() {
-		return resultadoFinal;
-	}
-	public void setResultadoFinal(String resultadoFinal) {
-		this.resultadoFinal = resultadoFinal;
 	}
 	public String getLastUpdated() {
 		return lastUpdated;

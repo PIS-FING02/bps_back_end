@@ -3,6 +3,7 @@ package com.sarp.dao.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import com.sarp.dao.model.Numero;
+import com.sarp.dao.model.NumeroTramite;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
@@ -48,6 +49,9 @@ public class DAOTramite {
 		for (Numero n: t.getNumeros()){
             n.setTramite(null);
         }
+		for(NumeroTramite nt : t.getNumeroTramites()){
+			em.remove(nt);
+		}
     	em.remove(t);
 	}
 

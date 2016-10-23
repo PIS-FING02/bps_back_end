@@ -46,7 +46,9 @@ public class NumeroTest {
 			BusinessNumero n = new BusinessNumero();
 			n.setExternalId("external" + i);
 			n.setHora(new GregorianCalendar());
-			Integer idS = ctrlNumero.crearNumero(n, i, Integer.toString(i-1), null);
+			n.setCodTramite(i);
+			n.setCodSector(Integer.toString(i-1));
+			Integer idS = ctrlNumero.crearNumero(n, null);
 	        id.add(idS);
 		}
     }
@@ -62,7 +64,9 @@ public class NumeroTest {
    @Test
    public void testCrearNumero1() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   Integer id = ctrlNumero.crearNumero(n, 8, "7", null);
+	   n.setCodTramite(8);
+	   n.setCodSector("7");
+	   Integer id = ctrlNumero.crearNumero(n, null);
 	   BusinessNumero n2 = ctrlNumero.obtenerNumero(id);
 	   assertEquals(n2.getInternalId(), id);
 	   assertEquals(n2.getCodSector(), "7");
@@ -82,7 +86,9 @@ public class NumeroTest {
 	   n.setHora(hora);
 	   n.setPrioridad(9);
 	   n.setExternalId("external2");
-	   Integer id = ctrlNumero.crearNumero(n, 8, "7", null);
+	   n.setCodTramite(8);
+	   n.setCodSector("7");
+	   Integer id = ctrlNumero.crearNumero(n, null);
 	   BusinessNumero n2 = ctrlNumero.obtenerNumero(id);
 	   assertEquals(n2.getInternalId(), id);
 	   assertEquals(n2.getCodSector(), "7");
@@ -100,7 +106,9 @@ public class NumeroTest {
 	   BusinessDatoComplementario dc = new BusinessDatoComplementario();
 	   dc.setDocIdentidad("1234567");
 	   dc.setNombreCompleto("Marcelo Rydel");
-	   Integer id = ctrlNumero.crearNumero(n, 8, "7", dc);
+	   n.setCodTramite(8);
+	   n.setCodSector("7");
+	   Integer id = ctrlNumero.crearNumero(n,dc);
 	   
 	   BusinessDatoComplementario d2 = ctrlNumero.obtenerDatosNumero(id);
 	   assertEquals(d2.getNombreCompleto(), "Marcelo Rydel");
@@ -111,31 +119,42 @@ public class NumeroTest {
    public void testCrearNumeroConDatos2() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
 	   BusinessDatoComplementario dc = new BusinessDatoComplementario();
-	   Integer id = ctrlNumero.crearNumero(n, 8, "7", dc);
+	   n.setCodTramite(8);
+	   n.setCodSector("7");
+	   Integer idn = ctrlNumero.crearNumero(n,dc);
 	   
-	   BusinessDatoComplementario d2 = ctrlNumero.obtenerDatosNumero(id);
+	   BusinessDatoComplementario d2 = ctrlNumero.obtenerDatosNumero(idn);
 	   assertEquals(d2.getNombreCompleto(), null);
 	   assertEquals(d2.getDocIdentidad(), null);
 	   assertEquals(d2.getTipoDoc(), null);
-	   ctrlNumero.eliminarNumero(id);
+	   ctrlNumero.eliminarNumero(idn);
+	   
+	   BusinessDatoComplementario d3 = ctrlNumero.obtenerDatosNumero(id.get(3));
+	   assertEquals(d3, null);
    }
    
    @Test(expected=RollbackException.class)
    public void testCrearNumeroInvalido() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   ctrlNumero.crearNumero(n, 798798, "sector", null); //tramite invalido
+	   n.setCodTramite(798798);
+	   n.setCodSector("sector");
+	   ctrlNumero.crearNumero(n, null); //tramite invalido
    }
    
    @Test(expected=RollbackException.class)
    public void testCrearNumeroInvalido1() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   ctrlNumero.crearNumero(n, 2, "sectorquenoexiste", null); //sector invalido
+	   n.setCodTramite(2);
+	   n.setCodSector("sectorquenoexiste");
+	   ctrlNumero.crearNumero(n, null); //sector invalido
    }
    
    @Test(expected=RollbackException.class)
    public void testCrearNumeroInvalido3() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   ctrlNumero.crearNumero(n, 2, "5", null); //sector y tramite no relacionados
+	   n.setCodTramite(2);
+	   n.setCodSector("5");
+	   ctrlNumero.crearNumero(n, null); //sector y tramite no relacionados
    }
    
    @Test
@@ -263,7 +282,9 @@ public class NumeroTest {
 	   System.out.print("\ntestListarMetricasEstadoDeNumero");
 	   BusinessNumero n = new BusinessNumero();
 	   n.setExternalId("external");
-	   Integer id = ctrlNumero.crearNumero(n, 3, "2", null);
+	   n.setCodTramite(3);
+	   n.setCodSector("2");
+	   Integer id = ctrlNumero.crearNumero(n, null);
 	   n = ctrlNumero.obtenerNumero(id);
 	   n.setEstado(EstadoNumero.FINALIZADO);
 	   ctrlNumero.modificarNumero(n);
@@ -283,7 +304,7 @@ public class NumeroTest {
 	   System.out.print("\ntestListarMetricasNumero");
 	   ArrayList<BusinessMetricasNumero> lista = ctrlNumero.listarMetricasNumero();
 	   for(BusinessMetricasNumero bmn : lista){
-		   System.out.println("\n"+bmn.getInternalId() + "-" + bmn.getExternalId() + "-" + bmn.getRutaSector() + "-" + bmn.getEstado() + "-" + bmn.getCodigoTramite() + "-" + bmn.getResultadoFinal());
+		   System.out.println("\n"+bmn.getInternalId() + "-" + bmn.getExternalId() + "-" + bmn.getRutaSector() + "-" + bmn.getEstado() + "-" + bmn.getCodigoTramite());
 	   }
    }
    
@@ -292,14 +313,16 @@ public class NumeroTest {
 	   System.out.print("\ntestListarMetricasDeNumero");
 	   BusinessNumero n = new BusinessNumero();
 	   n.setExternalId("external");
-	   Integer id = ctrlNumero.crearNumero(n, 3, "2", null);
+	   n.setCodTramite(3);
+	   n.setCodSector("2");
+	   Integer id = ctrlNumero.crearNumero(n, null);
 	   n = ctrlNumero.obtenerNumero(id);
 	   n.setEstado(EstadoNumero.LLAMADO);
 	   ctrlPuesto.asociarNumeroPuesto("NombreMaquina5", id);
 	   ctrlNumero.eliminarNumero(id);
 	   
 	   BusinessMetricasNumero bmn = ctrlNumero.listarMetricasDeNumero(id);
-	   System.out.println("\n"+bmn.getInternalId() + "-" + bmn.getExternalId() + "-" + bmn.getRutaSector() + "-" + bmn.getEstado() + "-" + bmn.getCodigoTramite() + "-" + bmn.getResultadoFinal());
+	   System.out.println("\n"+bmn.getInternalId() + "-" + bmn.getExternalId() + "-" + bmn.getRutaSector() + "-" + bmn.getEstado() + "-" + bmn.getCodigoTramite());
    }
    
    @Test
@@ -330,6 +353,11 @@ public class NumeroTest {
 	   ctrlNumero.asociarNumeroTramite(4, id.get(4), null);
    }
    
+   @Test
+   public void testModificarNumeroTramite(){
+	   ctrlNumero.modificarNumeroTramite(4, 4, "cambio");
+   }
+   
    @Test(expected=RollbackException.class)
    public void testModificarNumeroTramiteInvalido(){
 	   ctrlNumero.modificarNumeroTramite(6, 7, "invalido");
@@ -354,9 +382,15 @@ public class NumeroTest {
 	   ctrlSector.crearSector(s);
 	   BusinessNumero n = new BusinessNumero();
 	   ctrlSector.asociarTramiteSector(idt, "idtesteliminar");
-	   Integer idS = ctrlNumero.crearNumero(n, idt, "idtesteliminar", null);
+	   n.setCodTramite(idt);
+	   n.setCodSector("idtesteliminar");
+	   Integer idn = ctrlNumero.crearNumero(n, null);
 	   ctrlTramite.eliminarTramite(idt);
 	   ctrlSector.eliminarSector("idtesteliminar");
+	   BusinessSector sec = ctrlNumero.obtenerSectorNumero(idn);
+	   assertEquals(sec, null);
+	   BusinessTramite tram = ctrlNumero.obtenerTramiteNumero(idn);
+	   assertEquals(tram, null);
    }
   
 }

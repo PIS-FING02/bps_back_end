@@ -133,7 +133,6 @@ CREATE TABLE public.METRICAS_NUMERO
   codigo_tramite int,
   ruta_sector character varying(40),
   usuario_atencion character varying(40),
-  resultado_final character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,  
   CONSTRAINT metricas_numero_pkey PRIMARY KEY (internal_id)
@@ -211,13 +210,12 @@ DECLARE
     BEGIN
 		--ACTUALIZO METRICA_ESTADO_PUESTO
 		IF(OLD.estado != NEW.estado) THEN
-			EXECUTE 'INSERT into metricas_estado_numero
-				values('''|| NEW.internal_id ||''','''|| NEW.estado ||''')';
+			INSERT INTO metricas_estado_numero VALUES(NEW.internal_id, NEW.estado); 
 
-			EXECUTE 'UPDATE metricas_estado_numero SET
+			UPDATE metricas_estado_numero SET
 				time_spent = age(now(), date_created),
 				last_updated = now()
-				WHERE internal_id = '''|| NEW.internal_id ||''' AND estado = '''|| OLD.estado||''' AND time_spent is NULL';							
+				WHERE internal_id = NEW.internal_id AND estado = OLD.estado AND time_spent is NULL;
 		END IF;
 		--ACTUALIZO METRICA_NUMERO
 		SELECT usuario_id FROM puesto WHERE nombre_maquina = NEW.puesto_asignado INTO usuario;
@@ -230,5 +228,5 @@ DECLARE
 $$ LANGUAGE plpgsql;
 CREATE TRIGGER actualizo_metrica_numero AFTER UPDATE ON numero
 	FOR EACH ROW EXECUTE PROCEDURE actualizo_metrica_numero();
-
+	
 COMMIT;

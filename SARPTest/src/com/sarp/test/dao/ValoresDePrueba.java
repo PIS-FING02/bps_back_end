@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessNumeroTramite;
 import com.sarp.classes.BusinessPuesto;
@@ -67,17 +68,20 @@ public class ValoresDePrueba {
 				n.setPrioridad(5);
 				n.setHora(new GregorianCalendar());
 				
-				ctrlSector.asociarTramiteSector(i+1, Integer.toString(i));			
-				int num = ctrlNumero.crearNumero(n, i+1, Integer.toString(i), dc);
+				ctrlSector.asociarTramiteSector(i+1, Integer.toString(i));	
+				n.setCodTramite(i+1);
+				n.setCodSector(Integer.toString(i));
+				int num = ctrlNumero.crearNumero(n, dc);
 				
 				ctrlSector.asociarDisplaySector(id, "iddisplay"+id);
 				ctrlSector.asociarSectorPuesto(id, "NombreMaquina" + i);
 				ctrlTramite.asociarTramitePuesto(i+1, "NombreMaquina" + i);
 				ctrlPuesto.asociarNumeroPuesto("NombreMaquina" + i, num);
+				ctrlNumero.asociarNumeroTramite(i+1, i+1, "resultado"+i);
 			}
 		}
-	
 		
+//		ctrlTramite.eliminarTramite(4);
 		System.out.println("FIN cargar=" + cargar);
 	}
 	
