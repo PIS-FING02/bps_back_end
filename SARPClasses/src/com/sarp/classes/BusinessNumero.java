@@ -14,7 +14,6 @@ public class BusinessNumero {
 	private GregorianCalendar hora;
 	private EstadoNumero estado;
 	private Integer prioridad;
-	private String resultadoFinal;
 	private Timestamp lastUpdated;
 	private Integer codTramite;
 	private String codSector;
@@ -23,13 +22,12 @@ public class BusinessNumero {
 	// Constructores
 	public BusinessNumero(){}
 	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado,
-			Integer prioridad, Integer codT, String codS, String resultadoFinal, boolean fueAtrasado) {
+			Integer prioridad, Integer codT, String codS, boolean fueAtrasado) {
 		this.internalId = internalId;
 		this.externalId = externalId;
 		this.hora = hora;
 		this.estado = (estado != null && !estado.equals("")) ? EstadoNumero.valueOf(estado) : null;
 		this.prioridad = prioridad;
-		this.resultadoFinal = resultadoFinal;
 		this.codTramite = codT;
 		this.codSector = codS;
 		this.fueAtrasado = fueAtrasado;
@@ -100,12 +98,6 @@ public class BusinessNumero {
 		this.codSector = codSector;
 	}
 	
-	public String getResultadoFinal() {
-		return resultadoFinal;
-	}
-	public void setResultadoFinal(String resultadoFinal) {
-		this.resultadoFinal = resultadoFinal;
-	}
 	public boolean isFueAtrasado() {
 		return fueAtrasado;
 	}

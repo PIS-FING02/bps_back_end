@@ -30,7 +30,7 @@ public class DAOServiceFactory {
 	}
 	
 	public DAOSectorController getDAOSectorController(){
-		return new  DAOSectorController();
+		return new DAOSectorController();
 	}
 	
 	public DAOTramiteController getDAOTramiteController(){

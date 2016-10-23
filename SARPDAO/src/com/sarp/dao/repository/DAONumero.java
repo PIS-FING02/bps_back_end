@@ -8,6 +8,8 @@ import com.sarp.dao.model.MetricasEstadoNumero;
 import com.sarp.dao.model.MetricasNumero;
 import com.sarp.dao.model.MetricasPuesto;
 import com.sarp.dao.model.Numero;
+import com.sarp.dao.model.NumeroTramite;
+import com.sarp.dao.model.NumeroTramitePK;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
 import com.sarp.dao.model.Tramite;
@@ -91,14 +93,13 @@ public class DAONumero {
     	em.remove(n);
 	}
 
-	public void updateNumero(Integer internalId, String estado, String externalId, GregorianCalendar hora, Integer prioridad, Timestamp lastUpdated, String resultadoFinal, boolean fueAtrasado) throws RollbackException {
+	public void updateNumero(Integer internalId, String estado, String externalId, GregorianCalendar hora, Integer prioridad, Timestamp lastUpdated, boolean fueAtrasado) throws RollbackException {
 		Numero n = selectNumero(internalId);
 		n.setEstado(estado);
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
 		n.setFueAtrasado(fueAtrasado);
-		n.setResultadoFinal(resultadoFinal);
 		n.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
 
 		em.persist(n);	
@@ -141,6 +142,14 @@ public class DAONumero {
 		em.persist(numero);		
 	}
 	
+	public void setearDesvio(Integer numeroDesviado, Integer numeroNuevo) {
+		Numero n1 = selectNumero(numeroDesviado);
+		Numero n2 = selectNumero(numeroNuevo);
+		
+		n1.setDesvio(n2);
+		em.persist(n1);
+	}
+	
 	public ArrayList<MetricasEstadoNumero> selectMetricasEstadoNumero() {
 		ArrayList<MetricasEstadoNumero> res = new ArrayList<MetricasEstadoNumero>(em.createQuery("SELECT men FROM MetricasEstadoNumero men").getResultList());
 		return res;
@@ -167,5 +176,17 @@ public class DAONumero {
 			throw new RollbackException("No hay metricas para el Numero con codigo " + internalId);
 		}
     }
+
+	public void asociarNumeroTramite(Numero n, Tramite t) {
+		NumeroTramite nt = new NumeroTramite();
+		NumeroTramitePK pk = new NumeroTramitePK();
+		pk.setCodigoTramite(t.getCodigo());
+		pk.setInternalId(n.getInternalId());
+		nt.setId(pk);
+		nt.setNumero(n);
+		nt.setTramite(t);
+		
+		em.persist(nt);	
+	}
 	
 }
