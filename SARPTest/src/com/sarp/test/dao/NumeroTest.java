@@ -7,11 +7,14 @@ import com.sarp.classes.BusinessMetricasEstadoNumero;
 import com.sarp.classes.BusinessMetricasNumero;
 import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
+import com.sarp.classes.BusinessNumeroTramite;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
+import com.sarp.dao.controllers.DAOSectorController;
+import com.sarp.dao.controllers.DAOTramiteController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoNumero;
 import com.sarp.enumerados.EstadoPuesto;
@@ -28,16 +31,21 @@ import javax.persistence.RollbackException;
 public class NumeroTest {
 	private static DAONumeroController ctrlNumero;
 	private static DAOPuestoController ctrlPuesto;
+	private static DAOSectorController ctrlSector;
+	private static DAOTramiteController ctrlTramite;
 	private static List<Integer> id;	
 	
 	@BeforeClass
     public static void setUpClassNumeroTest(){  
 		ctrlNumero = DAOServiceFactory.getInstance().getDAONumeroController();
 		ctrlPuesto = DAOServiceFactory.getInstance().getDAOPuestoController();
+		ctrlTramite = DAOServiceFactory.getInstance().getDAOTramiteController();
+		ctrlSector = DAOServiceFactory.getInstance().getDAOSectorController();
 		id = new ArrayList<Integer>();
 		for(int i = 1; i < 10; i++){
 			BusinessNumero n = new BusinessNumero();
 			n.setExternalId("external" + i);
+			n.setHora(new GregorianCalendar());
 			Integer idS = ctrlNumero.crearNumero(n, i, Integer.toString(i-1), null);
 	        id.add(idS);
 		}
@@ -301,6 +309,54 @@ public class NumeroTest {
 	   assertEquals(n1.getInternalId() == 9, true);
 	   BusinessNumero n2 = ctrlNumero.obtenerDesvio(9);
 	   assertEquals(n2, null);
+   }
+   
+   @Test
+   public void testAsociarNumeroTramite(){
+	   ctrlNumero.asociarNumeroTramite(3, id.get(3), "BIEN");
+	   ArrayList<BusinessNumeroTramite> lnt = ctrlNumero.obtenerNumeroTramites(id.get(3));
+	   assertEquals(lnt.get(0).getResultadoFinal(), "BIEN");
+	   ctrlNumero.modificarNumeroTramite(3, id.get(3), "MAL");
+	   lnt = ctrlNumero.obtenerNumeroTramites(id.get(3));
+	   assertEquals(lnt.get(0).getResultadoFinal(), "MAL");
+	   ctrlNumero.asociarNumeroTramite(5, id.get(5), null);
+	   lnt = ctrlNumero.obtenerNumeroTramites(id.get(5));
+	   assertEquals(lnt.get(0).getResultadoFinal(), null);
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testAsociarNumeroTramiteInvalido(){
+	   ctrlNumero.asociarNumeroTramite(4, id.get(4), null);
+	   ctrlNumero.asociarNumeroTramite(4, id.get(4), null);
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testModificarNumeroTramiteInvalido(){
+	   ctrlNumero.modificarNumeroTramite(6, 7, "invalido");
+   }
+   
+   @Test
+   public void testEliminarNumeroConPuestoActual(){
+	   ctrlPuesto.asociarNumeroPuestoActual("NombreMaquina7", id.get(2));
+	   //Se borra en el tearDownClass
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testListarMetricasDeNumerInvalido(){
+	   ctrlNumero.listarMetricasDeNumero(99888687);
+   }
+   
+   @Test
+   public void testEliminarSectorYTramiteDeNumero(){
+	   BusinessTramite t = new BusinessTramite();
+	   Integer idt = ctrlTramite.crearTramite(t);
+	   BusinessSector s = new BusinessSector("idtesteliminar",null,null);
+	   ctrlSector.crearSector(s);
+	   BusinessNumero n = new BusinessNumero();
+	   ctrlSector.asociarTramiteSector(idt, "idtesteliminar");
+	   Integer idS = ctrlNumero.crearNumero(n, idt, "idtesteliminar", null);
+	   ctrlTramite.eliminarTramite(idt);
+	   ctrlSector.eliminarSector("idtesteliminar");
    }
   
 }

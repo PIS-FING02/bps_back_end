@@ -131,6 +131,11 @@ public class PuestoTest {
       assertEquals(p2.getUsuarioId(), "usuarioidtest");
       assertEquals(p2.getNumeroPuesto() == 8, true);
       assertEquals(p2.getEstado(), EstadoPuesto.LLAMANDO);
+      p2.setUsuarioId(null);
+      ctrlPuesto.modificarPuesto(p2);
+      BusinessPuesto p3 = ctrlPuesto.obtenerPuesto("nombremaquinatest1");
+      assertEquals(p3.getUsuarioId(), "-");
+      
    }
    
    @Test(expected=RollbackException.class)

@@ -19,7 +19,7 @@ import com.sarp.json.modeler.JSONMetricasPuesto;
 public class MetricsService {
 
 	@GET
-  	@Path("/listarMetricasPuestos")
+  	@Path("/listarMetricasPuesto")
 	@Produces(MediaType.APPLICATION_JSON)
 		/* Si nombreMaquina es null, devuelvo todas las metricas, sino se filtran las metricas */
 		public List<JSONMetricasPuesto> listarMetricasPuestos(@QueryParam("nombreMaquina") String nombreMaquina) {

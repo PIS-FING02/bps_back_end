@@ -1,14 +1,9 @@
 package com.sarp.dao.controllers;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
-
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
@@ -23,8 +18,6 @@ import com.sarp.dao.repository.DAODisplay;
 import com.sarp.dao.repository.DAOPuesto;
 import com.sarp.dao.repository.DAOSector;
 import com.sarp.dao.repository.DAOTramite;
-
-
 
 public class DAOSectorController {
 	
