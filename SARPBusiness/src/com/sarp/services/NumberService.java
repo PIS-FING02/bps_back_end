@@ -37,7 +37,7 @@ public class NumberService {
 				+ Integer.toString(diaActual.get(Calendar.MINUTE)) + Integer.toString(diaActual.get(Calendar.SECOND));
 		numero.setExternalId(externalID);
 		/** fin generar external id ***/
-		numero.setEstado(EstadoNumero.DISPONIBLE);
+		numero.setEstado(EstadoNumero.PENDIENTE);
 		BusinessDatoComplementario bDatosComplementario = reqMaker.requestDatoComplementario(num);
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();

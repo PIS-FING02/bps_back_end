@@ -26,7 +26,7 @@ public class ValoresDePrueba {
 		DAONumeroController ctrlNumero = new DAONumeroController();
 		DAOPuestoController ctrlPuesto = new DAOPuestoController();
 		
-		boolean cargar = false;
+		boolean cargar = true;
 		
 		/*VALORES DE PRUEBA*/
 		if(cargar){
@@ -76,10 +76,7 @@ public class ValoresDePrueba {
 				ctrlPuesto.asociarNumeroPuesto("NombreMaquina" + i, num);
 			}
 		}
-		
-		BusinessPuesto p = ctrlPuesto.obtenerPuesto("NombreMaquina4");
-		p.setEstado(EstadoPuesto.LLAMANDO);
-		ctrlPuesto.modificarPuesto(p);
+	
 		
 		System.out.println("FIN cargar=" + cargar);
 	}

@@ -263,7 +263,7 @@ public class DAOPuestoController {
 		em.close();
 		ArrayList<BusinessMetricasPuesto> ret = new ArrayList<BusinessMetricasPuesto>();
 		for (MetricasPuesto mp : lista) {
-			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent().substring(0,8), mp.getLastUpdated(), mp.getId().getDateCreated());
+			BusinessMetricasPuesto bmp = new BusinessMetricasPuesto(mp.getId().getNombreMaquina(), mp.getId().getUsuarioAtencion(), mp.getId().getEstado(), mp.getTimeSpent(), mp.getLastUpdated(), mp.getId().getDateCreated());
 			if(mp.getTimeSpent() == null){
 				GregorianCalendar c1 = new GregorianCalendar();				
 				GregorianCalendar c2 = mp.getLastUpdated();

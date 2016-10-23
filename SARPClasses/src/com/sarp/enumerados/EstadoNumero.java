@@ -2,11 +2,11 @@ package com.sarp.enumerados;
 
 //Posibles estados por los que puede pasar un puesto
 public enum EstadoNumero {
-	DISPONIBLE, LLAMADO, ATRASADO, NOATENDIDO, ATENDIENDO, PAUSADO, FINALIZADO, DESVIADO;
+	PENDIENTE, LLAMADO, ATRASADO, NOATENDIDO, ATENDIENDO, PAUSADO, FINALIZADO, DESVIADO;
 	
 	public static EstadoNumero getEnum(String s){
-        if(DISPONIBLE.name().equals(s)){
-            return DISPONIBLE;
+        if(PENDIENTE.name().equals(s)){
+            return PENDIENTE;
         }else if(LLAMADO.name().equals(s)){
             return LLAMADO;
         }else if(ATRASADO.name().equals(s)){

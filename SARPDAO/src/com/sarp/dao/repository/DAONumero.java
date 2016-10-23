@@ -32,7 +32,7 @@ public class DAONumero {
 		n.setExternalId(externalId);
 		n.setHora(hora);
 		n.setPrioridad(prioridad);
-		n.setEstado("DISPONIBLE");
+		n.setEstado("PENDIENTE");
 		tramite.addNumero(n);
 		sector.addNumero(n);
 
