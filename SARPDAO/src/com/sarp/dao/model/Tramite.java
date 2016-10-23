@@ -49,7 +49,10 @@ public class Tramite implements Serializable {
 		)
 	private List<Puesto> puestos;
 	
-	
+	//bi-directional many-to-many association to NumeroTramite
+	@OneToMany(mappedBy = "tramite")
+    private List<NumeroTramite> numeroTramites;
+		
 	//bi-directional many-to-many association to Sector
 	@ManyToMany
 	@JoinTable(
@@ -134,6 +137,18 @@ public class Tramite implements Serializable {
 
 	public void setSectors(List<Sector> sectors) {
 		this.sectors = sectors;
+	}
+	
+	public List<NumeroTramite> getNumeroTramites() {
+		return this.numeroTramites;
+	}
+
+	public void addNumeroTramite(NumeroTramite numeroTramite) {
+		this.numeroTramites.add(numeroTramite);
+	}
+	
+	public void removeNumeroTramite(NumeroTramite numeroTramite) {
+		this.numeroTramites.remove(numeroTramite);
 	}
 
 }

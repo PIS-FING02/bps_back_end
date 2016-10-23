@@ -35,7 +35,7 @@ public class NumeroTest {
 		ctrlNumero = DAOServiceFactory.getInstance().getDAONumeroController();
 		ctrlPuesto = DAOServiceFactory.getInstance().getDAOPuestoController();
 		id = new ArrayList<Integer>();
-		for(int i = 1; i < 7; i++){
+		for(int i = 1; i < 10; i++){
 			BusinessNumero n = new BusinessNumero();
 			n.setExternalId("external" + i);
 			Integer idS = ctrlNumero.crearNumero(n, i, Integer.toString(i-1), null);
@@ -292,6 +292,15 @@ public class NumeroTest {
 	   
 	   BusinessMetricasNumero bmn = ctrlNumero.listarMetricasDeNumero(id);
 	   System.out.println("\n"+bmn.getInternalId() + "-" + bmn.getExternalId() + "-" + bmn.getRutaSector() + "-" + bmn.getEstado() + "-" + bmn.getCodigoTramite() + "-" + bmn.getResultadoFinal());
+   }
+   
+   @Test
+   public void testDesviar(){
+	   ctrlNumero.setearDesvio(8, 9);
+	   BusinessNumero n1 = ctrlNumero.obtenerDesvio(8);
+	   assertEquals(n1.getInternalId() == 9, true);
+	   BusinessNumero n2 = ctrlNumero.obtenerDesvio(9);
+	   assertEquals(n2, null);
    }
   
 }
