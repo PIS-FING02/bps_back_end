@@ -463,7 +463,7 @@ public class AdminService {
 				qServ.transferirAColaPausados(bn);
 			}else if(bn.getEstado().equals(EstadoNumero.ATRASADO)){
 				qServ.transferirAColaAtrasados(bn);
-			}else if(bn.getEstado().equals(EstadoNumero.DISPONIBLE)){
+			}else if(bn.getEstado().equals(EstadoNumero.PENDIENTE)){
 				qServ.agregarNumero(bn);
 			}else if(bn.getEstado().equals(EstadoNumero.LLAMADO) || bn.getEstado().equals(EstadoNumero.ATENDIENDO)){
 				bn.setEstado(EstadoNumero.PAUSADO);

@@ -30,7 +30,7 @@ public class BusinessSectorQueue {
 
 	public synchronized void agregarNumeroCola(BusinessNumero numero) throws Exception {
 		
-		numero.setEstado(EstadoNumero.DISPONIBLE);
+		numero.setEstado(EstadoNumero.PENDIENTE);
 		switch (numero.getPrioridad()) {
 		case 1:
 			if (this.colaPrioridad1.isEmpty())
