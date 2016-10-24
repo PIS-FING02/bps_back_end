@@ -18,8 +18,7 @@ public class Tramite implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer codigo;
+	private String codigo;
 
 	@Column(name = "date_created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp dateCreated;
@@ -69,11 +68,11 @@ public class Tramite implements Serializable {
 	public Tramite() {
 	}
 
-	public Integer getCodigo() {
+	public String getCodigo() {
 		return this.codigo;
 	}
 
-	public void setCodigo(Integer codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 

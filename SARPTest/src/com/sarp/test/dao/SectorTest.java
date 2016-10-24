@@ -141,33 +141,33 @@ public class SectorTest {
    @Test()
    public void testAsociarTramiteSector() throws Exception{
 	   String id = "idsectortest3";
-	   ctrlSector.asociarTramiteSector(1, id);
+	   ctrlSector.asociarTramiteSector("CodigoTramite1", id);
 	   List<BusinessTramite> l = ctrlSector.obtenerTramitesSector(id);
-	   assertEquals(l.get(0).getCodigo() == 1, true);
-	   ctrlSector.desasociarTramiteSector(1, id);
+	   assertEquals(l.get(0).getCodigo(), "CodigoTramite1");
+	   ctrlSector.desasociarTramiteSector("CodigoTramite1", id);
 	   l = ctrlSector.obtenerTramitesSector(id);
 	   assertEquals(l.size() == 0, true);  
    }
    
    @Test(expected=RollbackException.class)
    public void testAsociarTramiteSectorInvalido() throws Exception{
-	   ctrlSector.asociarTramiteSector(456546, "idsectortest4");
+	   ctrlSector.asociarTramiteSector("456546", "idsectortest4");
    }
    
    @Test(expected=RollbackException.class)
    public void testAsociarTramiteSectorInvalido2() throws Exception{
-	   ctrlSector.asociarTramiteSector(2, "sectorquenoexiste");
+	   ctrlSector.asociarTramiteSector("2", "sectorquenoexiste");
    }
    
    @Test(expected=RollbackException.class)
    public void testAsociarTramiteSectorInvalido3() throws Exception{
-	   ctrlSector.asociarTramiteSector(2, "idsectortest4");
-	   ctrlSector.asociarTramiteSector(2, "idsectortest4");
+	   ctrlSector.asociarTramiteSector("2", "idsectortest4");
+	   ctrlSector.asociarTramiteSector("2", "idsectortest4");
    }
    
    @Test(expected=RollbackException.class)
    public void desasociarTramiteSectorInvalido() throws Exception{
-	   ctrlSector.desasociarTramiteSector(3, "4"); //No asociados entre si
+	   ctrlSector.desasociarTramiteSector("3", "4"); //No asociados entre si
    }
    
    @Test(expected=RollbackException.class)
@@ -267,9 +267,15 @@ public class SectorTest {
 	   BusinessTramite t2 = new BusinessTramite();
 	   BusinessTramite t3 = new BusinessTramite();
 	   
-	   Integer idt1 = ctrlTramite.crearTramite(t1);
-	   Integer idt2 = ctrlTramite.crearTramite(t2);
-	   Integer idt3 = ctrlTramite.crearTramite(t3);
+	   String idt1 = "testdesasociarSectorPuesto21";
+	   String idt2 = "testdesasociarSectorPuesto22";
+	   String idt3 = "testdesasociarSectorPuesto23";
+	   t1.setCodigo(idt1);
+	   t2.setCodigo(idt2);
+	   t3.setCodigo(idt3);
+	   ctrlTramite.crearTramite(t1);
+	   ctrlTramite.crearTramite(t2);
+	   ctrlTramite.crearTramite(t3);
 	   ctrlSector.crearSector(s1);
 	   ctrlSector.crearSector(s2);
 	   ctrlPuesto.crearPuesto(p1);

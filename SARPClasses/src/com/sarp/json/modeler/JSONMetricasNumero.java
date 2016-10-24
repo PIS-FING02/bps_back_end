@@ -14,7 +14,7 @@ public class JSONMetricasNumero {
 	private Integer internalId;
 	private String externalId;
 	private String estado;
-	private Integer codigoTramite;
+	private String codigoTramite;
 	private String rutaSector;
 	private String usuarioAtencion;
 	private String lastUpdated;
@@ -37,10 +37,10 @@ public class JSONMetricasNumero {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public Integer getCodigoTramite() {
+	public String getCodigoTramite() {
 		return codigoTramite;
 	}
-	public void setCodigoTramite(Integer codigoTramite) {
+	public void setCodigoTramite(String codigoTramite) {
 		this.codigoTramite = codigoTramite;
 	}
 	public String getRutaSector() {

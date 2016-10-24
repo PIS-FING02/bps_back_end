@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class BusinessTramite {
 
 	// Atributos
-	private Integer codigo;
+	private String codigo;
 	private String nombre;
 	private Timestamp lastUpdated;
 
@@ -13,17 +13,17 @@ public class BusinessTramite {
 	public BusinessTramite() {
 	}
 
-	public BusinessTramite(Integer codigo, String nombre) {
+	public BusinessTramite(String codigo, String nombre) {
 		this.codigo = codigo;
 		this.nombre = nombre;
 	}
 
 	// Operaciones
-	public Integer getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(Integer codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 

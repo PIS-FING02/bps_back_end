@@ -4,13 +4,13 @@ public class JSONPuestoTramite {
 	 	
 	public JSONPuestoTramite() {}
 	
-	private Integer tramiteId;
+	private String tramiteId;
 	private String nombreMaquina;
 	
-	public Integer getTramiteId() {
+	public String getTramiteId() {
 		return tramiteId;
 	}
-	public void setTramiteId(Integer tramiteId) {
+	public void setTramiteId(String tramiteId) {
 		this.tramiteId = tramiteId;
 	}
 	public String getNombreMaquina() {

@@ -25,7 +25,7 @@ CREATE TABLE public.SECTOR
 
 CREATE TABLE public.TRAMITE
 (
-  codigo serial,
+  codigo character varying(40),
   nombre character varying(40),
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,
@@ -35,7 +35,7 @@ CREATE TABLE public.TRAMITE
 CREATE TABLE public.NUMERO
 (
   internal_id serial,
-  codigo_tramite int references TRAMITE(codigo), --relacion ONETOMANY entre NUMERO y TRAMITE
+  codigo_tramite character varying(40) references TRAMITE(codigo), --relacion ONETOMANY entre NUMERO y TRAMITE
   codigo_sector character varying(40) references SECTOR(codigo), --relacion ONETOMANY entre NUMERO y SECTOR
   puesto_asignado character varying(40), -- relacion ONETOONE entre NUMERO y PUESTO
   external_id character varying(40),
@@ -94,7 +94,7 @@ CREATE TABLE public.DISPLAY_SECTOR
 --Relacion MANYTOMANY entre TRAMITE y SECTOR
 CREATE TABLE public.TRAMITE_SECTOR
 (
-  codigo_tramite int references TRAMITE(codigo),
+  codigo_tramite character varying(40) references TRAMITE(codigo),
   codigo_sector character varying(40) references SECTOR(codigo),
   CONSTRAINT tramite_sector_pkey PRIMARY KEY (codigo_tramite, codigo_sector)
 );
@@ -111,7 +111,7 @@ CREATE TABLE public.PUESTO_SECTOR
 CREATE TABLE public.PUESTO_TRAMITE
 (
   nombre_maquina character varying(40) references PUESTO(nombre_maquina),
-  codigo_tramite int references TRAMITE(codigo),
+  codigo_tramite character varying(40) references TRAMITE(codigo),
   CONSTRAINT puesto_tramite_pkey PRIMARY KEY (nombre_maquina, codigo_tramite)
 );
 
@@ -119,7 +119,7 @@ CREATE TABLE public.PUESTO_TRAMITE
 CREATE TABLE public.NUMERO_TRAMITE
 (
   internal_id int references NUMERO(internal_id),
-  codigo_tramite int references TRAMITE(codigo),
+  codigo_tramite character varying(40) references TRAMITE(codigo),
   resultado_final character varying(40),
   CONSTRAINT numero_tramite_pkey PRIMARY KEY (internal_id, codigo_tramite)
 );
@@ -130,7 +130,7 @@ CREATE TABLE public.METRICAS_NUMERO
   internal_id int,
   external_id character varying(40),
   estado character varying(40) default 'PENDIENTE',
-  codigo_tramite int,
+  codigo_tramite character varying(40),
   ruta_sector character varying(40),
   usuario_atencion character varying(40),
   date_created timestamp default current_timestamp,

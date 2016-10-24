@@ -2,7 +2,7 @@ package com.sarp.json.modeler;
 
 public class JSONTramiteSector {
 	
-	Integer tramiteId;
+	String tramiteId;
 	String tramiteNombre;
 	String sectorId;
 	String sectorNombre;
@@ -25,10 +25,10 @@ public class JSONTramiteSector {
 	
 	public JSONTramiteSector() {}
 	
-	public Integer getTramiteId() {
+	public String getTramiteId() {
 		return tramiteId;
 	}
-	public void setTramiteId(Integer tramiteId) {
+	public void setTramiteId(String tramiteId) {
 		this.tramiteId = tramiteId;
 	}
 	public String getSectorId() {

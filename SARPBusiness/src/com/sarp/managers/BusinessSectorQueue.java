@@ -147,7 +147,7 @@ public class BusinessSectorQueue {
 
 	private boolean puedeAtenderNumero(List<BusinessTramite> listaTramites, BusinessNumero nro) {
 		for (BusinessTramite t : listaTramites) {
-			if (t.getCodigo().intValue() == nro.getCodTramite().intValue())
+			if (t.getCodigo().equals(nro.getCodTramite()))
 				return true;
 		}
 		return false;

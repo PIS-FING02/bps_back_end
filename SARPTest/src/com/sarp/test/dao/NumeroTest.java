@@ -46,7 +46,7 @@ public class NumeroTest {
 			BusinessNumero n = new BusinessNumero();
 			n.setExternalId("external" + i);
 			n.setHora(new GregorianCalendar());
-			n.setCodTramite(i);
+			n.setCodTramite("CodigoTramite"+(i-1));
 			n.setCodSector(Integer.toString(i-1));
 			Integer idS = ctrlNumero.crearNumero(n, null);
 	        id.add(idS);
@@ -64,13 +64,13 @@ public class NumeroTest {
    @Test
    public void testCrearNumero1() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   n.setCodTramite(8);
-	   n.setCodSector("7");
+	   n.setCodTramite("CodigoTramite9");
+	   n.setCodSector("9");
 	   Integer id = ctrlNumero.crearNumero(n, null);
 	   BusinessNumero n2 = ctrlNumero.obtenerNumero(id);
 	   assertEquals(n2.getInternalId(), id);
-	   assertEquals(n2.getCodSector(), "7");
-	   assertEquals(n2.getCodTramite() == 8, true);
+	   assertEquals(n2.getCodSector(), "9");
+	   assertEquals(n2.getCodTramite(), "CodigoTramite9");
 	   assertEquals(n2.getEstado(), EstadoNumero.PENDIENTE);
 	   assertEquals(n2.getHora(), null);
 	   assertEquals(n2.getExternalId(), null);
@@ -86,13 +86,13 @@ public class NumeroTest {
 	   n.setHora(hora);
 	   n.setPrioridad(9);
 	   n.setExternalId("external2");
-	   n.setCodTramite(8);
-	   n.setCodSector("7");
+	   n.setCodTramite("CodigoTramite8");
+	   n.setCodSector("8");
 	   Integer id = ctrlNumero.crearNumero(n, null);
 	   BusinessNumero n2 = ctrlNumero.obtenerNumero(id);
 	   assertEquals(n2.getInternalId(), id);
-	   assertEquals(n2.getCodSector(), "7");
-	   assertEquals(n2.getCodTramite() == 8, true);
+	   assertEquals(n2.getCodSector(), "8");
+	   assertEquals(n2.getCodTramite(), "CodigoTramite8");
 	   assertEquals(n2.getEstado(), EstadoNumero.PENDIENTE);
 	   assertEquals(n2.getHora().getTimeInMillis(), hora.getTimeInMillis());
 	   assertEquals(n2.getExternalId(), "external2");
@@ -106,7 +106,7 @@ public class NumeroTest {
 	   BusinessDatoComplementario dc = new BusinessDatoComplementario();
 	   dc.setDocIdentidad("1234567");
 	   dc.setNombreCompleto("Marcelo Rydel");
-	   n.setCodTramite(8);
+	   n.setCodTramite("CodigoTramite7");
 	   n.setCodSector("7");
 	   Integer id = ctrlNumero.crearNumero(n,dc);
 	   
@@ -119,7 +119,7 @@ public class NumeroTest {
    public void testCrearNumeroConDatos2() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
 	   BusinessDatoComplementario dc = new BusinessDatoComplementario();
-	   n.setCodTramite(8);
+	   n.setCodTramite("CodigoTramite7");
 	   n.setCodSector("7");
 	   Integer idn = ctrlNumero.crearNumero(n,dc);
 	   
@@ -136,7 +136,7 @@ public class NumeroTest {
    @Test(expected=RollbackException.class)
    public void testCrearNumeroInvalido() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   n.setCodTramite(798798);
+	   n.setCodTramite("798798");
 	   n.setCodSector("sector");
 	   ctrlNumero.crearNumero(n, null); //tramite invalido
    }
@@ -144,7 +144,7 @@ public class NumeroTest {
    @Test(expected=RollbackException.class)
    public void testCrearNumeroInvalido1() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   n.setCodTramite(2);
+	   n.setCodTramite("2");
 	   n.setCodSector("sectorquenoexiste");
 	   ctrlNumero.crearNumero(n, null); //sector invalido
    }
@@ -152,7 +152,7 @@ public class NumeroTest {
    @Test(expected=RollbackException.class)
    public void testCrearNumeroInvalido3() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   n.setCodTramite(2);
+	   n.setCodTramite("2");
 	   n.setCodSector("5");
 	   ctrlNumero.crearNumero(n, null); //sector y tramite no relacionados
    }
@@ -218,7 +218,7 @@ public class NumeroTest {
    @Test()
    public void testObtenerTramiteNumero() throws Exception{	 
 	   BusinessTramite t = ctrlNumero.obtenerTramiteNumero(id.get(2));
-	   assertEquals(t.getCodigo() == 3, true);
+	   assertEquals(t.getCodigo(), "CodigoTramite2");
    }
    
    @Test()
@@ -282,8 +282,8 @@ public class NumeroTest {
 	   System.out.print("\ntestListarMetricasEstadoDeNumero");
 	   BusinessNumero n = new BusinessNumero();
 	   n.setExternalId("external");
-	   n.setCodTramite(3);
-	   n.setCodSector("2");
+	   n.setCodTramite("CodigoTramite3");
+	   n.setCodSector("3");
 	   Integer id = ctrlNumero.crearNumero(n, null);
 	   n = ctrlNumero.obtenerNumero(id);
 	   n.setEstado(EstadoNumero.FINALIZADO);
@@ -313,8 +313,8 @@ public class NumeroTest {
 	   System.out.print("\ntestListarMetricasDeNumero");
 	   BusinessNumero n = new BusinessNumero();
 	   n.setExternalId("external");
-	   n.setCodTramite(3);
-	   n.setCodSector("2");
+	   n.setCodTramite("CodigoTramite3");
+	   n.setCodSector("3");
 	   Integer id = ctrlNumero.crearNumero(n, null);
 	   n = ctrlNumero.obtenerNumero(id);
 	   n.setEstado(EstadoNumero.LLAMADO);
@@ -336,31 +336,31 @@ public class NumeroTest {
    
    @Test
    public void testAsociarNumeroTramite(){
-	   ctrlNumero.asociarNumeroTramite(3, id.get(3), "BIEN");
+	   ctrlNumero.asociarNumeroTramite("CodigoTramite3", id.get(3), "BIEN");
 	   ArrayList<BusinessNumeroTramite> lnt = ctrlNumero.obtenerNumeroTramites(id.get(3));
 	   assertEquals(lnt.get(0).getResultadoFinal(), "BIEN");
-	   ctrlNumero.modificarNumeroTramite(3, id.get(3), "MAL");
+	   ctrlNumero.modificarNumeroTramite("CodigoTramite3", id.get(3), "MAL");
 	   lnt = ctrlNumero.obtenerNumeroTramites(id.get(3));
 	   assertEquals(lnt.get(0).getResultadoFinal(), "MAL");
-	   ctrlNumero.asociarNumeroTramite(5, id.get(5), null);
+	   ctrlNumero.asociarNumeroTramite("CodigoTramite5", id.get(5), null);
 	   lnt = ctrlNumero.obtenerNumeroTramites(id.get(5));
 	   assertEquals(lnt.get(0).getResultadoFinal(), null);
    }
    
    @Test(expected=RollbackException.class)
    public void testAsociarNumeroTramiteInvalido(){
-	   ctrlNumero.asociarNumeroTramite(4, id.get(4), null);
-	   ctrlNumero.asociarNumeroTramite(4, id.get(4), null);
+	   ctrlNumero.asociarNumeroTramite("CodigoTramite4", id.get(4), null);
+	   ctrlNumero.asociarNumeroTramite("CodigoTramite4", id.get(4), null);
    }
    
    @Test
    public void testModificarNumeroTramite(){
-	   ctrlNumero.modificarNumeroTramite(4, 4, "cambio");
+	   ctrlNumero.modificarNumeroTramite("CodigoTramite4", 5, "cambio");
    }
    
    @Test(expected=RollbackException.class)
    public void testModificarNumeroTramiteInvalido(){
-	   ctrlNumero.modificarNumeroTramite(6, 7, "invalido");
+	   ctrlNumero.modificarNumeroTramite("CodigoTramite6", 9, "invalido");
    }
    
    @Test
@@ -377,7 +377,9 @@ public class NumeroTest {
    @Test
    public void testEliminarSectorYTramiteDeNumero(){
 	   BusinessTramite t = new BusinessTramite();
-	   Integer idt = ctrlTramite.crearTramite(t);
+	   String idt = "testEliminarSectorYTramiteDeNumero";
+	   t.setCodigo(idt);		   
+	   ctrlTramite.crearTramite(t);
 	   BusinessSector s = new BusinessSector("idtesteliminar",null,null);
 	   ctrlSector.crearSector(s);
 	   BusinessNumero n = new BusinessNumero();

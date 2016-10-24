@@ -254,7 +254,7 @@ public class AdminService {
 			
 	/************ ASIGNACIONES ************/
 	
-	public void asignarTramiteSector(Integer idTramite, String idSector) throws Exception {
+	public void asignarTramiteSector(String idTramite, String idSector) throws Exception {
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 		sectorCtrl.asociarTramiteSector(idTramite, idSector);
@@ -328,7 +328,7 @@ public class AdminService {
 	
 	/******** Desasignar ********/
 	
-	public void desasignarTramiteSector(Integer idTramite, String idSector) throws Exception {
+	public void desasignarTramiteSector(String idTramite, String idSector) throws Exception {
 		DAOServiceFactory factory = DAOServiceFactory.getInstance();
 		DAOSectorController sectorCtrl = factory.getDAOSectorController();
 		sectorCtrl.desasociarTramiteSector(idTramite, idSector);

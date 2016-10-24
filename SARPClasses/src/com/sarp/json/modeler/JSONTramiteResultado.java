@@ -2,13 +2,13 @@ package com.sarp.json.modeler;
 
 public class JSONTramiteResultado {
 
-	Integer codigo;
+	String codigo;
 	String resultadoAtencion;
 	
-	public Integer getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(Integer codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 	public String getResultadoAtencion() {
