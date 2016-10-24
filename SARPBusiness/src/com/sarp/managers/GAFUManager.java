@@ -14,6 +14,7 @@ import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.facade.GAFUFacade;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONSector;
 
 import uy.gub.bps.apph.wsgafuservice.v001.AreaFuncional;
 import uy.gub.bps.apph.wsgafuservice.v001.ErrorNegocio;
@@ -173,13 +174,19 @@ public class GAFUManager {
 	private void ObtenerSectorRol(  AreaFuncional raiz,  List<BusinessSectorRol> resultado  ) throws Exception{
 		if  (raiz!=null) {
 			if ( ( raiz.getRestriccion()!=null ) && ( !"".equals(raiz.getRestriccion()) ) ){
+								
 				String roles = raiz.getRestriccion();
 				roles = roles.substring(9);
 				String[] listRoles = roles.split(",");
 				String codigoSector = raiz.getCodigo();
-				for (int i =0 ; i<listRoles.length; i++){
-					BusinessSectorRol secRol = new BusinessSectorRol(codigoSector,listRoles[i]);
-					resultado.add(secRol);
+				if (raiz.getHijos()!=null){
+					AgregarHijos(raiz, resultado, listRoles);
+				}else{
+					for (int i =0 ; i<listRoles.length; i++){
+						BusinessSectorRol secRol = new BusinessSectorRol(codigoSector,listRoles[i]);
+						if ( resultado.contains(secRol) )
+							resultado.add(secRol);
+					}
 				}
 			}
 			
@@ -190,5 +197,18 @@ public class GAFUManager {
 			}
 		}
 	}
-		
+	
+	private void AgregarHijos(AreaFuncional raiz, List<BusinessSectorRol> resultado,String[] listRoles) throws Exception{
+		Factory fac = Factory.getInstance();
+		AdminActionsController aac = fac.getAdminActionsController();
+		List<JSONSector> sect = aac.listarSectores();
+		for (JSONSector sectro : sect){
+			if (sectro.getRutaSector().contains(raiz.getCodigo())){
+				String seccod = sectro.getCodigo();
+				for (int i =0 ; i<listRoles.length; i++){
+					resultado.add(new BusinessSectorRol(seccod,listRoles[i]));
+				}
+			}
+		}
+	}
 }

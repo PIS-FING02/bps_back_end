@@ -33,6 +33,7 @@ import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
 import com.sarp.json.modeler.JSONTramiteSector;
+import com.sun.istack.internal.Nullable;
 
 @RequestScoped
 @Path("/adminService")
@@ -108,23 +109,11 @@ public class AdminService {
 	  	AdminActionsController ctrl = fac.getAdminActionsController();
 			  		
 	  	if(userRol.equals( "ResponsableSector")){
-	  		if (!sectorId.isEmpty()) {
+	  		if (   !( sectorId == null || sectorId.isEmpty() ) ){
 	  			try{
 	  				List <JSONPuesto> listaPuestosSector = ctrl.listarPuestos(sectorId);
 	  				List <JSONPuesto> listaPuestos=  ctrl.listarPuestos(null );
 	  				
-	  				/*
-	  				Iterator<JSONPuesto> it = listaPuestos.iterator();
-	  				while (it.hasNext()){
-	  					JSONPuesto puesto1=it.next();
-		  				Iterator<JSONPuesto> itSector = listaPuestosSector.iterator();
-	  					while (itSector.hasNext()){
-	  						
-	  						if (puesto1.getNombreMaquina().equals(itSector.next().getNombreMaquina())){
-	  							it.remove();
-	  						}
-	  					}
-	  				}*/
 	  				listaPuestos.removeAll(listaPuestosSector);
 	  				return listaPuestos;
 	  			}catch(Exception e){
@@ -213,12 +202,30 @@ public class AdminService {
 	@GET
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user) {
-		
+    public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectroId") String sectorId ){
+		 
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
-			AdminActionsController aac = fac.getAdminActionsController();
-			return aac.listarTramites();
+			AdminActionsController ctrl = fac.getAdminActionsController();
+			try{
+				if (   !( sectorId == null || sectorId.isEmpty() ) ){
+	  				List <JSONTramite> listaTramiteSector = ctrl.listarTramitesSector(sectorId);
+	  				List <JSONTramite> listaTramite =  ctrl.listarTramites();
+	  				listaTramite.removeAll(listaTramiteSector);
+	  				return listaTramite;
+		  			
+				}else{
+					GAFUController controladorGAFU = fac.GAFUController();
+	  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+	  				List<JSONTramite> listaTramite = new ArrayList<JSONTramite>();
+	  				for  (BusinessSectorRol as : respde){
+	  					listaTramite.addAll( ctrl.listarTramitesSector(as.getSectorId()) );
+	  				}
+	  				return listaTramite;
+				}
+			}catch (Exception e) {
+				throw new InternalServerErrorException("Error al listar los Tramite: " + e.getMessage());
+			}
 		}else{
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
@@ -232,16 +239,28 @@ public class AdminService {
 	@Path("/listarSectores")
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONSector> listarSectores(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
+
+		Factory fac = Factory.getInstance();
+		AdminActionsController aac = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try {
-				Factory fac = Factory.getInstance();
-				AdminActionsController aac = fac.getAdminActionsController();
 				return aac.listarSectores();
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al listar Sectores: " + e.getMessage());
 			}
 		}else{
-			throw new UnauthorizedException("No tiene permisos suficientes.");
+			if (userRol.equals("ResponsableSector")){
+				GAFUController controladorGAFU = fac.GAFUController();
+				try {
+				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+  			
+  				return aac.listarSectores(respde);
+				}catch(Exception e){
+					throw new InternalServerErrorException("Error al listar Sectores: " + e.getMessage());
+				}
+			}else{
+				throw new UnauthorizedException("No tiene permisos suficientes.");
+			}
 		}
     }
 	
@@ -363,17 +382,39 @@ public class AdminService {
 	@Path("/displays")
     @Produces(MediaType.APPLICATION_JSON)
     //este metodo retorna los display de un sector
-	public List<BusinessDisplay> listarDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
+	public List<JSONDisplay> listarDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if ( (userRol.equals( "ResponsableSector")) || (userRol.equals("Administrador")) ){
+		if ( userRol.equals("Administrador") ){
 			try{
 				return ctrl.listarDisplays(null);	
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al listar Display: " + e.getMessage());
 			}
 		}else{
-			throw new UnauthorizedException("No tiene permisos suficientes.");
+			if (userRol.equals( "ResponsableSector")){
+				try{
+					if (   !( sectorId == null || sectorId.isEmpty() ) ){
+		  				List <JSONDisplay> listaDisplaySector = ctrl.listarDisplays(sectorId);
+		  				List <JSONDisplay> listaDisplay=  ctrl.listarDisplays(null);
+		  				listaDisplay.removeAll(listaDisplaySector);
+		  				return listaDisplay;
+			  			
+					}else{
+						GAFUController controladorGAFU = fac.GAFUController();
+		  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+		  				List<JSONDisplay> listaDispaly = new ArrayList<JSONDisplay>();
+		  				for  (BusinessSectorRol as : respde){
+		  					listaDispaly.addAll( ctrl.listarDisplays(as.getSectorId()) );
+		  				}
+		  				return listaDispaly;
+					}
+				}catch(Exception e){
+	  				throw new InternalServerErrorException("Error al listar Puestos: " + e.getMessage());
+	  			}
+			}else{
+				throw new UnauthorizedException("No tiene permisos suficientes.");
+			}
 		}
     }
 	
@@ -388,6 +429,8 @@ public class AdminService {
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("ResponsableSector")){
+  		
+  			
   			try{
   				ctrl.asignarTramiteSector(tramiteSector);
   				return "OK";
@@ -565,7 +608,7 @@ public class AdminService {
       @Produces(MediaType.APPLICATION_JSON)
       public List<JSONTramite> listarTramitesSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
     		  @QueryParam("sectorId") String idSector) {
-  		System.out.println("entro a listar por sector");
+  		
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals( "ResponsableSector")){
@@ -623,7 +666,7 @@ public class AdminService {
 	@Path("/listarDisplaysSector")
 	@Produces(MediaType.APPLICATION_JSON)
 	//este metodo retorna los display de un sector
-	public List<BusinessDisplay> listarDisplaySector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @QueryParam("sectorId") String idSector) {
+	public List<JSONDisplay> listarDisplaySector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @QueryParam("sectorId") String idSector) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals( "ResponsableSector")) || (userRol.equals("Administrador")) ){
