@@ -1,9 +1,7 @@
 package com.sarp.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -19,8 +17,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
-import com.sarp.classes.BusinessDisplay;
-import com.sarp.classes.BusinessNodeGAFU;
 import com.sarp.classes.BusinessSectorRol;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.GAFUController;
@@ -33,7 +29,7 @@ import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
 import com.sarp.json.modeler.JSONTramiteSector;
-import com.sun.istack.internal.Nullable;
+
 
 @RequestScoped
 @Path("/adminService")
@@ -110,6 +106,7 @@ public class AdminService {
 			  		
 	  	if(userRol.equals( "ResponsableSector")){
 	  		if (   !( sectorId == null || sectorId.isEmpty() ) ){
+	  			//si me pasan sector quiero todos menos los del sector que pasan 
 	  			try{
 	  				List <JSONPuesto> listaPuestosSector = ctrl.listarPuestos(sectorId);
 	  				List <JSONPuesto> listaPuestos=  ctrl.listarPuestos(null );
@@ -121,6 +118,7 @@ public class AdminService {
 	  			}
 	  		
   			}else{
+  			// si no me pasan sector quiero los puestos de los cuales el es responsable
   				GAFUController controladorGAFU = fac.GAFUController();
 	  	  		try{
   	  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
@@ -202,18 +200,20 @@ public class AdminService {
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectroId") String sectorId ){
-		 
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController ctrl = fac.getAdminActionsController();
 			try{
 				if (   !( sectorId == null || sectorId.isEmpty() ) ){
+					// lista todos los tramites mennos los del sector pasado por parametro
+					//DUDA NO SERIA DE LOS QUE TIRENE PERMISO MENOS EL PASADO POR PARAMETRO
 	  				List <JSONTramite> listaTramiteSector = ctrl.listarTramitesSector(sectorId);
 	  				List <JSONTramite> listaTramite =  ctrl.listarTramites();
 	  				listaTramite.removeAll(listaTramiteSector);
 	  				return listaTramite;
 		  			
 				}else{
+					//listo los tramites de los sectores que el tiene premiso en gafu
 					GAFUController controladorGAFU = fac.GAFUController();
 	  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
 	  				List<JSONTramite> listaTramite = new ArrayList<JSONTramite>();
@@ -241,12 +241,14 @@ public class AdminService {
 		Factory fac = Factory.getInstance();
 		AdminActionsController aac = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
+			//listo todos los sectores
 			try {
 				return aac.listarSectores();
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al listar Sectores: " + e.getMessage());
 			}
 		}else{
+			//listo todos los sectores para los cuales tiene permisos EN GAFU
 			if (userRol.equals("ResponsableSector")){
 				GAFUController controladorGAFU = fac.GAFUController();
 				try {
