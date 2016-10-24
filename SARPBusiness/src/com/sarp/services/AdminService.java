@@ -13,6 +13,7 @@ import com.sarp.classes.BusinessMetricasPuesto;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
+import com.sarp.classes.BusinessSectorRol;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.controllers.QueueController;
 import com.sarp.dao.controllers.DAODisplayController;
@@ -25,6 +26,7 @@ import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoNumero;
 import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONMetricasEstadoNumero;
 import com.sarp.json.modeler.JSONMetricasNumero;
 import com.sarp.json.modeler.JSONMetricasPuesto;
@@ -178,7 +180,9 @@ public class AdminService {
 		Factory fac = Factory.getInstance();
 		QueueController ctrl = fac.getQueueController();
 		try {
+			//exite tramire 1? 	HACER JUAN CUANDO ESTE LO DEL CHELO	
 			sectorCtrl.crearSector(sector);
+			//asignar tramite 1
 			ctrl.crearColaSector(sector.getSectorId());
 		} catch (RollbackException ex) {
 			Throwable a = ex.getCause();
@@ -206,7 +210,17 @@ public class AdminService {
 		return jsonSec;
 	}
 
-
+	public List<JSONSector> listarSectoresPorRol( List<BusinessSectorRol> respde) throws Exception {
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController ctrl = factory.getDAOSectorController();
+		List<BusinessSector> listaSectores = new ArrayList<BusinessSector>();
+		for (BusinessSectorRol rsp : respde){
+			listaSectores.add(ctrl.obtenerSector(rsp.getSectorId()));
+		}
+		List<JSONSector> jsonSec = resMaker.createArrayAtomSectores(listaSectores);
+		return jsonSec;
+	}
 	/************ ABM Y 1 LISTAR DISPLAYS ************/
 	
 	public void altaDisplay(String idDisplay) throws Exception{	
@@ -226,7 +240,7 @@ public class AdminService {
 		controladorDisplay.eliminarDisplay(idDisplay);
 	}
 	
-	public List<BusinessDisplay> listarDisplays(String sectorid) throws Exception{
+	public List<JSONDisplay> listarDisplays(String sectorid) throws Exception{
 		DAOServiceFactory factoryServices = DAOServiceFactory.getInstance();
 		DAOSectorController controladorsectro = factoryServices.getDAOSectorController();
 		DAODisplayController controladorDisplay = factoryServices.getDAODisplayController();
@@ -239,7 +253,11 @@ public class AdminService {
 			displays = controladorDisplay.listarDisplays();
 		}
 		
-		return displays;
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+		
+		List<JSONDisplay> JsonDisp = resMaker.createArrayAtomDisplay(displays);
+		
+		return JsonDisp;
 	}
 	
 /*	public void modificarRutaDisplay(Integer idDisplay, String rutaArchivo) throws Exception{

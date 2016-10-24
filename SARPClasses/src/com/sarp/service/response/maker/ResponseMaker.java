@@ -295,7 +295,7 @@ public class ResponseMaker {
 
 	}
 	
-	private List<JSONDisplay> createArrayAtomDisplay(List<BusinessDisplay> businessDisplays) {
+	public List<JSONDisplay> createArrayAtomDisplay(List<BusinessDisplay> businessDisplays) {
 		if(businessDisplays != null){
 			List<JSONDisplay> listJSONDisplay = new ArrayList<JSONDisplay>();
 			for(BusinessDisplay businessDisplay : businessDisplays){
