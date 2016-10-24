@@ -119,10 +119,10 @@ public class AdminService {
 	@Path("/tramite")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String altaTramite(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramite jsonTramite){
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try{				
+				Factory fac = Factory.getInstance();
+				AdminActionsController ctrl = fac.getAdminActionsController();
 				ctrl.altaTramite(jsonTramite);
 				return "OK";
 			}catch(Exception e){
@@ -138,10 +138,11 @@ public class AdminService {
 	@Path("/tramite")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String bajaTramite(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramite jsonTramite){	
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
+	
 		if(userRol.equals("Administrador")){
 			try{
+				Factory fac = Factory.getInstance();
+				AdminActionsController ctrl = fac.getAdminActionsController();
 				ctrl.bajaTramite(jsonTramite);
 				return "OK";
 			}catch(Exception e){
@@ -156,10 +157,10 @@ public class AdminService {
 	@Path("/tramite")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String modificarTramite(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramite jsonTramite){	
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try{
+				Factory fac = Factory.getInstance();
+				AdminActionsController ctrl = fac.getAdminActionsController();
 				ctrl.modificarTramite(jsonTramite);
 				return "OK";
 			}catch(Exception e){
@@ -192,10 +193,10 @@ public class AdminService {
 	@Path("/listarSectores")
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONSector> listarSectores(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
-		Factory fac = Factory.getInstance();
-		AdminActionsController aac = fac.getAdminActionsController();
 		if(userRol.equals("Administrador")){
 			try {
+				Factory fac = Factory.getInstance();
+				AdminActionsController aac = fac.getAdminActionsController();
 				return aac.listarSectores();
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al listar Sectores: " + e.getMessage());
