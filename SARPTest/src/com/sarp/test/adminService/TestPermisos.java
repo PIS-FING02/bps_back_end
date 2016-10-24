@@ -13,7 +13,7 @@ public class TestPermisos {
 		Factory fac = Factory.getInstance();
 		GAFUController GafuCont = fac.GAFUController();
 		try{
-			List<BusinessSectorRol> result = GafuCont.obtenerSectorRolesUsuario("admin","AP_ADMINAF");
+			List<BusinessSectorRol> result = GafuCont.obtenerSectorRolesUsuario("consultor");
 			for (BusinessSectorRol sr : result ){
 				System.out.println(sr.toString());
 			}

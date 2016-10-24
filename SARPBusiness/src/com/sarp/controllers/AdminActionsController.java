@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.sarp.classes.BusinessDisplay;
 import com.sarp.classes.BusinessSector;
+import com.sarp.classes.BusinessSectorRol;
+import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONMetricasEstadoNumero;
 import com.sarp.json.modeler.JSONMetricasNumero;
 import com.sarp.json.modeler.JSONMetricasPuesto;
@@ -149,7 +151,10 @@ public class AdminActionsController {
 		AdminService adminService = new AdminService();
 		return adminService.listarSectores();
 	}
-
+	public List<JSONSector> listarSectores(List<BusinessSectorRol> respde) throws Exception {
+		AdminService adminService = new AdminService();
+		return adminService.listarSectoresPorRol(respde);
+	}
 	public void actualizarGAFU() throws Exception{
 		GAFUController GAFUctrl = new GAFUController();
 		GAFUctrl.actualizarArbolGAFU();
@@ -176,7 +181,7 @@ public class AdminActionsController {
 
 	}
 
-	public List<BusinessDisplay> listarDisplays(String sectorid) throws Exception {
+	public List<JSONDisplay> listarDisplays(String sectorid) throws Exception {
 		AdminService adminServ = new AdminService();
 		return adminServ.listarDisplays(sectorid);
 
