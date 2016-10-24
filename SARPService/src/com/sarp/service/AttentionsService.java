@@ -1,5 +1,6 @@
 package com.sarp.service;
 
+
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -19,7 +20,9 @@ import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
+
 
 @RequestScoped
 @Path("/attentionsService")
@@ -258,5 +261,75 @@ public class AttentionsService {
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
+	
+	@PUT
+	@Path("/obtenerSectoresDesvio")
+	@Produces(MediaType.APPLICATION_JSON)
+	public  List<JSONSector> obtenerSectoresDesvio(@HeaderParam("user-rol") String userRol,  
+			@HeaderParam("idSector") String idSector) {
+		if (userRol.equals("OperadorSenior") || userRol.equals("Operador")) {
+			try {
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
+				List<JSONSector> sectoresDesvio = ctrl.obtenerSectoresDesvio(idSector);
+				
+				return sectoresDesvio;
+		
+			} catch (Exception e) {
+				throw new InternalServerErrorException("Error al soliticar numero atrasado: "+e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
+	@PUT
+	@Path("/desviarNumero")
+	@Consumes(MediaType.APPLICATION_JSON) 
+	public  String desviarNumero(@HeaderParam("user-rol") String userRol,  
+			JSONFinalizarAtencion finalizarAtencion,
+			@HeaderParam("idSectorDesvio") String idSectorDesvio) {
+		
+		if (userRol.equals("OperadorSenior") || userRol.equals("Operador")) {
+			try {
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
+				ctrl.desviarNumero(idSectorDesvio, finalizarAtencion);
+				
+				return "El numero fue desviado con exito";
+		
+			} catch (Exception e) {
+				throw new InternalServerErrorException("Error al desviar numero: "+e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
+	@PUT
+	@Path("/reLlamarNumero")
+	@Consumes(MediaType.APPLICATION_JSON) 
+	public  String reLlamarNumero(@HeaderParam("user-rol") String userRol,  
+			@HeaderParam("idPuesto") String idPuesto) {
+		
+		if (userRol.equals("OperadorSenior") || userRol.equals("Operador")) {
+			try {
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
+				ctrl.reLlamarNumero(idPuesto);
+				
+				return "OK";
+		
+			} catch (Exception e) {
+				throw new InternalServerErrorException("Error al re-llamar numero: "+e.getMessage());
+			}
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
+	
+	
+	
 	
 }

@@ -2,6 +2,7 @@
 package com.sarp.services;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import com.sarp.classes.BusinessPuesto;
@@ -12,6 +13,8 @@ import com.sarp.classes.BusinessTramite;
 import com.sarp.controllers.QueueController;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
+import com.sarp.dao.controllers.DAOSectorController;
+import com.sarp.dao.controllers.DAOTramiteController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoNumero;
 import com.sarp.enumerados.EstadoPuesto;
@@ -22,10 +25,15 @@ import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteResultado;
+import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.managers.BusinessSectorQueue;
 import com.sarp.managers.QueuesManager;
 import com.sarp.service.response.maker.ResponseMaker;
+import com.sarp.service.response.maker.RequestMaker;
+import com.sarp.service.response.maker.ResponseMaker;
+import com.sarp.utils.DesvioSectoresUtils;
+
 
 
 public class AttentionService {
@@ -89,7 +97,7 @@ public class AttentionService {
 		}
 	}
 
-	public void finalizarAtencion(JSONFinalizarAtencion finalizarAtencion) throws Exception {
+	public void finalizarAtencion(JSONFinalizarAtencion finalizarAtencion, boolean esDesvio) throws Exception {
 		
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
@@ -124,9 +132,12 @@ public class AttentionService {
 		controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
 		controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(), bNumero.getInternalId());
 		
-		//se cambia el estado del numero
-		bNumero.setEstado(EstadoNumero.FINALIZADO);
-		controladorNumero.modificarNumero(bNumero);
+		if(!esDesvio){
+			//se cambia el estado del numero en caso de no ser desvio
+			bNumero.setEstado(EstadoNumero.FINALIZADO);
+			controladorNumero.modificarNumero(bNumero);
+		}
+
 
 	}
 
@@ -190,9 +201,10 @@ public class AttentionService {
 					controladorPuesto.modificarPuesto(puestoSend);
 					controladorPuesto.asociarNumeroPuestoActual(puestoSend.getNombreMaquina(), numeroReturn.getId());
 
+					
 					// llamo al display
-					//DisplayService dispService = DisplayService.getInstance();
-					//dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
+					DisplayService dispService = DisplayService.getInstance();
+					dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
 					
 					// se cambia el estado del numero en la base
 					DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
@@ -346,7 +358,7 @@ public class AttentionService {
 		DAOServiceFactory fac = DAOServiceFactory.getInstance();
 		DAONumeroController ctrlNumero = fac.getDAONumeroController();
 		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
-		
+		//fede pijins
 		Factory facBusiness = Factory.getInstance();
 		QueueController ctrlQueue = facBusiness.getQueueController();
 		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
@@ -358,6 +370,7 @@ public class AttentionService {
 		return ctrlQueue.obtenerNumeroAtrasado(num.getCodSector(), idNumero);
 	}
 	
+
 	public JSONNumero llamarNumeroDemanda(Integer idNumero, String idPuesto) throws Exception {
 		DAOServiceFactory fac = DAOServiceFactory.getInstance();
 		DAONumeroController ctrlNumero = fac.getDAONumeroController();
@@ -373,5 +386,152 @@ public class AttentionService {
 		
 		return ctrlQueue.obtenerNumeroDemanda(num.getCodSector(), idNumero);
 	}
+
+	public List<JSONSector> obtenerSectoresDesvio(String idSector) throws Exception {
+		
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+		DAOServiceFactory fac = DAOServiceFactory.getInstance();
+		DAOSectorController ctrlSector = fac.getDAOSectorController();
+		List<BusinessSector> sectoresBusinessReturn = new ArrayList<BusinessSector>();
+		
+		String desviosSector = DesvioSectoresUtils.getStringProperty(idSector);
+		if(desviosSector != null){
+			String[] desvios = desviosSector.split(";"); //ATYR4-25MIN
+			for(String desvio : desvios){
+				try{
+			
+					String[] sectorHora = desvio.split("-");
+					if(sectorHora.length == 2){
+						String sectorId = sectorHora[0];
+						String sectorHoraSplit  = sectorHora[1].split("MIN")[0];
+						Integer minutos = Integer.parseInt(sectorHoraSplit);
+						BusinessSector sector = ctrlSector.obtenerSector(sectorId);
+						sectoresBusinessReturn.add(sector);
+					}else{
+						throw new Exception("Sector destino mal configurado en sector origen"+ idSector);
+					}
+				
+					
+				}catch(Exception e){
+					
+					System.out.print(e.getMessage());	
+				}
+			}
+				
+		}
+		List<JSONSector> sectoresReturn = resMaker.createArrayAtomSectores(sectoresBusinessReturn);
+		
+		return sectoresReturn;
+	}
+	
+public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarAtencion) throws Exception {
+		
+		// falta vincularlo con los tramites/ resultado fin atencion
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+		DAOServiceFactory fac = DAOServiceFactory.getInstance();
+		DAOSectorController ctrlSector = fac.getDAOSectorController();
+		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
+		DAOTramiteController ctrlTramite = fac.getDAOTramiteController();
+		DAONumeroController ctrlNumero = fac.getDAONumeroController();
+		
+		String idPuesto = finalizarAtencion.getNombreMaquina();
+		BusinessNumero numeroActual = ctrlPuesto.obtenerNumeroActualPuesto(idPuesto);
+		boolean seDesvio = false;
+		if(numeroActual!= null){
+			String desviosSector = DesvioSectoresUtils.getStringProperty(numeroActual.getCodSector());
+			if(desviosSector!= null){
+				String[] desvios = desviosSector.split(";"); //ATYR4-25MIN
+				for(String desvio : desvios){
+					try{
+
+						String[] sectorHora = desvio.split("-");
+						String sectorId = sectorHora[0];
+						if(sectorId.equals(idSectorDesvio)){
+							if(sectorHora.length == 2){
+								String sectorHoraSplit  = sectorHora[1].split("MIN")[0];
+								Integer minutos = Integer.parseInt(sectorHoraSplit);
+								GregorianCalendar horaActual = new GregorianCalendar();
+								System.out.print(horaActual.getTime());
+
+								horaActual.add(GregorianCalendar.MINUTE, minutos);	
+								System.out.print(horaActual.getTime());	
+								BusinessTramite tramiteGenerico =  ctrlTramite.obtenerTramite("1");//Tramite generico
+								if(tramiteGenerico != null){
+									
+									BusinessNumero numeroDesviado = new BusinessNumero(null, numeroActual.getExternalId(), horaActual, "PENDIENTE",
+											numeroActual.getPrioridad(), "1" ,idSectorDesvio,false);
+									
+									BusinessDatoComplementario datosComp = ctrlNumero.obtenerDatosNumero(numeroActual.getInternalId());
+									//BusinessDatoComplementario datosComp = null;
+									Integer idNumDesviado =  ctrlNumero.crearNumero(numeroDesviado,datosComp);
+
+									numeroActual.setEstado(EstadoNumero.DESVIADO);
+									ctrlNumero.modificarNumero(numeroActual);
+									
+									ctrlNumero.setearDesvio(numeroActual.getInternalId(),idNumDesviado);
+									seDesvio = true;
+								}else{
+									throw new Exception("Error: no existe en el sistema el numero generico para desviar");
+								}
+							}else{
+								throw new Exception("Sector destino mal configurado en sector origen"+ idSectorDesvio);
+							}
+
+							break;
+						}
+						
+					}catch(Exception e){
+						
+						System.out.print(e.getMessage());	
+					}		
+				}
+				if(!seDesvio){
+					throw new Exception("Error: El numero no pudo ser desviado al sector elegido");
+				}else{
+					finalizarAtencion(finalizarAtencion,true);
+				}
+			}else{
+				throw new Exception("Error: El sector actual no tiene ningun sector configurado al que pueda desviar");
+				
+			}
+		}else{
+			throw new Exception("Error: El puesto seleccionado no tiene un numero asignado");
+		}
+		
+	}
+
+	public void reLlamarNumero(String puesto) throws Exception {
+
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
+		
+		// Traigo el puesto desde la base
+		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto);
+		if (puestoSend.getEstado() == EstadoPuesto.LLAMANDO) {
+			
+				DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
+				//Si el puesto tiene numero asociado
+				if(puestoSend.getNumeroPuesto()!= null){
+					BusinessNumero num = daoCtrl.obtenerNumero(puestoSend.getNumeroPuesto());
+					ResponseMaker respMaker = ResponseMaker.getInstance();
+					JSONNumero numeroDisplay = respMaker.numeroAtomResponse(num);
+						// llamo al display
+						DisplayService dispService = DisplayService.getInstance();
+						dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroDisplay);
+							
+				}else{
+					throw new ContextException("El puesto no tiene ningun numero asociado que re-llamar");
+				}
+				
+		} else {
+			throw new ContextException("El puesto no se encuentra en estado LLAMANDO");
+		}
+		
+	}
+	
+	
+	
+	
+
 
 }
