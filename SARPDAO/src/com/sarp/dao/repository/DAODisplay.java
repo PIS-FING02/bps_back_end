@@ -5,7 +5,7 @@ import javax.persistence.RollbackException;
 import com.sarp.dao.model.Display;
 import java.util.ArrayList;
 
-
+@SuppressWarnings("unchecked")
 public class DAODisplay {
 	
 	/*El EntityManager se setea desde el DAOService, para manejar cada transaccion
@@ -36,7 +36,6 @@ public class DAODisplay {
     }
 	
 	/* Obtengo todos los displays en la base de datos */
-	@SuppressWarnings("unchecked")
 	public ArrayList<Display> selectDisplays(){	
 		ArrayList<Display> res = new ArrayList<Display>(em.createQuery("select d from Display d").getResultList());
 		return res;

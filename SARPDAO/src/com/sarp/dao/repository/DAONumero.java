@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+@SuppressWarnings("unchecked")
 public class DAONumero {
 	
 	/*El EntityManager se setea desde el DAOService, para manejar cada transaccion
@@ -60,13 +61,11 @@ public class DAONumero {
 		}
     }
 	
-	@SuppressWarnings("unchecked")
 	public ArrayList<Numero> selectNumeros(){
 		ArrayList<Numero> ret = new ArrayList<Numero>(em.createQuery("select n from Numero n").getResultList());
 		return ret;
 	}
 			
-	@SuppressWarnings({"unchecked"})
 	public ArrayList<Numero> selectNumerosDelDia(){
 		GregorianCalendar hoy = new GregorianCalendar();
 		ArrayList<Numero> list = new ArrayList<Numero>(em.createQuery("select n from Numero n").getResultList());

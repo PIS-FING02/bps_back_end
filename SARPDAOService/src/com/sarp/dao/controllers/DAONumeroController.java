@@ -223,7 +223,7 @@ public class DAONumeroController {
 		return null;
 	}
 	
-	public void asociarNumeroTramite(int codigoTramite, int internalId,String resultadoFinal) throws RollbackException{
+	public void asociarNumeroTramite(String codigoTramite, int internalId,String resultadoFinal) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
@@ -257,7 +257,7 @@ public class DAONumeroController {
 		return ret;
 	}
 	
-	public void modificarNumeroTramite(int codigoTramite, int internalId, String resultadoFinal){
+	public void modificarNumeroTramite(String codigoTramite, int internalId, String resultadoFinal){
 		EntityManager em = EMFactory.getEntityManager();
 		DAONumero numeroRepository = factory.getNumeroRepository(em);
 		
@@ -350,5 +350,6 @@ public class DAONumeroController {
 		BusinessMetricasNumero bmn = new BusinessMetricasNumero(mn.getInternalId(), mn.getExternalId(), mn.getEstado(), mn.getCodigoTramite(), mn.getRutaSector(), mn.getUsuarioAtencion(), mn.getLastUpdated(), mn.getDateCreated());
 		return bmn;
 	}	
+	
 
 }

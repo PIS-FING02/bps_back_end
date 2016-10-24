@@ -9,7 +9,7 @@ import com.sarp.dao.model.Sector;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-
+@SuppressWarnings("unchecked")
 public class DAOSector {
 	
 	/*El EntityManager se setea desde el DAOService, para manejar cada transaccion
@@ -44,7 +44,6 @@ public class DAOSector {
     }
 	
 	/* Obtengo todos los Sectores en la base de datos */
-	@SuppressWarnings("unchecked")
 	public ArrayList<Sector> selectSectores(){		
 		ArrayList<Sector> res = new ArrayList<Sector>(em.createQuery("select s from Sector s where s.habilitado = true").getResultList());
 		return res;

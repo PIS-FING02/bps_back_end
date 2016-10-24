@@ -189,7 +189,7 @@ public class Numero implements Serializable {
 		this.desvio = desvio;
 	}
 
-	public Integer getCodigoTramite(){
+	public String getCodigoTramite(){
 		if(this.getTramite() != null){
 			return this.getTramite().getCodigo();
 		}

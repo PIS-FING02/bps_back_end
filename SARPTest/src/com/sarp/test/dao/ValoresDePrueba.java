@@ -36,6 +36,7 @@ public class ValoresDePrueba {
 				System.out.println(Integer.toString(i));
 				BusinessTramite t = new BusinessTramite();
 				t.setNombre("Tramite " + i);
+				t.setCodigo("CodigoTramite"+i);
 				ctrlTramite.crearTramite(t);
 				
 				BusinessSector s = new BusinessSector();
@@ -68,20 +69,21 @@ public class ValoresDePrueba {
 				n.setPrioridad(5);
 				n.setHora(new GregorianCalendar());
 				
-				ctrlSector.asociarTramiteSector(i+1, Integer.toString(i));	
-				n.setCodTramite(i+1);
+				ctrlSector.asociarTramiteSector("CodigoTramite"+i, Integer.toString(i));	
+				n.setCodTramite("CodigoTramite"+i);
 				n.setCodSector(Integer.toString(i));
 				int num = ctrlNumero.crearNumero(n, dc);
 				
 				ctrlSector.asociarDisplaySector(id, "iddisplay"+id);
 				ctrlSector.asociarSectorPuesto(id, "NombreMaquina" + i);
-				ctrlTramite.asociarTramitePuesto(i+1, "NombreMaquina" + i);
+				ctrlTramite.asociarTramitePuesto("CodigoTramite"+i, "NombreMaquina" + i);
 				ctrlPuesto.asociarNumeroPuesto("NombreMaquina" + i, num);
-				ctrlNumero.asociarNumeroTramite(i+1, i+1, "resultado"+i);
+				ctrlNumero.asociarNumeroTramite("CodigoTramite"+i, i+1, "resultado"+i);
 			}
 		}
 		
 //		ctrlTramite.eliminarTramite(4);
+		//ctrlNumero.obtenerNumeroTramites(null);
 		System.out.println("FIN cargar=" + cargar);
 	}
 	

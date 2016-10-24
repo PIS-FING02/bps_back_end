@@ -6,7 +6,7 @@ public class BusinessMetricasNumero{
 	
 	//Constructores
 	public BusinessMetricasNumero(){}
-	public BusinessMetricasNumero(Integer internalId, String externalId, String estado, Integer codigoTramite, String rutaSector, String usuarioAtencion, GregorianCalendar lastUpdated, GregorianCalendar dateCreated) {
+	public BusinessMetricasNumero(Integer internalId, String externalId, String estado, String codigoTramite, String rutaSector, String usuarioAtencion, GregorianCalendar lastUpdated, GregorianCalendar dateCreated) {
 		this.internalId = internalId;
 		this.externalId = externalId;
 		this.estado = estado;
@@ -21,7 +21,7 @@ public class BusinessMetricasNumero{
 	private Integer internalId;
 	private String externalId;
 	private String estado;
-	private Integer codigoTramite;
+	private String codigoTramite;
 	private String rutaSector;
 	private String usuarioAtencion;
 	private GregorianCalendar lastUpdated;
@@ -46,10 +46,10 @@ public class BusinessMetricasNumero{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public Integer getCodigoTramite() {
+	public String getCodigoTramite() {
 		return codigoTramite;
 	}
-	public void setCodigoTramite(Integer codigoTramite) {
+	public void setCodigoTramite(String codigoTramite) {
 		this.codigoTramite = codigoTramite;
 	}
 	public String getRutaSector() {

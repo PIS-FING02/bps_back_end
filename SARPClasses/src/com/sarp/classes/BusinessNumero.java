@@ -2,9 +2,7 @@ package com.sarp.classes;
 
 import java.sql.Timestamp;
 import java.util.GregorianCalendar;
-
 import com.sarp.enumerados.EstadoNumero;
-import com.sarp.enumerados.EstadoPuesto;
 
 public class BusinessNumero {
 
@@ -15,14 +13,14 @@ public class BusinessNumero {
 	private EstadoNumero estado;
 	private Integer prioridad;
 	private Timestamp lastUpdated;
-	private Integer codTramite;
+	private String codTramite;
 	private String codSector;
 	private boolean fueAtrasado;
 
 	// Constructores
 	public BusinessNumero(){}
 	public BusinessNumero(Integer internalId, String externalId, GregorianCalendar hora, String estado,
-			Integer prioridad, Integer codT, String codS, boolean fueAtrasado) {
+			Integer prioridad, String codT, String codS, boolean fueAtrasado) {
 		this.internalId = internalId;
 		this.externalId = externalId;
 		this.hora = hora;
@@ -82,11 +80,11 @@ public class BusinessNumero {
 		this.lastUpdated = lastUpdated;
 	}
 
-	public Integer getCodTramite() {
+	public String getCodTramite() {
 		return codTramite;
 	}
 
-	public void setCodTramite(Integer codTramite) {
+	public void setCodTramite(String codTramite) {
 		this.codTramite = codTramite;
 	}
 

@@ -43,11 +43,12 @@ public class TramiteTestService {
 		   s1.setRuta("/pcunix666/ban");
 		   s1.setNombre("Jubilaciones");
 		   ctrlSector.crearSector(s1);
-		   
 		   DAOTramiteController ctrlTramite = new DAOTramiteController();
 		   BusinessTramite  bTram = new BusinessTramite();
 		   bTram.setNombre("Consulta");
-		   Integer codigoTramite = ctrlTramite.crearTramite(bTram);
+		   String codigoTramite = "CodigoConsulta";
+		   bTram.setCodigo(codigoTramite);
+		   ctrlTramite.crearTramite(bTram);
 		   // creados en base datos de prueba
 		   Factory fac = Factory.getInstance();
 		   AdminActionsController ctrl = fac.getAdminActionsController();
@@ -102,7 +103,9 @@ public class TramiteTestService {
 				DAOTramiteController ctrlTramite = new DAOTramiteController();
 				BusinessTramite t1 = new BusinessTramite();
 				t1.setNombre("Consulta");
-				Integer codigoTramite = ctrlTramite.crearTramite(t1);
+				String codigoTramite = "Consulta2";
+				t1.setCodigo(codigoTramite);
+				ctrlTramite.crearTramite(t1);
 			//creo puesto 
 				DAOPuestoController ctrlPuesto = new DAOPuestoController();
 				BusinessPuesto p1 = new BusinessPuesto();
@@ -177,7 +180,9 @@ public class TramiteTestService {
 				
 				BusinessTramite  t2 = new BusinessTramite();
 				t2.setNombre("t2");
-				Integer codigoTramite2 = ctrlTramite.crearTramite(t2);
+				String codigoTramite2 = "CodigoTramiteTest2";
+				t2.setCodigo(codigoTramite2);
+				ctrlTramite.crearTramite(t2);
 			//creo puesto2 
 				
 				BusinessPuesto p2 = new BusinessPuesto();
@@ -278,7 +283,9 @@ public class TramiteTestService {
 				
 				t2 = new BusinessTramite();
 				t2.setNombre("t2");
-				codigoTramite2 = ctrlTramite.crearTramite(t2);
+				codigoTramite2 = "CodigoTramiteTest3";
+				t2.setCodigo(codigoTramite2);
+				ctrlTramite.crearTramite(t2);
 				
 			//se asigna tramite a puesto inexitete
 				

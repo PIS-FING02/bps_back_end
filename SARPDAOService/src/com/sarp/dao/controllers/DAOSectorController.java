@@ -229,7 +229,7 @@ public class DAOSectorController {
 		em.close();
 	}
 
-	public void asociarTramiteSector(int codigoTramite, String codigoSector) throws RollbackException{
+	public void asociarTramiteSector(String codigoTramite, String codigoSector) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);
@@ -246,7 +246,7 @@ public class DAOSectorController {
 		em.close();
 	}
 	
-	public void desasociarTramiteSector(int codigoTramite, String codigoSector) throws RollbackException{
+	public void desasociarTramiteSector(String codigoTramite, String codigoSector) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);

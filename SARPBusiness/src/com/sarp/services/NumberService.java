@@ -31,8 +31,8 @@ public class NumberService {
 		GregorianCalendar diaActual = new GregorianCalendar();
 		String externalID = numero.getCodSector().length() > 1 ? numero.getCodSector().substring(0, 2)
 				: numero.getCodSector();
-		externalID = externalID + "-" + (Integer.toString(numero.getCodTramite()).length() > 1
-				? Integer.toString(numero.getCodTramite()).substring(0, 2) : Integer.toString(numero.getCodTramite()));
+		externalID = externalID + "-" + (numero.getCodTramite().length() > 1
+				? numero.getCodTramite().substring(0, 2) : numero.getCodTramite());
 		externalID = externalID + "-" + Integer.toString(diaActual.get(Calendar.HOUR_OF_DAY))
 				+ Integer.toString(diaActual.get(Calendar.MINUTE)) + Integer.toString(diaActual.get(Calendar.SECOND));
 		numero.setExternalId(externalID);

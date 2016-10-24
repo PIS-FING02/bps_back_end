@@ -8,7 +8,7 @@ public class JSONNumero {
 	String estado;
 	Integer prioridad;
 	JSONDatosComp datosComplementarios;
-	Integer idTramite;
+	String idTramite;
 	String idSector;
 	String resultadoFinal;
 	
@@ -48,10 +48,10 @@ public class JSONNumero {
 	public void setPrioridad(Integer prioridad) {
 		this.prioridad = prioridad;
 	}
-	public Integer getIdTramite() {
+	public String getIdTramite() {
 		return idTramite;
 	}
-	public void setIdTramite(Integer idTramite) {
+	public void setIdTramite(String idTramite) {
 		this.idTramite = idTramite;
 	}
 	public String getIdSector() {

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class JSONTramite {
 
-	Integer codigo;
+	String codigo;
 	String nombre;
 
 	List<JSONPuesto> puestos;
@@ -13,7 +13,7 @@ public class JSONTramite {
 	
 	public JSONTramite(){}
 	
-	public JSONTramite(Integer cod, String nom, String r){
+	public JSONTramite(String cod, String nom, String r){
 		this.codigo = cod;
 		this.nombre = nom;
 	}
@@ -33,12 +33,12 @@ public class JSONTramite {
 	public void setSectores(List<JSONSector> sectores) {
 		this.sectores = sectores;
 	}
-	public Integer getCodigo() {
+	public String getCodigo() {
 		return codigo;
 
 	}
 
-	public void setCodigo(Integer codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 

@@ -23,7 +23,7 @@ public class MetricasNumero implements Serializable {
 	private Integer internalId;
 
 	@Column(name="codigo_tramite")
-	private Integer codigoTramite;
+	private String codigoTramite;
 
 	@Column(name = "date_created")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -55,11 +55,11 @@ public class MetricasNumero implements Serializable {
 		this.internalId = internalId;
 	}
 
-	public Integer getCodigoTramite() {
+	public String getCodigoTramite() {
 		return this.codigoTramite;
 	}
 
-	public void setCodigoTramite(Integer codigoTramite) {
+	public void setCodigoTramite(String codigoTramite) {
 		this.codigoTramite = codigoTramite;
 	}
 	

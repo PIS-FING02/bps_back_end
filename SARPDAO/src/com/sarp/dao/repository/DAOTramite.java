@@ -10,7 +10,7 @@ import com.sarp.dao.model.Tramite;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-
+@SuppressWarnings("unchecked")
 public class DAOTramite {
 	
 	/*El EntityManager se setea desde el DAOService, para manejar cada transaccion
@@ -21,15 +21,16 @@ public class DAOTramite {
 		this.em = em;
 	}
 
-	public Tramite insertTramite(String nombre) throws RollbackException{		
+	public Tramite insertTramite(String codigo, String nombre) throws RollbackException{		
 		Tramite t = new Tramite();
+		t.setCodigo(codigo);
 		t.setNombre(nombre);
 		
 		em.persist(t);
 		return t;
 	}
 		
-	public Tramite selectTramite(int codigo) throws RollbackException{		
+	public Tramite selectTramite(String codigo) throws RollbackException{		
 		Tramite t = em.find(Tramite.class, codigo);
 		if (t != null){
 			return t;
@@ -39,12 +40,11 @@ public class DAOTramite {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ArrayList<Tramite> selectTramites() {		
 		return new ArrayList<Tramite>(em.createQuery("select t from Tramite t").getResultList());
 	}
 	
-	public void deleteTramite(int codigo) throws RollbackException {		
+	public void deleteTramite(String codigo) throws RollbackException {		
 		Tramite t = selectTramite(codigo);
 		for (Numero n: t.getNumeros()){
             n.setTramite(null);
@@ -55,7 +55,7 @@ public class DAOTramite {
     	em.remove(t);
 	}
 
-	public void updateTramite(Integer codigo, String nombre, Timestamp lastUpdated) throws RollbackException {		
+	public void updateTramite(String codigo, String nombre, Timestamp lastUpdated) throws RollbackException {		
 		Tramite t = selectTramite(codigo);
 		t.setNombre(nombre);
 		t.setLastUpdated(lastUpdated); //Se debe hacer para el caso que la entidad haya sido modifcada por otro usuario
