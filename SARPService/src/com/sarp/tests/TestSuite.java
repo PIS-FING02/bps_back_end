@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	//DisplayTest.class,
 	//PuestoTest.class
-	llamarPuestoTest.class
+	desviarNumeroTest.class
+	//llamarPuestoTest.class
 	//cambiarEstadoPuestoTest.class
 })
 

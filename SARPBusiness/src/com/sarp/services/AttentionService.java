@@ -198,6 +198,7 @@ public class AttentionService {
 					controladorPuesto.modificarPuesto(puestoSend);
 					controladorPuesto.asociarNumeroPuestoActual(puestoSend.getNombreMaquina(), numeroReturn.getId());
 
+					
 					// llamo al display
 					//DisplayService dispService = DisplayService.getInstance();
 					//dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
@@ -440,14 +441,13 @@ public void desviarNumero(String idPuesto,String idSectorDesvio) throws Exceptio
 
 						String[] sectorHora = desvio.split("-");
 						String sectorId = sectorHora[0];
-						
 						if(sectorId.equals(idSectorDesvio)){
-
 							if(sectorHora.length == 2){
 								String sectorHoraSplit  = sectorHora[1].split("MIN")[0];
 								Integer minutos = Integer.parseInt(sectorHoraSplit);
 								GregorianCalendar horaActual = new GregorianCalendar();
 								System.out.print(horaActual.getTime());
+
 								horaActual.add(GregorianCalendar.MINUTE, minutos);	
 								System.out.print(horaActual.getTime());	
 								BusinessTramite tramiteGenerico =  ctrlTramite.obtenerTramite("1");//Tramite generico
@@ -459,6 +459,7 @@ public void desviarNumero(String idPuesto,String idSectorDesvio) throws Exceptio
 									BusinessDatoComplementario datosComp = ctrlNumero.obtenerDatosNumero(numeroActual.getInternalId());
 									//BusinessDatoComplementario datosComp = null;
 									Integer idNumDesviado =  ctrlNumero.crearNumero(numeroDesviado,datosComp);
+
 									numeroActual.setEstado(EstadoNumero.DESVIADO);
 									ctrlNumero.modificarNumero(numeroActual);
 									

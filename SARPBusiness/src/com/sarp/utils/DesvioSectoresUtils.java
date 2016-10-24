@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class DesvioSectoresUtils {
 
-	private static final String propertiesPath = "/home/ubuntu/EAP-6.4.0/modules/conf/desvios.properties";  
+	private static final String propertiesPath = "/Users/facevedo/Documents/desvios.properties";  
 
 	public static Integer getIntegerProperty(String key){    
 		return  Integer.valueOf(getProperty().getProperty(key));
