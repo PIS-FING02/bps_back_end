@@ -97,7 +97,7 @@ public class AttentionService {
 		}
 	}
 
-	public void finalizarAtencion(JSONFinalizarAtencion finalizarAtencion) throws Exception {
+	public void finalizarAtencion(JSONFinalizarAtencion finalizarAtencion, boolean esDesvio) throws Exception {
 		
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
@@ -132,9 +132,12 @@ public class AttentionService {
 		controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
 		controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(), bNumero.getInternalId());
 		
-		//se cambia el estado del numero
-		bNumero.setEstado(EstadoNumero.FINALIZADO);
-		controladorNumero.modificarNumero(bNumero);
+		if(!esDesvio){
+			//se cambia el estado del numero en caso de no ser desvio
+			bNumero.setEstado(EstadoNumero.FINALIZADO);
+			controladorNumero.modificarNumero(bNumero);
+		}
+
 
 	}
 
@@ -200,8 +203,8 @@ public class AttentionService {
 
 					
 					// llamo al display
-					//DisplayService dispService = DisplayService.getInstance();
-					//dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
+					DisplayService dispService = DisplayService.getInstance();
+					dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
 					
 					// se cambia el estado del numero en la base
 					DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
@@ -421,7 +424,7 @@ public class AttentionService {
 		return sectoresReturn;
 	}
 	
-public void desviarNumero(String idPuesto,String idSectorDesvio) throws Exception {
+public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarAtencion) throws Exception {
 		
 		// falta vincularlo con los tramites/ resultado fin atencion
 		ResponseMaker resMaker = ResponseMaker.getInstance();
@@ -430,6 +433,8 @@ public void desviarNumero(String idPuesto,String idSectorDesvio) throws Exceptio
 		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
 		DAOTramiteController ctrlTramite = fac.getDAOTramiteController();
 		DAONumeroController ctrlNumero = fac.getDAONumeroController();
+		
+		String idPuesto = finalizarAtencion.getNombreMaquina();
 		BusinessNumero numeroActual = ctrlPuesto.obtenerNumeroActualPuesto(idPuesto);
 		boolean seDesvio = false;
 		if(numeroActual!= null){
@@ -478,10 +483,12 @@ public void desviarNumero(String idPuesto,String idSectorDesvio) throws Exceptio
 					}catch(Exception e){
 						
 						System.out.print(e.getMessage());	
-					}
-					if(!seDesvio){
-						throw new Exception("Error: El numero no pudo ser desviado al sector elegido");
-					}
+					}		
+				}
+				if(!seDesvio){
+					throw new Exception("Error: El numero no pudo ser desviado al sector elegido");
+				}else{
+					finalizarAtencion(finalizarAtencion,true);
 				}
 			}else{
 				throw new Exception("Error: El sector actual no tiene ningun sector configurado al que pueda desviar");
@@ -489,6 +496,35 @@ public void desviarNumero(String idPuesto,String idSectorDesvio) throws Exceptio
 			}
 		}else{
 			throw new Exception("Error: El puesto seleccionado no tiene un numero asignado");
+		}
+		
+	}
+
+	public void reLlamarNumero(String puesto) throws Exception {
+
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
+		
+		// Traigo el puesto desde la base
+		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto);
+		if (puestoSend.getEstado() == EstadoPuesto.LLAMANDO) {
+			
+				DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
+				//Si el puesto tiene numero asociado
+				if(puestoSend.getNumeroPuesto()!= null){
+					BusinessNumero num = daoCtrl.obtenerNumero(puestoSend.getNumeroPuesto());
+					ResponseMaker respMaker = ResponseMaker.getInstance();
+					JSONNumero numeroDisplay = respMaker.numeroAtomResponse(num);
+						// llamo al display
+						DisplayService dispService = DisplayService.getInstance();
+						dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroDisplay);
+							
+				}else{
+					throw new ContextException("El puesto no tiene ningun numero asociado que re-llamar");
+				}
+				
+		} else {
+			throw new ContextException("El puesto no se encuentra en estado LLAMANDO");
 		}
 		
 	}

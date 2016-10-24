@@ -61,7 +61,7 @@ public class AttentionsController {
 	public void finalizarAtencion(JSONFinalizarAtencion finalizarAtencion) throws Exception{	
 		//Se delega a AttentionService la implementacion
 		AttentionService attentionService = new AttentionService();
-		attentionService.finalizarAtencion(finalizarAtencion);
+		attentionService.finalizarAtencion(finalizarAtencion,false);
 		
 	}
 	
@@ -109,11 +109,17 @@ public class AttentionsController {
 	
 	}
 	
-	public void desviarNumero(String idPuesto,String idSectorDesvio) throws Exception {
+	public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarAtencion) throws Exception {
 		AttentionService attentionService = new AttentionService();
-		attentionService.desviarNumero(idPuesto, idSectorDesvio);	
+		attentionService.desviarNumero(idSectorDesvio,finalizarAtencion);	
 				
 	}
 	
+	public void reLlamarNumero(String idPuesto) throws Exception {
+		AttentionService attentionService = new AttentionService();
+		attentionService.reLlamarNumero(idPuesto);	
+				
+	}
+
 
 }
