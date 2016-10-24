@@ -12,9 +12,11 @@ import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.jboss.resteasy.spi.UnauthorizedException;
+
 import com.sarp.controllers.AttentionsController;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteSector;
@@ -82,12 +84,12 @@ public class AttentionsService {
 	@PUT
 	@Path("/finalizarAtencion")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String finalizarAtencion(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrl = fac.getAttentionsController();
+	public String finalizarAtencion(@HeaderParam("user-rol") String userRol, JSONFinalizarAtencion finalizarAtencion){
 		if(userRol.equals("Operador") || userRol.equals("OperadorAvanzado")){
 			try{
-				ctrl.finalizarAtencion(puesto);
+				Factory fac = Factory.getInstance();
+				AttentionsController ctrl = fac.getAttentionsController();
+				ctrl.finalizarAtencion(finalizarAtencion);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");

@@ -18,8 +18,10 @@ import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDatosComp;
+import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONTramiteResultado;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.managers.BusinessSectorQueue;
 import com.sarp.managers.QueuesManager;
@@ -87,27 +89,44 @@ public class AttentionService {
 		}
 	}
 
-	public void finalizarAtencion(JSONPuesto puesto) throws Exception {
+	public void finalizarAtencion(JSONFinalizarAtencion finalizarAtencion) throws Exception {
+		
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
-		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
-
-		if (puestoSend.getEstado() == EstadoPuesto.ATENDIENDO) {
-			puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
-			// Se delega a DaoService
-			controladorPuesto.modificarPuesto(puestoSend);
-			BusinessNumero bNumero = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
-			controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
-			controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(), bNumero.getInternalId());
-			
-			//se cambia el estado del numero
-			bNumero.setEstado(EstadoNumero.FINALIZADO);
-			DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
-			daoCtrl.modificarNumero(bNumero);
-			
-		} else {
-			throw new ContextException("PuestoNoAtendiendo");
+		DAONumeroController controladorNumero = daoServiceFactory.getDAONumeroController();
+		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(finalizarAtencion.getNombreMaquina());
+		
+		// debe tener resultados de tramite
+		if(finalizarAtencion.getTramiteResultado() == null || finalizarAtencion.getTramiteResultado().isEmpty() )
+			throw new ContextException("NO_RESULTADOS_TRAMITE");
+		
+		// debe estar en estado atendiendo
+		if (puestoSend.getEstado() != EstadoPuesto.ATENDIENDO) 
+			throw new ContextException("PUESTO_NO_ATENDIENDO");
+		
+		// numero no puede ser null
+		if(finalizarAtencion.getId() == null)
+			throw new ContextException("NO_ID_NUMERO");
+		
+		// verifico que numero actual del puesto sea el mismo que el de finalizar
+		BusinessNumero bNumero = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
+		if(bNumero.getInternalId().equals(finalizarAtencion.getId()))
+			throw new ContextException("NUMERO_ACTUAL_INCONSISTENTE");
+		
+		//asigno cada resultado-tramite 
+		for(JSONTramiteResultado tramiteResultado : finalizarAtencion.getTramiteResultado()){
+			controladorNumero.asociarNumeroTramite(tramiteResultado.getCodigo(), finalizarAtencion.getId(), tramiteResultado.getResultadoAtencion());
 		}
+		
+		puestoSend.setEstado(EstadoPuesto.DISPONIBLE);
+		// Se delega a DaoService
+		controladorPuesto.modificarPuesto(puestoSend);
+		controladorPuesto.desasociarNumeroPuestoActual(puestoSend.getNombreMaquina());
+		controladorPuesto.asociarNumeroPuesto(puestoSend.getNombreMaquina(), bNumero.getInternalId());
+		
+		//se cambia el estado del numero
+		bNumero.setEstado(EstadoNumero.FINALIZADO);
+		controladorNumero.modificarNumero(bNumero);
 
 	}
 
