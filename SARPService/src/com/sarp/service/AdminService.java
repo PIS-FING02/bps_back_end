@@ -30,6 +30,7 @@ import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONSectorDisplay;
 import com.sarp.json.modeler.JSONTramite;
 import com.sarp.json.modeler.JSONTramiteSector;
+import com.sun.istack.internal.Nullable;
 
 
 @RequestScoped
@@ -198,9 +199,7 @@ public class AdminService {
 	@GET
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
-
     public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectroId") String sectorId ){
-
 		if(userRol.equals("ResponsableSector")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController ctrl = fac.getAdminActionsController();
