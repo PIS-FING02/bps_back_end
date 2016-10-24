@@ -22,15 +22,14 @@ public class DAOTramiteController {
 	
 	private DAOFactory factory = DAOFactory.getInstance();
 	
-	public Integer crearTramite(BusinessTramite tramite) throws RollbackException{
+	public void crearTramite(BusinessTramite tramite) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		
 		em.getTransaction().begin();
-		Tramite res = tramiteRepository.insertTramite(tramite.getNombre());
+		Tramite res = tramiteRepository.insertTramite(tramite.getCodigo(), tramite.getNombre());
 		em.getTransaction().commit();
 		em.close();
-		return res.getCodigo();
 	}
 	
 	public List<BusinessTramite> listarTramites() {
@@ -48,7 +47,7 @@ public class DAOTramiteController {
 		return ret;
 	}
 	
-	public BusinessTramite obtenerTramite(int codigo) throws RollbackException{
+	public BusinessTramite obtenerTramite(String codigo) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		
@@ -69,7 +68,7 @@ public class DAOTramiteController {
 		em.close();
 	}
 	
-	public void eliminarTramite(int codigo) throws RollbackException{
+	public void eliminarTramite(String codigo) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		
@@ -79,7 +78,7 @@ public class DAOTramiteController {
 		em.close();
 	}	
 	
-	public List<BusinessSector> obtenerSectoresTramite(int codigoTramite) throws RollbackException {
+	public List<BusinessSector> obtenerSectoresTramite(String codigoTramite) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		
@@ -96,7 +95,7 @@ public class DAOTramiteController {
 	}
 	
 	/* Operaciones para la relacion Tramite-Puesto */
-	public void asociarTramitePuesto(int codigoTramite, String nombreMaquina) throws RollbackException{
+	public void asociarTramitePuesto(String codigoTramite, String nombreMaquina) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
@@ -113,7 +112,7 @@ public class DAOTramiteController {
 		em.close();
 	}
 	
-	public void desasociarTramitePuesto(int codigoTramite, String nombreMaquina) throws RollbackException{
+	public void desasociarTramitePuesto(String codigoTramite, String nombreMaquina) throws RollbackException{
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
@@ -130,7 +129,7 @@ public class DAOTramiteController {
 		em.close();
 	}
 	
-	public List<BusinessPuesto> obtenerPuestosTramite(int codigoTramite) throws RollbackException {
+	public List<BusinessPuesto> obtenerPuestosTramite(String codigoTramite) throws RollbackException {
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		
@@ -146,7 +145,7 @@ public class DAOTramiteController {
 		return ret;
 	}
 	
-	public boolean existeTramiteSector(String sector, Integer tramite){
+	public boolean existeTramiteSector(String sector, String tramite){
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		DAOSector sectorRepository = factory.getSectorRepository(em);

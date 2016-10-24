@@ -191,7 +191,7 @@ public class AttentionsService {
 				jnumero.setHora("04/05/1849-20:24");
 				jnumero.setEstado("PAUSADO");
 				jnumero.setPrioridad(1);
-				jnumero.setIdTramite(4990);
+				jnumero.setIdTramite("4990");
 				jnumero.setIdSector("MVD_FIS");
 				return jnumero;
 		}else{

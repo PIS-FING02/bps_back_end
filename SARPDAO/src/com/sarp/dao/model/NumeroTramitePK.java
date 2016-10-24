@@ -16,7 +16,7 @@ public class NumeroTramitePK implements Serializable {
 	private Integer internalId;
 
 	@Column(name="codigo_tramite", insertable=false, updatable=false)
-	private Integer codigoTramite;
+	private String codigoTramite;
 
 	public NumeroTramitePK() {
 	}
@@ -26,10 +26,10 @@ public class NumeroTramitePK implements Serializable {
 	public void setInternalId(Integer internalId) {
 		this.internalId = internalId;
 	}
-	public Integer getCodigoTramite() {
+	public String getCodigoTramite() {
 		return this.codigoTramite;
 	}
-	public void setCodigoTramite(Integer codigoTramite) {
+	public void setCodigoTramite(String codigoTramite) {
 		this.codigoTramite = codigoTramite;
 	}
 

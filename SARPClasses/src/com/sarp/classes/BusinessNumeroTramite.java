@@ -1,20 +1,16 @@
 package com.sarp.classes;
 
-import java.sql.Timestamp;
-
-import com.sarp.enumerados.EstadoPuesto;
-
 public class BusinessNumeroTramite {
 	
 	//Constructores
 	public BusinessNumeroTramite(){}
-	public BusinessNumeroTramite(Integer codigoTramite, String resultadoFinal) {
+	public BusinessNumeroTramite(String codigoTramite, String resultadoFinal) {
 		this.setCodigoTramite(codigoTramite);
 		this.resultadoFinal = resultadoFinal;
 	}
 
 	//Atributos
-	private Integer codigoTramite;
+	private String codigoTramite;
 	private String resultadoFinal;
 
 	//Operaciones
@@ -24,13 +20,12 @@ public class BusinessNumeroTramite {
 	public void setResultadoFinal(String resultadoFinal) {
 		this.resultadoFinal = resultadoFinal;
 	}
-	public Integer getCodigoTramite() {
+	public String getCodigoTramite() {
 		return codigoTramite;
 	}
-	public void setCodigoTramite(Integer codigoTramite) {
+	public void setCodigoTramite(String codigoTramite) {
 		this.codigoTramite = codigoTramite;
 	}
-
 
 }
 

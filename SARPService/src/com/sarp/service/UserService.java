@@ -55,7 +55,7 @@ public class UserService {
 		JSONTramite tram1 = new JSONTramite();
 		tram1.setNombre("TramiteNombrea");
 		//Me aseguro de que haya por lo menos un tramite en la base asi el tramite id 1 funciona
-		Integer tramiteid = 1;
+		String tramiteid = "1";
 		
 		//PuestoSector
 		JSONPuestoSector puestoSector = new JSONPuestoSector();

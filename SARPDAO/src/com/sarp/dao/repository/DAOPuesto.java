@@ -3,15 +3,12 @@ package com.sarp.dao.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
-
-import com.sarp.dao.model.MetricasEstadoNumeroPK;
 import com.sarp.dao.model.MetricasPuesto;
-import com.sarp.dao.model.MetricasPuestoPK;
 import com.sarp.dao.model.Puesto;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
+@SuppressWarnings("unchecked")
 public class DAOPuesto {
 	
 	/*El EntityManager se setea desde el DAOService, para manejar cada transaccion
@@ -46,7 +43,6 @@ public class DAOPuesto {
     }
 	
 	/* Obtengo todos los Puestos en la base de datos */
-	@SuppressWarnings("unchecked")
 	public ArrayList<Puesto> selectPuestos(){		
 		ArrayList<Puesto> res = new ArrayList<Puesto>(em.createQuery("select p from Puesto p").getResultList());
 		return res;

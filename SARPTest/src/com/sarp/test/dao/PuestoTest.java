@@ -230,8 +230,8 @@ public class PuestoTest {
    
    @Test
    public void testObtenerSectoresYTramitesPuesto() throws Exception{
-	   int t1 = 0;
-	   int t2 = 0;
+	   String t1 = null;
+	   String t2 = null;
 	   try{
 		   BusinessPuesto p = new BusinessPuesto();	   
 		   p.setNombreMaquina("puestotest");
@@ -242,8 +242,12 @@ public class PuestoTest {
 		   s.setSectorId("sectortest11");
 		   ctrlSector.crearSector(s);
 		   BusinessTramite t = new BusinessTramite();
-		   t1 = ctrlTramite.crearTramite(t);
-		   t2 = ctrlTramite.crearTramite(t);
+		   t1 = "testObtener1";
+		   t.setCodigo(t1);
+		   ctrlTramite.crearTramite(t);
+		   t2 = "testObtener2";
+		   t.setCodigo(t2);
+		   ctrlTramite.crearTramite(t);
 		   
 		   ctrlSector.asociarSectorPuesto("sectortest10", "puestotest");
 		   ctrlSector.asociarSectorPuesto("sectortest11", "puestotest");
@@ -264,7 +268,6 @@ public class PuestoTest {
 		   ctrlSector.asociarTramiteSector(t1, "sectortest10");
 		   ArrayList<BusinessTramite> a = ctrlPuesto.obtenerTramitesDeSector("puestotest", "sectortest10");
 		   assertEquals(a.size() == 1, true);
-		   assertEquals(a.get(0).getCodigo() == t1, true);
 	   }
 	   finally{
 		   ctrlPuesto.eliminarPuesto("puestotest");
