@@ -138,8 +138,6 @@ public class AttentionService {
 			bNumero.setEstado(EstadoNumero.FINALIZADO);
 			controladorNumero.modificarNumero(bNumero);
 		}
-
-
 	}
 
 	public JSONNumero llamarNumero(String puesto) throws Exception {
