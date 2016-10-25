@@ -5,6 +5,7 @@ import java.util.List;
 
 public class JSONTramite {
 
+
 	String codigo;
 
 	String nombre;

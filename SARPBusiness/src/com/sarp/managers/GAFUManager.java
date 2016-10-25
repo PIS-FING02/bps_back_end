@@ -177,6 +177,7 @@ public class GAFUManager {
 				roles = roles.substring(9);
 				String[] listRoles = roles.split(",");
 				String codigoSector = raiz.getCodigo();
+
 				//si no es hoja
 				
 				if (!( (hijos==null) || (hijos.isEmpty()) )){
@@ -190,6 +191,7 @@ public class GAFUManager {
 								resultado.add(secRol);
 					}else
 						resultado.add(secRol);
+
 				}
 				
 			}
@@ -210,12 +212,14 @@ public class GAFUManager {
 			if (sectro.getRutaSector().contains(raiz.getCodigo())){
 				String seccod = sectro.getCodigo();
 				for (int i =0 ; i<listRoles.length; i++){
+
 					BusinessSectorRol secRol = new BusinessSectorRol(seccod,listRoles[i]);
 					if ( !resultado.isEmpty()  ){
 						if (!resultado.contains(secRol))
 								resultado.add(secRol);
 					}else
 						resultado.add(secRol);
+
 				}
 			}
 		}
