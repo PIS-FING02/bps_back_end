@@ -293,10 +293,10 @@ public class TramiteTestService {
 				JSONPuestoTramite puestoTramite7 = new JSONPuestoTramite();
 				ctrlPuesto.eliminarPuesto(p2.getNombreMaquina()); 
 				puestoTramite7.setNombreMaquina(p2.getNombreMaquina());/*no existe porque lo acabo de borrar*/
-				puestoTramite7.setTramiteId(codigoTramite2);
 				isOk=false;
 				try{ 
 					ctrl.asignarTramitePuesto(puestoTramite7);
+				puestoTramite7.setTramiteId(codigoTramite2);
 				}catch (Exception e){
 					isOk = e.getMessage().indexOf("No existe el Puesto") > -1;
 					System.out.println(e.getMessage());
