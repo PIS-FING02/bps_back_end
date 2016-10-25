@@ -9,11 +9,11 @@ import com.sarp.factory.Factory;
 public class TestPermisos {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		Factory fac = Factory.getInstance();
 		GAFUController GafuCont = fac.GAFUController();
 		try{
-			List<BusinessSectorRol> result = GafuCont.obtenerSectorRolesUsuario("consultor");
+			List<BusinessSectorRol> result = GafuCont.obtenerSectorRolesUsuario("respsec");
 			for (BusinessSectorRol sr : result ){
 				System.out.println(sr.toString());
 			}

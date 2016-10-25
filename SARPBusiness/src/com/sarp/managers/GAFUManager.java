@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.ws.BindingProvider;
+
 
 import com.sarp.classes.BusinessNodeGAFU;
 import com.sarp.classes.BusinessSector;
@@ -18,11 +18,8 @@ import com.sarp.json.modeler.JSONSector;
 
 import uy.gub.bps.apph.wsgafuservice.v001.AreaFuncional;
 import uy.gub.bps.apph.wsgafuservice.v001.ErrorNegocio;
-import uy.gub.bps.apph.wsgafuservice.v001.ParamObtenerAreasFuncionalesUsuario;
 import uy.gub.bps.apph.wsgafuservice.v001.ResultObtenerAreasFuncionalesUsuario;
-import uy.gub.bps.apph.wsgafuservice.v001.SOAPException_Exception;
-import uy.gub.bps.apph.wsgafuservice.v001.WsGafuService;
-import uy.gub.bps.apph.wsgafuservice.v001.WsGafuServiceService;
+
 
 
 public class GAFUManager {
@@ -173,24 +170,31 @@ public class GAFUManager {
 	//Metodo Recursivo para obtenerSectorRolesUsuario
 	private void ObtenerSectorRol(  AreaFuncional raiz,  List<BusinessSectorRol> resultado  ) throws Exception{
 		if  (raiz!=null) {
+			List<AreaFuncional> hijos = raiz.getHijos();
 			if ( ( raiz.getRestriccion()!=null ) && ( !"".equals(raiz.getRestriccion()) ) ){
 								
 				String roles = raiz.getRestriccion();
 				roles = roles.substring(9);
 				String[] listRoles = roles.split(",");
 				String codigoSector = raiz.getCodigo();
-				if (raiz.getHijos()!=null){
+				//si no es hoja
+				
+				if (!( (hijos==null) || (hijos.isEmpty()) )){
 					AgregarHijos(raiz, resultado, listRoles);
-				}else{
-					for (int i =0 ; i<listRoles.length; i++){
-						BusinessSectorRol secRol = new BusinessSectorRol(codigoSector,listRoles[i]);
-						if ( resultado.contains(secRol) )
-							resultado.add(secRol);
-					}
+				}	
+				
+				for (int i =0 ; i<listRoles.length; i++){
+					BusinessSectorRol secRol = new BusinessSectorRol(codigoSector,listRoles[i]);
+					if ( !resultado.isEmpty()  ){
+						if (!resultado.contains(secRol))
+								resultado.add(secRol);
+					}else
+						resultado.add(secRol);
 				}
+				
 			}
 			
-			List<AreaFuncional> hijos = raiz.getHijos();
+			
 			Iterator<AreaFuncional> it = hijos.iterator();
 			while (it.hasNext()){
 				ObtenerSectorRol(it.next(),resultado );
@@ -206,7 +210,12 @@ public class GAFUManager {
 			if (sectro.getRutaSector().contains(raiz.getCodigo())){
 				String seccod = sectro.getCodigo();
 				for (int i =0 ; i<listRoles.length; i++){
-					resultado.add(new BusinessSectorRol(seccod,listRoles[i]));
+					BusinessSectorRol secRol = new BusinessSectorRol(seccod,listRoles[i]);
+					if ( !resultado.isEmpty()  ){
+						if (!resultado.contains(secRol))
+								resultado.add(secRol);
+					}else
+						resultado.add(secRol);
 				}
 			}
 		}

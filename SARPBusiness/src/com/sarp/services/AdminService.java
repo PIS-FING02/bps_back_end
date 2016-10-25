@@ -408,14 +408,14 @@ public class AdminService {
 					//si no lo agrege antes 
 					Boolean esta = false;
 					for (BusinessTramite t : listaTramites ){
-						if (t.getCodigo() ==  tramite.getCodigo() ){
+						if (t.getCodigo().equals(tramite.getCodigo()) ){
 							esta = true;
 							break;
 						}			
 					}
 					//y no esta ya asignado 
 					for (BusinessTramite t : tramitesYaAsignados){
-						if (t.getCodigo() ==  tramite.getCodigo() ){
+						if (t.getCodigo().equals(tramite.getCodigo()) ){
 							esta = true;
 							break;
 						}	
