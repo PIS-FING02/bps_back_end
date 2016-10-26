@@ -33,6 +33,7 @@ import com.sarp.service.response.maker.ResponseMaker;
 import com.sarp.service.response.maker.RequestMaker;
 import com.sarp.service.response.maker.ResponseMaker;
 import com.sarp.utils.DesvioSectoresUtils;
+import com.sarp.utils.UtilService;
 
 
 
@@ -118,7 +119,7 @@ public class AttentionService {
 		
 		// verifico que numero actual del puesto sea el mismo que el de finalizar
 		BusinessNumero bNumero = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
-		if(bNumero.getInternalId().equals(finalizarAtencion.getId()))
+		if(!bNumero.getInternalId().equals(finalizarAtencion.getId()))
 			throw new ContextException("NUMERO_ACTUAL_INCONSISTENTE");
 		
 		//asigno cada resultado-tramite 
@@ -394,7 +395,7 @@ public class AttentionService {
 		DAOSectorController ctrlSector = fac.getDAOSectorController();
 		List<BusinessSector> sectoresBusinessReturn = new ArrayList<BusinessSector>();
 		
-		String desviosSector = DesvioSectoresUtils.getStringProperty(idSector);
+		String desviosSector = UtilService.getStringProperty(idSector);
 		if(desviosSector != null){
 			String[] desvios = desviosSector.split(";"); //ATYR4-25MIN
 			for(String desvio : desvios){
@@ -438,7 +439,7 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 		BusinessNumero numeroActual = ctrlPuesto.obtenerNumeroActualPuesto(idPuesto);
 		boolean seDesvio = false;
 		if(numeroActual!= null){
-			String desviosSector = DesvioSectoresUtils.getStringProperty(numeroActual.getCodSector());
+			String desviosSector = UtilService.getStringProperty(numeroActual.getCodSector());
 			if(desviosSector!= null){
 				String[] desvios = desviosSector.split(";"); //ATYR4-25MIN
 				for(String desvio : desvios){
