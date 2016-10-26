@@ -75,18 +75,18 @@ public class desviarNumeroTest {
 			BusinessNumero numeroADesviar = new BusinessNumero();
 			numeroADesviar.setExternalId("EL EXTERNAL ID");
 			numeroADesviar.setHora(new GregorianCalendar());
-			numeroADesviar.setCodTramite(1);
+			//numeroADesviar.setCodTramite(1);
 			numeroADesviar.setCodSector(sectorConfigurado);
 			numeroADesviar.setPrioridad(1);
 			BusinessDatoComplementario bDatosComplementario = null;
 			
-			Integer idNumero = controladorNumero.crearNumero(numeroADesviar, numeroADesviar.getCodTramite(), numeroADesviar.getCodSector(),bDatosComplementario );
+			//Integer idNumero = controladorNumero.crearNumero(numeroADesviar, numeroADesviar.getCodTramite(), numeroADesviar.getCodSector(),bDatosComplementario );
 	
 			//asociacion a puesto
 			BusinessPuesto puestoSend = ctrlDaoPuesto.obtenerPuesto(nombreMaquinaPuesto);
 			puestoSend.setEstado(EstadoPuesto.LLAMANDO);
 			ctrlDaoPuesto.modificarPuesto(puestoSend);
-			ctrlDaoPuesto.asociarNumeroPuestoActual(puestoSend.getNombreMaquina(), idNumero);
+			//ctrlDaoPuesto.asociarNumeroPuestoActual(puestoSend.getNombreMaquina(), idNumero);
 			
 			
 			//luego de solicitado lo desvio
@@ -94,7 +94,7 @@ public class desviarNumeroTest {
 			String sectorADesviarOK = "MVD_CER";
 			String sectorADesviarNOT = "MVD_CER";
 			
-			ctrl.desviarNumero(nombreMaquinaPuesto, sectorADesviarOK);
+			//ctrl.desviarNumero(nombreMaquinaPuesto, sectorADesviarOK);
 			
 			Integer a =3;
 		
