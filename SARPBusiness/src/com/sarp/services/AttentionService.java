@@ -512,8 +512,8 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 			
 				DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
 				//Si el puesto tiene numero asociado
-				if(puestoSend.getNumeroPuesto()!= null){
-					BusinessNumero num = daoCtrl.obtenerNumero(puestoSend.getNumeroPuesto());
+				BusinessNumero num = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
+				if(num!= null){
 					ResponseMaker respMaker = ResponseMaker.getInstance();
 					JSONNumero numeroDisplay = respMaker.numeroAtomResponse(num);
 						// llamo al display
