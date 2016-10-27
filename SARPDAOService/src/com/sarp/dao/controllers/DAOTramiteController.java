@@ -27,7 +27,7 @@ public class DAOTramiteController {
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		
 		em.getTransaction().begin();
-		Tramite res = tramiteRepository.insertTramite(tramite.getCodigo(), tramite.getNombre());
+		tramiteRepository.insertTramite(tramite.getCodigo(), tramite.getNombre());
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -87,9 +87,11 @@ public class DAOTramiteController {
 		List<Sector> list = t.getSectors();
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for(Sector s : list){
-			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
-			bs.setLastUpdated(s.getLastUpdated());
-			ret.add(bs);
+			if(s.isHabilitado()){
+				BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
+				bs.setLastUpdated(s.getLastUpdated());
+				ret.add(bs);
+			}
 		}	
 		return ret;
 	}

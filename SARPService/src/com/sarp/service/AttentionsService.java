@@ -37,7 +37,7 @@ public class AttentionsService {
 				return "OK";
 			}catch(ContextException e){
 				throw new InternalServerErrorException("Error: El puesto ya se encuentra abierto");
-			}catch(Exception e){	
+			}catch(Exception e){
 				throw new InternalServerErrorException("Error al abrir el Puesto");
 			}
 		}else{

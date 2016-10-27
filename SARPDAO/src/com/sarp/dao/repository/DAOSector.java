@@ -20,7 +20,6 @@ public class DAOSector {
 		this.em = em;
 	}
 
-
 	public void insertSector(String codigo, String nombre, String ruta){		
 		Sector s = new Sector();
 		s.setCodigo(codigo);
@@ -32,7 +31,6 @@ public class DAOSector {
 	}
 	
 	/* Obtengo la entidad de Sector en la bd con su codigo */
-
 	public Sector selectSector(String codigo) throws RollbackException{		
 		Sector s = em.find(Sector.class, codigo);
 		if (s != null){

@@ -95,9 +95,11 @@ public class DAOPuestoController {
 		ArrayList<Sector> list = new ArrayList<Sector>(p.getSectors());
 		ArrayList<BusinessSector> ret = new ArrayList<BusinessSector>();
 		for (Sector s : list) {
-			BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
-			bs.setLastUpdated(s.getLastUpdated());
-			ret.add(bs);
+			if(s.isHabilitado()){
+				BusinessSector bs = new BusinessSector(s.getCodigo(), s.getNombre(), s.getRutaSector());
+				bs.setLastUpdated(s.getLastUpdated());
+				ret.add(bs);
+			}
 		}
 		return ret;
 	}
