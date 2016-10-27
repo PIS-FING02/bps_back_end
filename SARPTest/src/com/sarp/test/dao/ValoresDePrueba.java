@@ -82,8 +82,6 @@ public class ValoresDePrueba {
 			}
 		}
 		
-//		ctrlTramite.eliminarTramite(4);
-		//ctrlNumero.obtenerNumeroTramites(null);
 		System.out.println("FIN cargar=" + cargar);
 	}
 	
