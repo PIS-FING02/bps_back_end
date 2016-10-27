@@ -149,6 +149,14 @@ public class SectorTest {
 	   assertEquals(l.size() == 0, true);  
    }
    
+   @Test()
+   public void testAsociarTramiteSectorYEliminar() throws Exception{
+	   BusinessSector s = new BusinessSector("idtestasociar", "nombre", "ruta");
+	   ctrlSector.crearSector(s);
+	   ctrlSector.asociarTramiteSector("CodigoTramite5", "idtestasociar");
+	   ctrlSector.eliminarSector("idtestasociar");    
+   }
+   
    @Test(expected=RollbackException.class)
    public void testAsociarTramiteSectorInvalido() throws Exception{
 	   ctrlSector.asociarTramiteSector("456546", "idsectortest4");
