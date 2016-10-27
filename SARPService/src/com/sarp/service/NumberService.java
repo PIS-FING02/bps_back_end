@@ -40,7 +40,7 @@ public class NumberService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosSector(@HeaderParam("user-rol") String userRol,
 			@QueryParam("idSector") String idSector) {
-		if (userRol.equals("Administrador")) {
+		if (userRol.equals("ADMIN")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
@@ -58,7 +58,7 @@ public class NumberService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosPausados(@HeaderParam("user-rol") String userRol,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
-		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
@@ -66,7 +66,7 @@ public class NumberService {
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
-		} else if(userRol.equals("Consultor") || userRol.equals("ResponsableSector")){ 
+		} else if(userRol.equals("CONSULTOR") || userRol.equals("RESPSEC")){ 
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
@@ -84,7 +84,7 @@ public class NumberService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosAtrasados(@HeaderParam("user-rol") String userRol,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
-		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
@@ -92,7 +92,7 @@ public class NumberService {
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
-		}else if(userRol.equals("Consultor") || userRol.equals("ResponsableSector")){ 
+		}else if(userRol.equals("CONSULTOR") || userRol.equals("RESPSEC")){ 
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
@@ -110,7 +110,7 @@ public class NumberService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosEnEspera(@HeaderParam("user-rol") String userRol,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
-		if (userRol.equals("Operador") || userRol.equals("OperadorSenior")) {
+		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();
@@ -118,7 +118,7 @@ public class NumberService {
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
-		}else if(userRol.equals("ResponsableSector")){ 
+		}else if(userRol.equals("RESPSEC")){ 
 			try {
 				Factory fac = Factory.getInstance();
 				NumberController ctrl = fac.getNumberController();

@@ -36,9 +36,9 @@ import com.sun.istack.internal.Nullable;
 @RequestScoped
 @Path("/adminService")
 public class AdminService {
-	private final String ResponsableSectorGAFU = "GAP_ADMINAF";
+	private final String ResponsableSectorGAFU = "RESPSEC";
 	
-	private final String ConsultorGAFU = "GAP_CONSAF";
+	private final String ConsultorGAFU = "CONSULTOR";
 	@Context ServletContext context;
 
 	/************ABM PUESTO ***************/	
@@ -48,7 +48,7 @@ public class AdminService {
   	public String altaPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuesto puesto){
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals("ResponsableSector")){
+  		if(userRol.equals("RESPSEC")){
   			try{
   				ctrl.altaPuesto(puesto);
   				return "OK";
@@ -66,7 +66,7 @@ public class AdminService {
   	public String bajaPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuesto puesto){	
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals("ResponsableSector")){
+  		if(userRol.equals("RESPSEC")){
   			try{
   				ctrl.bajaPuesto(puesto);
   				return "OK";
@@ -84,7 +84,7 @@ public class AdminService {
   	public String modificarPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuesto puesto){	
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals("ResponsableSector")){
+  		if(userRol.equals("RESPSEC")){
   			try{
   				
   				ctrl.modificarPuesto(puesto);
@@ -106,7 +106,7 @@ public class AdminService {
 	  	Factory fac = Factory.getInstance();
 	  	AdminActionsController ctrl = fac.getAdminActionsController();
 			  		
-	  	if(userRol.equals( "ResponsableSector")){
+	  	if(userRol.equals( "RESPSEC")){
 	  		if (   !( sectorId == null || sectorId.isEmpty() ) ){
 
 	  			//si me pasan sector quiero todos menos los del sector que pasan 
@@ -149,7 +149,7 @@ public class AdminService {
 	@Path("/tramite")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String altaTramite(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramite jsonTramite){
-		if(userRol.equals("Administrador")){
+		if(userRol.equals("ADMIN")){
 			try{				
 				Factory fac = Factory.getInstance();
 				AdminActionsController ctrl = fac.getAdminActionsController();
@@ -169,7 +169,7 @@ public class AdminService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String bajaTramite(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramite jsonTramite){	
 	
-		if(userRol.equals("Administrador")){
+		if(userRol.equals("ADMIN")){
 			try{
 				Factory fac = Factory.getInstance();
 				AdminActionsController ctrl = fac.getAdminActionsController();
@@ -187,7 +187,7 @@ public class AdminService {
 	@Path("/tramite")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String modificarTramite(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramite jsonTramite){	
-		if(userRol.equals("Administrador")){
+		if(userRol.equals("ADMIN")){
 			try{
 				Factory fac = Factory.getInstance();
 				AdminActionsController ctrl = fac.getAdminActionsController();
@@ -206,9 +206,10 @@ public class AdminService {
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectroId") String sectorId ){
-		if(userRol.equals("ResponsableSector")){
-			Factory fac = Factory.getInstance();
-			AdminActionsController ctrl = fac.getAdminActionsController();
+		Factory fac = Factory.getInstance();
+		AdminActionsController ctrl = fac.getAdminActionsController();
+		if(userRol.equals("RESPSEC")){
+		
 			try{
 				if (   !( sectorId == null || sectorId.isEmpty() ) ){
 	// lista todos los tramites mennos los del sector pasado por parametro
@@ -232,7 +233,15 @@ public class AdminService {
 				throw new InternalServerErrorException("Error al listar los Tramite: " + e.getMessage());
 			}
 		}else{
-			throw new UnauthorizedException("No tiene permisos suficientes.");
+			if(userRol.equals("ADMIN")){
+				//si es admin lista todos los tramites 
+				try{
+	  				return ctrl.listarTramites();
+				}catch (Exception e) {
+					throw new InternalServerErrorException("Error al listar los Tramite: " + e.getMessage());
+				}
+			}else
+				throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
 	
@@ -247,7 +256,7 @@ public class AdminService {
 
 		Factory fac = Factory.getInstance();
 		AdminActionsController aac = fac.getAdminActionsController();
-		if(userRol.equals("Administrador")){
+		if(userRol.equals("ADMIN")){
 			//listo todos los sectores
 			try {
 				return aac.listarSectores();
@@ -256,7 +265,7 @@ public class AdminService {
 			}
 		}else{
 			//listo todos los sectores para los cuales tiene permisos EN GAFU
-			if (userRol.equals("ResponsableSector")){
+			if (userRol.equals("RESPSEC")){
 				GAFUController controladorGAFU = fac.GAFUController();
 				try {
 				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
@@ -310,7 +319,7 @@ public class AdminService {
 	@PUT
 	@Path("/actualizarGAFU")
     public String actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
-		if(userRol.equals("Administrador")){
+		if(userRol.equals("ADMIN")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController aac = fac.getAdminActionsController();
 			try {
@@ -333,7 +342,7 @@ public class AdminService {
 	public String altaDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONDisplay display){
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ) {
+		if ( (userRol.equals("RESPSEC")) || (userRol.equals("ADMIN")) ) {
 			try{
 				ctrl.altaDisplay(display.getIdDisplay());
 				return "OK";
@@ -351,7 +360,7 @@ public class AdminService {
 	public String bajaDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONDisplay display){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if ( (userRol.equals("ResponsableSector")) || (userRol.equals("Administrador")) ){
+		if ( (userRol.equals("RESPSEC")) || (userRol.equals("ADMIN")) ){
 			try{
 				ctrl.bajaDisplay(display.getIdDisplay());
 				return "OK";
@@ -392,14 +401,14 @@ public class AdminService {
 	public List<JSONDisplay> listarDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if ( userRol.equals("Administrador") ){
+		if ( userRol.equals("ADMIN") ){
 			try{
 				return ctrl.listarDisplays(null);	
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al listar Display: " + e.getMessage());
 			}
 		}else{
-			if (userRol.equals( "ResponsableSector")){
+			if (userRol.equals( "RESPSEC")){
 				try{
 					if (   !( sectorId == null || sectorId.isEmpty() ) ){
 		  				List <JSONDisplay> listaDisplaySector = ctrl.listarDisplays(sectorId);
@@ -435,7 +444,7 @@ public class AdminService {
   	public String asignarTramiteSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramiteSector tramiteSector){	
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals("ResponsableSector")){
+  		if(userRol.equals("RESPSEC")){
   		
   			
   			try{
@@ -456,7 +465,7 @@ public class AdminService {
 	public String asignarTramitePuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuestoTramite puestoTramite){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(userRol.equals("ResponsableSector")){
+		if(userRol.equals("RESPSEC")){
 			try{
 				ctrl.asignarTramitePuesto(puestoTramite);
 				return "OK";
@@ -476,7 +485,7 @@ public class AdminService {
   			JSONPuestoSector puestoSector){	
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals("ResponsableSector")){
+  		if(userRol.equals("RESPSEC")){
   			try{
   				ctrl.asignarPuestoSector(puestoSector);
   				return "OK";
@@ -495,7 +504,7 @@ public class AdminService {
     public String asignarSectorDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONSectorDisplay secDisp) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(userRol.equals("Administrador")){
+		if(userRol.equals("ADMIN")){
 			try{
 				ctrl.asignarSectorDisplay(secDisp);
 				return "OK";
@@ -516,7 +525,7 @@ public class AdminService {
     public String desasignarSectorDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONSectorDisplay secDisp) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(userRol.equals("Administrador")){
+		if(userRol.equals("ADMIN")){
 			try{
 				ctrl.desasignarSectorDisplay(secDisp);
 				return "OK";
@@ -536,7 +545,7 @@ public class AdminService {
   	public String desasignarTramiteSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramiteSector tramiteSector){	
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals("ResponsableSector")){
+  		if(userRol.equals("RESPSEC")){
   			try{
   				ctrl.desasignarTramiteSector(tramiteSector);
   				return "OK";
@@ -555,7 +564,7 @@ public class AdminService {
   	public String desasignarPuestoSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user , JSONPuestoSector puestoSector){	
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals("ResponsableSector")){
+  		if(userRol.equals("RESPSEC")){
   			try{
   				ctrl.desasignarPuestoSector(puestoSector);
   				return "OK";
@@ -574,7 +583,7 @@ public class AdminService {
 	public String desasignarTramitePuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuestoTramite puestoTramite){	
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if(userRol.equals("ResponsableSector")){
+		if(userRol.equals("RESPSEC")){
 			try{
 				ctrl.desasignarTramitePuesto(puestoTramite);
 				return "OK";
@@ -597,7 +606,7 @@ public class AdminService {
   		
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals( "ResponsableSector")){
+  		if(userRol.equals( "RESPSEC")){
   			try{
   				List<JSONPuesto> listaPuestos = ctrl.listarPuestos(idSector);
   				return listaPuestos;
@@ -618,7 +627,7 @@ public class AdminService {
   		
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals( "ResponsableSector")){
+  		if(userRol.equals( "RESPSEC")){
   			try{
   				List<JSONTramite> listatrm = ctrl.listarTramitesSector(idSector);
   				return listatrm;
@@ -637,7 +646,7 @@ public class AdminService {
     public List<JSONTramite> listarTramitesPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,
     		@QueryParam("nombreMaquina") String NombreMaquina ) {
 		System.out.println("entro a listar");
-		if(userRol.equals("ResponsableSector")){
+		if(userRol.equals("RESPSEC")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController aac = fac.getAdminActionsController();
 			try{
@@ -655,7 +664,7 @@ public class AdminService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONTramite> listarTramitesPosibles(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("nombreMaquina") String NombreMaquina ) {
 		///System.out.println("entro a listar");
-		if(userRol.equals("ResponsableSector")){
+		if(userRol.equals("RESPSEC")){
 			Factory fac = Factory.getInstance();
 			AdminActionsController aac = fac.getAdminActionsController();
 			try{
@@ -676,7 +685,7 @@ public class AdminService {
 	public List<JSONDisplay> listarDisplaySector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @QueryParam("sectorId") String idSector) {
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
-		if ( (userRol.equals( "ResponsableSector")) || (userRol.equals("Administrador")) ){
+		if ( (userRol.equals( "RESPSEC")) || (userRol.equals("ADMIN")) ){
 			try{
 				return ctrl.listarDisplays(idSector);	
 			}catch(Exception e){
