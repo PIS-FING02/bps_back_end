@@ -27,7 +27,8 @@ public class ValoresDePrueba {
 		DAONumeroController ctrlNumero = new DAONumeroController();
 		DAOPuestoController ctrlPuesto = new DAOPuestoController();
 		
-		boolean cargar = true;
+		boolean cargar = false;
+		boolean cargar2 = true;
 		
 		/*VALORES DE PRUEBA*/
 		if(cargar){
@@ -82,7 +83,192 @@ public class ValoresDePrueba {
 			}
 		}
 		
-		System.out.println("FIN cargar=" + cargar);
+		if(cargar2){
+			//Creo Displays
+			System.out.println("CREO DISPLAYS");
+			for(int i = 0; i < 8; i++){
+				BusinessDisplay d = new BusinessDisplay();
+				d.setIdDisplay("idDisplay0" + i);
+				ctrlDisplay.crearDisplay(d);
+				System.out.println("d: " + Integer.toString(i));
+			}
+			//Asocio Displays a Sectores
+			System.out.println("ASOCIO DISPLAYS");
+			ctrlSector.asociarDisplaySector("MVD_CER", "idDisplay01");
+			ctrlSector.asociarDisplaySector("MVD_CRRN", "idDisplay01");
+			ctrlSector.asociarDisplaySector("MVD_FIS", "idDisplay01");
+			
+			ctrlSector.asociarDisplaySector("MVD_PR_PS", "idDisplay02");
+			ctrlSector.asociarDisplaySector("MVD_PR_PE", "idDisplay02");
+			
+			ctrlSector.asociarDisplaySector("INT_MAL_ATYR_CE", "idDisplay03");
+			ctrlSector.asociarDisplaySector("INT_MAL_ATYR_FS", "idDisplay03");
+			ctrlSector.asociarDisplaySector("INT_MAL_PR_PS", "idDisplay03");
+			
+			ctrlSector.asociarDisplaySector("INT_SAL_ATYR_CE", "idDisplay04");
+			ctrlSector.asociarDisplaySector("INT_SAL_ATYR_CR", "idDisplay04");
+			ctrlSector.asociarDisplaySector("INT_SAL_PR_PS", "idDisplay04");
+			ctrlSector.asociarDisplaySector("INT_SAL_PR_PE", "idDisplay04");
+			
+			ctrlSector.asociarDisplaySector("MVD_CER", "idDisplay06");
+			ctrlSector.asociarDisplaySector("MVD_CRRN", "idDisplay06");
+			ctrlSector.asociarDisplaySector("MVD_FIS", "idDisplay06");
+			ctrlSector.asociarDisplaySector("MVD_PR_PS", "idDisplay06");
+			ctrlSector.asociarDisplaySector("MVD_PR_PE", "idDisplay06");
+			
+			ctrlSector.asociarDisplaySector("MVD_CER", "idDisplay07");
+			ctrlSector.asociarDisplaySector("MVD_CRRN", "idDisplay07");
+			ctrlSector.asociarDisplaySector("MVD_FIS", "idDisplay07");
+			ctrlSector.asociarDisplaySector("MVD_PR_PS", "idDisplay07");
+			ctrlSector.asociarDisplaySector("MVD_PR_PE", "idDisplay07");
+			
+			//Creo Tramites
+			System.out.println("CREO TRAMITES");
+			BusinessTramite t = new BusinessTramite();
+			String tid = "NoTiene";
+			t.setCodigo(tid);
+			t.setNombre(tid + "_nombre");
+			ctrlTramite.crearTramite(t);
+			tid = "ConsultaA";
+			t.setCodigo(tid);
+			t.setNombre(tid + "_nombre");
+			ctrlTramite.crearTramite(t);
+			tid = "Certificados";
+			t.setCodigo(tid);
+			t.setNombre(tid + "_nombre");
+			ctrlTramite.crearTramite(t);
+			tid = "Fiscalizaciones";
+			t.setCodigo(tid);
+			t.setNombre(tid + "_nombre");
+			ctrlTramite.crearTramite(t);
+			tid = "ConexionesRemotas";
+			t.setCodigo(tid);
+			t.setNombre(tid + "_nombre");
+			ctrlTramite.crearTramite(t);
+			tid = "Prestaciones";
+			t.setCodigo(tid);
+			t.setNombre(tid + "_nombre");
+			ctrlTramite.crearTramite(t);
+			tid = "Sociales";
+			t.setCodigo(tid);
+			t.setNombre(tid + "_nombre");
+			ctrlTramite.crearTramite(t);
+			tid = "Economicas";
+			t.setCodigo(tid);
+			t.setNombre(tid + "_nombre");
+			ctrlTramite.crearTramite(t);
+			tid = "General";
+			t.setCodigo(tid);
+			t.setNombre(tid + "_nombre");
+			ctrlTramite.crearTramite(t);
+			
+			//Asocio Tramites a Sectores
+			System.out.println("ASOCIO SECTORES");
+			ctrlSector.asociarTramiteSector("ConsultaA", "MVD_CER");
+			ctrlSector.asociarTramiteSector("ConsultaA", "MVD_CRRN");
+			ctrlSector.asociarTramiteSector("ConsultaA", "MVD_FIS");
+			ctrlSector.asociarTramiteSector("ConsultaA", "INT_MAL_ATYR_CE");
+			ctrlSector.asociarTramiteSector("ConsultaA", "INT_MAL_ATYR_FS");
+			
+			ctrlSector.asociarTramiteSector("Certificados", "MVD_CER");
+			ctrlSector.asociarTramiteSector("Certificados", "INT_MAL_ATYR_CE");
+			ctrlSector.asociarTramiteSector("Certificados", "INT_SAL_ATYR_CE");
+			
+			ctrlSector.asociarTramiteSector("Fiscalizaciones", "MVD_FIS");
+			ctrlSector.asociarTramiteSector("Fiscalizaciones", "INT_MAL_ATYR_FS");
+			
+			ctrlSector.asociarTramiteSector("ConexionesRemotas", "MVD_CRRN");
+			ctrlSector.asociarTramiteSector("ConexionesRemotas", "INT_SAL_ATYR_CR");
+			
+			ctrlSector.asociarTramiteSector("Prestaciones", "MVD_PR_PS");
+			ctrlSector.asociarTramiteSector("Prestaciones", "MVD_PR_PE");
+			ctrlSector.asociarTramiteSector("Prestaciones", "INT_MAL_PR_PS");
+			ctrlSector.asociarTramiteSector("Prestaciones", "INT_SAL_PR_PS");
+			ctrlSector.asociarTramiteSector("Prestaciones", "INT_SAL_PR_PE");
+			
+			ctrlSector.asociarTramiteSector("Sociales", "MVD_PR_PS");
+			ctrlSector.asociarTramiteSector("Sociales", "INT_SAL_PR_PS");
+			
+			ctrlSector.asociarTramiteSector("Economicas", "MVD_PR_PE");
+			ctrlSector.asociarTramiteSector("Economicas", "INT_SAL_PR_PE");
+								
+			ctrlSector.asociarTramiteSector("General", "MVD_CER");
+			ctrlSector.asociarTramiteSector("General", "MVD_CRRN");
+			ctrlSector.asociarTramiteSector("General", "MVD_FIS");
+			ctrlSector.asociarTramiteSector("General", "MVD_PR_PS");
+			ctrlSector.asociarTramiteSector("General", "MVD_PR_PE");
+			ctrlSector.asociarTramiteSector("General", "INT_MAL_ATYR_CE");
+			ctrlSector.asociarTramiteSector("General", "INT_MAL_ATYR_FS");
+			ctrlSector.asociarTramiteSector("General", "INT_MAL_PR_PS");
+			ctrlSector.asociarTramiteSector("General", "INT_SAL_ATYR_CE");
+			ctrlSector.asociarTramiteSector("General", "INT_SAL_ATYR_CR");
+			ctrlSector.asociarTramiteSector("General", "INT_SAL_PR_PS");
+			ctrlSector.asociarTramiteSector("General", "INT_SAL_PR_PE");
+			
+			//Creo Puestos
+			System.out.println("CREO PUESTOS");
+			for(int i = 0; i < 11; i++){
+				BusinessPuesto p = new BusinessPuesto();
+				p.setNombreMaquina("maq" + i);
+				ctrlPuesto.crearPuesto(p);
+			}
+			//Asocio Puestos a Sectores
+			System.out.println("ASOCIO PUESTOS");			
+			ctrlSector.asociarSectorPuesto("MVD_CER", "maq1");
+			ctrlSector.asociarSectorPuesto("MVD_CRRN", "maq1");
+			ctrlSector.asociarSectorPuesto("MVD_FIS", "maq1");
+			
+			ctrlSector.asociarSectorPuesto("MVD_PR_PS", "maq2");
+			ctrlSector.asociarSectorPuesto("MVD_PR_PE", "maq2");
+			
+			ctrlSector.asociarSectorPuesto("INT_MAL_ATYR_CE", "maq3");
+			ctrlSector.asociarSectorPuesto("INT_MAL_ATYR_FS", "maq3");
+			ctrlSector.asociarSectorPuesto("INT_MAL_PR_PS", "maq3");
+			
+			ctrlSector.asociarSectorPuesto("INT_SAL_ATYR_CE", "maq4");
+			ctrlSector.asociarSectorPuesto("INT_SAL_ATYR_CR", "maq4");
+			ctrlSector.asociarSectorPuesto("INT_SAL_PR_PS", "maq4");
+			ctrlSector.asociarSectorPuesto("INT_SAL_PR_PE", "maq4");						
+			
+			ctrlSector.asociarSectorPuesto("MVD_PR_PS", "maq6");
+			ctrlSector.asociarSectorPuesto("MVD_PR_PE", "maq6");
+			ctrlSector.asociarSectorPuesto("INT_MAL_PR_PS", "maq6");
+			ctrlSector.asociarSectorPuesto("INT_SAL_PR_PS", "maq6");
+			ctrlSector.asociarSectorPuesto("INT_SAL_PR_PE", "maq6");
+			
+			ctrlSector.asociarSectorPuesto("MVD_CER", "maq7");
+			ctrlSector.asociarSectorPuesto("MVD_CRRN", "maq7");
+			ctrlSector.asociarSectorPuesto("MVD_FIS", "maq7");
+			ctrlSector.asociarSectorPuesto("INT_MAL_ATYR_CE", "maq7");
+			ctrlSector.asociarSectorPuesto("INT_MAL_ATYR_FS", "maq7");
+			ctrlSector.asociarSectorPuesto("INT_SAL_ATYR_CE", "maq7");
+			ctrlSector.asociarSectorPuesto("INT_SAL_ATYR_CR", "maq7");
+			
+			ctrlSector.asociarSectorPuesto("MVD_CER", "maq8");
+			ctrlSector.asociarSectorPuesto("INT_MAL_ATYR_CE", "maq8");
+			ctrlSector.asociarSectorPuesto("INT_SAL_ATYR_CE", "maq8");
+			
+			ctrlSector.asociarSectorPuesto("MVD_PR_PS", "maq9");
+			ctrlSector.asociarSectorPuesto("INT_SAL_PR_PS", "maq9");
+			
+			ctrlSector.asociarSectorPuesto("MVD_CER", "maq10");
+			ctrlSector.asociarSectorPuesto("MVD_CRRN", "maq10");
+			ctrlSector.asociarSectorPuesto("MVD_FIS", "maq10");
+			ctrlSector.asociarSectorPuesto("MVD_PR_PS", "maq10");
+			ctrlSector.asociarSectorPuesto("MVD_PR_PE", "maq10");
+			ctrlSector.asociarSectorPuesto("INT_MAL_ATYR_CE", "maq10");
+			ctrlSector.asociarSectorPuesto("INT_MAL_ATYR_FS", "maq10");
+			ctrlSector.asociarSectorPuesto("INT_MAL_PR_PS", "maq10");
+			ctrlSector.asociarSectorPuesto("INT_SAL_ATYR_CE", "maq10");
+			ctrlSector.asociarSectorPuesto("INT_SAL_ATYR_CR", "maq10");
+			ctrlSector.asociarSectorPuesto("INT_SAL_PR_PS", "maq10");
+			ctrlSector.asociarSectorPuesto("INT_SAL_PR_PE", "maq10");						
+		}
+		
+		
+		System.out.println("\nFIN");
+		System.out.println("\ncargar=" + cargar);
+		System.out.println("\ncargar2=" + cargar2);
 	}
 	
 	
