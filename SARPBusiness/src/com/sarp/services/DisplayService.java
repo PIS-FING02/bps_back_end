@@ -9,6 +9,8 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.sarp.classes.BusinessDisplay;
@@ -76,11 +78,20 @@ public class DisplayService {
 				String line;
 				boolean found = false;
 				String nuevoArchivo = "";
+		
+				String horaRefresh = CalendarToString(new GregorianCalendar());
+				
 				while ((line = in.readLine()) != null) {
 					String[] parteLine = line.split("\\*");
 					if (parteLine[4].equals(numPuesto)) {
-						nuevoArchivo = nuevoArchivo + "|260216123226*4*5*"+prioridad+"*" + numPuesto + "*D*Juan*5*" + hora + "*"
-								+ numero.getExternalId() + "\n";
+						if(numero.getPrioridad() == 1){
+							nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5*" + hora + "*"
+									+ numero.getDatosComplementarios() != null?  numero.getDatosComplementarios().getNombreCompleto():numero.getExternalId() + "\n";
+						}else{
+							nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
+									+ numero.getExternalId() + "\n";
+						}
+						
 						found = true;
 					} else {
 						nuevoArchivo = nuevoArchivo + line + "\n";
@@ -92,7 +103,14 @@ public class DisplayService {
 				PrintWriter writer = new PrintWriter(displayFile);
 				writer.print(nuevoArchivo);
 				if (!found) {
-					writer.println("|260216123226*4*5*"+prioridad+"*" + numPuesto + "*D*Juan*5*" + hora + "*" + numero.getExternalId());
+					if(numero.getPrioridad() == 1){
+						writer.println("|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5*" + hora + "*"
+								+ numero.getDatosComplementarios() != null?  numero.getDatosComplementarios().getNombreCompleto():numero.getExternalId());
+					}else{
+						writer.println(nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
+								+ numero.getExternalId());
+					}
+		
 				}
 				writer.close();
 				
@@ -110,5 +128,15 @@ public class DisplayService {
 			System.out.println(e.getMessage());
 		}
 
+	}
+	
+	private static String CalendarToString(GregorianCalendar c){
+		String fecha = Integer.toString(c.get(Calendar.DAY_OF_MONTH)).length() > 1 ? Integer.toString(c.get(Calendar.DAY_OF_MONTH)) : "0"+Integer.toString(c.get(Calendar.DAY_OF_MONTH));
+		fecha = fecha +"/" + (Integer.toString(c.get(Calendar.MONTH)+1).length() > 1 ? Integer.toString(c.get(Calendar.MONTH)+1) : "0"+Integer.toString(c.get(Calendar.MONTH)+1));
+		fecha = fecha + "/" + Integer.toString(c.get(Calendar.YEAR));
+		fecha = fecha + "-";
+		fecha = fecha + (Integer.toString(c.get(Calendar.HOUR_OF_DAY)).length() > 1 ? Integer.toString(c.get(Calendar.HOUR_OF_DAY)) : "0"+Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
+		fecha = fecha + ":" + (Integer.toString(c.get(Calendar.MINUTE)).length() > 1 ? Integer.toString(c.get(Calendar.MINUTE)) : "0"+Integer.toString(c.get(Calendar.MINUTE)));
+		return fecha;
 	}
 }
