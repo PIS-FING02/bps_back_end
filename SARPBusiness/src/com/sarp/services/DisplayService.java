@@ -137,6 +137,7 @@ public class DisplayService {
 		fecha = fecha + "-";
 		fecha = fecha + (Integer.toString(c.get(Calendar.HOUR_OF_DAY)).length() > 1 ? Integer.toString(c.get(Calendar.HOUR_OF_DAY)) : "0"+Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
 		fecha = fecha + ":" + (Integer.toString(c.get(Calendar.MINUTE)).length() > 1 ? Integer.toString(c.get(Calendar.MINUTE)) : "0"+Integer.toString(c.get(Calendar.MINUTE)));
+		fecha = fecha + ":" + (Integer.toString(c.get(Calendar.SECOND)).length() > 1 ? Integer.toString(c.get(Calendar.SECOND)) : "0"+Integer.toString(c.get(Calendar.SECOND)));
 		return fecha;
 	}
 }

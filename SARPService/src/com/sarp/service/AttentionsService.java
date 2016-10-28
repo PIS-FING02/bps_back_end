@@ -308,7 +308,6 @@ public class AttentionsService {
 	
 	@PUT
 	@Path("/reLlamarNumero")
-	@Consumes(MediaType.APPLICATION_JSON) 
 	public  String reLlamarNumero(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idPuesto") String idPuesto) {
 		
