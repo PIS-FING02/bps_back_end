@@ -128,6 +128,11 @@ public class GAFUManager {
 		//se filtra por rol
 		List<BusinessSectorRol> lista = new ArrayList<BusinessSectorRol>();
 		List<BusinessSectorRol> listaResultado = new ArrayList<BusinessSectorRol>();
+		if (idUsuario==null)
+			throw new Exception("Usuario invalido");
+		if (rol==null)
+			throw new Exception("Rol invalido");
+		
 		lista = this.obtenerSectorRolesUsuario(idUsuario);
 		for (BusinessSectorRol sr : lista ){
 			if ( sr.getRol().equals(rol) ){
