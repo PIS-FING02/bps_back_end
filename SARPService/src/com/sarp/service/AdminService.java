@@ -85,8 +85,7 @@ public class AdminService {
   		Factory fac = Factory.getInstance();
   		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("RESPSEC")){
-  			try{
-  				
+  			try{  				
   				ctrl.modificarPuesto(puesto);
   				return "OK";
   			}catch(Exception e){
