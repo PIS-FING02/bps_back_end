@@ -442,7 +442,6 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 				String[] desvios = desviosSector.split(";"); //ATYR4-25MIN
 				for(String desvio : desvios){
 					try{
-
 						String[] sectorHora = desvio.split("-");
 						String sectorId = sectorHora[0];
 						if(sectorId.equals(idSectorDesvio)){
@@ -451,7 +450,7 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 								Integer minutos = Integer.parseInt(sectorHoraSplit);
 								GregorianCalendar horaActual = new GregorianCalendar();
 								System.out.print(horaActual.getTime());
-
+								
 								horaActual.add(GregorianCalendar.MINUTE, minutos);	
 								System.out.print(horaActual.getTime());	
 								BusinessTramite tramiteGenerico =  ctrlTramite.obtenerTramite("1");//Tramite generico
