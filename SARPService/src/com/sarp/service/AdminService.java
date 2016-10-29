@@ -207,11 +207,11 @@ public class AdminService {
 		}
 		
 	}
-
+	
 	@GET
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectroId") String sectorId ){
+    public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectorId") String sectorId ){
 		Factory fac = Factory.getInstance();
 		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("RESPSEC")){
