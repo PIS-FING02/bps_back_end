@@ -135,6 +135,7 @@ public class AttentionService {
 		
 		if(!esDesvio){
 			//se cambia el estado del numero en caso de no ser desvio
+			bNumero  = controladorNumero.obtenerNumero(bNumero.getInternalId());
 			bNumero.setEstado(EstadoNumero.FINALIZADO);
 			controladorNumero.modificarNumero(bNumero);
 		}

@@ -308,7 +308,7 @@ public class AttentionsService {
 	
 	@PUT
 	@Path("/reLlamarNumero")
-	public  String reLlamarNumero(@HeaderParam("user-rol") String userRol,  
+	public String reLlamarNumero(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idPuesto") String idPuesto) {
 		
 		if (userRol.equals("OPERADORSR") || userRol.equals("OPERADOR")) {
@@ -316,9 +316,7 @@ public class AttentionsService {
 				Factory fac = Factory.getInstance();
 				AttentionsController ctrl = fac.getAttentionsController();
 				ctrl.reLlamarNumero(idPuesto);
-				
 				return "OK";
-		
 			} catch (Exception e) {
 				throw new InternalServerErrorException("Error al re-llamar numero: "+e.getMessage());
 			}
@@ -326,9 +324,4 @@ public class AttentionsService {
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
-	
-	
-	
-	
-	
 }
