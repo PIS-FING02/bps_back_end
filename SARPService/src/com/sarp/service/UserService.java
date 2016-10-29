@@ -2,6 +2,7 @@ package com.sarp.service;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
@@ -14,6 +15,8 @@ import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 
+import com.sarp.beans.AdminBean;
+import com.sarp.beans.AttentionsBean;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.AttentionsController;
 import com.sarp.controllers.UserController;
@@ -31,6 +34,11 @@ import com.sarp.json.modeler.JSONTramiteSector;
 @RequestScoped
 @Path("/userService")
 public class UserService {
+	@EJB
+	private AttentionsBean attBean;
+	
+	@EJB
+	private AdminBean adminBean;
 	
 	@PUT
 	@Path("/initPuestosNum")
@@ -39,16 +47,13 @@ public class UserService {
 		
 		//Controllers
 		
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrlAttention = fac.getAttentionsController();
-		AdminActionsController ctrlAdmin = fac.getAdminActionsController();
 		
 		String idPuesto = puesto.getNombreMaquina();
 		String sector = "0";
 		
 		//PUESTO
 	//	ctrlAdmin.altaPuesto(puesto);
-		ctrlAdmin.modificarPuesto(puesto);
+		adminBean.modificarPuesto(puesto);
 		
 		//Tramite
 		
@@ -105,10 +110,10 @@ public class UserService {
 			System.out.println("asignarSectorDisplay");
 			
 			//REUNICIALIZO COLAS
-			ctrlAdmin.reinicializarColas();
+			adminBean.reinicializarColas();
 			
 			//SOLICITO NUMERO
-			ctrlAttention.solicitarNumero(numero);
+			attBean.solicitarNumero(numero);
 			
 			//LLAMAR NUMERO
 			//JSONNumero numeroFinal = ctrlAttention.llamarNumero(idPuesto);
