@@ -129,7 +129,13 @@ public class AdminService {
   	  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
   	  				List<JSONPuesto> listaPuestos = new ArrayList<JSONPuesto>();
   	  				for  (BusinessSectorRol as : respde){
-  	  					 listaPuestos.addAll( ctrl.listarPuestos(as.getSectorId()) );
+  	  					List<JSONPuesto> listaPuestosSector = new ArrayList<JSONPuesto>();
+	  	  				listaPuestosSector =ctrl.listarPuestos(as.getSectorId());
+	  	  				List<JSONPuesto> diferencia = new ArrayList<JSONPuesto>();
+	  	  				diferencia.addAll(listaPuestosSector);
+	  	  				diferencia.retainAll(listaPuestos);
+	  	  				listaPuestosSector.removeAll(diferencia);
+  	  					listaPuestos.addAll(listaPuestosSector);
   	  				}
   	  				return listaPuestos;
   	  			}catch(Exception e){
@@ -225,7 +231,12 @@ public class AdminService {
 	  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
 	  				List<JSONTramite> listaTramite = new ArrayList<JSONTramite>();
 	  				for  (BusinessSectorRol as : respde){
-	  					listaTramite.addAll( ctrl.listarTramitesSector(as.getSectorId()) );
+	  					List<JSONTramite> listaTramitesSector = ctrl.listarTramitesSector(as.getSectorId());
+	  					List<JSONTramite> diferencia = new ArrayList<JSONTramite>();
+	  	  				diferencia.addAll(listaTramitesSector);
+	  	  				diferencia.retainAll(listaTramite);
+	  	  				listaTramitesSector.removeAll(diferencia);
+	  					listaTramite.addAll( listaTramitesSector );
 	  				}
 	  				return listaTramite;
 				}
@@ -411,8 +422,10 @@ public class AdminService {
 			if (userRol.equals( "RESPSEC")){
 				try{
 					if (   !( sectorId == null || sectorId.isEmpty() ) ){
-		  				List <JSONDisplay> listaDisplaySector = ctrl.listarDisplays(sectorId);
+		  				
+						List <JSONDisplay> listaDisplaySector = ctrl.listarDisplays(sectorId);
 		  				List <JSONDisplay> listaDisplay=  ctrl.listarDisplays(null);
+		  				
 		  				listaDisplay.removeAll(listaDisplaySector);
 		  				return listaDisplay;
 			  			
@@ -421,7 +434,13 @@ public class AdminService {
 		  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
 		  				List<JSONDisplay> listaDispaly = new ArrayList<JSONDisplay>();
 		  				for  (BusinessSectorRol as : respde){
-		  					listaDispaly.addAll( ctrl.listarDisplays(as.getSectorId()) );
+		  					List<JSONDisplay> listaDisplaySector = ctrl.listarDisplays(as.getSectorId());
+		  					List<JSONDisplay> diferencia = new ArrayList<JSONDisplay>();
+		  	  				diferencia.addAll(listaDisplaySector);
+		  	  				diferencia.retainAll(listaDispaly);
+		  	  				listaDisplaySector.removeAll(diferencia);
+		  	  				
+		  					listaDispaly.addAll( listaDisplaySector);
 		  				}
 		  				return listaDispaly;
 					}
