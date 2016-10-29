@@ -135,11 +135,10 @@ public class AttentionService {
 		
 		if(!esDesvio){
 			//se cambia el estado del numero en caso de no ser desvio
+			bNumero  = controladorNumero.obtenerNumero(bNumero.getInternalId());
 			bNumero.setEstado(EstadoNumero.FINALIZADO);
 			controladorNumero.modificarNumero(bNumero);
 		}
-
-
 	}
 
 	public JSONNumero llamarNumero(String puesto) throws Exception {
@@ -204,8 +203,8 @@ public class AttentionService {
 
 					
 					// llamo al display
-					DisplayService dispService = DisplayService.getInstance();
-					dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
+					//DisplayService dispService = DisplayService.getInstance();
+					//dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroReturn);
 					
 					// se cambia el estado del numero en la base
 					DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
@@ -444,7 +443,6 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 				String[] desvios = desviosSector.split(";"); //ATYR4-25MIN
 				for(String desvio : desvios){
 					try{
-
 						String[] sectorHora = desvio.split("-");
 						String sectorId = sectorHora[0];
 						if(sectorId.equals(idSectorDesvio)){
@@ -453,7 +451,7 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 								Integer minutos = Integer.parseInt(sectorHoraSplit);
 								GregorianCalendar horaActual = new GregorianCalendar();
 								System.out.print(horaActual.getTime());
-
+								
 								horaActual.add(GregorianCalendar.MINUTE, minutos);	
 								System.out.print(horaActual.getTime());	
 								BusinessTramite tramiteGenerico =  ctrlTramite.obtenerTramite("1");//Tramite generico

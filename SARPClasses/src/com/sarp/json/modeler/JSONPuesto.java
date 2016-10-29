@@ -4,12 +4,6 @@ import java.util.List;
 
 public class JSONPuesto {
 
-	@Override
-	public String toString() {
-		return "JSONPuesto [nombreMaquina=" + nombreMaquina + ", usuarioId=" + usuarioId + ", numeroPuesto="
-				+ numeroPuesto + ", estado=" + estado + ", sectores=" + sectores + ", tramites=" + tramites
-				+ ", numeroAsignado=" + numeroAsignado + "]";
-	}
 	String nombreMaquina;
 	String usuarioId;
 	Integer numeroPuesto;
@@ -86,6 +80,13 @@ public class JSONPuesto {
 		return true;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "JSONPuesto [nombreMaquina=" + nombreMaquina + ", usuarioId=" + usuarioId + ", numeroPuesto="
+				+ numeroPuesto + ", estado=" + estado + ", sectores=" + sectores + ", tramites=" + tramites
+				+ ", numeroAsignado=" + numeroAsignado + "]";
+	}
 	
 }
 

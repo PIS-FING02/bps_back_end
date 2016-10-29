@@ -622,16 +622,15 @@ public class AdminService {
   	  @GET
   	  @Path("/listarTramitesSector")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<JSONTramite> listarTramitesSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
+      public List<JSONTramite> listarTramitesSector(@HeaderParam("user-rol") String userRol,
+    		  @HeaderParam("user") String user, 
     		  @QueryParam("sectorId") String idSector) {
-  		
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
-  		if(userRol.equals( "RESPSEC")){
+  		if(userRol.equals("RESPSEC") || userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
   			try{
+  				Factory fac = Factory.getInstance();
+  				AdminActionsController ctrl = fac.getAdminActionsController();
   				List<JSONTramite> listatrm = ctrl.listarTramitesSector(idSector);
   				return listatrm;
-  				
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al listar Tramites del Sector: " + e.getMessage());
   			}

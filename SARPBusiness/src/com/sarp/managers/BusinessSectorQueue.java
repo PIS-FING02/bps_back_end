@@ -163,7 +163,6 @@ public class BusinessSectorQueue {
 		try{
 			tiempoProperties = UtilService.getIntegerProperty("LATE_TIME_MINUTES");
 		}catch(Exception e){
-			
 			tiempoProperties = 30;
 		}
 		GregorianCalendar horaActual = new GregorianCalendar();

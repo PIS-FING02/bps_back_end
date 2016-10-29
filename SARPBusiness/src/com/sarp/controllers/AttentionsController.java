@@ -62,7 +62,6 @@ public class AttentionsController {
 		//Se delega a AttentionService la implementacion
 		AttentionService attentionService = new AttentionService();
 		attentionService.finalizarAtencion(finalizarAtencion,false);
-		
 	}
 	
 	public List<JSONTramiteSector> tramitesRecepcion(String puesto) throws Exception{
