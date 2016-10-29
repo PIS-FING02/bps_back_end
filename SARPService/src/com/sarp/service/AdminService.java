@@ -2,6 +2,10 @@ package com.sarp.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.Startup;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -17,6 +21,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
+
+import com.sarp.beans.AdminBean;
+import com.sarp.beans.AttentionsBean;
+import com.sarp.beans.GafuBean;
 import com.sarp.classes.BusinessSectorRol;
 import com.sarp.controllers.AdminActionsController;
 import com.sarp.controllers.GAFUController;
@@ -32,7 +40,6 @@ import com.sarp.json.modeler.JSONTramiteSector;
 import com.sun.istack.internal.Nullable;
 
 
-
 @RequestScoped
 @Path("/adminService")
 public class AdminService {
@@ -40,17 +47,25 @@ public class AdminService {
 	
 	private final String ConsultorGAFU = "CONSULTOR";
 	@Context ServletContext context;
+	
+	
+	@EJB
+	private static AdminBean adminBean = new AdminBean();
+	
+	@EJB
+	private static GafuBean gafu = new GafuBean();
+	
+
 
 	/************ABM PUESTO ***************/	
   	@POST
   	@Path("/puesto")
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String altaPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuesto puesto){
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
+  		
   		if(userRol.equals("RESPSEC")){
   			try{
-  				ctrl.altaPuesto(puesto);
+  				adminBean.altaPuesto(puesto);
   				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al crear el Puesto: " + e.getMessage());
@@ -64,11 +79,9 @@ public class AdminService {
   	@Path("/puesto")
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String bajaPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuesto puesto){	
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("RESPSEC")){
   			try{
-  				ctrl.bajaPuesto(puesto);
+  				adminBean.bajaPuesto(puesto);
   				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al dar de baja el Puesto: " + e.getMessage());
@@ -82,12 +95,9 @@ public class AdminService {
   	@Path("/puesto")
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String modificarPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuesto puesto){	
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("RESPSEC")){
   			try{
-  				
-  				ctrl.modificarPuesto(puesto);
+  				adminBean.modificarPuesto(puesto);
   				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al modificar Puesto: " + e.getMessage());
@@ -102,17 +112,14 @@ public class AdminService {
   	@GET
   	@Path("/listarPuestos")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
-	  	Factory fac = Factory.getInstance();
-	  	AdminActionsController ctrl = fac.getAdminActionsController();
-			  		
+      public List<JSONPuesto> listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {			  		
 	  	if(userRol.equals( "RESPSEC")){
 	  		if (   !( sectorId == null || sectorId.isEmpty() ) ){
 
 	  			//si me pasan sector quiero todos menos los del sector que pasan 
 	  			try{
-	  				List <JSONPuesto> listaPuestosSector = ctrl.listarPuestos(sectorId);
-	  				List <JSONPuesto> listaPuestos=  ctrl.listarPuestos(null );
+	  				List <JSONPuesto> listaPuestosSector = adminBean.listarPuestos(sectorId);
+	  				List <JSONPuesto> listaPuestos=  adminBean.listarPuestos(null );
 
 	  				listaPuestos.removeAll(listaPuestosSector);
 	  				return listaPuestos;
@@ -124,13 +131,13 @@ public class AdminService {
 
   			// si no me pasan sector quiero los puestos de los cuales el es responsable
 
-  				GAFUController controladorGAFU = fac.GAFUController();
+
 	  	  		try{
-  	  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+  	  				List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
   	  				List<JSONPuesto> listaPuestos = new ArrayList<JSONPuesto>();
   	  				for  (BusinessSectorRol as : respde){
   	  					List<JSONPuesto> listaPuestosSector = new ArrayList<JSONPuesto>();
-	  	  				listaPuestosSector =ctrl.listarPuestos(as.getSectorId());
+	  	  				listaPuestosSector =adminBean.listarPuestos(as.getSectorId());
 	  	  				List<JSONPuesto> diferencia = new ArrayList<JSONPuesto>();
 	  	  				diferencia.addAll(listaPuestosSector);
 	  	  				diferencia.retainAll(listaPuestos);
@@ -157,9 +164,7 @@ public class AdminService {
 	public String altaTramite(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramite jsonTramite){
 		if(userRol.equals("ADMIN")){
 			try{				
-				Factory fac = Factory.getInstance();
-				AdminActionsController ctrl = fac.getAdminActionsController();
-				ctrl.altaTramite(jsonTramite);
+				adminBean.altaTramite(jsonTramite);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al crear el Tramite: " + e.getMessage());
@@ -177,9 +182,7 @@ public class AdminService {
 	
 		if(userRol.equals("ADMIN")){
 			try{
-				Factory fac = Factory.getInstance();
-				AdminActionsController ctrl = fac.getAdminActionsController();
-				ctrl.bajaTramite(jsonTramite);
+				adminBean.bajaTramite(jsonTramite);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al eliminar el Tramite: " + e.getMessage());
@@ -195,9 +198,7 @@ public class AdminService {
 	public String modificarTramite(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramite jsonTramite){	
 		if(userRol.equals("ADMIN")){
 			try{
-				Factory fac = Factory.getInstance();
-				AdminActionsController ctrl = fac.getAdminActionsController();
-				ctrl.modificarTramite(jsonTramite);
+				adminBean.modificarTramite(jsonTramite);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al modificar el Tramite: " + e.getMessage());
@@ -211,32 +212,31 @@ public class AdminService {
 	@GET
 	@Path("/listarTramites")
     @Produces(MediaType.APPLICATION_JSON)
+
     public List<JSONTramite> listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user, @QueryParam("sectorId") String sectorId ){
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("RESPSEC")){
 		
 			try{
 				if (   !( sectorId == null || sectorId.isEmpty() ) ){
 	// lista todos los tramites mennos los del sector pasado por parametro
 					//DUDA NO SERIA DE LOS QUE TIRENE PERMISO MENOS EL PASADO POR PARAMETRO
-	  				List <JSONTramite> listaTramiteSector = ctrl.listarTramitesSector(sectorId);
-	  				List <JSONTramite> listaTramite =  ctrl.listarTramites();
+	  				List <JSONTramite> listaTramiteSector = adminBean.listarTramitesSector(sectorId);
+	  				List <JSONTramite> listaTramite =  adminBean.listarTramites();
 	  				listaTramite.removeAll(listaTramiteSector);
 	  				return listaTramite;
 		  			
 				}else{
 			//listo los tramites de los sectores que el tiene premiso en gafu
-					GAFUController controladorGAFU = fac.GAFUController();
-	  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+	  				List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
 	  				List<JSONTramite> listaTramite = new ArrayList<JSONTramite>();
 	  				for  (BusinessSectorRol as : respde){
-	  					List<JSONTramite> listaTramitesSector = ctrl.listarTramitesSector(as.getSectorId());
+	  					List<JSONTramite> listaTramitesSector = adminBean.listarTramitesSector(as.getSectorId());
 	  					List<JSONTramite> diferencia = new ArrayList<JSONTramite>();
 	  	  				diferencia.addAll(listaTramitesSector);
 	  	  				diferencia.retainAll(listaTramite);
 	  	  				listaTramitesSector.removeAll(diferencia);
 	  					listaTramite.addAll( listaTramitesSector );
+
 	  				}
 	  				return listaTramite;
 				}
@@ -247,7 +247,7 @@ public class AdminService {
 			if(userRol.equals("ADMIN")){
 				//si es admin lista todos los tramites 
 				try{
-	  				return ctrl.listarTramites();
+	  				return adminBean.listarTramites();
 				}catch (Exception e) {
 					throw new InternalServerErrorException("Error al listar los Tramite: " + e.getMessage());
 				}
@@ -265,23 +265,21 @@ public class AdminService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<JSONSector> listarSectores(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
 
-		Factory fac = Factory.getInstance();
-		AdminActionsController aac = fac.getAdminActionsController();
+		
 		if(userRol.equals("ADMIN")){
 			//listo todos los sectores
 			try {
-				return aac.listarSectores();
+				return adminBean.listarSectores();
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al listar Sectores: " + e.getMessage());
 			}
 		}else{
 			//listo todos los sectores para los cuales tiene permisos EN GAFU
 			if (userRol.equals("RESPSEC")){
-				GAFUController controladorGAFU = fac.GAFUController();
 				try {
-				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+				List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
   			
-  				return aac.listarSectores(respde);
+  				return adminBean.listarSectores();
 				}catch(Exception e){
 					throw new InternalServerErrorException("Error al listar Sectores: " + e.getMessage());
 				}
@@ -297,9 +295,7 @@ public class AdminService {
     public String reinicializarColas(@HeaderParam("secret-command") String secretCommand) throws Exception {
 		if(secretCommand.equals("MacocoReinicializar")){
 			try {
-				Factory fac = Factory.getInstance();
-				AdminActionsController aac = fac.getAdminActionsController();
-				aac.reinicializarColas();
+				adminBean.reinicializarColas();
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("error al reiniciar la cola: " + e.getMessage());
@@ -314,10 +310,8 @@ public class AdminService {
 	public String recuperarCola(@HeaderParam("secret-command") String secretCommand) throws Exception {
 		if(secretCommand.equals("MacocoRecuperar")){
 			try {
-				Factory fac = Factory.getInstance();
-				AdminActionsController aac = fac.getAdminActionsController();
-				aac.reinicializarColas();
-				aac.recuperarColas();
+				adminBean.reinicializarColas();
+				adminBean.recuperarColas();
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("error al reiniciar la cola: " + e.getMessage());
@@ -331,10 +325,8 @@ public class AdminService {
 	@Path("/actualizarGAFU")
     public String actualizarGAFU(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user) {
 		if(userRol.equals("ADMIN")){
-			Factory fac = Factory.getInstance();
-			AdminActionsController aac = fac.getAdminActionsController();
 			try {
-				aac.actualizarGAFU();
+				adminBean.actualizarGAFU();
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al actualizar GAFU" + e.getMessage());
@@ -351,11 +343,9 @@ public class AdminService {
 	@Path("/display")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String altaDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONDisplay display){
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals("RESPSEC")) || (userRol.equals("ADMIN")) ) {
 			try{
-				ctrl.altaDisplay(display.getIdDisplay());
+				adminBean.altaDisplay(display.getIdDisplay());
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al crear el Display: " + e.getMessage());
@@ -369,11 +359,10 @@ public class AdminService {
 	@Path("/display")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String bajaDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONDisplay display){	
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
+
 		if ( (userRol.equals("RESPSEC")) || (userRol.equals("ADMIN")) ){
 			try{
-				ctrl.bajaDisplay(display.getIdDisplay());
+				adminBean.bajaDisplay(display.getIdDisplay());
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al dar de baja el Display: " + e.getMessage());
@@ -410,11 +399,9 @@ public class AdminService {
     @Produces(MediaType.APPLICATION_JSON)
     //este metodo retorna los display de un sector
 	public List<JSONDisplay> listarDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( userRol.equals("ADMIN") ){
 			try{
-				return ctrl.listarDisplays(null);	
+				return adminBean.listarDisplays(null);	
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al listar Display: " + e.getMessage());
 			}
@@ -422,25 +409,25 @@ public class AdminService {
 			if (userRol.equals( "RESPSEC")){
 				try{
 					if (   !( sectorId == null || sectorId.isEmpty() ) ){
-		  				
-						List <JSONDisplay> listaDisplaySector = ctrl.listarDisplays(sectorId);
-		  				List <JSONDisplay> listaDisplay=  ctrl.listarDisplays(null);
-		  				
+
+		  				List <JSONDisplay> listaDisplaySector = adminBean.listarDisplays(sectorId);
+		  				List <JSONDisplay> listaDisplay=  adminBean.listarDisplays(null);
 		  				listaDisplay.removeAll(listaDisplaySector);
 		  				return listaDisplay;
 			  			
 					}else{
-						GAFUController controladorGAFU = fac.GAFUController();
-		  				List<BusinessSectorRol> respde =  controladorGAFU.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+
+		  				List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
 		  				List<JSONDisplay> listaDispaly = new ArrayList<JSONDisplay>();
 		  				for  (BusinessSectorRol as : respde){
-		  					List<JSONDisplay> listaDisplaySector = ctrl.listarDisplays(as.getSectorId());
+		  					List<JSONDisplay> listaDisplaySector = adminBean.listarDisplays(as.getSectorId());
 		  					List<JSONDisplay> diferencia = new ArrayList<JSONDisplay>();
 		  	  				diferencia.addAll(listaDisplaySector);
 		  	  				diferencia.retainAll(listaDispaly);
 		  	  				listaDisplaySector.removeAll(diferencia);
 		  	  				
 		  					listaDispaly.addAll( listaDisplaySector);
+
 		  				}
 		  				return listaDispaly;
 					}
@@ -461,13 +448,9 @@ public class AdminService {
 	
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String asignarTramiteSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramiteSector tramiteSector){	
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("RESPSEC")){
-  		
-  			
   			try{
-  				ctrl.asignarTramiteSector(tramiteSector);
+  				adminBean.asignarTramiteSector(tramiteSector);
   				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al asignar puesto a tramite: " + e.getMessage());
@@ -482,11 +465,9 @@ public class AdminService {
 	@Path("/asignarTramitePuesto")/*ok*/
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String asignarTramitePuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuestoTramite puestoTramite){	
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("RESPSEC")){
 			try{
-				ctrl.asignarTramitePuesto(puestoTramite);
+				adminBean.asignarTramitePuesto(puestoTramite);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al asignar el Tramite al puesto: " + e.getMessage());
@@ -502,11 +483,9 @@ public class AdminService {
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String asignarPuestoSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
   			JSONPuestoSector puestoSector){	
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("RESPSEC")){
   			try{
-  				ctrl.asignarPuestoSector(puestoSector);
+  				adminBean.asignarPuestoSector(puestoSector);
   				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al Asignar Puesto a Sector: " + e.getMessage());
@@ -521,11 +500,9 @@ public class AdminService {
 	@Path("/asignarSectorDisplay")/*ok*/
     @Produces(MediaType.APPLICATION_JSON)
     public String asignarSectorDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONSectorDisplay secDisp) {
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("ADMIN")){
 			try{
-				ctrl.asignarSectorDisplay(secDisp);
+				adminBean.asignarSectorDisplay(secDisp);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al asignar Display a Sector: " + e.getMessage());
@@ -542,11 +519,9 @@ public class AdminService {
 	@Path("/desasignarSectorDisplay")
     @Produces(MediaType.APPLICATION_JSON)
     public String desasignarSectorDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONSectorDisplay secDisp) {
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("ADMIN")){
 			try{
-				ctrl.desasignarSectorDisplay(secDisp);
+				adminBean.desasignarSectorDisplay(secDisp);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al desasignar Display a Sector: " + e.getMessage());
@@ -562,11 +537,9 @@ public class AdminService {
 	
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String desasignarTramiteSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONTramiteSector tramiteSector){	
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("RESPSEC")){
   			try{
-  				ctrl.desasignarTramiteSector(tramiteSector);
+  				adminBean.desasignarTramiteSector(tramiteSector);
   				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al desasignar puesto a tramite: " + e.getMessage());
@@ -581,11 +554,9 @@ public class AdminService {
   	@Path("/desasignarPuestoSector")/*ok*/
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String desasignarPuestoSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user , JSONPuestoSector puestoSector){	
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals("RESPSEC")){
   			try{
-  				ctrl.desasignarPuestoSector(puestoSector);
+  				adminBean.desasignarPuestoSector(puestoSector);
   				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al Asignar Puesto a Sector: " + e.getMessage());
@@ -600,11 +571,9 @@ public class AdminService {
 	@Path("/desasignarTramitePuesto")/*ok*/
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String desasignarTramitePuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuestoTramite puestoTramite){	
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if(userRol.equals("RESPSEC")){
 			try{
-				ctrl.desasignarTramitePuesto(puestoTramite);
+				adminBean.desasignarTramitePuesto(puestoTramite);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al desasignar el Tramite al puesto: " + e.getMessage());
@@ -622,12 +591,9 @@ public class AdminService {
       @Produces(MediaType.APPLICATION_JSON)
       public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
     		  @QueryParam("sectorId") String idSector) {
-  		
-  		Factory fac = Factory.getInstance();
-  		AdminActionsController ctrl = fac.getAdminActionsController();
   		if(userRol.equals( "RESPSEC")){
   			try{
-  				List<JSONPuesto> listaPuestos = ctrl.listarPuestos(idSector);
+  				List<JSONPuesto> listaPuestos = adminBean.listarPuestos(idSector);
   				return listaPuestos;
   				
   			}catch(Exception e){
@@ -646,9 +612,7 @@ public class AdminService {
     		  @QueryParam("sectorId") String idSector) {
   		if(userRol.equals("RESPSEC") || userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
   			try{
-  				Factory fac = Factory.getInstance();
-  				AdminActionsController ctrl = fac.getAdminActionsController();
-  				List<JSONTramite> listatrm = ctrl.listarTramitesSector(idSector);
+  				List<JSONTramite> listatrm = adminBean.listarTramitesSector(idSector);
   				return listatrm;
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al listar Tramites del Sector: " + e.getMessage());
@@ -665,10 +629,8 @@ public class AdminService {
     		@QueryParam("nombreMaquina") String NombreMaquina ) {
 		System.out.println("entro a listar");
 		if(userRol.equals("RESPSEC")){
-			Factory fac = Factory.getInstance();
-			AdminActionsController aac = fac.getAdminActionsController();
 			try{
-				return aac.listarTramitesPuesto(NombreMaquina);
+				return adminBean.listarTramitesPuesto(NombreMaquina);
 			}
 			catch(Exception e){
 				throw new InternalServerErrorException("Error al listar los Tramites del Puesto: " + e.getMessage());
@@ -683,10 +645,8 @@ public class AdminService {
     public List<JSONTramite> listarTramitesPosibles(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("nombreMaquina") String NombreMaquina ) {
 		///System.out.println("entro a listar");
 		if(userRol.equals("RESPSEC")){
-			Factory fac = Factory.getInstance();
-			AdminActionsController aac = fac.getAdminActionsController();
 			try{
-				return aac.listarTramitesPosibles(NombreMaquina);
+				return adminBean.listarTramitesPosibles(NombreMaquina);
 			}
 			catch(Exception e){
 				throw new InternalServerErrorException("Error al listar los posibles tramites del Puesto: " + e.getMessage());
@@ -701,11 +661,9 @@ public class AdminService {
 	@Produces(MediaType.APPLICATION_JSON)
 	//este metodo retorna los display de un sector
 	public List<JSONDisplay> listarDisplaySector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, @QueryParam("sectorId") String idSector) {
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if ( (userRol.equals( "RESPSEC")) || (userRol.equals("ADMIN")) ){
 			try{
-				return ctrl.listarDisplays(idSector);	
+				return adminBean.listarDisplays(idSector);	
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al listar Displays del Sector: " + e.getMessage());
 			}
@@ -720,11 +678,9 @@ public class AdminService {
 	@DELETE
 	@Path("/borrarRows")
 	public String borrarRows(@HeaderParam("secret-command") String secretCommand) {
-		Factory fac = Factory.getInstance();
-		AdminActionsController ctrl = fac.getAdminActionsController();
 		if (secretCommand.equals( "MacocoBorrador")){
 			try{
-				ctrl.borrarTodoElSistema();
+				adminBean.borrarTodoElSistema();
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error al macoquear: " + e.getMessage());
