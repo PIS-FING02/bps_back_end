@@ -10,9 +10,11 @@ import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.controllers.DAOTramiteController;
+import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONPuesto;
+import com.sarp.json.modeler.JSONSectorDisplay;
 
 import org.junit.Ignore;
 import static org.junit.Assert.*;
@@ -69,5 +71,30 @@ public class DisplayTestService {
 	   }
    	
     */
+	
+	@Test
+	public void asignarDisplaySector() throws Exception{
+		Factory fac = Factory.getInstance();
+		   AdminActionsController ctrl = fac.getAdminActionsController();
+		   JSONSectorDisplay secDisplay = new JSONSectorDisplay();
+		   BusinessDisplay d = new BusinessDisplay();
+			DAODisplayController ctrlDisplay = DAOServiceFactory.getInstance().getDAODisplayController();
+			DAOSectorController ctrlSector = DAOServiceFactory.getInstance().getDAOSectorController();
+		   d.setIdDisplay("9987897899908");
+		   String id = ctrlDisplay.crearDisplay(d);
+		   secDisplay.setDisplayId("998789789");
+		   secDisplay.setSectorId("MVD_CER");
+		   ctrl.asignarSectorDisplay(secDisplay);
+		   List<BusinessDisplay> lista = ctrlSector.obtenerDisplaysSector("MVD_CER");
+		   boolean existe = false;
+		   for (BusinessDisplay item:lista){
+			   if (item.getIdDisplay().equals(secDisplay.getDisplayId())){
+				   existe = true;
+			   }
+		   }
+		   assertEquals(existe,true); 
+		   // La obtengo los displays de la base y busco el creado
+
+	}
      
 }
