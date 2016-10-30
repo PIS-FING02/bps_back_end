@@ -36,16 +36,16 @@ public class NumberService {
 
 	private final String ConsultorGAFU = "CONSULTOR";
 	@EJB
-	private AdminBean adminBean;
+	private AdminBean adminBean = new AdminBean();
 	
 	@EJB
-	private NumberBean numberBean;
+	private NumberBean numberBean = new NumberBean();
 	
 	@EJB
-	private GafuBean gafuBean;
+	private GafuBean gafuBean = new GafuBean();
 	
 	@EJB
-	private AttentionsBean attBean;
+	private AttentionsBean attBean = new AttentionsBean();
 	
 	@POST
 	@Path("/solicitarNumero")

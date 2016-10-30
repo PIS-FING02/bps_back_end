@@ -35,10 +35,10 @@ import com.sarp.json.modeler.JSONTramiteSector;
 @Path("/userService")
 public class UserService {
 	@EJB
-	private AttentionsBean attBean;
+	private AttentionsBean attBean = new AttentionsBean();
 	
 	@EJB
-	private AdminBean adminBean;
+	private AdminBean adminBean = new AdminBean();
 	
 	@PUT
 	@Path("/initPuestosNum")

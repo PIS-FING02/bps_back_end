@@ -23,7 +23,7 @@ import com.sarp.json.modeler.JSONMetricasPuesto;
 public class MetricsService {
 
 	@EJB
-	private AdminBean adminBean;
+	private AdminBean adminBean = new AdminBean();
 	
 	
 	@GET

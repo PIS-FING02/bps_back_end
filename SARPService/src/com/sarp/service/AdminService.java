@@ -3,7 +3,9 @@ package com.sarp.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.Startup;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -38,7 +40,6 @@ import com.sarp.json.modeler.JSONTramiteSector;
 import com.sun.istack.internal.Nullable;
 
 
-
 @RequestScoped
 @Path("/adminService")
 public class AdminService {
@@ -49,10 +50,10 @@ public class AdminService {
 	
 	
 	@EJB
-	private AdminBean adminBean;
+	private static AdminBean adminBean = new AdminBean();
 	
 	@EJB
-	private GafuBean gafu;
+	private static GafuBean gafu = new GafuBean();
 	
 
 

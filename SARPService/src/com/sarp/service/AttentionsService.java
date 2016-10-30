@@ -32,7 +32,7 @@ import com.sarp.json.modeler.JSONTramiteSector;
 public class AttentionsService {
 	
 	@EJB
-	private AttentionsBean attBean;
+	private AttentionsBean attBean = new AttentionsBean();
 
 	@PUT
 	@Path("/abrirPuesto")
