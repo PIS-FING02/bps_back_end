@@ -2,6 +2,8 @@ package com.sarp.service;
 
 
 import java.util.List;
+
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,6 +16,7 @@ import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 
+import com.sarp.beans.AttentionsBean;
 import com.sarp.controllers.AttentionsController;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
@@ -27,6 +30,9 @@ import com.sarp.json.modeler.JSONTramiteSector;
 @RequestScoped
 @Path("/attentionsService")
 public class AttentionsService {
+	
+	@EJB
+	private AttentionsBean attBean;
 
 	@PUT
 	@Path("/abrirPuesto")
@@ -34,9 +40,7 @@ public class AttentionsService {
 	public String abrirPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
 		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
 			try{
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				ctrl.abrirPuesto(puesto);
+				attBean.abrirPuesto(puesto);
 				return "OK";
 			}catch(ContextException e){
 				throw new InternalServerErrorException("Error: El puesto ya se encuentra abierto");
@@ -52,11 +56,9 @@ public class AttentionsService {
 	@Path("/cerrarPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String cerrarPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
 			try{
-				ctrl.cerrarPuesto(puesto);
+				attBean.cerrarPuesto(puesto);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error: El puesto ya se encuentra cerrado");
@@ -72,9 +74,7 @@ public class AttentionsService {
 	public String comenzarAtencion(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
 		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
 			try{
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				ctrl.comenzarAtencion(puesto);
+				attBean.comenzarAtencion(puesto);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
@@ -90,9 +90,7 @@ public class AttentionsService {
 	public String finalizarAtencion(@HeaderParam("user-rol") String userRol, JSONFinalizarAtencion finalizarAtencion){
 		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
 			try{
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				ctrl.finalizarAtencion(finalizarAtencion);
+				attBean.finalizarAtencion(finalizarAtencion);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
@@ -108,9 +106,7 @@ public class AttentionsService {
 	public JSONNumero llamarNumero(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String puesto){
 		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
 			try{
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				JSONNumero num = ctrl.llamarNumero(puesto);
+				JSONNumero num = attBean.llamarNumero(puesto);
 				if(num != null){
 					return num;
 				}else{
@@ -129,11 +125,9 @@ public class AttentionsService {
 	@Path("/tramitesRecepcion")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONTramiteSector> tramitesRecepcion(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String codigoMaquina){
-		Factory fac = Factory.getInstance();
-		AttentionsController ctrl = fac.getAttentionsController();
 		if(userRol.equals("RECEPCION")){
 			try{
-				List<JSONTramiteSector> tramitesRecepcion =  ctrl.tramitesRecepcion(codigoMaquina);
+				List<JSONTramiteSector> tramitesRecepcion =  attBean.tramitesRecepcion(codigoMaquina);
 				return tramitesRecepcion;
 				
 			}catch(Exception e){
@@ -150,9 +144,7 @@ public class AttentionsService {
 	public String atrasarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
 		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
 			try{
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				ctrl.atrasarNumero(puesto);	
+				attBean.atrasarNumero(puesto);	
 				return "OK";
 			}catch(Exception e){
 				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
@@ -168,10 +160,8 @@ public class AttentionsService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String pausarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
 		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
-			Factory fac = Factory.getInstance();
-			AttentionsController ctrl = fac.getAttentionsController();
 			try{
-				ctrl.pausarNumero(puesto);
+				attBean.pausarNumero(puesto);
 				return "OK";
 			}catch(Exception e){
 				throw new InternalServerErrorException("No se pudo pausar el numero "+e.getMessage());
@@ -210,9 +200,7 @@ public class AttentionsService {
 			@HeaderParam("idPuesto") String idPuesto) {
 		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
 			try {
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				JSONNumero num = ctrl.llamarNumeroPausado(idNumero, idPuesto);
+				JSONNumero num = attBean.llamarNumeroPausado(idNumero, idPuesto);
 				return num;
 			} catch (Exception e) {
 				throw new InternalServerErrorException("Error al soliticar numero pausado: "+e.getMessage());
@@ -230,9 +218,7 @@ public class AttentionsService {
 			@HeaderParam("idPuesto") String idPuesto) {
 		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
 			try {
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				JSONNumero num = ctrl.llamarNumeroAtrasado(idNumero, idPuesto);
+				JSONNumero num = attBean.llamarNumeroAtrasado(idNumero, idPuesto);
 				return num;
 			} catch (Exception e) {
 				throw new InternalServerErrorException("Error al soliticar numero atrasado: "+e.getMessage());
@@ -250,9 +236,7 @@ public class AttentionsService {
 			@HeaderParam("idPuesto") String idPuesto) {
 		if (userRol.equals("OPERADORSR")) {
 			try {
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				JSONNumero num = ctrl.llamarNumeroDemanda(idNumero, idPuesto);
+				JSONNumero num = attBean.llamarNumeroDemanda(idNumero, idPuesto);
 				return num;
 			} catch (Exception e) {
 				throw new InternalServerErrorException("Error al soliticar numero atrasado: "+e.getMessage());
@@ -269,9 +253,7 @@ public class AttentionsService {
 			@HeaderParam("idSector") String idSector) {
 		if (userRol.equals("OPERADORSR") || userRol.equals("OPERADOR")) {
 			try {
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				List<JSONSector> sectoresDesvio = ctrl.obtenerSectoresDesvio(idSector);
+				List<JSONSector> sectoresDesvio = attBean.obtenerSectoresDesvio(idSector);
 				
 				return sectoresDesvio;
 		
@@ -292,9 +274,7 @@ public class AttentionsService {
 		
 		if (userRol.equals("OPERADORSR") || userRol.equals("OPERADOR")) {
 			try {
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				ctrl.desviarNumero(idSectorDesvio, finalizarAtencion);
+				attBean.desviarNumero(idSectorDesvio, finalizarAtencion);
 				
 				return "El numero fue desviado con exito";
 		
@@ -313,9 +293,8 @@ public class AttentionsService {
 		
 		if (userRol.equals("OPERADORSR") || userRol.equals("OPERADOR")) {
 			try {
-				Factory fac = Factory.getInstance();
-				AttentionsController ctrl = fac.getAttentionsController();
-				ctrl.reLlamarNumero(idPuesto);
+
+				attBean.reLlamarNumero(idPuesto);
 				return "OK";
 			} catch (Exception e) {
 				throw new InternalServerErrorException("Error al re-llamar numero: "+e.getMessage());
