@@ -20,6 +20,7 @@ public class BusinessSectorQueue {
 	private LinkedList<BusinessNumero> colaPrioridad2;
 	private LinkedList<BusinessNumero> atrasados;
 	private LinkedList<BusinessNumero> pausados;
+	private int proxNumero;
 	// private final String idSector;
 
 	public BusinessSectorQueue(String idSec) {
@@ -28,6 +29,7 @@ public class BusinessSectorQueue {
 		this.colaPrioridad2 = new LinkedList<BusinessNumero>();
 		this.atrasados = new LinkedList<BusinessNumero>();
 		this.pausados = new LinkedList<BusinessNumero>();
+		this.proxNumero = 1;
 	}
 
 	/***** Metodos de la Cola *****/
@@ -284,7 +286,7 @@ public class BusinessSectorQueue {
 		return enEspera;
 	}
 	
-	public List<BusinessNumero> listarNumeros() {
+	public synchronized List<BusinessNumero> listarNumeros() {
 		List<BusinessNumero> lista = new ArrayList<BusinessNumero>();
 		for (BusinessNumero bn : this.colaPrioridad1)
 			lista.add(bn);
@@ -297,6 +299,16 @@ public class BusinessSectorQueue {
 		return lista;
 	}
 
+	/******** Generador de numeros *******/
+	
+	public synchronized int obtenerProxNumero(){
+		return this.proxNumero++;
+	}
+	
+	public synchronized void restaurarProxNumero(){
+		this.proxNumero = 1;
+	}
+	
 	/*********************
 	 * Metodos auxiliares de testing
 	 *************************************/

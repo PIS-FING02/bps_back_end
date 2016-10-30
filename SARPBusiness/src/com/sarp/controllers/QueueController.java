@@ -110,4 +110,14 @@ public class QueueController {
 		return qServ.obtenerTodosLosNumeros();
 	}
 	
+	public int obtenerProxNumero(String idSector) throws Exception{
+		QueueService qServ = new QueueService(idSector);
+		return qServ.obtenerProxNumero();
+	}
+	
+	public void restaurarProxNumero(String idSector) throws Exception {
+		QueueService qServ = new QueueService(idSector);
+		qServ.restaurarProxNumero();
+	}
+	
 }

@@ -118,6 +118,14 @@ public class QueueService {
 		BusinessNumero numero = this.cola.obtenerNumeroDemanda(idNumero);
 		return respMaker.numeroAtomResponse(numero);
 	}
+	
+	public int obtenerProxNumero() throws Exception{
+		return this.cola.obtenerProxNumero();
+	}
+	
+	public void restaurarProxNumero() throws Exception {
+		this.cola.restaurarProxNumero();
+	}
 
 	/**** listar numeros *******/
 	public List<JSONNumero> obtenerTodosLosNumeros() throws IOException {
