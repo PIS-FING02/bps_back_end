@@ -132,6 +132,23 @@ public class BusinessSectorQueue {
 						// momento
 	}
 
+	public synchronized int obtenerCantNumerosEnEspera(List<BusinessTramite> tramites) {
+		int cant = 0;
+		for (BusinessNumero bn : this.atrasados) {
+			if (this.puedeAtenderNumero(tramites, bn))
+				cant++;
+		}
+		for (BusinessNumero bn : this.colaPrioridad1) {
+			if (this.puedeAtenderNumero(tramites, bn))
+				cant++;
+		}
+		for (BusinessNumero bn : this.colaPrioridad2) {
+			if (this.puedeAtenderNumero(tramites, bn))
+				cant++;
+		}
+		return cant;
+	}
+	
 	/********* Metodos auxiliares para el llamado de un numero **********/
 
 	private boolean horaMayorHoraActual(GregorianCalendar hrNumero) {

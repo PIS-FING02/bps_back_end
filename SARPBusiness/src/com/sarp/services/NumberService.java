@@ -16,7 +16,9 @@ import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.enumerados.EstadoNumero;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
+import com.sarp.json.modeler.JSONSectorCantNum;
 import com.sarp.service.response.maker.RequestMaker;
+import com.sarp.service.response.maker.ResponseMaker;
 import com.sarp.utils.UtilService;
 
 public class NumberService {
@@ -169,6 +171,22 @@ public class NumberService {
 		Factory fac = Factory.getInstance();
 		QueueController ctrl = fac.getQueueController();
 		return ctrl.listarEnEspera(idSector, listaTramites);
+	}
+	
+	public List<JSONSectorCantNum> obtenerCantNumerosEnEsperaSector(String idPuesto) throws Exception {
+		DAOServiceFactory daoFac = DAOServiceFactory.getInstance();
+		DAOPuestoController daoCtrl = daoFac.getDAOPuestoController();
+		List<BusinessSector> listaSectores = daoCtrl.obtenerSectoresPuesto(idPuesto);
+		List<BusinessTramite> listaTramites = daoCtrl.obtenerTramitesPuesto(idPuesto);
+		
+		Factory fac = Factory.getInstance();
+		QueueController ctrl = fac.getQueueController();
+		List<JSONSectorCantNum> sectores = new ArrayList<JSONSectorCantNum>();
+		ResponseMaker respMak = ResponseMaker.getInstance();
+		for (BusinessSector sec : listaSectores) {
+			sectores.add(respMak.createJSONSectorCantNum(sec, ctrl.obtenerCantNumerosEnEspera(sec.getSectorId(), listaTramites)));
+		}
+		return sectores;
 	}
 
 }

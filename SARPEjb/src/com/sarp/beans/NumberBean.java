@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import com.sarp.controllers.NumberController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
+import com.sarp.json.modeler.JSONSectorCantNum;
 
 /**
  * Session Bean implementation class NumberBean
@@ -61,10 +62,8 @@ public class NumberBean {
 		return ctrl.listarNumerosEnEsperaSector(idSector);
 	}
     
-    
-    
-    
-    
-    
+	public List<JSONSectorCantNum> obtenerCantNumerosEnEspera(String idPuesto) throws Exception {
+		return ctrl.obtenerCantNumerosEnEspera(idPuesto);
+	}
 
 }
