@@ -3,6 +3,7 @@ package com.sarp.controllers;
 import java.util.List;
 
 import com.sarp.json.modeler.JSONNumero;
+import com.sarp.json.modeler.JSONSectorCantNum;
 import com.sarp.services.NumberService;
 
 public class NumberController {
@@ -40,5 +41,10 @@ public class NumberController {
 	public List<JSONNumero> listarNumerosEnEsperaSector(String idSector) throws Exception {
 		NumberService serv = new NumberService();
 		return serv.listarNumerosEnEsperaSector(idSector);
+	}
+	
+	public List<JSONSectorCantNum> obtenerCantNumerosEnEspera(String idPuesto) throws Exception {
+		NumberService serv = new NumberService();
+		return serv.obtenerCantNumerosEnEsperaSector(idPuesto);
 	}
 }

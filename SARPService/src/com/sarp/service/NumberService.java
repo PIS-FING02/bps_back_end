@@ -27,6 +27,7 @@ import com.sarp.controllers.GAFUController;
 import com.sarp.controllers.NumberController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
+import com.sarp.json.modeler.JSONSectorCantNum;
 
 @RequestScoped
 @Path("/numberService")
@@ -149,7 +150,6 @@ public class NumberService {
 			}
 		}else if(userRol.equals("RESPSEC")){ 
 			try {
-				Factory fac = Factory.getInstance();
 				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
 				List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ResponsableSectorGAFU);
 				for (BusinessSectorRol sd : permisos)
@@ -163,4 +163,33 @@ public class NumberService {
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
+	
+	@GET
+	@Path("/obtenerCantNumerosEnEspera")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JSONSectorCantNum> obtenerCantNumerosEnEspera(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
+			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
+		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
+			try {
+				return numberBean.obtenerCantNumerosEnEspera(idPuesto);
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}
+		}else if(userRol.equals("RESPSEC")){
+			/*try {
+				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
+				List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ResponsableSectorGAFU);
+				for (BusinessSectorRol sd : permisos)
+					if (sd.getSectorId().equals(idSector))
+						listaNumeros.addAll( numberBean.listarNumerosEnEsperaSector(sd.getSectorId()));
+				return listaNumeros;
+			} catch (Exception e) {
+				throw new InternalServerErrorException(e.getMessage());
+			}*/
+			throw new InternalServerErrorException("esto esta en standby, xq primero se pidio para op y opSR");
+		} else {
+			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+		}
+	}
+	
 }

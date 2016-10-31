@@ -15,17 +15,7 @@ import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.classes.BusinessTramiteSector;
-import com.sarp.json.modeler.JSONDatosComp;
-import com.sarp.json.modeler.JSONDisplay;
-import com.sarp.json.modeler.JSONMetricasEstadoNumero;
-import com.sarp.json.modeler.JSONMetricasNumero;
-import com.sarp.json.modeler.JSONMetricasPuesto;
-import com.sarp.json.modeler.JSONNumero;
-import com.sarp.json.modeler.JSONNumeroPuesto;
-import com.sarp.json.modeler.JSONPuesto;
-import com.sarp.json.modeler.JSONSector;
-import com.sarp.json.modeler.JSONTramite;
-import com.sarp.json.modeler.JSONTramiteSector;
+import com.sarp.json.modeler.*;
 
 public class ResponseMaker {
 
@@ -365,7 +355,17 @@ public class ResponseMaker {
 		fecha = fecha + ":" + (Integer.toString(c.get(Calendar.MINUTE)).length() > 1 ? Integer.toString(c.get(Calendar.MINUTE)) : "0"+Integer.toString(c.get(Calendar.MINUTE)));
 		return fecha;
 	}
-
-
+	
+	public JSONSectorCantNum createJSONSectorCantNum(BusinessSector sector, int cantNumEspera){
+		if(sector != null){
+			JSONSectorCantNum jsonSectorCantNum = new JSONSectorCantNum();
+			jsonSectorCantNum.setCodigo(sector.getSectorId());
+			jsonSectorCantNum.setNombre(sector.getNombre());
+			jsonSectorCantNum.setCantNumEspera(cantNumEspera);
+			return jsonSectorCantNum;
+		}else{
+			return null;
+		}
+	}
 
 }

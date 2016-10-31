@@ -6,6 +6,8 @@ import java.util.List;
 import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.json.modeler.JSONNumero;
+import com.sarp.json.modeler.JSONSectorCantNum;
+import com.sarp.service.response.maker.ResponseMaker;
 import com.sarp.services.QueueService;
 
 public class QueueController {
@@ -118,6 +120,11 @@ public class QueueController {
 	public void restaurarProxNumero(String idSector) throws Exception {
 		QueueService qServ = new QueueService(idSector);
 		qServ.restaurarProxNumero();
+	}
+	
+	public int obtenerCantNumerosEnEspera(String idSector, List<BusinessTramite> tramites) throws Exception {
+		QueueService qServ = new QueueService(idSector);
+		return qServ.obtenerCantNumerosEnEspera(tramites);
 	}
 	
 }

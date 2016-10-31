@@ -15,6 +15,7 @@ import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONSector;
+import com.sarp.json.modeler.JSONSectorCantNum;
 import com.sarp.managers.BusinessSectorQueue;
 import com.sarp.managers.QueuesManager;
 import com.sarp.service.response.maker.RequestMaker;
@@ -125,6 +126,10 @@ public class QueueService {
 	
 	public void restaurarProxNumero() throws Exception {
 		this.cola.restaurarProxNumero();
+	}
+	
+	public int obtenerCantNumerosEnEspera(List<BusinessTramite> tramites) throws Exception {
+		return this.cola.obtenerCantNumerosEnEspera(tramites);
 	}
 
 	/**** listar numeros *******/
