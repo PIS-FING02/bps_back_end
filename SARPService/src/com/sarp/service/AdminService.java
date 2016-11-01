@@ -98,6 +98,7 @@ public class AdminService {
   		if(userRol.equals("RESPSEC")){
   			try{
   				adminBean.modificarPuesto(puesto);
+
   				return "OK";
   			}catch(Exception e){
   				throw new InternalServerErrorException("Error al modificar Puesto: " + e.getMessage());
