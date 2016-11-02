@@ -19,6 +19,9 @@ public class DAODisplayController {
 	private DAOFactory factory = DAOFactory.getInstance();
 	
 	public String crearDisplay(BusinessDisplay d){
+		if(d.getIdDisplay() == null || d.getIdDisplay().equals("")){
+			throw new RollbackException("El identificador del display no puede ser vacio");
+		}
 		EntityManager em = EMFactory.getEntityManager();
 		DAODisplay displayRepository = factory.getDisplayRepository(em);
 		

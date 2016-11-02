@@ -12,42 +12,48 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
+
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.beans.AttentionsBean;
-import com.sarp.controllers.AttentionsController;
 import com.sarp.exceptions.ContextException;
-import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
-
+import com.sarp.utils.UtilService;
 
 @RequestScoped
 @Path("/attentionsService")
 public class AttentionsService {
 	
+	private static Logger logger = Logger.getLogger(AttentionsService.class);
+	
 	@EJB
 	private AttentionsBean attBean = new AttentionsBean();
+	
+	private String RECEPCION = UtilService.getStringProperty("RECEPCION");
+	private String OPERADOR = UtilService.getStringProperty("OPERADOR");
+	private String OPERADORSR = UtilService.getStringProperty("OPERADOR_SENIOR");
 
 	@PUT
 	@Path("/abrirPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String abrirPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
+		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 			try{
 				attBean.abrirPuesto(puesto);
 				return "OK";
-			}catch(ContextException e){
-				throw new InternalServerErrorException("Error: El puesto ya se encuentra abierto");
 			}catch(Exception e){
-				throw new InternalServerErrorException("Error al abrir el Puesto");
+				logger.error("abrirPuesto - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				throw new InternalServerErrorException(e.getMessage());
 			}
 		}else{
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -56,14 +62,16 @@ public class AttentionsService {
 	@Path("/cerrarPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String cerrarPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
+		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 			try{
 				attBean.cerrarPuesto(puesto);
 				return "OK";
 			}catch(Exception e){
-				throw new InternalServerErrorException("Error: El puesto ya se encuentra cerrado");
+				logger.error("cerrarPuesto params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				throw new InternalServerErrorException(e.getMessage());
 			}
 		}else{
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -72,14 +80,16 @@ public class AttentionsService {
 	@Path("/comenzarAtencion")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String comenzarAtencion(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
+		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 			try{
 				attBean.comenzarAtencion(puesto);
 				return "OK";
 			}catch(Exception e){
-				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
+				logger.error("comenzarAtencion params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				throw new InternalServerErrorException(e.getMessage());
 			}
 		}else{
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -88,14 +98,16 @@ public class AttentionsService {
 	@Path("/finalizarAtencion")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String finalizarAtencion(@HeaderParam("user-rol") String userRol, JSONFinalizarAtencion finalizarAtencion){
-		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
+		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 			try{
 				attBean.finalizarAtencion(finalizarAtencion);
 				return "OK";
 			}catch(Exception e){
-				throw new InternalServerErrorException("Error: El puesto no se encuentra en un estado correcto");
+				logger.error("finalizarAtencion params: user-rol:"+userRol+" JSONFinalizarAtencion: "+finalizarAtencion);
+				throw new InternalServerErrorException(e.getMessage());
 			}
 		}else{
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONFinalizarAtencion: "+finalizarAtencion);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -104,7 +116,7 @@ public class AttentionsService {
 	@Path("/llamarNumero")
 	@Produces(MediaType.APPLICATION_JSON)
 	public JSONNumero llamarNumero(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String puesto){
-		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
+		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 			try{
 				JSONNumero num = attBean.llamarNumero(puesto);
 				if(num != null){
@@ -113,9 +125,11 @@ public class AttentionsService {
 					throw new NotFoundException("No hay numero disponible en este momento");
 				}
 			}catch(Exception e){
-				throw new InternalServerErrorException("Error: "+e.getMessage());
+				logger.error("llamarNumero params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				throw new InternalServerErrorException(e.getMessage());
 			}
 		}else{
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" puesto: "+puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -125,15 +139,17 @@ public class AttentionsService {
 	@Path("/tramitesRecepcion")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONTramiteSector> tramitesRecepcion(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String codigoMaquina){
-		if(userRol.equals("RECEPCION")){
+		if(userRol.equals(RECEPCION)){
 			try{
 				List<JSONTramiteSector> tramitesRecepcion =  attBean.tramitesRecepcion(codigoMaquina);
 				return tramitesRecepcion;
 				
 			}catch(Exception e){
-				throw new InternalServerErrorException("Error: "+e.getMessage());
+				logger.error("tramitesRecepcion params: user-rol:"+userRol+" codigoMaquina: "+codigoMaquina);
+				throw new InternalServerErrorException("tramitesRecepcion - InternalServerErrorException: " + e.getMessage());
 			} 
 		}else{
+			logger.error("Permisos insuficientes - RECEPCION - params: user-rol:"+userRol+" codigoMaquina: "+codigoMaquina);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -142,15 +158,17 @@ public class AttentionsService {
 	@Path("/atrasarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String atrasarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
+		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 			try{
 				attBean.atrasarNumero(puesto);	
 				return "OK";
 			}catch(Exception e){
 				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
-				throw new InternalServerErrorException("No se pudo atrasar el numero "+e.getMessage());
+				logger.error("atrasarNumero params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				throw new InternalServerErrorException(e.getMessage());
 			}
 		}else{
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -159,14 +177,15 @@ public class AttentionsService {
 	@Path("/pausarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String pausarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")){
+		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 			try{
 				attBean.pausarNumero(puesto);
 				return "OK";
 			}catch(Exception e){
-				throw new InternalServerErrorException("No se pudo pausar el numero "+e.getMessage());
+				throw new InternalServerErrorException("pausarNumero - InternalServerErrorException: " + e.getMessage());
 			}
 		}else{
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -177,7 +196,7 @@ public class AttentionsService {
 	@Path("/fakeNumber")
     @Produces(MediaType.APPLICATION_JSON)
     public JSONNumero listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user) {
-		if(userRol.equals("OPERADOR")){
+		if(userRol.equals(OPERADOR)){
 				JSONNumero jnumero = new JSONNumero();
 				jnumero.setId(50);
 				jnumero.setExternalId("50");
@@ -188,6 +207,7 @@ public class AttentionsService {
 				jnumero.setIdSector("MVD_FIS");
 				return jnumero;
 		}else{
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" user: "+user);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
@@ -198,14 +218,15 @@ public class AttentionsService {
 	public JSONNumero LlamarNumeroPausado(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idNumero") Integer idNumero, 
 			@HeaderParam("idPuesto") String idPuesto) {
-		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
+		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 			try {
 				JSONNumero num = attBean.llamarNumeroPausado(idNumero, idPuesto);
 				return num;
 			} catch (Exception e) {
-				throw new InternalServerErrorException("Error al soliticar numero pausado: "+e.getMessage());
+				throw new InternalServerErrorException("llamarPausado - InternalServerErrorException: " + e.getMessage());
 			}
 		} else {
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" idNumero: "+idNumero+" idPuesto: "+idPuesto);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -216,14 +237,15 @@ public class AttentionsService {
 	public JSONNumero LlamarNumeroAtrasado(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idNumero") Integer idNumero, 
 			@HeaderParam("idPuesto") String idPuesto) {
-		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
+		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 			try {
 				JSONNumero num = attBean.llamarNumeroAtrasado(idNumero, idPuesto);
 				return num;
 			} catch (Exception e) {
-				throw new InternalServerErrorException("Error al soliticar numero atrasado: "+e.getMessage());
+				throw new InternalServerErrorException("llamarAtrasado - InternalServerErrorException: " + e.getMessage());
 			}
 		} else {
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" idNumero: "+idNumero+" idPuesto: "+idPuesto);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -234,14 +256,15 @@ public class AttentionsService {
 	public JSONNumero LlamarNumeroDemanda(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idNumero") Integer idNumero, 
 			@HeaderParam("idPuesto") String idPuesto) {
-		if (userRol.equals("OPERADORSR")) {
+		if (userRol.equals(OPERADORSR)) {
 			try {
 				JSONNumero num = attBean.llamarNumeroDemanda(idNumero, idPuesto);
 				return num;
 			} catch (Exception e) {
-				throw new InternalServerErrorException("Error al soliticar numero atrasado: "+e.getMessage());
+				throw new InternalServerErrorException("llamarNumeroDemanda - InternalServerErrorException: " + e.getMessage());
 			}
 		} else {
+			logger.error("Permisos insuficientes - OPERADORSR - params: user-rol:"+userRol+" idNumero: "+idNumero+" idPuesto: "+idPuesto);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -251,16 +274,17 @@ public class AttentionsService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public  List<JSONSector> obtenerSectoresDesvio(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idSector") String idSector) {
-		if (userRol.equals("OPERADORSR") || userRol.equals("OPERADOR")) {
+		if (userRol.equals(OPERADORSR) || userRol.equals(OPERADOR)) {
 			try {
 				List<JSONSector> sectoresDesvio = attBean.obtenerSectoresDesvio(idSector);
 				
 				return sectoresDesvio;
 		
 			} catch (Exception e) {
-				throw new InternalServerErrorException("Error al soliticar numero atrasado: "+e.getMessage());
+				throw new InternalServerErrorException("obtenerSectoresDesvio - InternalServerErrorException: " + e.getMessage());
 			}
 		} else {
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" idSector: "+idSector);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -272,16 +296,17 @@ public class AttentionsService {
 			JSONFinalizarAtencion finalizarAtencion,
 			@HeaderParam("idSectorDesvio") String idSectorDesvio) {
 		
-		if (userRol.equals("OPERADORSR") || userRol.equals("OPERADOR")) {
+		if (userRol.equals(OPERADORSR) || userRol.equals(OPERADOR)) {
 			try {
 				attBean.desviarNumero(idSectorDesvio, finalizarAtencion);
 				
 				return "El numero fue desviado con exito";
 		
 			} catch (Exception e) {
-				throw new InternalServerErrorException("Error al desviar numero: "+e.getMessage());
+				throw new InternalServerErrorException("desviarNumero - InternalServerErrorException: " + e.getMessage());
 			}
 		} else {
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONFinalizarAtencion: "+finalizarAtencion+" idSectorDesvio: "+idSectorDesvio);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -291,15 +316,16 @@ public class AttentionsService {
 	public String reLlamarNumero(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idPuesto") String idPuesto) {
 		
-		if (userRol.equals("OPERADORSR") || userRol.equals("OPERADOR")) {
+		if (userRol.equals(OPERADORSR) || userRol.equals(OPERADOR)) {
 			try {
 
 				attBean.reLlamarNumero(idPuesto);
 				return "OK";
 			} catch (Exception e) {
-				throw new InternalServerErrorException("Error al re-llamar numero: "+e.getMessage());
+				throw new InternalServerErrorException("reLlamarNumero - InternalServerErrorException: " + e.getMessage());
 			}
 		} else {
+			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" idPuesto: "+idPuesto);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}

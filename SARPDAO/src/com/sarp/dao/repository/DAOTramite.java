@@ -22,6 +22,9 @@ public class DAOTramite {
 	}
 
 	public Tramite insertTramite(String codigo, String nombre) throws RollbackException{		
+		if(em.find(Sector.class, codigo) != null){
+			throw new RollbackException("Ya existe un Tramite con codigo " + codigo);
+		}
 		Tramite t = new Tramite();
 		t.setCodigo(codigo);
 		t.setNombre(nombre);

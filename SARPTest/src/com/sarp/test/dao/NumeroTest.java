@@ -152,7 +152,7 @@ public class NumeroTest {
    @Test(expected=RollbackException.class)
    public void testCrearNumeroInvalido3() throws Exception {
 	   BusinessNumero n = new BusinessNumero();
-	   n.setCodTramite("2");
+	   n.setCodTramite("CodigoTramite2");
 	   n.setCodSector("5");
 	   ctrlNumero.crearNumero(n, null); //sector y tramite no relacionados
    }

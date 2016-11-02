@@ -28,6 +28,7 @@ import com.sarp.controllers.NumberController;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONSectorCantNum;
+import com.sarp.utils.UtilService;
 
 @RequestScoped
 @Path("/numberService")
@@ -48,6 +49,12 @@ public class NumberService {
 	@EJB
 	private AttentionsBean attBean = new AttentionsBean();
 	
+	private String RESPONSABLE_SECTOR = UtilService.getStringProperty("RESPONSABLE_SECTOR");
+	private String ADMINISTRADOR = UtilService.getStringProperty("ADMINISTRADOR");
+	private String OPERADOR = UtilService.getStringProperty("OPERADOR");
+	private String OPERADORSR = UtilService.getStringProperty("OPERADOR_SENIOR");
+	private String CONSULTOR = UtilService.getStringProperty("CONSULTOR");
+	
 	@POST
 	@Path("/solicitarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -64,7 +71,7 @@ public class NumberService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosSector(@HeaderParam("user-rol") String userRol,
 			@QueryParam("idSector") String idSector) {
-		if (userRol.equals("ADMIN")) {
+		if (userRol.equals(ADMINISTRADOR)) {
 			try {
 				return numberBean.listarNumerosSector(idSector);
 			} catch (Exception e) {
@@ -81,17 +88,17 @@ public class NumberService {
 	public List<JSONNumero> listarNumerosPausados(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
 		try {
-			if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
+			if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 				return numberBean.listarNumerosPausados(idPuesto);
 			}else{
 				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
-				if(userRol.equals("RESPSEC")){ 
+				if(userRol.equals(RESPONSABLE_SECTOR)){ 
 					List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ResponsableSectorGAFU);
 					for (BusinessSectorRol sd : permisos)
 						if (sd.getSectorId().equals(idSector))
 							listaNumeros.addAll(numberBean.listarNumerosPausadosSector(sd.getSectorId()));
 				}else{
-					if(userRol.equals("CONSULTOR")){ 	
+					if(userRol.equals(CONSULTOR)){ 	
 						List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ConsultorGAFU);
 						for (BusinessSectorRol sd : permisos)
 							if (sd.getSectorId().equals(idSector))
@@ -112,17 +119,17 @@ public class NumberService {
 	public List<JSONNumero> listarNumerosAtrasados(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
 		try {
-			if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
+			if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 					return numberBean.listarNumerosAtrasados(idPuesto);
 			}else{
 				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
-				if(userRol.equals("CONSULTOR") ){ 
+				if(userRol.equals(CONSULTOR) ){ 
 					List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ConsultorGAFU);
 					for (BusinessSectorRol sd : permisos)
 						if (sd.getSectorId().equals(idSector))
 							listaNumeros.addAll(numberBean.listarNumerosAtrasadosSector(sd.getSectorId()));
 				}else{
-					if (userRol.equals("RESPSEC")){
+					if (userRol.equals(RESPONSABLE_SECTOR)){
 						List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ResponsableSectorGAFU);
 						for (BusinessSectorRol sd : permisos)
 							if (sd.getSectorId().equals(idSector))
@@ -142,13 +149,13 @@ public class NumberService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONNumero> listarNumerosEnEspera(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
-		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
+		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 			try {
 				return numberBean.listarNumerosEnEspera(idPuesto);
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
-		}else if(userRol.equals("RESPSEC")){ 
+		}else if(userRol.equals(RESPONSABLE_SECTOR)){ 
 			try {
 				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
 				List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ResponsableSectorGAFU);
@@ -169,13 +176,13 @@ public class NumberService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<JSONSectorCantNum> obtenerCantNumerosEnEspera(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
-		if (userRol.equals("OPERADOR") || userRol.equals("OPERADORSR")) {
+		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 			try {
 				return numberBean.obtenerCantNumerosEnEspera(idPuesto);
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
 			}
-		}else if(userRol.equals("RESPSEC")){
+		}else if(userRol.equals(RESPONSABLE_SECTOR)){
 			/*try {
 				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
 				List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ResponsableSectorGAFU);

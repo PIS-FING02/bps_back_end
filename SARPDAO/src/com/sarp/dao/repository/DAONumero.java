@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import com.sarp.dao.model.DatosComplementario;
+import com.sarp.dao.model.Display;
 import com.sarp.dao.model.MetricasEstadoNumero;
 import com.sarp.dao.model.MetricasNumero;
 import com.sarp.dao.model.Numero;

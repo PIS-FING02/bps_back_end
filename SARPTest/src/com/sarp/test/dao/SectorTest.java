@@ -46,6 +46,8 @@ public class SectorTest {
 		   String ids = id.get(i);
 		   ctrlSector.eliminarSector(ids);
 	   }
+	   ctrlSector.eliminarSector("idtestasociar2");
+	   ctrlSector.eliminarSector("idtestasociar3");
    }
    
    @Test(expected=RollbackException.class)
@@ -160,6 +162,21 @@ public class SectorTest {
    @Test(expected=RollbackException.class)
    public void testAsociarTramiteSectorInvalido() throws Exception{
 	   ctrlSector.asociarTramiteSector("456546", "idsectortest4");
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testAsociarTramiteSectorDuplicado() throws Exception{
+	   BusinessSector s = new BusinessSector("idtestasociar2", "nombre", "ruta");
+	   ctrlSector.crearSector(s);
+	   ctrlSector.asociarTramiteSector("CodigoTramite3", "idtestasociar2");
+	   ctrlSector.asociarTramiteSector("CodigoTramite3", "idtestasociar2");
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testDesasociarTramiteSectorInvalido() throws Exception{
+	   BusinessSector s = new BusinessSector("idtestasociar3", "nombre", "ruta");
+	   ctrlSector.crearSector(s);
+	   ctrlSector.desasociarTramiteSector("CodigoTramite3", "idtestasociar3");
    }
    
    @Test(expected=RollbackException.class)

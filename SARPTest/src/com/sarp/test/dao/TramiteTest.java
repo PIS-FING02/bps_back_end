@@ -62,6 +62,12 @@ public class TramiteTest {
 //	   ctrlTramite.eliminarTramite(id);
 //   }
    
+   @Test(expected=RollbackException.class)
+   public void testCrearTramiteInvalido(){
+	   BusinessTramite t = new BusinessTramite();
+	   ctrlTramite.crearTramite(t);
+   }
+   
    @Test
    public void testListarTramites(){
 	   System.out.println("\nTramites:");

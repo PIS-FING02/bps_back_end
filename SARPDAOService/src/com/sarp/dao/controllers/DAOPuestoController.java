@@ -26,7 +26,7 @@ public class DAOPuestoController {
 
 	public void crearPuesto(BusinessPuesto p) {
 		if(p.getNombreMaquina() == null || p.getNombreMaquina().equals("")){
-			throw new RollbackException("El nombre de maquina no puede ser vacio");
+			throw new RollbackException("El nombre de maquina del puesto no puede ser vacio");
 		}
 		EntityManager em = EMFactory.getEntityManager();
 		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
@@ -56,7 +56,6 @@ public class DAOPuestoController {
 		puestoRepository.deletePuesto(nombreMaquina);
 		em.getTransaction().commit();
 		em.close();
-
 	}
 
 	public ArrayList<BusinessPuesto> listarPuestos() {

@@ -23,6 +23,9 @@ public class DAOTramiteController {
 	private DAOFactory factory = DAOFactory.getInstance();
 	
 	public void crearTramite(BusinessTramite tramite) throws RollbackException{
+		if(tramite.getCodigo() == null || tramite.getCodigo().equals("")){
+			throw new RollbackException("El codigo del tramite no puede ser vacio");
+		}
 		EntityManager em = EMFactory.getEntityManager();
 		DAOTramite tramiteRepository = factory.getTramiteRepository(em);
 		

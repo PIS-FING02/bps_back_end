@@ -21,6 +21,9 @@ public class DAOSector {
 	}
 
 	public void insertSector(String codigo, String nombre, String ruta){		
+		if(em.find(Sector.class, codigo) != null){
+			throw new RollbackException("Ya existe un Sector con codigo " + codigo);
+		}
 		Sector s = new Sector();
 		s.setCodigo(codigo);
 		s.setNombre(nombre);

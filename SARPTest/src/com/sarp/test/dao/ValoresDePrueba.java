@@ -10,6 +10,7 @@ import com.sarp.classes.BusinessNumeroTramite;
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
+import com.sarp.dao.controllers.DAOAdminController;
 import com.sarp.dao.controllers.DAODisplayController;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.controllers.DAOPuestoController;
@@ -26,12 +27,14 @@ public class ValoresDePrueba {
 		DAOSectorController ctrlSector = new DAOSectorController();
 		DAONumeroController ctrlNumero = new DAONumeroController();
 		DAOPuestoController ctrlPuesto = new DAOPuestoController();
+		DAOAdminController ctrlAdmin = new DAOAdminController();
 		
+		boolean resetear = true;
 		boolean cargar = false;
-		boolean cargar2 = true;
 		
 		/*VALORES DE PRUEBA*/
-		if(cargar){
+		if(resetear){
+			ctrlAdmin.resetDataBase();
 			String ci = "0";
 			for(int i = 0; i < 10; i++){
 				System.out.println(Integer.toString(i));
@@ -83,7 +86,7 @@ public class ValoresDePrueba {
 			}
 		}
 		
-		if(cargar2){
+		if(cargar){
 			//Creo Displays
 			System.out.println("CREO DISPLAYS");
 			for(int i = 0; i < 8; i++){
@@ -267,8 +270,8 @@ public class ValoresDePrueba {
 		
 		
 		System.out.println("\nFIN");
+		System.out.println("\nresetear=" + resetear);
 		System.out.println("\ncargar=" + cargar);
-		System.out.println("\ncargar2=" + cargar2);
 	}
 	
 	

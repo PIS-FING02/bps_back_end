@@ -2,6 +2,7 @@ package com.sarp.test.dao;
 
 import org.junit.Test;
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessSector;
 import com.sarp.dao.controllers.DAODisplayController;
 import com.sarp.dao.controllers.DAOSectorController;
@@ -45,6 +46,13 @@ public class DisplayTest {
    @Test(expected=RollbackException.class)
    public void testCrearDisplayInvalido() throws Exception {
 	   BusinessDisplay d = new BusinessDisplay();
+	   ctrlDisplay.crearDisplay(d);
+   }
+   
+   @Test(expected=RollbackException.class)
+   public void testCrearDisplayInvalido2() throws RollbackException {
+	   BusinessDisplay d = new BusinessDisplay();
+	   d.setIdDisplay("iddisplaytest2");
 	   ctrlDisplay.crearDisplay(d);
    }
    

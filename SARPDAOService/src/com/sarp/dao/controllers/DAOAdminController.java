@@ -20,7 +20,6 @@ public class DAOAdminController {
 		em.createNativeQuery("TRUNCATE metricas_estado_numero CASCADE").executeUpdate();
 		em.createNativeQuery("TRUNCATE numero CASCADE").executeUpdate();
 		em.createNativeQuery("ALTER SEQUENCE numero_internal_id_seq restart").executeUpdate();
-		em.createNativeQuery("ALTER SEQUENCE public.tramite_codigo_seq restart").executeUpdate();
 		em.getTransaction().commit();
 		em.close();
     }

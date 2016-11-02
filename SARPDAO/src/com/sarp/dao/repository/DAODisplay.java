@@ -17,7 +17,10 @@ public class DAODisplay {
 	}
 	
 	/* Creo una nueva entidad en la bd */
-	public Display insertDisplay(String idDisplay){		
+	public Display insertDisplay(String idDisplay){	
+		if(em.find(Display.class, idDisplay) != null){
+			throw new RollbackException("Ya existe un Display con ID " + idDisplay);
+		}
 		Display d = new Display();
 		d.setIdDisplay(idDisplay);
 		em.persist(d);

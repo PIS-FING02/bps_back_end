@@ -266,7 +266,7 @@ public class DAONumeroController {
 		pk.setInternalId(internalId);
 		NumeroTramite nt = em.find(NumeroTramite.class, pk);
 		if(nt == null){
-			throw new RollbackException("El Numero con codigo " + internalId + " y el Tramite con codigo " + codigoTramite + " no estan asociados");
+			throw new RollbackException("El número con codigo " + internalId + " y el Tramite con codigo " + codigoTramite + " no estan asociados");
 		}
 		em.getTransaction().begin();
 		numeroRepository.updateNumeroTramite(nt, resultadoFinal);
