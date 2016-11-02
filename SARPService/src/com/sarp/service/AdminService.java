@@ -51,10 +51,10 @@ public class AdminService {
 	@EJB
 	private static GafuBean gafu = new GafuBean();
 	
-	private String RESPONSABLE_SECTOR = UtilService.getStringProperty("RESPONSABLE_SECTOR");
-	private String ADMINISTRADOR = UtilService.getStringProperty("ADMINISTRADOR");
-	private String OPERADOR = UtilService.getStringProperty("OPERADOR");
-	private String OPERADORSR = UtilService.getStringProperty("OPERADOR_SENIOR");
+	private String RESPONSABLE_SECTOR = "RESPSEC";//UtilService.getStringProperty("RESPONSABLE_SECTOR");
+	private String ADMINISTRADOR = "ADMIN";//UtilService.getStringProperty("ADMINISTRADOR");
+	private String OPERADOR = "OPERADOR";//UtilService.getStringProperty("OPERADOR");
+	private String OPERADORSR = "OPERADORSR";//UtilService.getStringProperty("OPERADOR_SENIOR");
 	
 
 	/************ABM PUESTO ***************/	
