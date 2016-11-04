@@ -29,27 +29,27 @@ public class NumberService {
 	public String solicitarNumero(JSONNumero num) throws Exception {
 		RequestMaker reqMaker = RequestMaker.getInstance();
 		BusinessNumero numero = reqMaker.requestNumero(num);
+
 		Factory fac = Factory.getInstance();
 		QueueController ctrl = fac.getQueueController();
 		/*** Generar external id ***/
-		// implementacion nueva
-		if(num.getPrioridad().intValue() == 2){
+		
+		
+		if(num.getPrioridad() == 1 && !num.getExternalId().isEmpty()){
+			//SAE
+			numero.setExternalId(num.getExternalId());
+			
+		}else{
+			//ATRIL 
 			String externalID = numero.getCodSector().length() > 1 ? numero.getCodSector().substring(0, 2)
 					: numero.getCodSector();
 			numero.setExternalId(externalID + "-" + Integer.toString(ctrl.obtenerProxNumero(numero.getCodSector())));
-		}else
-			numero.setExternalId(num.getExternalId());
-		
-		// implementacion vieja
-		GregorianCalendar diaActual = new GregorianCalendar();
-		/*String externalID = numero.getCodSector().length() > 1 ? numero.getCodSector().substring(0, 2)
-				: numero.getCodSector();
-		externalID = externalID + "-" + (numero.getCodTramite().length() > 1
-				? numero.getCodTramite().substring(0, 2) : numero.getCodTramite());
-		externalID = externalID + "-" + Integer.toString(diaActual.get(Calendar.HOUR_OF_DAY))
-				+ Integer.toString(diaActual.get(Calendar.MINUTE)) + Integer.toString(diaActual.get(Calendar.SECOND));
-		numero.setExternalId(externalID);*/
+		}
+			
 		/** fin generar external id ***/
+		
+		GregorianCalendar diaActual = new GregorianCalendar();
+		
 		numero.setEstado(EstadoNumero.PENDIENTE);
 		numero.setCodTramite(num.getIdTramite());
 		numero.setCodSector(num.getIdSector());
