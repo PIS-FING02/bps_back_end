@@ -18,6 +18,7 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.NotFoundException;
 
 import com.sarp.beans.AttentionsBean;
+import com.sarp.json.modeler.JSONEstadoPuesto;
 import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
@@ -40,11 +41,13 @@ public class AttentionsService {
 	@PUT
 	@Path("/abrirPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response abrirPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
 		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 			try{
-				attBean.abrirPuesto(puesto);
-				return Response.ok("OK").build();
+				JSONEstadoPuesto estadoPuesto = attBean.abrirPuesto(puesto);
+				return Response.ok(estadoPuesto).build();
+
 			}catch(Exception e){
 				logger.error("abrirPuesto - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
 				return Response.ok("ERROR: " + e.getMessage()).build();

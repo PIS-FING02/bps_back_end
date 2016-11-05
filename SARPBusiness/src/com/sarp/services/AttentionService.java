@@ -21,36 +21,71 @@ import com.sarp.enumerados.EstadoPuesto;
 import com.sarp.exceptions.ContextException;
 import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDatosComp;
+import com.sarp.json.modeler.JSONEstadoPuesto;
 import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteResultado;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
+import com.sarp.service.response.maker.RequestMaker;
 import com.sarp.service.response.maker.ResponseMaker;
 import com.sarp.utils.UtilService;
 
 public class AttentionService {
 
-	public void abrirPuesto(JSONPuesto puesto) throws Exception {
+	public JSONEstadoPuesto abrirPuesto(JSONPuesto puesto) throws Exception {
 
 		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto bPuesto = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
+		ResponseMaker respMaker = ResponseMaker.getInstance();
 
-		if (bPuesto.getEstado() == EstadoPuesto.CERRADO){
-			if(puesto.getUsuarioId() != null) {
-				bPuesto.setEstado(EstadoPuesto.DISPONIBLE);
-				bPuesto.setUsuarioId(puesto.getUsuarioId());
-				// Se delega a DaoService
-				controladorPuesto.modificarPuesto(bPuesto);
-			}
-			else {
-				throw new ContextException("Se debe asignar un usuario para el puesto");
-			}
-		} else {
-			throw new ContextException("El puesto no se encuentra en estado CERRADO");
-		}
+		JSONEstadoPuesto estadoPuesto = new JSONEstadoPuesto();
+		JSONPuesto sendPuesto;
+		
+		EstadoPuesto estado = bPuesto.getEstado();
+		
+        switch (estado) {
+        	
+            case CERRADO: 
+            	//Si esta cerrado abro el puesto
+            	if(puesto.getUsuarioId() != null) {
+    				bPuesto.setEstado(EstadoPuesto.DISPONIBLE);
+    				bPuesto.setUsuarioId(puesto.getUsuarioId());
+    				// Se delega a DaoService
+    				controladorPuesto.modificarPuesto(bPuesto);
+    				sendPuesto = respMaker.puestoAtomResponse(bPuesto);
+    				estadoPuesto.setPuesto(sendPuesto);
+    				estadoPuesto.setNumero(null);
+    				
+    			}
+    			else {
+    				throw new ContextException("Se debe asignar un usuario para el puesto");
+    			}
+                
+            	break;
+            case DISPONIBLE: 
+            	
+            	sendPuesto = respMaker.puestoAtomResponse(bPuesto);
+            	estadoPuesto.setPuesto(sendPuesto);
+				estadoPuesto.setNumero(null);
+				
+                break;
+               
+            default: 
+            	//En caso de el estado ser LLAMANDO o ATENDIENDO devuelvo el numero
+        		sendPuesto = respMaker.puestoAtomResponse(bPuesto);
+				BusinessNumero bSendNumero = controladorPuesto.obtenerNumeroActualPuesto(bPuesto.getNombreMaquina());
+				JSONNumero sendNumero = respMaker.numeroAtomResponse(bSendNumero);
+				estadoPuesto.setPuesto(sendPuesto);
+				estadoPuesto.setNumero(sendNumero);
+                
+				break;
+        }
+        
+        return estadoPuesto;
+
 	}
 
 	public void cerrarPuesto(JSONPuesto puesto) throws Exception {
@@ -109,7 +144,7 @@ public class AttentionService {
 		
 		// debe tener resultados de tramite
 		if(finalizarAtencion.getTramiteResultado() == null || finalizarAtencion.getTramiteResultado().isEmpty() )
-			throw new ContextException("Debe indicar un resultado para el trámite");
+			throw new ContextException("Debe indicar un resultado para el trï¿½mite");
 		
 		// debe estar en estado atendiendo
 		if (puestoSend.getEstado() != EstadoPuesto.ATENDIENDO) 
@@ -117,12 +152,12 @@ public class AttentionService {
 		
 		// numero no puede ser null
 		if(finalizarAtencion.getId() == null)
-			throw new ContextException("Debe indicar cual es el número");
+			throw new ContextException("Debe indicar cual es el nï¿½mero");
 		
 		// verifico que numero actual del puesto sea el mismo que el de finalizar
 		BusinessNumero bNumero = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
 		if(!bNumero.getInternalId().equals(finalizarAtencion.getId()))
-			throw new ContextException("El número indicado no es el número actual del puesto");
+			throw new ContextException("El nï¿½mero indicado no es el nï¿½mero actual del puesto");
 		
 		//asigno cada resultado-tramite 
 		for(JSONTramiteResultado tramiteResultado : finalizarAtencion.getTramiteResultado()){

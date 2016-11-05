@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-
+import com.sarp.json.modeler.JSONEstadoPuesto;
 import com.sarp.json.modeler.JSONFinalizarAtencion;
 
 import com.sarp.classes.BusinessNumero;
@@ -41,10 +41,11 @@ public class AttentionsController {
 		return serv.solicitarNumero(num);
 	}
 	
-	public void abrirPuesto(JSONPuesto puesto) throws Exception{	
+	public JSONEstadoPuesto abrirPuesto(JSONPuesto puesto) throws Exception{	
 		//Se delega a AttentionService la implementacion
 		AttentionService attentionService = new AttentionService();
-		attentionService.abrirPuesto(puesto);
+		JSONEstadoPuesto estadoPuesto = attentionService.abrirPuesto(puesto);
+		return estadoPuesto;
 		
 	}
 	public void cerrarPuesto(JSONPuesto puesto) throws Exception{	

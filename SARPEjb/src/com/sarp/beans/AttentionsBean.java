@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 
 import com.sarp.controllers.AttentionsController;
 import com.sarp.factory.Factory;
+import com.sarp.json.modeler.JSONEstadoPuesto;
 import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
@@ -38,8 +39,8 @@ public class AttentionsBean {
 		return ctrl.solicitarNumero(num);
 	}
 	
-	public void abrirPuesto(JSONPuesto puesto) throws Exception{	
-		ctrl.abrirPuesto(puesto);
+	public JSONEstadoPuesto abrirPuesto(JSONPuesto puesto) throws Exception{	
+		return ctrl.abrirPuesto(puesto);
 	}
 	public void cerrarPuesto(JSONPuesto puesto) throws Exception{	
 		ctrl.cerrarPuesto(puesto);
