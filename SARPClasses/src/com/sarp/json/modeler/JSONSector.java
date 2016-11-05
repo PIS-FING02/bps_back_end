@@ -7,12 +7,13 @@ public class JSONSector {
 	private String codigo;
 	private String nombre;
 	private String rutaSector;
+	private boolean esHoja;
 	private List<JSONPuesto> puestos;
 	private List<JSONDisplay> displays;
 	
 	@Override
 	public String toString() {
-		return "JSONSector [codigo=" + codigo + ", nombre=" + nombre + ", rutaSector=" + rutaSector + ", puestos="
+		return "JSONSector [codigo=" + codigo + ", nombre=" + nombre + ", rutaSector=" + rutaSector + ", esHoja=" + esHoja + ", puestos="
 				+ puestos + ", displays=" + displays + ", tramites=" + tramites + "]";
 	}
 	private List<JSONTramite> tramites;
@@ -28,6 +29,12 @@ public class JSONSector {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	public boolean getEsHoja() {
+		return esHoja;
+	}
+	public void setEsHoja(boolean esHoja) {
+		this.esHoja = esHoja;
 	}
 	public String getRutaSector() {
 		return rutaSector;

@@ -153,7 +153,7 @@ public class SectorTest {
    
    @Test()
    public void testAsociarTramiteSectorYEliminar() throws Exception{
-	   BusinessSector s = new BusinessSector("idtestasociar", "nombre", "ruta");
+	   BusinessSector s = new BusinessSector("idtestasociar", "nombre", "ruta", false);
 	   ctrlSector.crearSector(s);
 	   ctrlSector.asociarTramiteSector("CodigoTramite5", "idtestasociar");
 	   ctrlSector.eliminarSector("idtestasociar");    
@@ -166,7 +166,7 @@ public class SectorTest {
    
    @Test(expected=RollbackException.class)
    public void testAsociarTramiteSectorDuplicado() throws Exception{
-	   BusinessSector s = new BusinessSector("idtestasociar2", "nombre", "ruta");
+	   BusinessSector s = new BusinessSector("idtestasociar2", "nombre", "ruta", false);
 	   ctrlSector.crearSector(s);
 	   ctrlSector.asociarTramiteSector("CodigoTramite3", "idtestasociar2");
 	   ctrlSector.asociarTramiteSector("CodigoTramite3", "idtestasociar2");
@@ -174,7 +174,7 @@ public class SectorTest {
    
    @Test(expected=RollbackException.class)
    public void testDesasociarTramiteSectorInvalido() throws Exception{
-	   BusinessSector s = new BusinessSector("idtestasociar3", "nombre", "ruta");
+	   BusinessSector s = new BusinessSector("idtestasociar3", "nombre", "ruta", false);
 	   ctrlSector.crearSector(s);
 	   ctrlSector.desasociarTramiteSector("CodigoTramite3", "idtestasociar3");
    }

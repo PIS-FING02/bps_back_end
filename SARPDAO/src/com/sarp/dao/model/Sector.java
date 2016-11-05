@@ -38,6 +38,9 @@ public class Sector implements Serializable {
 	
 	@Column(name="habilitado")
 	private boolean habilitado;
+	
+	@Column(name="es_hoja")
+	private boolean esHoja;
 
 	//bi-directional many-to-many association to Puesto
 	@ManyToMany(mappedBy="sectors")
@@ -145,6 +148,14 @@ public class Sector implements Serializable {
 	}
 
 	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+	
+	public boolean isHoja() {
+		return esHoja;
+	}
+
+	public void setHoja(boolean habilitado) {
 		this.habilitado = habilitado;
 	}
 

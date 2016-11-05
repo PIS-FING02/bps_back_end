@@ -57,7 +57,7 @@ public class RequestMaker {
 	}
 	
 	public BusinessSector requestSector(JSONSector sector){
-		return sector != null ? new BusinessSector(sector.getCodigo(),sector.getNombre(),sector.getRutaSector()) : null;
+		return sector != null ? new BusinessSector(sector.getCodigo(),sector.getNombre(),sector.getRutaSector(), sector.getEsHoja()) : null;
 	}
 	
 	public BusinessDisplay requestDisplay(JSONDisplay display){
@@ -74,7 +74,7 @@ public class RequestMaker {
 	
 	public BusinessSector requestSectorFromTramSec(JSONTramiteSector tramSec){
 		if(tramSec != null){
-			BusinessSector sec = new BusinessSector(tramSec.getSectorId(),null,null) ;
+			BusinessSector sec = new BusinessSector(tramSec.getSectorId(),null,null,false) ;
 			return (tramSec.getSectorId()!= null) ? sec : null;
 		}else{
 			return null;

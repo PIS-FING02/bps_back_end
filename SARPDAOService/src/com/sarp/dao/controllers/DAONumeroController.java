@@ -142,7 +142,7 @@ public class DAONumeroController {
 		em.close();
 		Sector s = n.getSector();
 		if(s != null){
-			BusinessSector res = new BusinessSector(s.getCodigo(),s.getNombre(),s.getRutaSector());			
+			BusinessSector res = new BusinessSector(s.getCodigo(),s.getNombre(),s.getRutaSector(), s.isHoja());			
 			res.setLastUpdated(s.getLastUpdated());
 			return res;
 		}

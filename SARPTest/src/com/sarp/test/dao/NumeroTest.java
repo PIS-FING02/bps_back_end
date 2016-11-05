@@ -380,7 +380,7 @@ public class NumeroTest {
 	   String idt = "testEliminarSectorYTramiteDeNumero";
 	   t.setCodigo(idt);		   
 	   ctrlTramite.crearTramite(t);
-	   BusinessSector s = new BusinessSector("idtesteliminar",null,null);
+	   BusinessSector s = new BusinessSector("idtesteliminar",null,null, false);
 	   ctrlSector.crearSector(s);
 	   BusinessNumero n = new BusinessNumero();
 	   ctrlSector.asociarTramiteSector(idt, "idtesteliminar");

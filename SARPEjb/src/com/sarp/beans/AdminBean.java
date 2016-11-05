@@ -127,6 +127,10 @@ public class AdminBean {
 	public List<JSONSector> listarSectores() throws Exception {
 		return ctrl.listarSectores();
 	}
+	
+	public List<JSONSector> listarSectores(List<BusinessSectorRol> respde) throws Exception {
+		return ctrl.listarSectores(respde);
+	}
 
 	public void actualizarGAFU() throws Exception{
 		gafu.actualizarArbolGAFU();

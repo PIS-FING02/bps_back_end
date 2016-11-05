@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.InternalServerErrorException;
@@ -55,10 +56,10 @@ public class AdminService {
 	private String ADMINISTRADOR = "ADMIN";//UtilService.getStringProperty("ADMINISTRADOR");
 	private String OPERADOR = "OPERADOR";//UtilService.getStringProperty("OPERADOR");
 	private String OPERADORSR = "OPERADORSR";//UtilService.getStringProperty("OPERADOR_SENIOR");
-	
+	private String CONSULTOR = "CONSULTOR";
 
 	/************ABM PUESTO ***************/	
-  	@POST
+  	/*@POST
   	@Path("/puesto")
   	@Consumes(MediaType.APPLICATION_JSON)
   	public String altaPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuesto puesto){
@@ -69,6 +70,29 @@ public class AdminService {
   			}catch(Exception e){
 				logger.error("POST puesto params: user-rol:"+userRol+" JSONPuesto: "+puesto);
   				throw new InternalServerErrorException(e);
+				//return "ERROR: " + e.getMessage();
+  			}
+  		}else{
+			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
+  			throw new UnauthorizedException("No tiene permisos suficientes.");
+  		}
+  */
+  	
+  	@POST
+  	@Path("/puesto")
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public Response altaPuesto(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, JSONPuesto puesto){
+  		if(userRol.equals(RESPONSABLE_SECTOR)){
+  			try{
+  				adminBean.altaPuesto(puesto);
+  				return Response.ok("OKFABIAN").build();
+  				//return "OK";
+  			}catch(Exception e){
+				logger.error("POST puesto params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				return Response.ok(e).build();
+				//return Response.serverError().entity(e).build();
+  				//throw new InternalServerErrorException(e);
+				//return "ERROR: " + e.getMessage();
   			}
   		}else{
 			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
@@ -86,7 +110,7 @@ public class AdminService {
   				return "OK";
   			}catch(Exception e){
 				logger.error("DELETE puesto params: user-rol:"+userRol+" JSONPuesto: "+puesto);
-  				throw new InternalServerErrorException(e);
+  				throw new InternalServerErrorException(e.getMessage());
   			}
   		}else{
   			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
@@ -285,15 +309,26 @@ public class AdminService {
 			//listo todos los sectores para los cuales tiene permisos EN GAFU
 			if (userRol.equals(RESPONSABLE_SECTOR)){
 				try {
-				List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
-  			
-  				return adminBean.listarSectores();
+					List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
+	  			
+	  				return adminBean.listarSectores(respde);
 				}catch(Exception e){
 					throw new InternalServerErrorException("Error al listar Sectores: " + e.getMessage());
 				}
 			}else{
-				logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + "-" + ADMINISTRADOR +" - params: user-rol:"+userRol);
-				throw new UnauthorizedException("No tiene permisos suficientes.");
+				
+				if (userRol.equals(CONSULTOR)){
+					try {
+						List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ConsultorGAFU);
+		  			
+		  				return adminBean.listarSectores(respde);
+					}catch(Exception e){
+						throw new InternalServerErrorException("Error al listar Sectores: " + e.getMessage());
+					}
+				}else{
+					logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + "/" + ADMINISTRADOR +" - params: user-rol:"+userRol);
+					throw new UnauthorizedException("No tiene permisos suficientes.");
+				}
 			}
 		}
     }
@@ -410,12 +445,13 @@ public class AdminService {
 	@Path("/displays")
     @Produces(MediaType.APPLICATION_JSON)
     //este metodo retorna los display de un sector
-	public List<JSONDisplay> listarDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
+	public /*List<JSONDisplay>*/ Response listarDisplay(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {
 		if ( userRol.equals(ADMINISTRADOR) ){
 			try{
-				return adminBean.listarDisplays(null);	
+				//return adminBean.listarDisplays(null);	
+				return Response.ok(adminBean.listarDisplays(null)).build();
 			}catch(Exception e){
-				throw new InternalServerErrorException("Error al listar Display: " + e.getMessage());
+				return Response.ok("ERROR: " + e.getMessage()).build();
 			}
 		}else{
 			if (userRol.equals(RESPONSABLE_SECTOR)){
@@ -425,8 +461,8 @@ public class AdminService {
 		  				List <JSONDisplay> listaDisplaySector = adminBean.listarDisplays(sectorId);
 		  				List <JSONDisplay> listaDisplay=  adminBean.listarDisplays(null);
 		  				listaDisplay.removeAll(listaDisplaySector);
-		  				return listaDisplay;
-			  			
+		  				//return listaDisplay;
+		  				return Response.ok(listaDisplay).build();
 					}else{
 
 		  				List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
@@ -441,14 +477,16 @@ public class AdminService {
 		  					listaDispaly.addAll( listaDisplaySector);
 
 		  				}
-		  				return listaDispaly;
+		  				//return listaDispaly;
+		  				return Response.ok(listaDispaly).build();
 					}
 				}catch(Exception e){
-	  				throw new InternalServerErrorException("Error al listar Puestos: " + e.getMessage());
+					return Response.ok("ERROR: " + e.getMessage()).build();
 	  			}
 			}else{
 				logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + "-" + ADMINISTRADOR + " - params: user-rol:"+userRol+" sectorId: "+sectorId);
-				throw new UnauthorizedException("No tiene permisos suficientes.");
+				//throw new UnauthorizedException("No tiene permisos suficientes.");
+				return Response.ok("ERROR: No tiene permisos suficientes.").build();
 			}
 		}
     }
@@ -563,7 +601,7 @@ public class AdminService {
   				throw new InternalServerErrorException("Error al desasignar puesto a tramite: " + e.getMessage());
   			}
   		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" JSONTramiteSector: "+tramiteSector);
+  			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", user: " + user + ", JSONTramiteSector: " + tramiteSector);
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   		
@@ -581,7 +619,7 @@ public class AdminService {
   				throw new InternalServerErrorException("Error al Asignar Puesto a Sector: " + e.getMessage());
   			}
   		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" JSONPuestoSector: "+puestoSector);
+  			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", user: " + user + ", JSONPuestoSector: " + puestoSector);
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   		
@@ -599,7 +637,7 @@ public class AdminService {
 				throw new InternalServerErrorException("Error al desasignar el Tramite al puesto: " + e.getMessage());
 			}
 		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" JSONPuestoTramite: "+puestoTramite);
+			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", user: " + user + ", JSONPuestoTramite: " + puestoTramite);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -610,7 +648,7 @@ public class AdminService {
   	  @GET
   	  @Path("/listarPuestosSector")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
+  	  public List<JSONPuesto> listarPuestosSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
     		  @QueryParam("sectorId") String idSector) {
   		if(userRol.equals(RESPONSABLE_SECTOR)){
   			try{
@@ -621,7 +659,7 @@ public class AdminService {
   				throw new InternalServerErrorException("Error al listar Puestos del Sector: " + e.getMessage());
   			}
   		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" user: "+user);
+  			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", user: " + user + ", idSector: " + idSector);
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
       }
@@ -629,7 +667,7 @@ public class AdminService {
   	  @GET
   	  @Path("/listarTramitesSector")
       @Produces(MediaType.APPLICATION_JSON)
-      public List<JSONTramite> listarTramitesSector(@HeaderParam("user-rol") String userRol,
+     public List<JSONTramite> listarTramitesSector(@HeaderParam("user-rol") String userRol,
     		  @HeaderParam("user") String user, 
     		  @QueryParam("sectorId") String idSector) {
   		if(userRol.equals(RESPONSABLE_SECTOR) || userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
@@ -640,7 +678,7 @@ public class AdminService {
   				throw new InternalServerErrorException("Error al listar Tramites del Sector: " + e.getMessage());
   			}
   		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + "-" + OPERADOR + "- params: user-rol:"+userRol+" user: "+user);
+  			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + "/" + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", user: " + user + ", idSector: " + idSector);
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
       }
@@ -659,7 +697,7 @@ public class AdminService {
 				throw new InternalServerErrorException("Error al listar los Tramites del Puesto: " + e.getMessage());
 			}
 		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" nombreMaquina: "+nombreMaquina);
+			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", nombreMaquina: " + nombreMaquina);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
@@ -676,7 +714,7 @@ public class AdminService {
 				throw new InternalServerErrorException("Error al listar los posibles tramites del Puesto: " + e.getMessage());
 			}
 		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" nombreMaquina: "+nombreMaquina);
+			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", nombreMaquina: " + nombreMaquina);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
@@ -693,7 +731,7 @@ public class AdminService {
 				throw new InternalServerErrorException("Error al listar Displays del Sector: " + e.getMessage());
 			}
 		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" idSector: "+idSector);
+			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + "/" + ADMINISTRADOR + " - params: user-rol:" + userRol + ", idSector: " + idSector);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -712,6 +750,7 @@ public class AdminService {
 				throw new InternalServerErrorException("Error al macoquear: " + e.getMessage());
 			}
 		}else{
+			logger.error("Permisos insuficientes - params: secretCommand:" + secretCommand);
 			throw new UnauthorizedException("NO sos macoco");
 		}
     }

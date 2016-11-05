@@ -18,6 +18,7 @@ CREATE TABLE public.SECTOR
   nombre character varying(40),
   ruta_sector character varying(40),  
   habilitado boolean default true,
+  es_hoja boolean,
   date_created timestamp default current_timestamp,
   last_updated timestamp default current_timestamp,
   CONSTRAINT sector_pkey PRIMARY KEY (codigo)
