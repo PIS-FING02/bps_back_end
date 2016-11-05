@@ -34,6 +34,7 @@ public class NumberService {
 	private final String ResponsableSectorGAFU = "RESPSEC";
 
 	private final String ConsultorGAFU = "CONSULTOR";
+	
 	@EJB
 	private AdminBean adminBean = new AdminBean();
 	

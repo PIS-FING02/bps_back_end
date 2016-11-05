@@ -48,14 +48,14 @@ public class GAFUTest {
 	   assertEquals(sectores, gafumgr.arbolToList(ctrlGAFU.BusquedaNodo("BPS")));
 	   
 	   //AGREGO SECTORES EN LA BD, ACTUALIZO Y VEO QUE SE HAYAN BORRADO
-	   BusinessSector sector1 = new BusinessSector("ID1","NOMBREtest","/test");
+	   BusinessSector sector1 = new BusinessSector("ID1","NOMBREtest","/test", false);
 	   ctrlSector.crearSector(sector1);
 	   BusinessSector sectorBD = ctrlSector.obtenerSector("ID1");
 	   BusinessNodeGAFU sectorArbol = ctrlGAFU.BusquedaNodo("ID1");
 	   assertEquals(null, sectorArbol);
 	   assertEquals(sector1, sectorBD);
-	   ctrlSector.crearSector(new BusinessSector("ID2","NOMBREtest","/test"));
-	   ctrlSector.crearSector(new BusinessSector("ID3","NOMBREtest","/test"));
+	   ctrlSector.crearSector(new BusinessSector("ID2","NOMBREtest","/test", false));
+	   ctrlSector.crearSector(new BusinessSector("ID3","NOMBREtest","/test", false));
 	   ctrlGAFU.actualizarArbolGAFU();
 	   assertTrue(sectores.containsAll(ctrlSector.listarSectores()) && ctrlSector.listarSectores().containsAll(sectores));
 	   

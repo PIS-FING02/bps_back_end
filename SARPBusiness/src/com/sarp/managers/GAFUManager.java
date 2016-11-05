@@ -70,7 +70,7 @@ public class GAFUManager {
 		ArrayList<BusinessNodeGAFU> hijos = node.getHijos();
 		Iterator<BusinessNodeGAFU> iterator = hijos.iterator();
 		List<BusinessSector> ret = new ArrayList<BusinessSector>();
-		BusinessSector sector = new BusinessSector(node.getCodigo(), node.getNombre(), node.obtenerCamino());
+		BusinessSector sector = new BusinessSector(node.getCodigo(), node.getNombre(), node.obtenerCamino(), node.getHijos() == null || node.getHijos().size() == 0);
 		ret.add(sector);
 		while (iterator.hasNext()) {
 			ret.addAll(arbolToList(iterator.next()));
