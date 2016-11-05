@@ -19,20 +19,16 @@ import org.jboss.resteasy.spi.NotFoundException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.beans.AttentionsBean;
-import com.sarp.exceptions.ContextException;
 import com.sarp.json.modeler.JSONFinalizarAtencion;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
-import com.sarp.utils.UtilService;
 
 @RequestScoped
 @Path("/attentionsService")
 public class AttentionsService {
-	
-	private static Logger logger = Logger.getLogger(AttentionsService.class);
-	
+		
 	@EJB
 	private AttentionsBean attBean = new AttentionsBean();
 	
@@ -40,6 +36,8 @@ public class AttentionsService {
 	private String OPERADOR = "OPERADOR";//UtilService.getStringProperty("OPERADOR");
 	private String OPERADORSR = "OPERADORSR";//UtilService.getStringProperty("OPERADOR_SENIOR");
 
+	private static Logger logger = Logger.getLogger(AttentionsService.class);
+	
 	@PUT
 	@Path("/abrirPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -49,11 +47,11 @@ public class AttentionsService {
 				attBean.abrirPuesto(puesto);
 				return "OK";
 			}catch(Exception e){
-				logger.error("abrirPuesto - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				logger.error("abrirPuesto - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
 				throw new InternalServerErrorException(e);
 			}
 		}else{
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -67,11 +65,11 @@ public class AttentionsService {
 				attBean.cerrarPuesto(puesto);
 				return "OK";
 			}catch(Exception e){
-				logger.error("cerrarPuesto params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				logger.error("cerrarPuesto - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
 				throw new InternalServerErrorException(e);
 			}
 		}else{
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -85,11 +83,11 @@ public class AttentionsService {
 				attBean.comenzarAtencion(puesto);
 				return "OK";
 			}catch(Exception e){
-				logger.error("comenzarAtencion params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				logger.error("comenzarAtencion - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
 				throw new InternalServerErrorException(e);
 			}
 		}else{
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -103,11 +101,11 @@ public class AttentionsService {
 				attBean.finalizarAtencion(finalizarAtencion);
 				return "OK";
 			}catch(Exception e){
-				logger.error("finalizarAtencion params: user-rol:"+userRol+" JSONFinalizarAtencion: "+finalizarAtencion);
+				logger.error("finalizarAtencion - params: user-rol:" + userRol + ", JSONFinalizarAtencion: "+ finalizarAtencion);
 				throw new InternalServerErrorException(e);
 			}
 		}else{
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONFinalizarAtencion: "+finalizarAtencion);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONFinalizarAtencion: " + finalizarAtencion);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -125,11 +123,11 @@ public class AttentionsService {
 					throw new NotFoundException("No hay numero disponible en este momento");
 				}
 			}catch(Exception e){
-				logger.error("llamarNumero params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				logger.error("llamarNumero - params: user-rol:" + userRol + ", puesto: "+ puesto);
 				throw new InternalServerErrorException(e);
 			}
 		}else{
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" puesto: "+puesto);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", puesto: " + puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -145,11 +143,11 @@ public class AttentionsService {
 				return tramitesRecepcion;
 				
 			}catch(Exception e){
-				logger.error("tramitesRecepcion params: user-rol:"+userRol+" codigoMaquina: "+codigoMaquina);
+				logger.error("tramitesRecepcion - params: user-rol:" + userRol + ", codigoMaquina: "+ codigoMaquina);
 				throw new InternalServerErrorException(e);
 			} 
 		}else{
-			logger.error("Permisos insuficientes - RECEPCION - params: user-rol:"+userRol+" codigoMaquina: "+codigoMaquina);
+			logger.error("Permisos insuficientes - " + RECEPCION + " - params: user-rol:" + userRol + ", codigoMaquina: " + codigoMaquina);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -164,11 +162,11 @@ public class AttentionsService {
 				return "OK";
 			}catch(Exception e){
 				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
-				logger.error("atrasarNumero params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+				logger.error("atrasarNumero - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
 				throw new InternalServerErrorException(e);
 			}
 		}else{
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -182,10 +180,11 @@ public class AttentionsService {
 				attBean.pausarNumero(puesto);
 				return "OK";
 			}catch(Exception e){
+				logger.error("pausarNumero - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
 				throw new InternalServerErrorException(e);
 			}
 		}else{
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
 	}
@@ -207,7 +206,7 @@ public class AttentionsService {
 				jnumero.setIdSector("MVD_FIS");
 				return jnumero;
 		}else{
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" user: "+user);
+			logger.error("Permisos insuficientes - " + OPERADOR + " - params: user-rol:" + userRol + ", user: " + user);
 			throw new UnauthorizedException("No tiene permisos suficientes.");
 		}
     }
@@ -223,10 +222,11 @@ public class AttentionsService {
 				JSONNumero num = attBean.llamarNumeroPausado(idNumero, idPuesto);
 				return num;
 			} catch (Exception e) {
-				throw new InternalServerErrorException("llamarPausado - InternalServerErrorException: " + e.getMessage());
+				logger.error("llamarPausado - params: user-rol:" + userRol + ", idNumero: "+ idNumero + ", idPuesto: "+ idPuesto);
+				throw new InternalServerErrorException(e);
 			}
 		} else {
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" idNumero: "+idNumero+" idPuesto: "+idPuesto);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idNumero: " + idNumero + ", idPuesto" + idPuesto);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -242,10 +242,11 @@ public class AttentionsService {
 				JSONNumero num = attBean.llamarNumeroAtrasado(idNumero, idPuesto);
 				return num;
 			} catch (Exception e) {
-				throw new InternalServerErrorException("llamarAtrasado - InternalServerErrorException: " + e.getMessage());
+				logger.error("llamarAtrasado - params: user-rol:" + userRol + ", idNumero: "+ idNumero + ", idPuesto: "+ idPuesto);
+				throw new InternalServerErrorException(e);
 			}
 		} else {
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" idNumero: "+idNumero+" idPuesto: "+idPuesto);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idNumero: " + idNumero + ", idPuesto" + idPuesto);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -261,10 +262,11 @@ public class AttentionsService {
 				JSONNumero num = attBean.llamarNumeroDemanda(idNumero, idPuesto);
 				return num;
 			} catch (Exception e) {
-				throw new InternalServerErrorException("llamarNumeroDemanda - InternalServerErrorException: " + e.getMessage());
+				logger.error("llamarNumeroDemanda - params: user-rol:" + userRol + ", idNumero: "+ idNumero + ", idPuesto: "+ idPuesto);
+				throw new InternalServerErrorException(e);
 			}
 		} else {
-			logger.error("Permisos insuficientes - OPERADORSR - params: user-rol:"+userRol+" idNumero: "+idNumero+" idPuesto: "+idPuesto);
+			logger.error("Permisos insuficientes - " + OPERADORSR + " - params: user-rol:" + userRol + ", idNumero: " + idNumero + ", idPuesto" + idPuesto);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -281,10 +283,11 @@ public class AttentionsService {
 				return sectoresDesvio;
 		
 			} catch (Exception e) {
-				throw new InternalServerErrorException("obtenerSectoresDesvio - InternalServerErrorException: " + e.getMessage());
+				logger.error("obtenerSectoresDesvio - params: user-rol:" + userRol + ", idSector: "+ idSector);
+				throw new InternalServerErrorException(e);
 			}
 		} else {
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" idSector: "+idSector);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idSector: " + idSector);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -303,10 +306,11 @@ public class AttentionsService {
 				return "El numero fue desviado con exito";
 		
 			} catch (Exception e) {
-				throw new InternalServerErrorException("desviarNumero - InternalServerErrorException: " + e.getMessage());
+				logger.error("desviarNumero - params: user-rol:" + userRol + ", finalizarAtencion: "+ finalizarAtencion);
+				throw new InternalServerErrorException(e);
 			}
 		} else {
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONFinalizarAtencion: "+finalizarAtencion+" idSectorDesvio: "+idSectorDesvio);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONFinalizarAtencion: " + finalizarAtencion + ", idSectorDesvio" + idSectorDesvio);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -322,10 +326,11 @@ public class AttentionsService {
 				attBean.reLlamarNumero(idPuesto);
 				return "OK";
 			} catch (Exception e) {
-				throw new InternalServerErrorException("reLlamarNumero - InternalServerErrorException: " + e.getMessage());
+				logger.error("reLlamarNumero - params: user-rol:" + userRol + ", idPuesto: "+ idPuesto);
+				throw new InternalServerErrorException(e);
 			}
 		} else {
-			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" idPuesto: "+idPuesto);
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}

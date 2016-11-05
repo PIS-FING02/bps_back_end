@@ -33,7 +33,7 @@ public class MetricsService {
 			List<JSONMetricasPuesto> listaMetricasPuestos = adminBean.listarMetricasPuestos(nombreMaquina);
 			return listaMetricasPuestos;			
 		}catch(Exception e){
-			throw new InternalServerErrorException("Error al listar Metricas de Puestos: " + e.getMessage());
+			throw new InternalServerErrorException(e);
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class MetricsService {
 			List<JSONMetricasEstadoNumero> listaMetricasEstadoNumero = adminBean.listarMetricasEstadoNumero(internalId);
 			return listaMetricasEstadoNumero;			
 		}catch(Exception e){
-			throw new InternalServerErrorException("Error al listar Metricas de Estado de Numero: " + e.getMessage());
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class MetricsService {
 			JSONMetricasNumero listaMetricasNumero = adminBean.listarMetricasDeNumero(internalId);
 			return listaMetricasNumero;			
 		}catch(Exception e){
-			throw new InternalServerErrorException("Error al listar Metricas del Numero " + internalId + ": " + e.getMessage());
+			throw new InternalServerErrorException(e);
 		}
 	}
 	
@@ -70,7 +70,7 @@ public class MetricsService {
 			List<JSONMetricasNumero> listaMetricasNumero = adminBean.listarMetricasNumero();
 			return listaMetricasNumero;			
 		}catch(Exception e){
-			throw new InternalServerErrorException("Error al listar Metricas  de Numero: " + e.getMessage());
+			throw new InternalServerErrorException(e);
 		}
 	}
 	

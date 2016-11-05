@@ -133,8 +133,7 @@ public class UserService {
 	
 			return "OK";
 		}catch(ContextException e){
-			throw new InternalServerErrorException("Error: El puesto ya se encuentra abierto");
-			
+			throw new InternalServerErrorException("Error: El puesto ya se encuentra abierto");			
 		}
 
 	}

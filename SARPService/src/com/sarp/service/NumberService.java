@@ -14,6 +14,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 
@@ -22,13 +24,8 @@ import com.sarp.beans.AttentionsBean;
 import com.sarp.beans.GafuBean;
 import com.sarp.beans.NumberBean;
 import com.sarp.classes.BusinessSectorRol;
-import com.sarp.controllers.AttentionsController;
-import com.sarp.controllers.GAFUController;
-import com.sarp.controllers.NumberController;
-import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONSectorCantNum;
-import com.sarp.utils.UtilService;
 
 @RequestScoped
 @Path("/numberService")
@@ -55,6 +52,8 @@ public class NumberService {
 	private String OPERADORSR = "OPERADORSR";//UtilService.getStringProperty("OPERADOR_SENIOR");
 	private String CONSULTOR = "CONSULTOR";//UtilService.getStringProperty("CONSULTOR");
 	
+	private static Logger logger = Logger.getLogger(NumberService.class);
+	
 	@POST
 	@Path("/solicitarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -62,7 +61,7 @@ public class NumberService {
 		try {
 			return attBean.solicitarNumero(num);
 		} catch (Exception e) {
-			throw new InternalServerErrorException("Error al soliticar numero"+e.getMessage());
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -75,9 +74,10 @@ public class NumberService {
 			try {
 				return numberBean.listarNumerosSector(idSector);
 			} catch (Exception e) {
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		} else {
+			logger.error("Permisos insuficientes - " + ADMINISTRADOR + " - params: user-rol:" + userRol + ", idSector: " + idSector);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -103,13 +103,15 @@ public class NumberService {
 						for (BusinessSectorRol sd : permisos)
 							if (sd.getSectorId().equals(idSector))
 								listaNumeros.addAll(numberBean.listarNumerosPausadosSector(sd.getSectorId()));
-					}else
+					}else{
+						logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + "/" + CONSULTOR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
 						throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+					}
 				}
 				return listaNumeros;
 			}
 		} catch (Exception e) {
-			throw new InternalServerErrorException(e.getMessage());
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -134,13 +136,15 @@ public class NumberService {
 						for (BusinessSectorRol sd : permisos)
 							if (sd.getSectorId().equals(idSector))
 								listaNumeros.addAll(numberBean.listarNumerosAtrasadosSector(sd.getSectorId()));
-					}else
+					}else{
+						logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + "/" + CONSULTOR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
 						throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+					}
 				}
 				return listaNumeros;
 			}
 		} catch (Exception e) {
-			throw new InternalServerErrorException(e.getMessage());
+			throw new InternalServerErrorException(e);
 		}
 	}
 	
@@ -153,7 +157,7 @@ public class NumberService {
 			try {
 				return numberBean.listarNumerosEnEspera(idPuesto);
 			} catch (Exception e) {
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		}else if(userRol.equals(RESPONSABLE_SECTOR)){ 
 			try {
@@ -164,9 +168,10 @@ public class NumberService {
 						listaNumeros.addAll( numberBean.listarNumerosEnEsperaSector(sd.getSectorId()));
 				return listaNumeros;
 			} catch (Exception e) {
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		} else {
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
@@ -180,10 +185,10 @@ public class NumberService {
 			try {
 				return numberBean.obtenerCantNumerosEnEspera(idPuesto);
 			} catch (Exception e) {
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
-		}else if(userRol.equals(RESPONSABLE_SECTOR)){
-			/*try {
+		}/*else if(userRol.equals(RESPONSABLE_SECTOR)){
+			try {
 				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
 				List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ResponsableSectorGAFU);
 				for (BusinessSectorRol sd : permisos)
@@ -192,9 +197,10 @@ public class NumberService {
 				return listaNumeros;
 			} catch (Exception e) {
 				throw new InternalServerErrorException(e.getMessage());
-			}*/
+			}
 			throw new InternalServerErrorException("esto esta en standby, xq primero se pidio para op y opSR");
-		} else {
+		}*/ else {
+			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 	}
