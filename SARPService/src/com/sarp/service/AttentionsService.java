@@ -50,7 +50,7 @@ public class AttentionsService {
 				return "OK";
 			}catch(Exception e){
 				logger.error("abrirPuesto - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		}else{
 			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
@@ -68,7 +68,7 @@ public class AttentionsService {
 				return "OK";
 			}catch(Exception e){
 				logger.error("cerrarPuesto params: user-rol:"+userRol+" JSONPuesto: "+puesto);
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		}else{
 			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
@@ -86,7 +86,7 @@ public class AttentionsService {
 				return "OK";
 			}catch(Exception e){
 				logger.error("comenzarAtencion params: user-rol:"+userRol+" JSONPuesto: "+puesto);
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		}else{
 			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
@@ -104,7 +104,7 @@ public class AttentionsService {
 				return "OK";
 			}catch(Exception e){
 				logger.error("finalizarAtencion params: user-rol:"+userRol+" JSONFinalizarAtencion: "+finalizarAtencion);
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		}else{
 			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONFinalizarAtencion: "+finalizarAtencion);
@@ -126,7 +126,7 @@ public class AttentionsService {
 				}
 			}catch(Exception e){
 				logger.error("llamarNumero params: user-rol:"+userRol+" JSONPuesto: "+puesto);
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		}else{
 			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" puesto: "+puesto);
@@ -146,7 +146,7 @@ public class AttentionsService {
 				
 			}catch(Exception e){
 				logger.error("tramitesRecepcion params: user-rol:"+userRol+" codigoMaquina: "+codigoMaquina);
-				throw new InternalServerErrorException("tramitesRecepcion - InternalServerErrorException: " + e.getMessage());
+				throw new InternalServerErrorException(e);
 			} 
 		}else{
 			logger.error("Permisos insuficientes - RECEPCION - params: user-rol:"+userRol+" codigoMaquina: "+codigoMaquina);
@@ -165,7 +165,7 @@ public class AttentionsService {
 			}catch(Exception e){
 				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
 				logger.error("atrasarNumero params: user-rol:"+userRol+" JSONPuesto: "+puesto);
-				throw new InternalServerErrorException(e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		}else{
 			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
@@ -182,7 +182,7 @@ public class AttentionsService {
 				attBean.pausarNumero(puesto);
 				return "OK";
 			}catch(Exception e){
-				throw new InternalServerErrorException("pausarNumero - InternalServerErrorException: " + e.getMessage());
+				throw new InternalServerErrorException(e);
 			}
 		}else{
 			logger.error("Permisos insuficientes - OPERADOR - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
