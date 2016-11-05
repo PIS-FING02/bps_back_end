@@ -12,8 +12,6 @@ import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 
 import com.sarp.beans.AdminBean;
-import com.sarp.controllers.AdminActionsController;
-import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONMetricasEstadoNumero;
 import com.sarp.json.modeler.JSONMetricasNumero;
 import com.sarp.json.modeler.JSONMetricasPuesto;

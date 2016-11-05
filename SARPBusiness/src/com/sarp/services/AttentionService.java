@@ -51,7 +51,7 @@ public class AttentionService {
 			// Se delega a DaoService
 			controladorPuesto.modificarPuesto(bPuesto);
 		} else {
-			throw new ContextException("YaAbierto");
+			throw new ContextException("El puesto ya se encuentra abierto");
 		}
 	}
 
@@ -66,7 +66,7 @@ public class AttentionService {
 			// Se delega a DaoService
 			controladorPuesto.modificarPuesto(bPuesto);
 		} else {
-			throw new ContextException("YaCerrado");
+			throw new ContextException("El puesto ya se encuentra cerrado");
 
 		}
 	}
@@ -91,10 +91,10 @@ public class AttentionService {
 				daoCtrl.modificarNumero(bNumero);
 				
 			} else {
-				throw new ContextException("PuestoSinNumeroAsignado");
+				throw new ContextException("El puesto no tiene un numero asignado");
 			}
 		} else {
-			throw new ContextException("PuestoNoLlamando");
+			throw new ContextException("El puesto no se encuentra en estado LLAMANDO");
 		}
 	}
 
@@ -412,9 +412,9 @@ public class AttentionService {
 					}
 				
 					
-				}catch(Exception e){
-					
-					System.out.print(e.getMessage());	
+				}catch(Exception e){					
+					throw e;
+					//System.out.print(e.getMessage());	
 				}
 			}
 				
@@ -480,8 +480,8 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 						}
 						
 					}catch(Exception e){
-						
-						System.out.print(e.getMessage());	
+						throw e;
+						//System.out.print(e.getMessage());	
 					}		
 				}
 				if(!seDesvio){

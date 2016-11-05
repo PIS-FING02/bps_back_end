@@ -25,7 +25,7 @@ public class DAOSectorController {
 		
 	public void crearSector(BusinessSector sector) throws RollbackException{
 		if(sector.getSectorId() == null || sector.getSectorId().equals("")){
-			throw new RollbackException("El ID del sector no puede ser vacio");
+			throw new RollbackException("El identificador del sector no puede ser vacio");
 		}
 		EntityManager em = EMFactory.getEntityManager();
 		DAOSector sectorRepository = factory.getSectorRepository(em);
