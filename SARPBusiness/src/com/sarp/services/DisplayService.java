@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -32,100 +31,97 @@ public class DisplayService {
 		return instance;
 	}
 
-	public void llamarEnDisplay( String numPuesto, JSONNumero numero) {
-		try {
+	public void llamarEnDisplay( String numPuesto, JSONNumero numero) throws Exception {
 
-			DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
-			DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAOSectorController controladorSector = daoServiceFactory.getDAOSectorController();
 
-			List<BusinessDisplay> displaysSector = controladorSector.obtenerDisplaysSector(numero.getIdSector());
+		List<BusinessDisplay> displaysSector = controladorSector.obtenerDisplaysSector(numero.getIdSector());
+		
+		//Saco el path desde archivo property 
+		String localPath = UtilService.getStringProperty("DISPLAYS_PATH");
+		
+		String hora = numero.getHora();
+		String prioridad;
+		
+		//Me fijo el tipo de prioridad
+		if(numero.getPrioridad() == 1){
+			prioridad = "SAE";
+		}else{
+			prioridad = "ATRIL";
+		}
+		
+		//Recorro todos los displays que tiene asociado el sector del numero que quiero mostrar
+		for (BusinessDisplay display : displaysSector) {
+
+			String idDisplay = display.getIdDisplay();
+
+			String absolutePath = localPath + idDisplay + ".txt";
+
+			File displayFile = new File(absolutePath);
 			
-			//Saco el path desde archivo property 
-			String localPath = UtilService.getStringProperty("DISPLAYS_PATH");
-			
-			String hora = numero.getHora();
-			String prioridad;
-			
-			//Me fijo el tipo de prioridad
-			if(numero.getPrioridad() == 1){
-				prioridad = "SAE";
-			}else{
-				prioridad = "ATRIL";
+			if (!displayFile.exists()) {
+				displayFile.getParentFile().mkdirs();
+				displayFile.createNewFile();
 			}
 			
-			//Recorro todos los displays que tiene asociado el sector del numero que quiero mostrar
-			for (BusinessDisplay display : displaysSector) {
+			//Se utiliza para bloquear el exceso al archivo .txt evitando que dos escriban al mismo tiempo
+			RandomAccessFile file = new RandomAccessFile(displayFile, "rw");
+			FileChannel channel = file.getChannel();
+			// Use the file channel to create a lock on the file.
+			// This method blocks until it can retrieve the lock.
+			FileLock lock = channel.lock();
 
-				String idDisplay = display.getIdDisplay();
+			BufferedReader in = new BufferedReader(new FileReader(absolutePath));
 
-				String absolutePath = localPath + idDisplay + ".txt";
-
-				File displayFile = new File(absolutePath);
-				
-				if (!displayFile.exists()) {
-					displayFile.getParentFile().mkdirs();
-					displayFile.createNewFile();
-				}
-				
-				//Se utiliza para bloquear el exceso al archivo .txt evitando que dos escriban al mismo tiempo
-				FileChannel channel = new RandomAccessFile(displayFile, "rw").getChannel();
-				// Use the file channel to create a lock on the file.
-				// This method blocks until it can retrieve the lock.
-				FileLock lock = channel.lock();
-
-				BufferedReader in = new BufferedReader(new FileReader(absolutePath));
-
-				String line;
-				boolean found = false;
-				String nuevoArchivo = "";
-		
-				String horaRefresh = CalendarToString(new GregorianCalendar());
-				
-				while ((line = in.readLine()) != null) {
-					String[] parteLine = line.split("\\*");
-					if (parteLine[4].equals(numPuesto)) {
-						if(numero.getPrioridad() == 1){
-							nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5*" + hora + "*"
-									+ numero.getDatosComplementarios() != null?  numero.getDatosComplementarios().getNombreCompleto():numero.getExternalId() + "\n";
-						}else{
-							nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
-									+ numero.getExternalId() + "\n";
-						}
-						
-						found = true;
-					} else {
-						nuevoArchivo = nuevoArchivo + line + "\n";
-					}
-				}
-				in.close();
-
-				System.out.println(nuevoArchivo);
-				PrintWriter writer = new PrintWriter(displayFile);
-				writer.print(nuevoArchivo);
-				if (!found) {
+			String line;
+			boolean found = false;
+			String nuevoArchivo = "";
+	
+			String horaRefresh = CalendarToString(new GregorianCalendar());
+			
+			while ((line = in.readLine()) != null) {
+				String[] parteLine = line.split("\\*");
+				if (parteLine[4].equals(numPuesto)) {
 					if(numero.getPrioridad() == 1){
-						writer.println("|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5*" + hora + "*"
-								+ numero.getDatosComplementarios() != null?  numero.getDatosComplementarios().getNombreCompleto():numero.getExternalId());
+						nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5*" + hora + "*"
+								+ numero.getDatosComplementarios() != null?  numero.getDatosComplementarios().getNombreCompleto():numero.getExternalId() + "\n";
 					}else{
-						writer.println(nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
-								+ numero.getExternalId());
+						nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
+								+ numero.getExternalId() + "\n";
 					}
-		
+					
+					found = true;
+				} else {
+					nuevoArchivo = nuevoArchivo + line + "\n";
 				}
-				writer.close();
-				
-		        //se libera el lock
-		        if( lock != null ) {
-		            lock.release();
-		        }
-
-		        // Cierro el archivo
-		        channel.close();
-
 			}
+			in.close();
 
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(nuevoArchivo);
+			PrintWriter writer = new PrintWriter(displayFile);
+			writer.print(nuevoArchivo);
+			if (!found) {
+				if(numero.getPrioridad() == 1){
+					writer.println("|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5*" + hora + "*"
+							+ numero.getDatosComplementarios() != null?  numero.getDatosComplementarios().getNombreCompleto():numero.getExternalId());
+				}else{
+					writer.println(nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
+							+ numero.getExternalId());
+				}
+	
+			}
+			writer.close();
+			
+	        //se libera el lock
+	        if( lock != null ) {
+	            lock.release();
+	        }
+
+	        // Cierro el archivo
+	        channel.close();
+	        file.close();
+
 		}
 
 	}

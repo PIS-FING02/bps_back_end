@@ -1,10 +1,10 @@
-
 package com.sarp.services;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
 import com.sarp.classes.BusinessPuesto;
 import com.sarp.classes.BusinessDatoComplementario;
 import com.sarp.classes.BusinessNumero;
@@ -27,15 +27,8 @@ import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteResultado;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
-import com.sarp.managers.BusinessSectorQueue;
-import com.sarp.managers.QueuesManager;
 import com.sarp.service.response.maker.ResponseMaker;
-import com.sarp.service.response.maker.RequestMaker;
-import com.sarp.service.response.maker.ResponseMaker;
-import com.sarp.utils.DesvioSectoresUtils;
 import com.sarp.utils.UtilService;
-
-
 
 public class AttentionService {
 
@@ -45,13 +38,18 @@ public class AttentionService {
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto bPuesto = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
 
-		if (bPuesto.getEstado() == EstadoPuesto.CERRADO && puesto.getUsuarioId() != null) {
-			bPuesto.setEstado(EstadoPuesto.DISPONIBLE);
-			bPuesto.setUsuarioId(puesto.getUsuarioId());
-			// Se delega a DaoService
-			controladorPuesto.modificarPuesto(bPuesto);
+		if (bPuesto.getEstado() == EstadoPuesto.CERRADO){
+			if(puesto.getUsuarioId() != null) {
+				bPuesto.setEstado(EstadoPuesto.DISPONIBLE);
+				bPuesto.setUsuarioId(puesto.getUsuarioId());
+				// Se delega a DaoService
+				controladorPuesto.modificarPuesto(bPuesto);
+			}
+			else {
+				throw new ContextException("Se debe asignar un usuario para el puesto");
+			}
 		} else {
-			throw new ContextException("El puesto ya se encuentra abierto");
+			throw new ContextException("El puesto no se encuentra en estado CERRADO");
 		}
 	}
 
@@ -60,14 +58,18 @@ public class AttentionService {
 		DAOPuestoController controladorPuesto = daoServiceFactory.getDAOPuestoController();
 		BusinessPuesto bPuesto = controladorPuesto.obtenerPuesto(puesto.getNombreMaquina());
 
-		if (bPuesto.getEstado() != EstadoPuesto.CERRADO && bPuesto.getEstado() != EstadoPuesto.ATENDIENDO) {
-			bPuesto.setEstado(EstadoPuesto.CERRADO);
-			bPuesto.setUsuarioId(null);
-			// Se delega a DaoService
-			controladorPuesto.modificarPuesto(bPuesto);
+		if (bPuesto.getEstado() != EstadoPuesto.CERRADO){
+			if(bPuesto.getEstado() != EstadoPuesto.ATENDIENDO) {
+				bPuesto.setEstado(EstadoPuesto.CERRADO);
+				bPuesto.setUsuarioId(null);
+				// Se delega a DaoService
+				controladorPuesto.modificarPuesto(bPuesto);
+			}
+			else {
+				throw new ContextException("El puesto se encuentra en estado ATENDIENDO");
+			}
 		} else {
-			throw new ContextException("El puesto ya se encuentra cerrado");
-
+			throw new ContextException("El puesto ya se encuentra en estado CERRADO");
 		}
 	}
 
@@ -107,20 +109,20 @@ public class AttentionService {
 		
 		// debe tener resultados de tramite
 		if(finalizarAtencion.getTramiteResultado() == null || finalizarAtencion.getTramiteResultado().isEmpty() )
-			throw new ContextException("NO_RESULTADOS_TRAMITE");
+			throw new ContextException("Debe indicar un resultado para el trámite");
 		
 		// debe estar en estado atendiendo
 		if (puestoSend.getEstado() != EstadoPuesto.ATENDIENDO) 
-			throw new ContextException("PUESTO_NO_ATENDIENDO");
+			throw new ContextException("El puesto no se encuentra en estado ATENDIENDO");
 		
 		// numero no puede ser null
 		if(finalizarAtencion.getId() == null)
-			throw new ContextException("NO_ID_NUMERO");
+			throw new ContextException("Debe indicar cual es el número");
 		
 		// verifico que numero actual del puesto sea el mismo que el de finalizar
 		BusinessNumero bNumero = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
 		if(!bNumero.getInternalId().equals(finalizarAtencion.getId()))
-			throw new ContextException("NUMERO_ACTUAL_INCONSISTENTE");
+			throw new ContextException("El número indicado no es el número actual del puesto");
 		
 		//asigno cada resultado-tramite 
 		for(JSONTramiteResultado tramiteResultado : finalizarAtencion.getTramiteResultado()){
@@ -397,24 +399,14 @@ public class AttentionService {
 		String desviosSector = UtilService.getStringProperty(idSector);
 		if(desviosSector != null){
 			String[] desvios = desviosSector.split(";"); //ATYR4-25MIN
-			for(String desvio : desvios){
-				try{
-			
-					String[] sectorHora = desvio.split("-");
-					if(sectorHora.length == 2){
-						String sectorId = sectorHora[0];
-						String sectorHoraSplit  = sectorHora[1].split("MIN")[0];
-						Integer minutos = Integer.parseInt(sectorHoraSplit);
-						BusinessSector sector = ctrlSector.obtenerSector(sectorId);
-						sectoresBusinessReturn.add(sector);
-					}else{
-						throw new Exception("Sector destino mal configurado en sector origen"+ idSector);
-					}
-				
-					
-				}catch(Exception e){					
-					throw e;
-					//System.out.print(e.getMessage());	
+			for(String desvio : desvios){			
+				String[] sectorHora = desvio.split("-");
+				if(sectorHora.length == 2){
+					String sectorId = sectorHora[0];
+					BusinessSector sector = ctrlSector.obtenerSector(sectorId);
+					sectoresBusinessReturn.add(sector);
+				}else{
+					throw new Exception("Sector destino mal configurado en sector origen"+ idSector);
 				}
 			}
 				
@@ -427,9 +419,7 @@ public class AttentionService {
 public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarAtencion) throws Exception {
 		
 		// falta vincularlo con los tramites/ resultado fin atencion
-		ResponseMaker resMaker = ResponseMaker.getInstance();
 		DAOServiceFactory fac = DAOServiceFactory.getInstance();
-		DAOSectorController ctrlSector = fac.getDAOSectorController();
 		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
 		DAOTramiteController ctrlTramite = fac.getDAOTramiteController();
 		DAONumeroController ctrlNumero = fac.getDAONumeroController();
@@ -442,47 +432,41 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 			if(desviosSector!= null){
 				String[] desvios = desviosSector.split(";"); //ATYR4-25MIN
 				for(String desvio : desvios){
-					try{
-						String[] sectorHora = desvio.split("-");
-						String sectorId = sectorHora[0];
-						if(sectorId.equals(idSectorDesvio)){
-							if(sectorHora.length == 2){
-								String sectorHoraSplit  = sectorHora[1].split("MIN")[0];
-								Integer minutos = Integer.parseInt(sectorHoraSplit);
-								GregorianCalendar horaActual = new GregorianCalendar();
-								System.out.print(horaActual.getTime());
+					String[] sectorHora = desvio.split("-");
+					String sectorId = sectorHora[0];
+					if(sectorId.equals(idSectorDesvio)){
+						if(sectorHora.length == 2){
+							String sectorHoraSplit  = sectorHora[1].split("MIN")[0];
+							Integer minutos = Integer.parseInt(sectorHoraSplit);
+							GregorianCalendar horaActual = new GregorianCalendar();
+							System.out.print(horaActual.getTime());
+							
+							horaActual.add(GregorianCalendar.MINUTE, minutos);	
+							System.out.print(horaActual.getTime());	
+							BusinessTramite tramiteGenerico =  ctrlTramite.obtenerTramite("1");//Tramite generico
+							if(tramiteGenerico != null){
 								
-								horaActual.add(GregorianCalendar.MINUTE, minutos);	
-								System.out.print(horaActual.getTime());	
-								BusinessTramite tramiteGenerico =  ctrlTramite.obtenerTramite("1");//Tramite generico
-								if(tramiteGenerico != null){
-									
-									BusinessNumero numeroDesviado = new BusinessNumero(null, numeroActual.getExternalId(), horaActual, "PENDIENTE",
-											numeroActual.getPrioridad(), "1" ,idSectorDesvio,false);
-									
-									BusinessDatoComplementario datosComp = ctrlNumero.obtenerDatosNumero(numeroActual.getInternalId());
-									//BusinessDatoComplementario datosComp = null;
-									Integer idNumDesviado =  ctrlNumero.crearNumero(numeroDesviado,datosComp);
+								BusinessNumero numeroDesviado = new BusinessNumero(null, numeroActual.getExternalId(), horaActual, "PENDIENTE",
+										numeroActual.getPrioridad(), "1" ,idSectorDesvio,false);
+								
+								BusinessDatoComplementario datosComp = ctrlNumero.obtenerDatosNumero(numeroActual.getInternalId());
+								//BusinessDatoComplementario datosComp = null;
+								Integer idNumDesviado =  ctrlNumero.crearNumero(numeroDesviado,datosComp);
 
-									numeroActual.setEstado(EstadoNumero.DESVIADO);
-									ctrlNumero.modificarNumero(numeroActual);
-									
-									ctrlNumero.setearDesvio(numeroActual.getInternalId(),idNumDesviado);
-									seDesvio = true;
-								}else{
-									throw new Exception("Error: no existe en el sistema el numero generico para desviar");
-								}
+								numeroActual.setEstado(EstadoNumero.DESVIADO);
+								ctrlNumero.modificarNumero(numeroActual);
+								
+								ctrlNumero.setearDesvio(numeroActual.getInternalId(),idNumDesviado);
+								seDesvio = true;
 							}else{
-								throw new Exception("Sector destino mal configurado en sector origen"+ idSectorDesvio);
+								throw new Exception("Error: no existe en el sistema el numero generico para desviar");
 							}
-
-							break;
+						}else{
+							throw new Exception("Sector destino mal configurado en sector origen"+ idSectorDesvio);
 						}
-						
-					}catch(Exception e){
-						throw e;
-						//System.out.print(e.getMessage());	
-					}		
+
+						break;
+					}							
 				}
 				if(!seDesvio){
 					throw new Exception("Error: El numero no pudo ser desviado al sector elegido");
@@ -508,7 +492,6 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 		BusinessPuesto puestoSend = controladorPuesto.obtenerPuesto(puesto);
 		if (puestoSend.getEstado() == EstadoPuesto.LLAMANDO) {
 			
-				DAONumeroController daoCtrl = daoServiceFactory.getDAONumeroController();
 				//Si el puesto tiene numero asociado
 				BusinessNumero num = controladorPuesto.obtenerNumeroActualPuesto(puestoSend.getNombreMaquina());
 				if(num!= null){
@@ -525,12 +508,6 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 		} else {
 			throw new ContextException("El puesto no se encuentra en estado LLAMANDO");
 		}
-		
 	}
 	
-	
-	
-	
-
-
 }

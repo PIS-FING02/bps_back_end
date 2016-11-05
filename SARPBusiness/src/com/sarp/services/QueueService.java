@@ -1,24 +1,15 @@
 package com.sarp.services;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.sarp.classes.BusinessNumero;
-import com.sarp.classes.BusinessSector;
 import com.sarp.classes.BusinessTramite;
-import com.sarp.controllers.AdminActionsController;
-import com.sarp.dao.controllers.DAOAdminController;
 import com.sarp.dao.controllers.DAONumeroController;
-import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.factory.DAOServiceFactory;
-import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONNumero;
-import com.sarp.json.modeler.JSONSector;
-import com.sarp.json.modeler.JSONSectorCantNum;
 import com.sarp.managers.BusinessSectorQueue;
 import com.sarp.managers.QueuesManager;
-import com.sarp.service.response.maker.RequestMaker;
 import com.sarp.service.response.maker.ResponseMaker;
 
 public class QueueService {
@@ -87,11 +78,7 @@ public class QueueService {
 	}
 
 	public void quitarNumeroDeCola(Integer idNumero) throws Exception {
-		try {
-			this.cola.quitarNumeroCola(idNumero);
-		} catch (Exception e) {
-			throw e;
-		}
+		this.cola.quitarNumeroCola(idNumero);
 	}
 
 	public void quitarNumeroDeAtrasados(Integer idNumero) {

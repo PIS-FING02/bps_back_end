@@ -71,7 +71,7 @@ public class AdminService {
   				throw new InternalServerErrorException(e);
   			}
   		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   	}
@@ -89,7 +89,7 @@ public class AdminService {
   				throw new InternalServerErrorException(e);
   			}
   		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+  			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   	}
@@ -106,7 +106,7 @@ public class AdminService {
   				throw new InternalServerErrorException(e);
   			}
   		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" JSONPuesto: "+puesto);
+  			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   		
@@ -134,8 +134,6 @@ public class AdminService {
   			}else{
 
   			// si no me pasan sector quiero los puestos de los cuales el es responsable
-
-
 	  	  		try{
   	  				List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);
   	  				List<JSONPuesto> listaPuestos = new ArrayList<JSONPuesto>();
@@ -154,7 +152,7 @@ public class AdminService {
   	  			}
   			}
   		}else{
-			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:"+userRol+" sectorId: "+sectorId);
+  			logger.error("Permisos insuficientes - " + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", sectorId: " + sectorId);
   			throw new UnauthorizedException("No tiene permisos suficientes.");
   		}
   			
@@ -175,7 +173,7 @@ public class AdminService {
 				throw new InternalServerErrorException("Error al crear el Tramite: " + e.getMessage());
 			}
 		}else{
-			logger.error("Permisos insuficientes - " + ADMINISTRADOR + " - params: user-rol:"+userRol+" JSONTramite: "+jsonTramite);
+			logger.error("Permisos insuficientes - " + ADMINISTRADOR + " - params: user-rol:" + userRol + ", JSONTramite: " + jsonTramite);
 			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
 		}
 		
