@@ -1,27 +1,17 @@
 package com.sarp.service;
 
-import java.util.List;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
-import org.jboss.resteasy.spi.BadRequestException;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.InternalServerErrorException;
-import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.beans.AdminBean;
 import com.sarp.beans.AttentionsBean;
-import com.sarp.controllers.AdminActionsController;
-import com.sarp.controllers.AttentionsController;
-import com.sarp.controllers.UserController;
-import com.sarp.exceptions.ContextException;
-import com.sarp.factory.Factory;
 import com.sarp.json.modeler.JSONDisplay;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
@@ -39,6 +29,8 @@ public class UserService {
 	
 	@EJB
 	private AdminBean adminBean = new AdminBean();
+	
+	private static Logger logger = Logger.getLogger(UserService.class);
 	
 	@PUT
 	@Path("/initPuestosNum")
@@ -127,13 +119,14 @@ public class UserService {
 			//FINALIZAR ATENCION
 			
 			//ctrlAttention.finalizarAtencion(puesto);
-			String a = "sa";
+			//String a = "sa";
 			//List<JSONTramiteSector>  tramitesRecepcion = ctrlAttention.tramitesRecepcion(puesto.getNombreMaquina());
 			
 	
 			return "OK";
-		}catch(ContextException e){
-			throw new InternalServerErrorException("Error: El puesto ya se encuentra abierto");			
+		}catch(Exception e){
+			logger.error("initPuestosNum - params: puesto: "+ puesto);
+			throw new InternalServerErrorException(e);			
 		}
 
 	}

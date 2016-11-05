@@ -24,6 +24,7 @@ import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 import com.sarp.json.modeler.JSONTramiteSector;
+import com.sarp.utils.UtilService;
 
 @RequestScoped
 @Path("/attentionsService")
@@ -32,9 +33,9 @@ public class AttentionsService {
 	@EJB
 	private AttentionsBean attBean = new AttentionsBean();
 	
-	private String RECEPCION = "RECEPCION";//UtilService.getStringProperty("RECEPCION");
-	private String OPERADOR = "OPERADOR";//UtilService.getStringProperty("OPERADOR");
-	private String OPERADORSR = "OPERADORSR";//UtilService.getStringProperty("OPERADOR_SENIOR");
+	private String RECEPCION = /*"RECEPCION";*/UtilService.getStringProperty("RECEPCION");
+	private String OPERADOR = /*"OPERADOR";*/UtilService.getStringProperty("OPERADOR");
+	private String OPERADORSR = /*"OPERADORSR";*/UtilService.getStringProperty("OPERADOR_SENIOR");
 
 	private static Logger logger = Logger.getLogger(AttentionsService.class);
 	

@@ -61,6 +61,7 @@ public class NumberService {
 		try {
 			return attBean.solicitarNumero(num);
 		} catch (Exception e) {
+			logger.error("solicitarNumero - params: num: "+ num);
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -74,6 +75,7 @@ public class NumberService {
 			try {
 				return numberBean.listarNumerosSector(idSector);
 			} catch (Exception e) {
+				logger.error("listarNumerosSector - params: user-rol:" + userRol + ", idSector: "+ idSector);
 				throw new InternalServerErrorException(e);
 			}
 		} else {
@@ -111,6 +113,7 @@ public class NumberService {
 				return listaNumeros;
 			}
 		} catch (Exception e) {
+			logger.error("listarNumerosPausados - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -144,6 +147,7 @@ public class NumberService {
 				return listaNumeros;
 			}
 		} catch (Exception e) {
+			logger.error("listarNumerosAtrasados - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -168,6 +172,7 @@ public class NumberService {
 						listaNumeros.addAll( numberBean.listarNumerosEnEsperaSector(sd.getSectorId()));
 				return listaNumeros;
 			} catch (Exception e) {
+				logger.error("listarNumerosEnEspera - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
 				throw new InternalServerErrorException(e);
 			}
 		} else {
@@ -185,6 +190,7 @@ public class NumberService {
 			try {
 				return numberBean.obtenerCantNumerosEnEspera(idPuesto);
 			} catch (Exception e) {
+				logger.error("obtenerCantNumerosEnEspera - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
 				throw new InternalServerErrorException(e);
 			}
 		}/*else if(userRol.equals(RESPONSABLE_SECTOR)){

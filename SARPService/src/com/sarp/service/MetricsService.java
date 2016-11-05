@@ -9,6 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 
 import com.sarp.beans.AdminBean;
@@ -23,6 +25,7 @@ public class MetricsService {
 	@EJB
 	private AdminBean adminBean = new AdminBean();
 	
+	private static Logger logger = Logger.getLogger(MetricsService.class);
 	
 	@GET
   	@Path("/listarMetricasPuesto")
@@ -33,6 +36,7 @@ public class MetricsService {
 			List<JSONMetricasPuesto> listaMetricasPuestos = adminBean.listarMetricasPuestos(nombreMaquina);
 			return listaMetricasPuestos;			
 		}catch(Exception e){
+			logger.error("listarMetricasPuesto - params: nombreMaquina:" + nombreMaquina);
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -46,6 +50,7 @@ public class MetricsService {
 			List<JSONMetricasEstadoNumero> listaMetricasEstadoNumero = adminBean.listarMetricasEstadoNumero(internalId);
 			return listaMetricasEstadoNumero;			
 		}catch(Exception e){
+			logger.error("listarMetricasEstadoNumero - params: internalId:" + internalId);
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -58,6 +63,7 @@ public class MetricsService {
 			JSONMetricasNumero listaMetricasNumero = adminBean.listarMetricasDeNumero(internalId);
 			return listaMetricasNumero;			
 		}catch(Exception e){
+			logger.error("listarMetricasDeNumero - params: internalId:" + internalId);
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -70,6 +76,7 @@ public class MetricsService {
 			List<JSONMetricasNumero> listaMetricasNumero = adminBean.listarMetricasNumero();
 			return listaMetricasNumero;			
 		}catch(Exception e){
+			logger.error("listarMetricasNumero - params: ");
 			throw new InternalServerErrorException(e);
 		}
 	}
