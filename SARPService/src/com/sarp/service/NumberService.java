@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.beans.AdminBean;
 import com.sarp.beans.AttentionsBean;
@@ -24,7 +25,6 @@ import com.sarp.beans.GafuBean;
 import com.sarp.beans.NumberBean;
 import com.sarp.classes.BusinessSectorRol;
 import com.sarp.json.modeler.JSONNumero;
-import com.sarp.json.modeler.JSONSectorCantNum;
 
 @RequestScoped
 @Path("/numberService")
@@ -61,7 +61,7 @@ public class NumberService {
 		try {
 			return Response.ok(attBean.solicitarNumero(num)).build();
 		} catch (Exception e) {
-			logger.error("solicitarNumero - params: num: "+ num);
+			logger.error(e.toString() + ". POST solicitarNumero - params: num: "+ num);
 			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
@@ -70,18 +70,17 @@ public class NumberService {
 	@Path("/listarNumerosSector")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listarNumerosSector(@HeaderParam("user-rol") String userRol,
-			@QueryParam("idSector") String idSector) {
-		if (userRol.equals(ADMINISTRADOR)) {
-			try {
+			@QueryParam("idSector") String idSector) {	
+		try {
+			if (userRol.equals(ADMINISTRADOR)) {
 				return Response.ok(numberBean.listarNumerosSector(idSector)).build();
-			} catch (Exception e) {
-				logger.error("listarNumerosSector - params: user-rol:" + userRol + ", idSector: "+ idSector);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			} else {
+				throw new UnauthorizedException("Permisos insuficientes: " + ADMINISTRADOR);
 			}
-		} else {
-			logger.error("Permisos insuficientes - " + ADMINISTRADOR + " - params: user-rol:" + userRol + ", idSector: " + idSector);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		} catch (Exception e) {
+			logger.error(e.toString() + ". GET listarNumerosSector - params: user-rol:" + userRol + ", idSector: "+ idSector);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}	
 	}
 	
 	@GET
@@ -106,14 +105,13 @@ public class NumberService {
 							if (sd.getSectorId().equals(idSector))
 								listaNumeros.addAll(numberBean.listarNumerosPausadosSector(sd.getSectorId()));
 					}else{
-						logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + "/" + CONSULTOR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
-						return Response.ok("ERROR: No tiene permisos suficientes.").build();
+						throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + "/" + CONSULTOR);
 					}
 				}
 				return Response.ok(listaNumeros).build();
 			}
 		} catch (Exception e) {
-			logger.error("listarNumerosPausados - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
+			logger.error(e.toString() + ". GET listarNumerosPausados - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
 			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
@@ -140,14 +138,13 @@ public class NumberService {
 							if (sd.getSectorId().equals(idSector))
 								listaNumeros.addAll(numberBean.listarNumerosAtrasadosSector(sd.getSectorId()));
 					}else{
-						logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + "/" + CONSULTOR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
-						return Response.ok("ERROR: No tiene permisos suficientes.").build();
+						throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + "/" + CONSULTOR);
 					}
 				}
 				return Response.ok(listaNumeros).build();
 			}
 		} catch (Exception e) {
-			logger.error("listarNumerosAtrasados - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
+			logger.error(e.toString() + ". GET listarNumerosAtrasados - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
 			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
@@ -156,41 +153,40 @@ public class NumberService {
 	@Path("/listarNumerosEnEspera")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listarNumerosEnEspera(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
-			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
-		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
-			try {
+			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {		
+		try {
+			if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 				return Response.ok(numberBean.listarNumerosEnEspera(idPuesto)).build();
-			} catch (Exception e) {
-				return Response.ok("ERROR: " + e.getMessage()).build();
-			}
-		}else if(userRol.equals(RESPONSABLE_SECTOR)){ 
-			try {
+			}else if(userRol.equals(RESPONSABLE_SECTOR)){ 
 				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
 				List<BusinessSectorRol> permisos = gafuBean.obtenerSectorRolesUsuario(user, ResponsableSectorGAFU);
 				for (BusinessSectorRol sd : permisos)
 					if (sd.getSectorId().equals(idSector))
 						listaNumeros.addAll( numberBean.listarNumerosEnEsperaSector(sd.getSectorId()));
 				return Response.ok(listaNumeros).build();
-			} catch (Exception e) {
-				logger.error("listarNumerosEnEspera - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			} else {
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADORSR + "/" + RESPONSABLE_SECTOR);
 			}
-		} else {
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		} catch (Exception e) {
+			logger.error(e.toString() + ". GET listarNumerosEnEspera - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}		
 	}
 	
 	@GET
 	@Path("/obtenerCantNumerosEnEspera")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response obtenerCantNumerosEnEspera(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
-			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
-		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
+			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {		
 			try {
-				return Response.ok(numberBean.obtenerCantNumerosEnEspera(idPuesto)).build();
+				if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
+					return Response.ok(numberBean.obtenerCantNumerosEnEspera(idPuesto)).build();
+				}
+				else {
+					throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
+				}
 			} catch (Exception e) {
-				logger.error("obtenerCantNumerosEnEspera - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
+				logger.error(e.toString() + ". GET obtenerCantNumerosEnEspera - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
 				return Response.ok("ERROR: " + e.getMessage()).build();
 			}
 		}/*else if(userRol.equals(RESPONSABLE_SECTOR)){
@@ -205,10 +201,5 @@ public class NumberService {
 				throw new InternalServerErrorException(e.getMessage());
 			}
 			throw new InternalServerErrorException("esto esta en standby, xq primero se pidio para op y opSR");
-		}*/ else {
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
-	}
-	
+		}*/ 	
 }

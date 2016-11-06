@@ -1,6 +1,5 @@
 package com.sarp.service;
 
-
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -16,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.NotFoundException;
+import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.beans.AttentionsBean;
 import com.sarp.json.modeler.JSONEstadoPuesto;
@@ -42,152 +42,142 @@ public class AttentionsService {
 	@Path("/abrirPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response abrirPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
-			try{
+	public Response abrirPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){		
+		try{
+			if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 				JSONEstadoPuesto estadoPuesto = attBean.abrirPuesto(puesto);
 				return Response.ok(estadoPuesto).build();
-
-			}catch(Exception e){
-				logger.error("abrirPuesto - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		}else{
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		}catch(Exception e){
+			logger.error(e.toString() + ". PUT abrirPuesto - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}		
 	}
 	
 	@PUT
 	@Path("/cerrarPuesto")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response cerrarPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
-			try{
+	public Response cerrarPuesto(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){		
+		try{
+			if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 				attBean.cerrarPuesto(puesto);
 				return Response.ok("OK").build();
-			}catch(Exception e){
-				logger.error("cerrarPuesto - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
-				return Response.ok("ERROR: " + e.getLocalizedMessage()).build();
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		}else{
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
+		}catch(Exception e){
+			logger.error(e.toString() + ". PUT cerrarPuesto - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
+			return Response.ok("ERROR: " + e.getLocalizedMessage()).build();
 		}
+		
 	}
 	
 	@PUT
 	@Path("/comenzarAtencion")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response comenzarAtencion(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
-			try{
+		try{
+			if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 				attBean.comenzarAtencion(puesto);
 				return Response.ok("OK").build();
-			}catch(Exception e){
-				logger.error("comenzarAtencion - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		}else{
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		}catch(Exception e){
+			logger.error(e.toString() + ". PUT comenzarAtencion - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}	
 	}
 	
 	@PUT
 	@Path("/finalizarAtencion")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response finalizarAtencion(@HeaderParam("user-rol") String userRol, JSONFinalizarAtencion finalizarAtencion){
-		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
-			try{
+	public Response finalizarAtencion(@HeaderParam("user-rol") String userRol, JSONFinalizarAtencion finalizarAtencion){		
+		try{
+			if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 				attBean.finalizarAtencion(finalizarAtencion);
 				return Response.ok("OK").build();
-			}catch(Exception e){
-				logger.error("finalizarAtencion - params: user-rol:" + userRol + ", JSONFinalizarAtencion: "+ finalizarAtencion);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		}else{
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONFinalizarAtencion: " + finalizarAtencion);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		}catch(Exception e){
+			logger.error(e.toString() + ". PUT finalizarAtencion - params: user-rol:" + userRol + ", JSONFinalizarAtencion: "+ finalizarAtencion);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}	
 	}
 	
 	@GET
 	@Path("/llamarNumero")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response llamarNumero(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String puesto){
-		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
-			try{
+	public Response llamarNumero(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String puesto){		
+		try{
+			if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 				JSONNumero num = attBean.llamarNumero(puesto);
 				if(num != null){
 					return Response.ok(num).build();
 				}else{
 					throw new NotFoundException("No hay numero disponible en este momento");
 				}
-			}catch(Exception e){
-				logger.error("llamarNumero - params: user-rol:" + userRol + ", puesto: "+ puesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		}else{
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", puesto: " + puesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		}catch(Exception e){
+			logger.error(e.toString() + ". GET llamarNumero - params: user-rol:" + userRol + ", puesto: "+ puesto);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}	
 	}
 	
-
 	@GET
 	@Path("/tramitesRecepcion")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response tramitesRecepcion(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String codigoMaquina){
-		if(userRol.equals(RECEPCION)){
-			try{
+	public Response tramitesRecepcion(@HeaderParam("user-rol") String userRol, @HeaderParam("hparam") String codigoMaquina){	
+		try{
+			if(userRol.equals(RECEPCION)){
 				List<JSONTramiteSector> tramitesRecepcion =  attBean.tramitesRecepcion(codigoMaquina);
 				return Response.ok(tramitesRecepcion).build();
-				
-			}catch(Exception e){
-				logger.error("tramitesRecepcion - params: user-rol:" + userRol + ", codigoMaquina: "+ codigoMaquina);
-				return Response.ok("ERROR: " + e.getMessage()).build();
-			} 
-		}else{
-			logger.error("Permisos insuficientes - " + RECEPCION + " - params: user-rol:" + userRol + ", codigoMaquina: " + codigoMaquina);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + RECEPCION);
+			}
+		}catch(Exception e){
+			logger.error(e.toString() + ". GET tramitesRecepcion - params: user-rol:" + userRol + ", codigoMaquina: "+ codigoMaquina);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		} 	
 	}
 
 	@PUT
 	@Path("/atrasarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response atrasarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
-			try{
+	public Response atrasarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){		
+		try{
+			if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 				attBean.atrasarNumero(puesto);	
 				return Response.ok("OK").build();
-			}catch(Exception e){
-				//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
-				logger.error("atrasarNumero - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		}else{
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		}catch(Exception e){
+			//La excepcion puede ser por un error interno o por que no se reservo un numero con prioridad??
+			logger.error(e.toString() + ". PUT atrasarNumero - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}		
 	}
 	
 	@PUT
 	@Path("/pausarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response pausarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){
-		if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
-			try{
+	public Response pausarNumero(@HeaderParam("user-rol") String userRol, JSONPuesto puesto){		
+		try{
+			if(userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)){
 				attBean.pausarNumero(puesto);
 				return Response.ok("OK").build();
-			}catch(Exception e){
-				logger.error("pausarNumero - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		}else{
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
+		}catch(Exception e){
+			logger.error(e.toString() + ". PUT pausarNumero - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
 	
@@ -197,7 +187,8 @@ public class AttentionsService {
 	@Path("/fakeNumber")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user) {
-		if(userRol.equals(OPERADOR)){
+		try{
+			if(userRol.equals(OPERADOR)){		
 				JSONNumero jnumero = new JSONNumero();
 				jnumero.setId(50);
 				jnumero.setExternalId("50");
@@ -207,9 +198,13 @@ public class AttentionsService {
 				jnumero.setIdTramite("4990");
 				jnumero.setIdSector("MVD_FIS");
 				return Response.ok(jnumero).build();
-		}else{
-			logger.error("Permisos insuficientes - " + OPERADOR + " - params: user-rol:" + userRol + ", user: " + user);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR);
+			}
+		}
+		catch(Exception e){
+			logger.error(e.toString() + ". GET fakeNumber - params: user-rol:" + userRol);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
     }
 	
@@ -218,19 +213,18 @@ public class AttentionsService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response LlamarNumeroPausado(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idNumero") Integer idNumero, 
-			@HeaderParam("idPuesto") String idPuesto) {
-		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
-			try {
+			@HeaderParam("idPuesto") String idPuesto) {		
+		try {
+			if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 				JSONNumero num = attBean.llamarNumeroPausado(idNumero, idPuesto);
 				return Response.ok(num).build();
-			} catch (Exception e) {
-				logger.error("llamarPausado - params: user-rol:" + userRol + ", idNumero: "+ idNumero + ", idPuesto: "+ idPuesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			} else {
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		} else {
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idNumero: " + idNumero + ", idPuesto" + idPuesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		} catch (Exception e) {
+			logger.error(e.toString() + ". GET llamarPausado - params: user-rol:" + userRol + ", idNumero: "+ idNumero + ", idPuesto: "+ idPuesto);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}		
 	}
 	
 	@GET
@@ -238,19 +232,18 @@ public class AttentionsService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response LlamarNumeroAtrasado(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idNumero") Integer idNumero, 
-			@HeaderParam("idPuesto") String idPuesto) {
-		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
-			try {
+			@HeaderParam("idPuesto") String idPuesto) {	
+		try {
+			if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 				JSONNumero num = attBean.llamarNumeroAtrasado(idNumero, idPuesto);
 				return Response.ok(num).build();
-			} catch (Exception e) {
-				logger.error("llamarAtrasado - params: user-rol:" + userRol + ", idNumero: "+ idNumero + ", idPuesto: "+ idPuesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			} else {
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		} else {
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idNumero: " + idNumero + ", idPuesto" + idPuesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		} catch (Exception e) {
+			logger.error(e.toString() + ". GET llamarAtrasado - params: user-rol:" + userRol + ", idNumero: "+ idNumero + ", idPuesto: "+ idPuesto);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}		
 	}
 	
 	@GET
@@ -258,81 +251,71 @@ public class AttentionsService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response LlamarNumeroDemanda(@HeaderParam("user-rol") String userRol,  
 			@HeaderParam("idNumero") Integer idNumero, 
-			@HeaderParam("idPuesto") String idPuesto) {
-		if (userRol.equals(OPERADORSR)) {
-			try {
+			@HeaderParam("idPuesto") String idPuesto) {		
+		try {
+			if (userRol.equals(OPERADORSR)) {
 				JSONNumero num = attBean.llamarNumeroDemanda(idNumero, idPuesto);
 				return Response.ok(num).build();
-			} catch (Exception e) {
-				logger.error("llamarNumeroDemanda - params: user-rol:" + userRol + ", idNumero: "+ idNumero + ", idPuesto: "+ idPuesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			} else {
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADORSR);
 			}
-		} else {
-			logger.error("Permisos insuficientes - " + OPERADORSR + " - params: user-rol:" + userRol + ", idNumero: " + idNumero + ", idPuesto" + idPuesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		} catch (Exception e) {
+			logger.error(e.toString() + ". GET llamarNumeroDemanda - params: user-rol:" + userRol + ", idNumero: "+ idNumero + ", idPuesto: "+ idPuesto);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}		
 	}
 	
 	@PUT
 	@Path("/obtenerSectoresDesvio")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response obtenerSectoresDesvio(@HeaderParam("user-rol") String userRol,  
-			@HeaderParam("idSector") String idSector) {
-		if (userRol.equals(OPERADORSR) || userRol.equals(OPERADOR)) {
-			try {
-				List<JSONSector> sectoresDesvio = attBean.obtenerSectoresDesvio(idSector);
-				
+			@HeaderParam("idSector") String idSector) {		
+		try {
+			if (userRol.equals(OPERADORSR) || userRol.equals(OPERADOR)) {
+				List<JSONSector> sectoresDesvio = attBean.obtenerSectoresDesvio(idSector);				
 				return Response.ok(sectoresDesvio).build();
-		
-			} catch (Exception e) {
-				logger.error("obtenerSectoresDesvio - params: user-rol:" + userRol + ", idSector: "+ idSector);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			} else {
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		} else {
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idSector: " + idSector);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		} catch (Exception e) {
+			logger.error(e.toString() + ". PUT obtenerSectoresDesvio - params: user-rol:" + userRol + ", idSector: "+ idSector);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}		
 	}
 	
 	@PUT
 	@Path("/desviarNumero")
 	@Consumes(MediaType.APPLICATION_JSON) 
-	public  Response desviarNumero(@HeaderParam("user-rol") String userRol,  
+	public Response desviarNumero(@HeaderParam("user-rol") String userRol,  
 			JSONFinalizarAtencion finalizarAtencion,
-			@HeaderParam("idSectorDesvio") String idSectorDesvio) {
-		
-		if (userRol.equals(OPERADORSR) || userRol.equals(OPERADOR)) {
-			try {
+			@HeaderParam("idSectorDesvio") String idSectorDesvio) {			
+		try {
+			if (userRol.equals(OPERADORSR) || userRol.equals(OPERADOR)) {
 				attBean.desviarNumero(idSectorDesvio, finalizarAtencion);				
 				return Response.ok("OK").build();
-		
-			} catch (Exception e) {
-				logger.error("desviarNumero - params: user-rol:" + userRol + ", finalizarAtencion: "+ finalizarAtencion);
-				return Response.ok("ERROR: " + e.getMessage()).build();
-			}
-		} else {
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONFinalizarAtencion: " + finalizarAtencion + ", idSectorDesvio" + idSectorDesvio);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+			} else {
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
+			}	
+		} catch (Exception e) {
+			logger.error(e.toString() + ". PUT desviarNumero - params: user-rol:" + userRol + ", finalizarAtencion: "+ finalizarAtencion);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}		
 	}
 	
 	@PUT
 	@Path("/reLlamarNumero")
 	public Response reLlamarNumero(@HeaderParam("user-rol") String userRol,  
-			@HeaderParam("idPuesto") String idPuesto) {
-		
-		if (userRol.equals(OPERADORSR) || userRol.equals(OPERADOR)) {
-			try {
-
+			@HeaderParam("idPuesto") String idPuesto) {				
+		try {
+			if (userRol.equals(OPERADORSR) || userRol.equals(OPERADOR)) {
 				attBean.reLlamarNumero(idPuesto);
 				return Response.ok("OK").build();
-			} catch (Exception e) {
-				logger.error("reLlamarNumero - params: user-rol:" + userRol + ", idPuesto: "+ idPuesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+			} else {
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR + "/" + OPERADORSR);
 			}
-		} else {
-			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
-		}
+		} catch (Exception e) {
+			logger.error(e.toString() + ". PUT reLlamarNumero - params: user-rol:" + userRol + ", idPuesto: "+ idPuesto);
+			return Response.ok("ERROR: " + e.getMessage()).build();
+		}	
 	}
 }

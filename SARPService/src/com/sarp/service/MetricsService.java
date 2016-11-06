@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -12,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.spi.InternalServerErrorException;
+import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.beans.AdminBean;
 import com.sarp.json.modeler.JSONMetricasEstadoNumero;
@@ -28,16 +29,23 @@ public class MetricsService {
 	
 	private static Logger logger = Logger.getLogger(MetricsService.class);
 	
+	private String CONSULTOR = "CONSULTOR";//UtilService.getStringProperty("CONSULTOR");
+	
 	@GET
   	@Path("/listarMetricasPuesto")
 	@Produces(MediaType.APPLICATION_JSON)
-		/* Si nombreMaquina es null, devuelvo todas las metricas, sino se filtran las metricas */
-		public Response listarMetricasPuestos(@QueryParam("nombreMaquina") String nombreMaquina) {
+	/* Si nombreMaquina es null, devuelvo todas las metricas, sino se filtran las metricas */
+	public Response listarMetricasPuestos(@HeaderParam("user-rol") String userRol, @QueryParam("nombreMaquina") String nombreMaquina) {
 		try{
-			List<JSONMetricasPuesto> listaMetricasPuestos = adminBean.listarMetricasPuestos(nombreMaquina);
-			return Response.ok(listaMetricasPuestos).build();
+			if (userRol.equals(CONSULTOR)){
+				List<JSONMetricasPuesto> listaMetricasPuestos = adminBean.listarMetricasPuestos(nombreMaquina);
+				return Response.ok(listaMetricasPuestos).build();
+			}
+			else{
+				throw new UnauthorizedException("Permisos insuficientes: " + CONSULTOR);
+			}
 		}catch(Exception e){
-			logger.error("listarMetricasPuesto - params: nombreMaquina:" + nombreMaquina);
+			logger.error(e.toString() + ". GET listarMetricasPuesto - params: user-rol:" + userRol + ", nombreMaquina: "+ nombreMaquina);
 			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
@@ -46,12 +54,17 @@ public class MetricsService {
   	@Path("/listarMetricasEstadoNumero")
 	@Produces(MediaType.APPLICATION_JSON)
 	/* Si internalId es null, devuelvo todas las metricas, sino se filtran las metricas */
-	public Response listarMetricasEstadoNumero(@QueryParam("internalId") Integer internalId) {
+	public Response listarMetricasEstadoNumero(@HeaderParam("user-rol") String userRol, @QueryParam("internalId") Integer internalId) {
 		try{
-			List<JSONMetricasEstadoNumero> listaMetricasEstadoNumero = adminBean.listarMetricasEstadoNumero(internalId);
-			return Response.ok(listaMetricasEstadoNumero).build();
+			if (userRol.equals(CONSULTOR)){
+				List<JSONMetricasEstadoNumero> listaMetricasEstadoNumero = adminBean.listarMetricasEstadoNumero(internalId);
+				return Response.ok(listaMetricasEstadoNumero).build();
+			}
+			else{
+				throw new UnauthorizedException("Permisos insuficientes: " + CONSULTOR);
+			}
 		}catch(Exception e){
-			logger.error("listarMetricasEstadoNumero - params: internalId:" + internalId);
+			logger.error(e.toString() + ". GET listarMetricasEstadoNumero - params: user-rol:" + userRol + ", internalId: "+ internalId);
 			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
@@ -59,12 +72,17 @@ public class MetricsService {
 	@GET
 	@Path("/listarMetricasDeNumero")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listarMetricasDeNumero(@QueryParam("internalId") Integer internalId) {
+	public Response listarMetricasDeNumero(@HeaderParam("user-rol") String userRol, @QueryParam("internalId") Integer internalId) {
 		try{
-			JSONMetricasNumero listaMetricasNumero = adminBean.listarMetricasDeNumero(internalId);
-			return Response.ok(listaMetricasNumero).build();
+			if (userRol.equals(CONSULTOR)){
+				JSONMetricasNumero listaMetricasNumero = adminBean.listarMetricasDeNumero(internalId);
+				return Response.ok(listaMetricasNumero).build();
+			}
+			else{
+				throw new UnauthorizedException("Permisos insuficientes: " + CONSULTOR);
+			}
 		}catch(Exception e){
-			logger.error("listarMetricasDeNumero - params: internalId:" + internalId);
+			logger.error(e.toString() + ". GET listarMetricasDeNumero - params: user-rol:" + userRol + ", internalId: "+ internalId);
 			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
@@ -72,12 +90,17 @@ public class MetricsService {
 	@GET
 	@Path("/listarMetricasNumero")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listarMetricasNumero() {
+	public Response listarMetricasNumero(@HeaderParam("user-rol") String userRol) {
 		try{
-			List<JSONMetricasNumero> listaMetricasNumero = adminBean.listarMetricasNumero();
-			return Response.ok(listaMetricasNumero).build();
+			if (userRol.equals(CONSULTOR)){
+				List<JSONMetricasNumero> listaMetricasNumero = adminBean.listarMetricasNumero();
+				return Response.ok(listaMetricasNumero).build();
+			}
+			else{
+				throw new UnauthorizedException("Permisos insuficientes: " + CONSULTOR);
+			}
 		}catch(Exception e){
-			logger.error("listarMetricasNumero - params: ");
+			logger.error(e.toString() + ". GET listarMetricasNumero - params: user-rol:" + userRol);
 			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
