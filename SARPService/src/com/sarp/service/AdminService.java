@@ -90,7 +90,7 @@ public class AdminService {
 			logger.error(e.toString() + ". DELETE - puesto params: user-rol:"+userRol+" JSONPuesto: "+puesto);
 			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
- 		
+ 
   	}
   	
   	@PUT
