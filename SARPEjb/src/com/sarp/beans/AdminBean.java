@@ -3,6 +3,7 @@ package com.sarp.beans;
 import java.util.List;
 
 import javax.ejb.LocalBean;
+import javax.ejb.Startup;
 import javax.ejb.Stateless;
 
 import com.sarp.classes.BusinessSector;
@@ -42,6 +43,8 @@ public class AdminBean {
 		ctrl = fac.getAdminActionsController();
 		gafu = fac.GAFUController();
     }
+    
+    
     
     public void altaPuesto(JSONPuesto puesto) throws Exception {
 		// Se delega a ctrlice la implementacion

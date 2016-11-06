@@ -4,8 +4,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessSector;
+import com.sarp.dao.controllers.DAONumeroController;
+import com.sarp.dao.factory.DAOServiceFactory;
+import com.sarp.enumerados.EstadoNumero;
 
 public class QueuesManager {
 	
@@ -82,4 +87,21 @@ public class QueuesManager {
 		}
 	}
 
+	public synchronized void limpiarColas() throws Exception{
+		try{
+		for (Map.Entry<String, BusinessSectorQueue> cola : this.manejadorDeColas.entrySet()){
+			List<BusinessNumero> numeros = cola.getValue().limpiarCola();
+			DAOServiceFactory fac = DAOServiceFactory.getInstance();
+			DAONumeroController daoCtrl = fac.getDAONumeroController();
+			for(BusinessNumero bn : numeros){
+				BusinessNumero num = daoCtrl.obtenerNumero(bn.getInternalId());
+				num.setEstado(EstadoNumero.NOATENDIDO);
+				daoCtrl.modificarNumero(num);
+			}		
+		}
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
 }
