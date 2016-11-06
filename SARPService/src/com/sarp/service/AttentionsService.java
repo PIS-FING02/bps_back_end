@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.NotFoundException;
 
 import com.sarp.beans.AttentionsBean;
@@ -66,7 +65,7 @@ public class AttentionsService {
 				return Response.ok("OK").build();
 			}catch(Exception e){
 				logger.error("cerrarPuesto - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
-				return Response.ok("ERROR: " + e.getMessage()).build();
+				return Response.ok("ERROR: " + e.getLocalizedMessage()).build();
 			}
 		}else{
 			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", JSONPuesto: " + puesto);

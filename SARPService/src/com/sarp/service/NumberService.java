@@ -14,10 +14,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.spi.InternalServerErrorException;
-import org.jboss.resteasy.spi.UnauthorizedException;
 
 import com.sarp.beans.AdminBean;
 import com.sarp.beans.AttentionsBean;
@@ -58,41 +57,41 @@ public class NumberService {
 	@POST
 	@Path("/solicitarNumero")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String SolicitarNumero(JSONNumero num) {
+	public Response SolicitarNumero(JSONNumero num) {
 		try {
-			return attBean.solicitarNumero(num);
+			return Response.ok(attBean.solicitarNumero(num)).build();
 		} catch (Exception e) {
 			logger.error("solicitarNumero - params: num: "+ num);
-			throw new InternalServerErrorException(e);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
 
 	@GET
 	@Path("/listarNumerosSector")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<JSONNumero> listarNumerosSector(@HeaderParam("user-rol") String userRol,
+	public Response listarNumerosSector(@HeaderParam("user-rol") String userRol,
 			@QueryParam("idSector") String idSector) {
 		if (userRol.equals(ADMINISTRADOR)) {
 			try {
-				return numberBean.listarNumerosSector(idSector);
+				return Response.ok(numberBean.listarNumerosSector(idSector)).build();
 			} catch (Exception e) {
 				logger.error("listarNumerosSector - params: user-rol:" + userRol + ", idSector: "+ idSector);
-				throw new InternalServerErrorException(e);
+				return Response.ok("ERROR: " + e.getMessage()).build();
 			}
 		} else {
 			logger.error("Permisos insuficientes - " + ADMINISTRADOR + " - params: user-rol:" + userRol + ", idSector: " + idSector);
-			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+			return Response.ok("ERROR: No tiene permisos suficientes.").build();
 		}
 	}
 	
 	@GET
 	@Path("/listarNumerosPausados")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<JSONNumero> listarNumerosPausados(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,
+	public Response listarNumerosPausados(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
 		try {
 			if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
-				return numberBean.listarNumerosPausados(idPuesto);
+				return Response.ok(numberBean.listarNumerosPausados(idPuesto)).build();
 			}else{
 				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
 				if(userRol.equals(RESPONSABLE_SECTOR)){ 
@@ -108,25 +107,25 @@ public class NumberService {
 								listaNumeros.addAll(numberBean.listarNumerosPausadosSector(sd.getSectorId()));
 					}else{
 						logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + "/" + CONSULTOR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
-						throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+						return Response.ok("ERROR: No tiene permisos suficientes.").build();
 					}
 				}
-				return listaNumeros;
+				return Response.ok(listaNumeros).build();
 			}
 		} catch (Exception e) {
 			logger.error("listarNumerosPausados - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
-			throw new InternalServerErrorException(e);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
 
 	@GET
 	@Path("/listarNumerosAtrasados")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<JSONNumero> listarNumerosAtrasados(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
+	public Response listarNumerosAtrasados(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
 		try {
 			if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
-					return numberBean.listarNumerosAtrasados(idPuesto);
+					return Response.ok(numberBean.listarNumerosAtrasados(idPuesto)).build();
 			}else{
 				List<JSONNumero> listaNumeros = new ArrayList<JSONNumero>();
 				if(userRol.equals(CONSULTOR) ){ 
@@ -142,27 +141,27 @@ public class NumberService {
 								listaNumeros.addAll(numberBean.listarNumerosAtrasadosSector(sd.getSectorId()));
 					}else{
 						logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + "/" + CONSULTOR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
-						throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+						return Response.ok("ERROR: No tiene permisos suficientes.").build();
 					}
 				}
-				return listaNumeros;
+				return Response.ok(listaNumeros).build();
 			}
 		} catch (Exception e) {
 			logger.error("listarNumerosAtrasados - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
-			throw new InternalServerErrorException(e);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
 	
 	@GET
 	@Path("/listarNumerosEnEspera")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<JSONNumero> listarNumerosEnEspera(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
+	public Response listarNumerosEnEspera(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
 		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 			try {
-				return numberBean.listarNumerosEnEspera(idPuesto);
+				return Response.ok(numberBean.listarNumerosEnEspera(idPuesto)).build();
 			} catch (Exception e) {
-				throw new InternalServerErrorException(e);
+				return Response.ok("ERROR: " + e.getMessage()).build();
 			}
 		}else if(userRol.equals(RESPONSABLE_SECTOR)){ 
 			try {
@@ -171,28 +170,28 @@ public class NumberService {
 				for (BusinessSectorRol sd : permisos)
 					if (sd.getSectorId().equals(idSector))
 						listaNumeros.addAll( numberBean.listarNumerosEnEsperaSector(sd.getSectorId()));
-				return listaNumeros;
+				return Response.ok(listaNumeros).build();
 			} catch (Exception e) {
 				logger.error("listarNumerosEnEspera - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
-				throw new InternalServerErrorException(e);
+				return Response.ok("ERROR: " + e.getMessage()).build();
 			}
 		} else {
 			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + "/" + RESPONSABLE_SECTOR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
-			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+			return Response.ok("ERROR: No tiene permisos suficientes.").build();
 		}
 	}
 	
 	@GET
 	@Path("/obtenerCantNumerosEnEspera")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<JSONSectorCantNum> obtenerCantNumerosEnEspera(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
+	public Response obtenerCantNumerosEnEspera(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user,
 			@QueryParam("idPuesto") String idPuesto, @QueryParam("idSector") String idSector) {
 		if (userRol.equals(OPERADOR) || userRol.equals(OPERADORSR)) {
 			try {
-				return numberBean.obtenerCantNumerosEnEspera(idPuesto);
+				return Response.ok(numberBean.obtenerCantNumerosEnEspera(idPuesto)).build();
 			} catch (Exception e) {
 				logger.error("obtenerCantNumerosEnEspera - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: "+ idSector);
-				throw new InternalServerErrorException(e);
+				return Response.ok("ERROR: " + e.getMessage()).build();
 			}
 		}/*else if(userRol.equals(RESPONSABLE_SECTOR)){
 			try {
@@ -208,7 +207,7 @@ public class NumberService {
 			throw new InternalServerErrorException("esto esta en standby, xq primero se pidio para op y opSR");
 		}*/ else {
 			logger.error("Permisos insuficientes - " + OPERADOR + "/" + OPERADORSR + " - params: user-rol:" + userRol + ", idPuesto: " + idPuesto + ", idSector: " + idSector);
-			throw new UnauthorizedException("No tiene permisos para realizar esta accion.");
+			return Response.ok("ERROR: No tiene permisos suficientes.").build();
 		}
 	}
 	

@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.InternalServerErrorException;
@@ -31,13 +32,13 @@ public class MetricsService {
   	@Path("/listarMetricasPuesto")
 	@Produces(MediaType.APPLICATION_JSON)
 		/* Si nombreMaquina es null, devuelvo todas las metricas, sino se filtran las metricas */
-		public List<JSONMetricasPuesto> listarMetricasPuestos(@QueryParam("nombreMaquina") String nombreMaquina) {
+		public Response listarMetricasPuestos(@QueryParam("nombreMaquina") String nombreMaquina) {
 		try{
 			List<JSONMetricasPuesto> listaMetricasPuestos = adminBean.listarMetricasPuestos(nombreMaquina);
-			return listaMetricasPuestos;			
+			return Response.ok(listaMetricasPuestos).build();
 		}catch(Exception e){
 			logger.error("listarMetricasPuesto - params: nombreMaquina:" + nombreMaquina);
-			throw new InternalServerErrorException(e);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
 	
@@ -45,39 +46,39 @@ public class MetricsService {
   	@Path("/listarMetricasEstadoNumero")
 	@Produces(MediaType.APPLICATION_JSON)
 	/* Si internalId es null, devuelvo todas las metricas, sino se filtran las metricas */
-		public List<JSONMetricasEstadoNumero> listarMetricasEstadoNumero(@QueryParam("internalId") Integer internalId) {
+	public Response listarMetricasEstadoNumero(@QueryParam("internalId") Integer internalId) {
 		try{
 			List<JSONMetricasEstadoNumero> listaMetricasEstadoNumero = adminBean.listarMetricasEstadoNumero(internalId);
-			return listaMetricasEstadoNumero;			
+			return Response.ok(listaMetricasEstadoNumero).build();
 		}catch(Exception e){
 			logger.error("listarMetricasEstadoNumero - params: internalId:" + internalId);
-			throw new InternalServerErrorException(e);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
 
 	@GET
 	@Path("/listarMetricasDeNumero")
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONMetricasNumero listarMetricasDeNumero(@QueryParam("internalId") Integer internalId) {
+	public Response listarMetricasDeNumero(@QueryParam("internalId") Integer internalId) {
 		try{
 			JSONMetricasNumero listaMetricasNumero = adminBean.listarMetricasDeNumero(internalId);
-			return listaMetricasNumero;			
+			return Response.ok(listaMetricasNumero).build();
 		}catch(Exception e){
 			logger.error("listarMetricasDeNumero - params: internalId:" + internalId);
-			throw new InternalServerErrorException(e);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
 	
 	@GET
 	@Path("/listarMetricasNumero")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<JSONMetricasNumero> listarMetricasNumero() {
+	public Response listarMetricasNumero() {
 		try{
 			List<JSONMetricasNumero> listaMetricasNumero = adminBean.listarMetricasNumero();
-			return listaMetricasNumero;			
+			return Response.ok(listaMetricasNumero).build();
 		}catch(Exception e){
 			logger.error("listarMetricasNumero - params: ");
-			throw new InternalServerErrorException(e);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
 	}
 	

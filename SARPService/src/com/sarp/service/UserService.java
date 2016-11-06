@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.InternalServerErrorException;
@@ -35,7 +36,7 @@ public class UserService {
 	@PUT
 	@Path("/initPuestosNum")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String initPuestoNum(JSONPuesto puesto) throws Exception{
+	public Response initPuestoNum(JSONPuesto puesto) throws Exception{
 		
 		//Controllers
 		
@@ -121,12 +122,11 @@ public class UserService {
 			//ctrlAttention.finalizarAtencion(puesto);
 			//String a = "sa";
 			//List<JSONTramiteSector>  tramitesRecepcion = ctrlAttention.tramitesRecepcion(puesto.getNombreMaquina());
-			
-	
-			return "OK";
+				
+			return Response.ok("OK").build();	
 		}catch(Exception e){
 			logger.error("initPuestosNum - params: puesto: "+ puesto);
-			throw new InternalServerErrorException(e);			
+			return Response.ok("ERROR: " + e.getMessage()).build();			
 		}
 
 	}
