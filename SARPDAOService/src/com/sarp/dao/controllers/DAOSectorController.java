@@ -42,7 +42,7 @@ public class DAOSectorController {
 		
 		Sector s = sectorRepository.selectSector(codigoSector);
 		em.close();
-		BusinessSector ret = new BusinessSector(s.getCodigo(), s.getNombre(),s.getRutaSector());
+		BusinessSector ret = new BusinessSector(s.getCodigo(), s.getNombre(),s.getRutaSector(), s.isHoja());
 		ret.setLastUpdated(s.getLastUpdated());
 		return ret;	
 	}
@@ -66,7 +66,7 @@ public class DAOSectorController {
 		em.close();
 		List<BusinessSector> ret = new LinkedList<BusinessSector>();
 		for (Sector s : list){
-			BusinessSector dt = new BusinessSector(s.getCodigo(),s.getNombre(),s.getRutaSector());
+			BusinessSector dt = new BusinessSector(s.getCodigo(),s.getNombre(),s.getRutaSector(), s.isHoja());
 			ret.add(dt);
 		}
 		return ret;

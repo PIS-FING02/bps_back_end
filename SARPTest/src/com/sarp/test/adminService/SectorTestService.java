@@ -70,7 +70,7 @@ public class SectorTestService {
 	   assertEquals(sectores, gafumgr.arbolToList(ctrlGAFU.BusquedaNodo("BPS")));
 	   
 	   //AGREGO SECTORES EN LA BD, ACTUALIZO Y VEO QUE SE HAYAN BORRADO
-	   BusinessSector sector1 = new BusinessSector("ID1","NOMBREtest","/test");
+	   BusinessSector sector1 = new BusinessSector("ID1","NOMBREtest","/test", false);
 	   ctrlSector.crearSector(sector1);
 	   BusinessSector sectorBD = ctrlSector.obtenerSector("ID1");
 	   BusinessNodeGAFU sectorArbol = ctrlGAFU.BusquedaNodo("ID1");

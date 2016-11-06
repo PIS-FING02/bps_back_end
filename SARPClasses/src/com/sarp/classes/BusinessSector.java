@@ -11,15 +11,17 @@ public class BusinessSector  {
 	private String sectorId;
 	private String nombre;
 	private String ruta;
+	private boolean esHoja;
 	private Timestamp lastUpdated;
 
 	//Constructores
 	public BusinessSector() {}
 
-	public BusinessSector(String sectorid, String nombre,String ruta) {
+	public BusinessSector(String sectorid, String nombre,String ruta, boolean esHoja) {
 		this.sectorId = sectorid;
 		this.nombre = nombre;
 		this.ruta = ruta;
+		this.esHoja= esHoja;
 	}
 	
 	//Operaciones
@@ -44,6 +46,13 @@ public class BusinessSector  {
 	}
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
+	}
+	
+	public boolean getEsHoja() {
+		return esHoja;
+	}
+	public void setEsHoja(boolean esHoja) {
+		this.esHoja = esHoja;
 	}
 	
 	//

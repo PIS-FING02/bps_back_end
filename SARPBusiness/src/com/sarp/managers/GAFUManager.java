@@ -70,7 +70,7 @@ public class GAFUManager {
 		ArrayList<BusinessNodeGAFU> hijos = node.getHijos();
 		Iterator<BusinessNodeGAFU> iterator = hijos.iterator();
 		List<BusinessSector> ret = new ArrayList<BusinessSector>();
-		BusinessSector sector = new BusinessSector(node.getCodigo(), node.getNombre(), node.obtenerCamino());
+		BusinessSector sector = new BusinessSector(node.getCodigo(), node.getNombre(), node.obtenerCamino(), node.getHijos() == null || node.getHijos().size() == 0);
 		ret.add(sector);
 		while (iterator.hasNext()) {
 			ret.addAll(arbolToList(iterator.next()));
@@ -181,23 +181,8 @@ public class GAFUManager {
 				String roles = raiz.getRestriccion();
 				roles = roles.substring(9);
 				String[] listRoles = roles.split(",");
-				String codigoSector = raiz.getCodigo();
 
-				//si no es hoja
-				
-				if (!( (hijos==null) || (hijos.isEmpty()) )){
-					AgregarHijos(raiz, resultado, listRoles);
-				}	
-				
-				for (int i =0 ; i<listRoles.length; i++){
-					BusinessSectorRol secRol = new BusinessSectorRol(codigoSector,listRoles[i]);
-					if ( !resultado.isEmpty()  ){
-						if (!resultado.contains(secRol))
-								resultado.add(secRol);
-					}else
-						resultado.add(secRol);
-
-				}
+				AgregarHijos(raiz, resultado, listRoles);
 				
 			}
 			
@@ -214,8 +199,10 @@ public class GAFUManager {
 		AdminActionsController aac = fac.getAdminActionsController();
 		List<JSONSector> sect = aac.listarSectores();
 		for (JSONSector sectro : sect){
-			if (sectro.getRutaSector().contains(raiz.getCodigo())){
+			System.out.println(sectro.getEsHoja());
+			if ( ( sectro.getRutaSector().contains(raiz.getCodigo()) || sectro.getCodigo().equals(raiz.getCodigo()) ) && sectro.getEsHoja()) {
 				String seccod = sectro.getCodigo();
+		
 				for (int i =0 ; i<listRoles.length; i++){
 
 					BusinessSectorRol secRol = new BusinessSectorRol(seccod,listRoles[i]);
