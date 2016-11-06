@@ -3,8 +3,6 @@ package com.sarp.dao.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
-
-import com.sarp.dao.model.Display;
 import com.sarp.dao.model.MetricasPuesto;
 import com.sarp.dao.model.Puesto;
 import java.sql.Timestamp;

@@ -53,8 +53,7 @@ public class AttentionsService {
 		}catch(Exception e){
 			logger.error(e.toString() + ". PUT abrirPuesto - params: user-rol:" + userRol + ", JSONPuesto: "+ puesto);
 			return Response.ok("ERROR: " + e.getMessage()).build();
-		}
-		
+		}		
 	}
 	
 	@PUT
@@ -188,7 +187,8 @@ public class AttentionsService {
 	@Path("/fakeNumber")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarTramites(@HeaderParam("user-rol") String userRol, @HeaderParam("user") String user) {
-		if(userRol.equals(OPERADOR)){
+		try{
+			if(userRol.equals(OPERADOR)){		
 				JSONNumero jnumero = new JSONNumero();
 				jnumero.setId(50);
 				jnumero.setExternalId("50");
@@ -198,9 +198,13 @@ public class AttentionsService {
 				jnumero.setIdTramite("4990");
 				jnumero.setIdSector("MVD_FIS");
 				return Response.ok(jnumero).build();
-		}else{
-			logger.error("Permisos insuficientes - " + OPERADOR + " - params: user-rol:" + userRol + ", user: " + user);
-			return Response.ok("ERROR: No tiene permisos suficientes.").build();
+			}else{
+				throw new UnauthorizedException("Permisos insuficientes: " + OPERADOR);
+			}
+		}
+		catch(Exception e){
+			logger.error(e.toString() + ". GET fakeNumber - params: user-rol:" + userRol);
+			return Response.ok("ERROR: " + e.getMessage()).build();
 		}
     }
 	

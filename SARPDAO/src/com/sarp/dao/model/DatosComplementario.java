@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.*;
-import java.util.Date;
-
-
 
 /**
  * The persistent class for the datos_complementarios database table.

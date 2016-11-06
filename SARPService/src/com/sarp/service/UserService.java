@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.spi.InternalServerErrorException;
 
 import com.sarp.beans.AdminBean;
 import com.sarp.beans.AttentionsBean;
@@ -125,7 +124,7 @@ public class UserService {
 				
 			return Response.ok("OK").build();	
 		}catch(Exception e){
-			logger.error("initPuestosNum - params: puesto: "+ puesto);
+			logger.error(e.toString() + ". PUT initPuestosNum - params: puesto: "+ puesto);
 			return Response.ok("ERROR: " + e.getMessage()).build();			
 		}
 
