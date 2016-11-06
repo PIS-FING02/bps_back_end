@@ -113,10 +113,12 @@ public class AdminService {
   	@Path("/listarPuestos")
   	@Produces(MediaType.APPLICATION_JSON)
   	public Response listarPuestos(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user,@QueryParam("sectorId") String sectorId) {			  		
+
   		try{
 	  		if(userRol.equals(RESPONSABLE_SECTOR)){
 	  			if (!( sectorId == null || sectorId.isEmpty())){	
 		  			//si me pasan sector quiero todos menos los del sector que pasan 
+
 	  				List <JSONPuesto> listaPuestosSector = adminBean.listarPuestos(sectorId);
 	  				List <JSONPuesto> listaPuestos=  adminBean.listarPuestos(null );
 	
@@ -566,14 +568,14 @@ public class AdminService {
     @Produces(MediaType.APPLICATION_JSON)
   	public Response listarPuestosSector(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
     		  @QueryParam("sectorId") String idSector) {
-  		try{
-	  		if(userRol.equals(RESPONSABLE_SECTOR)){
 
-  				List<JSONPuesto> listaPuestos = adminBean.listarPuestos(idSector);
-  				return Response.ok(listaPuestos).build();
-  		  	}else{
-  		  		throw new UnauthorizedException("Permisos insuficientes: " + RESPONSABLE_SECTOR);
-  	  		}
+  		try{
+	  		if(userRol.equals(RESPONSABLE_SECTOR) || userRol.equals(CONSULTOR) ){
+	  			List<JSONPuesto> listaPuestos = adminBean.listarPuestos(idSector);
+	  			return Response.ok(listaPuestos).build();
+	  		}else{
+	  		  		throw new UnauthorizedException("Permisos insuficientes: " + RESPONSABLE_SECTOR);
+	  	  		}
 		}catch(Exception e){
 			logger.error(e.toString() + ". GET listarPuestosSector - params: user-rol:" + userRol + " idSector: "+ idSector);
 			return Response.ok("ERROR: " + e.getMessage()).build();
