@@ -424,7 +424,7 @@ public class AttentionService {
 		return ctrlQueue.obtenerNumeroDemanda(num.getCodSector(), idNumero);
 	}
 
-	public List<JSONSector> obtenerSectoresDesvio(String idSector) throws Exception {
+public List<JSONSector> obtenerSectoresDesvio(String idSector) throws Exception {
 		
 		ResponseMaker resMaker = ResponseMaker.getInstance();
 		DAOServiceFactory fac = DAOServiceFactory.getInstance();
@@ -434,15 +434,20 @@ public class AttentionService {
 		String desviosSector = UtilService.getStringProperty(idSector);
 		if(desviosSector != null){
 			String[] desvios = desviosSector.split(";"); //ATYR4-25MIN
-			for(String desvio : desvios){			
-				String[] sectorHora = desvio.split("-");
-				if(sectorHora.length == 2){
-					String sectorId = sectorHora[0];
-					BusinessSector sector = ctrlSector.obtenerSector(sectorId);
-					sectoresBusinessReturn.add(sector);
-				}else{
-					throw new Exception("Sector destino mal configurado en sector origen"+ idSector);
+			for(String desvio : desvios){
+				try{
+					String[] sectorHora = desvio.split("-");
+					if(sectorHora.length == 2){
+						String sectorId = sectorHora[0];
+						BusinessSector sector = ctrlSector.obtenerSector(sectorId);
+						sectoresBusinessReturn.add(sector);
+					}else{
+						System.out.println("Sector destino mal configurado en sector origen"+ idSector);
+					}
+				}catch(Exception e){
+					System.out.println(e.getMessage());
 				}
+				
 			}
 				
 		}
