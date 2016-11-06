@@ -21,6 +21,7 @@ public class BusinessSector  {
 		this.sectorId = sectorid;
 		this.nombre = nombre;
 		this.ruta = ruta;
+		this.esHoja= esHoja;
 	}
 	
 	//Operaciones

@@ -121,7 +121,7 @@ public class ResponseMaker {
 			jsonSector.setCodigo(businessSector.getSectorId());
 			jsonSector.setNombre(businessSector.getNombre());
 			jsonSector.setRutaSector(businessSector.getRuta());
-			
+			jsonSector.setEsHoja(businessSector.getEsHoja());
 			return jsonSector;
 		}else{
 			return null;
