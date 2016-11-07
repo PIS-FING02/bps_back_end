@@ -2,14 +2,18 @@ package com.sarp.thread;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import com.sarp.managers.QueuesManager;
+
 public class Batch implements Runnable {
     
     private int hora;
     private int min;
+    private int segsEspera;
     
     public Batch(int h, int m){
         this.hora = h;
         this.min = m;
+        this.segsEspera = 24*60*60; // cada 1 dia se ejecuta
     }
     
     public void run(){
@@ -18,13 +22,50 @@ public class Batch implements Runnable {
         try{
             Thread.sleep(segsDelay * 1000);
             while(true){
+            	QueuesManager qm = QueuesManager.getInstance();
+            	qm.limpiarColas();
                 GregorianCalendar gc = new GregorianCalendar();
-                System.out.println("Me limpio la cola con papel "+gc.get(Calendar.HOUR_OF_DAY)+":"+gc.get(Calendar.MINUTE)+":"+gc.get(Calendar.SECOND)+":"+gc.get(Calendar.MILLISECOND));
-                Thread.sleep(10000 -gc.get(Calendar.MILLISECOND));
+                System.out.println("Se limpiaron las colas exitosamente a las: "+this.obtenerHora(gc));
+                Thread.sleep((this.segsEspera * 1000) -gc.get(Calendar.MILLISECOND));
             }
         }catch(Exception e){
-        	System.out.println("Error: "+e.getMessage());
+        	System.out.println(e.getMessage());
         }
+    }
+    
+    private String obtenerHora(GregorianCalendar gc){
+    	String horaStr = "";
+    	int hora = gc.get(Calendar.HOUR_OF_DAY);
+    	int min = gc.get(Calendar.MINUTE);
+    	int segs = gc.get(Calendar.SECOND);
+    	int milis = gc.get(Calendar.MILLISECOND);
+    	if(hora < 10)
+    		horaStr = "0" + Integer.toString(hora);
+    	else
+    		horaStr = Integer.toString(hora);
+    	if(min < 10)
+    		horaStr = horaStr + ":0" + Integer.toString(min);
+    	else
+    		horaStr = horaStr + ":" + Integer.toString(min);
+    	if(segs < 10)
+    		horaStr = horaStr + ":0" + Integer.toString(segs);
+    	else
+    		horaStr = horaStr + ":" + Integer.toString(segs);
+    	horaStr = horaStr + ":" + Integer.toString(milis);
+    	return horaStr;
+    }
+    
+    private String obtenerHora(int hora, int min){
+    	String horaStr = "";
+    	if(hora < 10)
+    		horaStr = "0" + Integer.toString(hora);
+    	else
+    		horaStr = Integer.toString(hora);
+    	if(min < 10)
+    		horaStr = horaStr + ":0" + Integer.toString(min);
+    	else
+    		horaStr = horaStr + ":" + Integer.toString(min);
+    	return horaStr;
     }
     
     private int obtenerSegundosParaHoraIndicada(int hour, int min){

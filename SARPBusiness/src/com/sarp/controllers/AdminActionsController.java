@@ -237,6 +237,24 @@ public class AdminActionsController {
 		}
 	}
 	
+	public void cambiarHoraLimpiadoColas(String hora) throws Exception{
+		try{
+			AdminService adminServ = new AdminService();
+			adminServ.cambiarHoraLimpiadoColas(hora);
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	public String obtenerHoraLimpiadoColas() throws Exception {
+		try{
+			AdminService adminServ = new AdminService();
+			return adminServ.obtenerHoraLimpiadoColas();
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
 	/************* Metricas ****************/
 
 	public List<JSONMetricasPuesto> listarMetricasPuestos(String nombreMaquina) {

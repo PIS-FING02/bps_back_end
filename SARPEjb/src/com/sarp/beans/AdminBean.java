@@ -199,6 +199,22 @@ public class AdminBean {
 		}
 	}
 	
+	public void cambiarHoraLimpiadoColas(String hora) throws Exception{
+		try{
+			ctrl.cambiarHoraLimpiadoColas(hora);
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	public String obtenerHoraLimpiadoColas() throws Exception {
+		try{
+			return ctrl.obtenerHoraLimpiadoColas();
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
 	/************* Metricas ****************/
 
 	public List<JSONMetricasPuesto> listarMetricasPuestos(String nombreMaquina) {
