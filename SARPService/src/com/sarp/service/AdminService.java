@@ -656,6 +656,39 @@ public class AdminService {
 		}	
 	}
 	
+	@POST
+	@Path("/cambiarHoraLimpiadoColas")
+	public Response cambiarHoraLimpiadoColas(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user, 
+			@QueryParam("hora") String hora){
+		/* La hora tiene q ser pasada con el formato HH:MM, de 00:00 - 23:59 */
+		if (userRol.equals("ADMIN")){
+			try{
+				adminBean.cambiarHoraLimpiadoColas(hora);
+				return Response.ok("OK").build();
+			}catch(Exception e){
+				return Response.ok("ERROR: " + e.getMessage()).build();
+			}
+		}else{
+			logger.error("Permisos insuficientes - " + ADMINISTRADOR + " - params: user-rol:" + userRol);
+			return Response.ok("ERROR: No tiene permisos suficientes.").build();
+		}
+	}
+	
+	@GET
+	@Path("/obtenerHoraLimpiadoColas")
+	public Response obtenerHoraLimpiadoColas(@HeaderParam("user-rol") String userRol,@HeaderParam("user") String user){
+		if (userRol.equals("ADMIN")){
+			try{
+				return Response.ok(adminBean.obtenerHoraLimpiadoColas()).build();
+			}catch(Exception e){
+				return Response.ok("ERROR: " + e.getMessage()).build();
+			}
+		}else{
+			logger.error("Permisos insuficientes - " + ADMINISTRADOR + " - params: user-rol:" + userRol);
+			return Response.ok("ERROR: No tiene permisos suficientes.").build();
+		}
+	}
+	
 	
 	/************ Borrar todo el sistema ***************/
 	

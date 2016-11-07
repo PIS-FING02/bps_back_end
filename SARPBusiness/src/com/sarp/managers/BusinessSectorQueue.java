@@ -326,6 +326,22 @@ public class BusinessSectorQueue {
 		this.proxNumero = 1;
 	}
 	
+	/***** Limpieza de la cola ******/
+	
+	public synchronized List<BusinessNumero> limpiarCola(){
+		List<BusinessNumero> listaNums = new ArrayList<BusinessNumero>();
+		listaNums.addAll(this.colaPrioridad1);
+		listaNums.addAll(this.colaPrioridad2);
+		listaNums.addAll(this.pausados);
+		listaNums.addAll(this.atrasados);
+		this.colaPrioridad1.clear();
+		this.colaPrioridad2.clear();
+		this.pausados.clear();
+		this.atrasados.clear();
+		this.proxNumero = 1;
+		return listaNums;
+	}
+	
 	/*********************
 	 * Metodos auxiliares de testing
 	 *************************************/

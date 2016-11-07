@@ -38,6 +38,7 @@ import com.sarp.json.modeler.JSONTramite;
 import com.sarp.managers.QueuesManager;
 import com.sarp.service.response.maker.RequestMaker;
 import com.sarp.service.response.maker.ResponseMaker;
+import com.sarp.thread.ThreadManager;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONSector;
 
@@ -490,6 +491,32 @@ public class AdminService {
 			}else{
 				// finalizado, no atendido y desviado no son agregados a la cola
 			}
+		}
+	}
+	
+	public void cambiarHoraLimpiadoColas(String hora) throws Exception {
+		try{
+			int h = Integer.parseInt(hora.substring(0, 2));
+			int m = Integer.parseInt(hora.substring(3, 5)); 
+			if(hora.length() != 5)
+				throw new Exception("formato incorrecto");
+			if(h > -1 && h < 24 && m > -1 && m < 60){
+				ThreadManager th = ThreadManager.getInstance();
+				th.cambiarHoraLimpiadoColas(h, m);
+			}else{
+				throw new Exception("rango de hora erroneo"); 
+			}
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	public String obtenerHoraLimpiadoColas() throws Exception {
+		try{
+			ThreadManager th = ThreadManager.getInstance();
+			return th.obtenerHoraLimpiadoColas();
+		}catch(Exception e){
+			throw e;
 		}
 	}
 	

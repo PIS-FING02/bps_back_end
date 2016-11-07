@@ -7,6 +7,7 @@ import com.sarp.classes.BusinessNumero;
 import com.sarp.classes.BusinessTramite;
 import com.sarp.dao.controllers.DAONumeroController;
 import com.sarp.dao.factory.DAOServiceFactory;
+import com.sarp.enumerados.EstadoNumero;
 import com.sarp.json.modeler.JSONNumero;
 import com.sarp.managers.BusinessSectorQueue;
 import com.sarp.managers.QueuesManager;

@@ -3,6 +3,7 @@ package com.sarp.beans;
 import java.util.List;
 
 import javax.ejb.LocalBean;
+import javax.ejb.Startup;
 import javax.ejb.Stateless;
 
 import com.sarp.classes.BusinessSector;
@@ -42,6 +43,8 @@ public class AdminBean {
 		ctrl = fac.getAdminActionsController();
 		gafu = fac.GAFUController();
     }
+    
+    
     
     public void altaPuesto(JSONPuesto puesto) throws Exception {
 		// Se delega a ctrlice la implementacion
@@ -192,6 +195,22 @@ public class AdminBean {
 		try {
 			ctrl.recuperarColas();
 		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public void cambiarHoraLimpiadoColas(String hora) throws Exception{
+		try{
+			ctrl.cambiarHoraLimpiadoColas(hora);
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	public String obtenerHoraLimpiadoColas() throws Exception {
+		try{
+			return ctrl.obtenerHoraLimpiadoColas();
+		}catch(Exception e){
 			throw e;
 		}
 	}
