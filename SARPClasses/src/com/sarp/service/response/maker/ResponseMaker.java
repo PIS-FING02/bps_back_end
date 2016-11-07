@@ -62,6 +62,24 @@ public class ResponseMaker {
 		return jsonPuesto;
 	}
 	
+	public JSONPuesto puestoSectorTramitesResponse(BusinessPuesto bussinesPuesto, List<BusinessSector> businessSectores, List<BusinessTramite> businessTramites){
+		JSONPuesto jsonPuesto = this.puestoAtomResponse(bussinesPuesto);
+
+		List<JSONSector> listJSONSector = new ArrayList<JSONSector>();
+		for(BusinessSector businessSector : businessSectores){
+			listJSONSector.add(this.sectorAtomResponse(businessSector));
+		}
+		jsonPuesto.setSectores(listJSONSector);
+		
+		List<JSONTramite> listJSONTramite = new ArrayList<JSONTramite>();
+		for(BusinessTramite businessTramite : businessTramites){
+			listJSONTramite.add(this.tramiteAtomResponse(businessTramite));
+		}
+		jsonPuesto.setTramites(listJSONTramite);
+
+		return jsonPuesto;
+	}
+	
 	/*     JSONNUMERO      */
 	public JSONNumero numeroAtomResponse(BusinessNumero businessNumero) {
 		
