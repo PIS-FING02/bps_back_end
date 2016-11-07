@@ -27,6 +27,7 @@ import com.sarp.json.modeler.JSONNumero;
 import com.sarp.json.modeler.JSONPuesto;
 import com.sarp.json.modeler.JSONTramiteResultado;
 import com.sarp.json.modeler.JSONSector;
+import com.sarp.json.modeler.JSONTramite;
 import com.sarp.json.modeler.JSONTramiteSector;
 import com.sarp.service.response.maker.RequestMaker;
 import com.sarp.service.response.maker.ResponseMaker;
@@ -55,7 +56,9 @@ public class AttentionService {
     				bPuesto.setUsuarioId(puesto.getUsuarioId());
     				// Se delega a DaoService
     				controladorPuesto.modificarPuesto(bPuesto);
-    				sendPuesto = respMaker.puestoAtomResponse(bPuesto);
+    				ArrayList<BusinessSector> bSectores = controladorPuesto.obtenerSectoresPuesto(puesto.getNombreMaquina());
+    				ArrayList<BusinessTramite> bTramites = controladorPuesto.obtenerTramitesPuesto(puesto.getNombreMaquina());
+    				sendPuesto = respMaker.puestoSectorTramitesResponse(bPuesto, bSectores, bTramites);
     				estadoPuesto.setPuesto(sendPuesto);
     				estadoPuesto.setNumero(null);
     				
@@ -66,8 +69,9 @@ public class AttentionService {
                 
             	break;
             case DISPONIBLE: 
-            	
-            	sendPuesto = respMaker.puestoAtomResponse(bPuesto);
+            	ArrayList<BusinessSector> bSectores = controladorPuesto.obtenerSectoresPuesto(puesto.getNombreMaquina());
+				ArrayList<BusinessTramite> bTramites = controladorPuesto.obtenerTramitesPuesto(puesto.getNombreMaquina());
+				sendPuesto = respMaker.puestoSectorTramitesResponse(bPuesto, bSectores, bTramites);
             	estadoPuesto.setPuesto(sendPuesto);
 				estadoPuesto.setNumero(null);
 				
@@ -75,7 +79,9 @@ public class AttentionService {
                
             default: 
             	//En caso de el estado ser LLAMANDO o ATENDIENDO devuelvo el numero
-        		sendPuesto = respMaker.puestoAtomResponse(bPuesto);
+            	ArrayList<BusinessSector> bSectores1 = controladorPuesto.obtenerSectoresPuesto(puesto.getNombreMaquina());
+				ArrayList<BusinessTramite> bTramites1 = controladorPuesto.obtenerTramitesPuesto(puesto.getNombreMaquina());
+				sendPuesto = respMaker.puestoSectorTramitesResponse(bPuesto, bSectores1, bTramites1);
 				BusinessNumero bSendNumero = controladorPuesto.obtenerNumeroActualPuesto(bPuesto.getNombreMaquina());
 				JSONNumero sendNumero = respMaker.numeroAtomResponse(bSendNumero);
 				estadoPuesto.setPuesto(sendPuesto);
