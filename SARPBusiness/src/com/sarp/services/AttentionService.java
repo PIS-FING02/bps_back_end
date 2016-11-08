@@ -391,6 +391,8 @@ public class AttentionService {
 		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
 		ctrlPuesto.asociarNumeroPuestoActual(idPuesto, idNumero);
 		
+		//Para optimistic locking 
+		num = ctrlNumero.obtenerNumero(idNumero);
 		num.setEstado(EstadoNumero.ATENDIENDO);
 		ctrlNumero.modificarNumero(num);
 		
@@ -401,12 +403,13 @@ public class AttentionService {
 		DAOServiceFactory fac = DAOServiceFactory.getInstance();
 		DAONumeroController ctrlNumero = fac.getDAONumeroController();
 		DAOPuestoController ctrlPuesto = fac.getDAOPuestoController();
-		//fede pijins
+		
 		Factory facBusiness = Factory.getInstance();
 		QueueController ctrlQueue = facBusiness.getQueueController();
 		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
 		ctrlPuesto.asociarNumeroPuestoActual(idPuesto, idNumero);
-		
+		//Para optimistic locking 
+		num = ctrlNumero.obtenerNumero(idNumero);
 		num.setEstado(EstadoNumero.ATENDIENDO);
 		ctrlNumero.modificarNumero(num);
 		
@@ -424,6 +427,8 @@ public class AttentionService {
 		BusinessNumero num = ctrlNumero.obtenerNumero(idNumero);
 		ctrlPuesto.asociarNumeroPuestoActual(idPuesto, idNumero);
 		
+		//Para optimistic locking 
+		num = ctrlNumero.obtenerNumero(idNumero);
 		num.setEstado(EstadoNumero.ATENDIENDO);
 		ctrlNumero.modificarNumero(num);
 		
