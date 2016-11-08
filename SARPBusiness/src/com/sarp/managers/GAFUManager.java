@@ -199,7 +199,7 @@ public class GAFUManager {
 		AdminActionsController aac = fac.getAdminActionsController();
 		List<JSONSector> sect = aac.listarSectores();
 		for (JSONSector sectro : sect){
-			System.out.println(sectro.getEsHoja());
+			//System.out.println(sectro.getEsHoja());
 			if ( ( sectro.getRutaSector().contains(raiz.getCodigo()) || sectro.getCodigo().equals(raiz.getCodigo()) ) && sectro.getEsHoja()) {
 				String seccod = sectro.getCodigo();
 		
