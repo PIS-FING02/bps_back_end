@@ -416,7 +416,7 @@ public class AttentionService {
 		ctrlPuesto.asociarNumeroPuestoActual(idPuesto, idNumero);
 		//Para optimistic locking 
 		num = ctrlNumero.obtenerNumero(idNumero);
-		num.setEstado(EstadoNumero.ATENDIENDO);
+		num.setEstado(EstadoNumero.LLAMADO);
 		ctrlNumero.modificarNumero(num);
 		
 		// Traigo el puesto desde la base
