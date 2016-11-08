@@ -4,6 +4,7 @@ package com.sarp.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sarp.utils.UtilService;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
