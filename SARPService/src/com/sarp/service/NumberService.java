@@ -46,11 +46,11 @@ public class NumberService {
 	@EJB
 	private AttentionsBean attBean = new AttentionsBean();
 	
-	private String RESPONSABLE_SECTOR = "RESPSEC";//UtilService.getStringProperty("RESPONSABLE_SECTOR");
-	private String ADMINISTRADOR = "ADMIN";//UtilService.getStringProperty("ADMINISTRADOR");
-	private String OPERADOR = "OPERADOR";//UtilService.getStringProperty("OPERADOR");
-	private String OPERADORSR = "OPERADORSR";//UtilService.getStringProperty("OPERADOR_SENIOR");
-	private String CONSULTOR = "CONSULTOR";//UtilService.getStringProperty("CONSULTOR");
+	private String RESPONSABLE_SECTOR = UtilService.getStringProperty("RESPONSABLE_SECTOR");
+	private String ADMINISTRADOR = UtilService.getStringProperty("ADMINISTRADOR");
+	private String OPERADOR = UtilService.getStringProperty("OPERADOR");
+	private String OPERADORSR = UtilService.getStringProperty("OPERADOR_SENIOR");
+	private String CONSULTOR = UtilService.getStringProperty("CONSULTOR");
 	
 	private static Logger logger = Logger.getLogger(NumberService.class);
 	

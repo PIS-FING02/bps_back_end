@@ -32,9 +32,9 @@ public class AttentionsService {
 	@EJB
 	private AttentionsBean attBean = new AttentionsBean();
 	
-	private String RECEPCION = "RECEPCION";//UtilService.getStringProperty("RECEPCION");
-	private String OPERADOR = "OPERADOR";//UtilService.getStringProperty("OPERADOR");
-	private String OPERADORSR = "OPERADORSR";//UtilService.getStringProperty("OPERADOR_SENIOR");
+	private String RECEPCION = UtilService.getStringProperty("RECEPCION");
+	private String OPERADOR = UtilService.getStringProperty("OPERADOR");
+	private String OPERADORSR = UtilService.getStringProperty("OPERADOR_SENIOR");
 
 	private static Logger logger = Logger.getLogger(AttentionsService.class);
 	

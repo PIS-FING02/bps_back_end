@@ -29,7 +29,7 @@ public class MetricsService {
 	
 	private static Logger logger = Logger.getLogger(MetricsService.class);
 	
-	private String CONSULTOR = "CONSULTOR";//UtilService.getStringProperty("CONSULTOR");
+	private String CONSULTOR = UtilService.getStringProperty("CONSULTOR");
 	
 	@GET
   	@Path("/listarMetricasPuesto")

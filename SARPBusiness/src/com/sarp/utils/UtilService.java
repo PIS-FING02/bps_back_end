@@ -25,7 +25,13 @@ public class UtilService {
 			  input = new FileInputStream(propertiesPath);
 			  prop.load(input);  
 		  } catch(FileNotFoundException e) { 
-			  e.printStackTrace(); 
+			  try{
+				  input = UtilService.class.getResourceAsStream("local.properties");
+				  prop.load(input);  
+				  System.out.println("Esta local");
+			  }catch(Exception ex) { 
+				  System.out.println("NO LO ENCONTRO AL PROPERTIE NI LOCAL");
+			  }
 		  } catch (IOException e){
 			  e.printStackTrace(); 
 		  }
