@@ -441,8 +441,14 @@ public class AttentionService {
 		
 		//Para optimistic locking 
 		num = ctrlNumero.obtenerNumero(idNumero);
-		num.setEstado(EstadoNumero.ATENDIENDO);
+		num.setEstado(EstadoNumero.LLAMADO);
 		ctrlNumero.modificarNumero(num);
+		
+		// Traigo el puesto desde la base
+		BusinessPuesto puestoSend = ctrlPuesto.obtenerPuesto(idPuesto);
+		// Modifico el estado del puesto
+		puestoSend.setEstado(EstadoPuesto.LLAMANDO);
+		ctrlPuesto.modificarPuesto(puestoSend);
 		
 		return ctrlQueue.obtenerNumeroDemanda(num.getCodSector(), idNumero);
 	}
