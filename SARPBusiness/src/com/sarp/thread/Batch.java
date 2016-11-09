@@ -1,6 +1,9 @@
 package com.sarp.thread;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import com.sarp.dao.controllers.DAOPuestoController;
+import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.managers.QueuesManager;
 
 public class Batch implements Runnable {
@@ -26,8 +29,11 @@ public class Batch implements Runnable {
                 GregorianCalendar gc = new GregorianCalendar();
                 System.out.println("Se limpiaron las colas exitosamente a las: "+this.obtenerHora(gc));
                 
-                
-                
+                DAOServiceFactory daoFac = DAOServiceFactory.getInstance();
+                DAOPuestoController ctrl = daoFac.getDAOPuestoController();
+                ctrl.resetarPuestos();
+                gc = new GregorianCalendar();
+                System.out.println("Se resetearon los puestos a las: "+this.obtenerHora(gc));
                 Thread.sleep((this.segsEspera * 1000) -gc.get(Calendar.MILLISECOND));
             }
         }catch(Exception e){
