@@ -87,7 +87,7 @@ public class DAOPuesto {
 	}
 
 	public void resetearPuestos() {
-		em.createQuery("UPDATE Puesto set estado = \'Cerrado\', usuarioId = \'-\', numero_puesto = null")
+		em.createQuery("UPDATE Puesto set estado = \'CERRADO\', usuarioId = \'-\', numero_puesto = null")
 			.executeUpdate();
 	}
 	
