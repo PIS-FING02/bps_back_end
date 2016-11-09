@@ -6,6 +6,8 @@ import com.sarp.dao.model.Display;
 import com.sarp.dao.model.Numero;
 import com.sarp.dao.model.Puesto;
 import com.sarp.dao.model.Sector;
+import com.sarp.dao.model.Tramite;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -29,8 +31,15 @@ public class DAOSector {
 		s.setNombre(nombre);
 		s.setRutaSector(ruta);
 		s.setHabilitado(true);
-		
-		em.persist(s);
+		try{
+			Tramite t = em.find(Tramite.class, "1"); //Tramite generico asociado a todos los sectores
+			t.getSectors().add(s);
+			s.getTramites().add(t);
+			em.persist(t);
+		}
+		finally{
+			em.persist(s);
+		}
 	}
 	
 	/* Obtengo la entidad de Sector en la bd con su codigo */
