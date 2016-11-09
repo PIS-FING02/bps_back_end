@@ -147,6 +147,10 @@ public class AdminActionsController {
 		AdminService adminService = new AdminService();
 		return adminService.listarSectores();
 	}
+	public List<JSONSector> listarSectoresHoja() throws Exception {
+		AdminService adminService = new AdminService();
+		return adminService.listarSectoresHoja();
+	}
 	public List<JSONSector> listarSectores(List<BusinessSectorRol> respde) throws Exception {
 		AdminService adminService = new AdminService();
 		return adminService.listarSectoresPorRol(respde);

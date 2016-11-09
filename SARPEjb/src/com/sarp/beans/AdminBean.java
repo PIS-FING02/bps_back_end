@@ -130,7 +130,9 @@ public class AdminBean {
 	public List<JSONSector> listarSectores() throws Exception {
 		return ctrl.listarSectores();
 	}
-	
+	public List<JSONSector> listarSectoresHoja() throws Exception {
+		return ctrl.listarSectoresHoja();
+	}
 	public List<JSONSector> listarSectores(List<BusinessSectorRol> respde) throws Exception {
 		return ctrl.listarSectores(respde);
 	}
