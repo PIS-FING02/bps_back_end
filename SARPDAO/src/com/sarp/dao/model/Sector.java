@@ -153,8 +153,8 @@ public class Sector implements Serializable {
 		return esHoja;
 	}
 
-	public void setHoja(boolean habilitado) {
-		this.habilitado = habilitado;
+	public void setHoja(boolean esHoja) {
+		this.esHoja = esHoja;
 	}
 
 }

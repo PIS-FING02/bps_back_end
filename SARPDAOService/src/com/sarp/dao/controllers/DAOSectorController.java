@@ -31,7 +31,7 @@ public class DAOSectorController {
 		DAOSector sectorRepository = factory.getSectorRepository(em);
 		
 		em.getTransaction().begin();
-		sectorRepository.insertSector(sector.getSectorId(), sector.getNombre(),sector.getRuta());
+		sectorRepository.insertSector(sector.getSectorId(), sector.getNombre(),sector.getRuta(), sector.getEsHoja());
 		em.getTransaction().commit();
 		em.close();
 	}
