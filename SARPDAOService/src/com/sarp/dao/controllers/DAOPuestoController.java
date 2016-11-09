@@ -303,5 +303,14 @@ public class DAOPuestoController {
 		}
 		return ret;
 	}
+	
+	public void resetarPuestos(){
+		EntityManager em = EMFactory.getEntityManager();
+		DAOPuesto puestoRepository = factory.getPuestoRepository(em);
+		em.getTransaction().begin();
+		puestoRepository.resetearPuestos();
+		em.getTransaction().commit();
+		em.close();
+	}
 
 }
