@@ -22,7 +22,7 @@ public class DAOSector {
 		this.em = em;
 	}
 
-	public void insertSector(String codigo, String nombre, String ruta){		
+	public void insertSector(String codigo, String nombre, String ruta, boolean esHoja){		
 		if(em.find(Sector.class, codigo) != null){
 			throw new RollbackException("Ya existe un Sector con codigo " + codigo);
 		}
@@ -30,11 +30,12 @@ public class DAOSector {
 		s.setCodigo(codigo);
 		s.setNombre(nombre);
 		s.setRutaSector(ruta);
+		s.setHoja(esHoja);
 		s.setHabilitado(true);
 		try{
 			Tramite t = em.find(Tramite.class, "1"); //Tramite generico asociado a todos los sectores
 			t.getSectors().add(s);
-			s.getTramites().add(t);
+			//s.getTramites().add(t);
 			em.persist(t);
 		}
 		finally{
