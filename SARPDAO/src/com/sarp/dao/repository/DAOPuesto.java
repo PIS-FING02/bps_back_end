@@ -85,5 +85,10 @@ public class DAOPuesto {
 		ArrayList<MetricasPuesto> res = new ArrayList<MetricasPuesto>(q.getResultList());
 		return res;
 	}
+
+	public void resetearPuestos() {
+		em.createQuery("UPDATE Puesto set estado = \'Cerrado\', usuarioId = \'-\', numero_puesto = null")
+			.executeUpdate();
+	}
 	
 }

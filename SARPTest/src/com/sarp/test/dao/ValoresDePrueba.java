@@ -29,7 +29,7 @@ public class ValoresDePrueba {
 		DAOPuestoController ctrlPuesto = new DAOPuestoController();
 		DAOAdminController ctrlAdmin = new DAOAdminController();
 		
-		boolean resetear = true;
+		boolean resetear = false;
 		boolean cargar = false;
 		
 		/*VALORES DE PRUEBA*/
@@ -267,7 +267,6 @@ public class ValoresDePrueba {
 			ctrlSector.asociarSectorPuesto("INT_SAL_PR_PS", "maq10");
 			ctrlSector.asociarSectorPuesto("INT_SAL_PR_PE", "maq10");						
 		}
-		
 		
 		System.out.println("\nFIN");
 		System.out.println("\nresetear=" + resetear);
