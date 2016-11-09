@@ -253,7 +253,7 @@ public class AdminService {
 		try{
 			if(userRol.equals(ADMINISTRADOR)){
 				//listo todos los sectores
-				return Response.ok(adminBean.listarSectores()).build();
+				return Response.ok(adminBean.listarSectoresHoja()).build();
 			}else{
 				//listo todos los sectores para los cuales tiene permisos EN GAFU
 				if (userRol.equals(RESPONSABLE_SECTOR)){

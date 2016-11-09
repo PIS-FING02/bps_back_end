@@ -210,6 +210,20 @@ public class AdminService {
 		List<JSONSector> jsonSec = resMaker.createArrayAtomSectores(listaSectores);
 		return jsonSec;
 	}
+	
+	public List<JSONSector> listarSectoresHoja() throws Exception {
+		ResponseMaker resMaker = ResponseMaker.getInstance();
+		DAOServiceFactory factory = DAOServiceFactory.getInstance();
+		DAOSectorController ctrl = factory.getDAOSectorController();
+		List<BusinessSector> listaSectores = ctrl.listarSectores();
+		List<BusinessSector> listaSectoresHoja = new ArrayList<BusinessSector>();
+		for( BusinessSector ls : listaSectores)
+			if (ls.getEsHoja())
+				listaSectoresHoja.add(ls);
+			
+		List<JSONSector> jsonSec = resMaker.createArrayAtomSectores(listaSectoresHoja);
+		return jsonSec;
+	}
 
 	public List<JSONSector> listarSectoresPorRol( List<BusinessSectorRol> respde) throws Exception {
 		ResponseMaker resMaker = ResponseMaker.getInstance();
