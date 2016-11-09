@@ -425,6 +425,13 @@ public class AttentionService {
 		puestoSend.setEstado(EstadoPuesto.LLAMANDO);
 		ctrlPuesto.modificarPuesto(puestoSend);
 		
+		ResponseMaker respMaker = ResponseMaker.getInstance();
+		JSONNumero numeroDisplay = respMaker.numeroAtomResponse(num);
+		
+		// llamo al display
+		DisplayService dispService = DisplayService.getInstance();
+		dispService.llamarEnDisplay(puestoSend.getNumeroPuesto().toString(), numeroDisplay);
+		
 		return ctrlQueue.obtenerNumeroAtrasado(num.getCodSector(), idNumero);
 	}
 	

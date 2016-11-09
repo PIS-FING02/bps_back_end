@@ -1,7 +1,6 @@
 package com.sarp.thread;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
 import com.sarp.managers.QueuesManager;
 
 public class Batch implements Runnable {
@@ -26,6 +25,9 @@ public class Batch implements Runnable {
             	qm.limpiarColas();
                 GregorianCalendar gc = new GregorianCalendar();
                 System.out.println("Se limpiaron las colas exitosamente a las: "+this.obtenerHora(gc));
+                
+                
+                
                 Thread.sleep((this.segsEspera * 1000) -gc.get(Calendar.MILLISECOND));
             }
         }catch(Exception e){
@@ -55,7 +57,7 @@ public class Batch implements Runnable {
     	return horaStr;
     }
     
-    private String obtenerHora(int hora, int min){
+    /*private String obtenerHora(int hora, int min){
     	String horaStr = "";
     	if(hora < 10)
     		horaStr = "0" + Integer.toString(hora);
@@ -66,7 +68,7 @@ public class Batch implements Runnable {
     	else
     		horaStr = horaStr + ":" + Integer.toString(min);
     	return horaStr;
-    }
+    }*/
     
     private int obtenerSegundosParaHoraIndicada(int hour, int min){
         GregorianCalendar horaActual = new GregorianCalendar();
