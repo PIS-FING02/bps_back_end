@@ -230,6 +230,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER actualizo_metrica_numero AFTER UPDATE ON numero
 	FOR EACH ROW EXECUTE PROCEDURE actualizo_metrica_numero();
 	
-insert into tramite values('1', 'Tramite Generico')
+insert into tramite values('1', 'Tramite Generico');
 
 COMMIT;
