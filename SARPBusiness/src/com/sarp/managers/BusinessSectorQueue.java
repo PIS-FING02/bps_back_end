@@ -185,7 +185,15 @@ public class BusinessSectorQueue {
 			tiempoProperties = 30;
 		}
 		GregorianCalendar horaActual = new GregorianCalendar();
-		horaActual.add(Calendar.MINUTE, tiempoProperties);
+		if(tiempoProperties > 0){
+			horaActual.add(Calendar.MINUTE, tiempoProperties);
+		}else{
+			/* Este caso es para los sectores que si configuran tiempo 0, es porque
+			   quieren atrasarlo, pero que no pase a NOATENDIDO el numero por doble atraso. Entonces
+			   se atrasa a las 20 hrs, y el numero no va atrasarse doble, y puede ser llamado a demanda */
+			horaActual.set(Calendar.HOUR_OF_DAY, 20);
+			horaActual.set(Calendar.MINUTE, 0);
+		}
 		numero.setHora(horaActual);
 		numero.setEstado(EstadoNumero.ATRASADO);
 		this.atrasados.addLast(numero);
