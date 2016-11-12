@@ -110,7 +110,7 @@ public class DisplayService {
 					writer.println("|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5*" + hora + "*"
 							+ numero.getDatosComplementarios() != null?  numero.getDatosComplementarios().getNombreCompleto():numero.getExternalId());
 				}else{
-					writer.println(nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
+					writer.println("|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
 							+ numero.getExternalId());
 				}
 	
