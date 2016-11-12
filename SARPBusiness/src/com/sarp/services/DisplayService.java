@@ -83,6 +83,9 @@ public class DisplayService {
 	
 			String horaRefresh = CalendarToString(new GregorianCalendar());
 			
+			|12/11/2016-14:20:55*4*5*ATRIL*4*D*-*5**MV-1
+		
+			
 			while ((line = in.readLine()) != null) {
 				String[] parteLine = line.split("\\*");
 				if (parteLine[4].equals(numPuesto)) {
@@ -109,7 +112,7 @@ public class DisplayService {
 					writer.println("|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5*" + hora + "*"
 							+ numero.getDatosComplementarios() != null?  numero.getDatosComplementarios().getNombreCompleto():numero.getExternalId());
 				}else{
-					writer.println(nuevoArchivo = nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
+					writer.println(nuevoArchivo + "|"+horaRefresh+"*4*5*"+prioridad+"*" + numPuesto + "*D*-*5**"
 							+ numero.getExternalId());
 				}
 	
