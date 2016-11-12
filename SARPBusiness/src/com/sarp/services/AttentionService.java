@@ -534,8 +534,15 @@ public void desviarNumero(String idSectorDesvio,JSONFinalizarAtencion finalizarA
 								
 								BusinessDatoComplementario datosComp = ctrlNumero.obtenerDatosNumero(numeroActual.getInternalId());
 								//BusinessDatoComplementario datosComp = null;
+								
+								//Agrego el nuevo numero a la cola
 								Integer idNumDesviado =  ctrlNumero.crearNumero(numeroDesviado,datosComp);
-
+								BusinessNumero newNumero = ctrlNumero.obtenerNumero(idNumDesviado);
+								Factory factor = Factory.getInstance();
+								QueueController ctrl = factor.getQueueController();
+								ctrl.agregarNumero(newNumero.getCodSector(), newNumero);
+								//Se persistio en la cola
+								
 								numeroActual.setEstado(EstadoNumero.DESVIADO);
 								ctrlNumero.modificarNumero(numeroActual);
 								
