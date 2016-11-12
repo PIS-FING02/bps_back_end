@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import com.sarp.dao.controllers.DAOPuestoController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.managers.QueuesManager;
+import com.sarp.services.DisplayService;
 
 public class Batch implements Runnable {
     
@@ -34,6 +35,12 @@ public class Batch implements Runnable {
                 ctrl.resetarPuestos();
                 gc = new GregorianCalendar();
                 System.out.println("Se resetearon los puestos a las: "+this.obtenerHora(gc));
+                
+                DisplayService dispServ = DisplayService.getInstance();
+                dispServ.limpiarDisplays();
+                gc = new GregorianCalendar();
+                System.out.println("Se resetearon los displays a las: "+this.obtenerHora(gc));
+                
                 Thread.sleep((this.segsEspera * 1000) -gc.get(Calendar.MILLISECOND));
             }
         }catch(Exception e){
