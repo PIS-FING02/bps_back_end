@@ -42,7 +42,7 @@ public class DisplayService {
 		List<BusinessDisplay> displaysSector = controladorSector.obtenerDisplaysSector(numero.getIdSector());
 		
 		//Saco el path desde archivo property 
-		String localPath = "/Users/facevedo/";
+		String localPath = UtilService.getStringProperty("DISPLAYS_PATH");
 		
 		String hora = numero.getHora();
 		String prioridad;
