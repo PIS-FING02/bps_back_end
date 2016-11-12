@@ -38,6 +38,9 @@ public class DAOSector {
 			//s.getTramites().add(t);
 			em.persist(t);
 		}
+		catch(Exception e){
+			System.out.print("No exsiste el Tramite Generico con ID '1'");
+		}
 		finally{
 			em.persist(s);
 		}
@@ -50,7 +53,7 @@ public class DAOSector {
 			return s;
 		}
 		else{
-			throw new RollbackException("No existe el Sector con código " + codigo);
+			throw new RollbackException("No existe el Sector con cï¿½digo " + codigo);
 		}
     }
 	
@@ -70,7 +73,7 @@ public class DAOSector {
 		em.persist(s);
 	}
 	
-	/* Dada de baja lógica de un Sector dado por su codigo */
+	/* Dada de baja lï¿½gica de un Sector dado por su codigo */
 	public void bajaLogicaSector(String codigo) throws RollbackException{		
 		Sector s = selectSector(codigo);
 		s.setHabilitado(false);
