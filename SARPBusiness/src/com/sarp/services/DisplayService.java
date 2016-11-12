@@ -2,16 +2,20 @@ package com.sarp.services;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.sarp.classes.BusinessDisplay;
+import com.sarp.classes.BusinessSector;
+import com.sarp.dao.controllers.DAODisplayController;
 import com.sarp.dao.controllers.DAOSectorController;
 import com.sarp.dao.factory.DAOServiceFactory;
 import com.sarp.json.modeler.JSONNumero;
@@ -133,5 +137,48 @@ public class DisplayService {
 		fecha = fecha + ":" + (Integer.toString(c.get(Calendar.MINUTE)).length() > 1 ? Integer.toString(c.get(Calendar.MINUTE)) : "0"+Integer.toString(c.get(Calendar.MINUTE)));
 		fecha = fecha + ":" + (Integer.toString(c.get(Calendar.SECOND)).length() > 1 ? Integer.toString(c.get(Calendar.SECOND)) : "0"+Integer.toString(c.get(Calendar.SECOND)));
 		return fecha;
+	}
+
+	public void limpiarDisplays() throws Exception{
+		
+		DAOServiceFactory daoServiceFactory = DAOServiceFactory.getInstance();
+		DAODisplayController controladorDisplay = daoServiceFactory.getDAODisplayController();
+
+		ArrayList<BusinessDisplay> displays = controladorDisplay.listarDisplays();
+		
+		//Saco el path desde archivo property 
+		String localPath = UtilService.getStringProperty("DISPLAYS_PATH");
+		
+		//Recorro todos los displays que tiene asociado el sector del numero que quiero mostrar
+		for (BusinessDisplay display : displays) {
+
+			String idDisplay = display.getIdDisplay();
+
+			String absolutePath = localPath + idDisplay + ".txt";
+			File displayFile = new File(absolutePath);
+
+			//Se utiliza para bloquear el exceso al archivo .txt evitando que dos escriban al mismo tiempo
+			RandomAccessFile file = new RandomAccessFile(displayFile, "rw");
+			FileChannel channel = file.getChannel();
+			// Use the file channel to create a lock on the file.
+			// This method blocks until it can retrieve the lock.
+			FileLock lock = channel.lock();
+
+			if(displayFile.delete()){
+    			System.out.println(displayFile.getName() + " is deleted!");
+    		}else{
+    			System.out.println("Delete operation is failed.");
+    		}
+			
+	        //se libera el lock
+	        if( lock != null ) {
+	            lock.release();
+	        }
+
+	        // Cierro el archivo
+	        channel.close();
+	        file.close();
+
+		}
 	}
 }
