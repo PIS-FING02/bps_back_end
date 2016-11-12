@@ -82,9 +82,7 @@ public class DisplayService {
 			String nuevoArchivo = "";
 	
 			String horaRefresh = CalendarToString(new GregorianCalendar());
-			
-			|12/11/2016-14:20:55*4*5*ATRIL*4*D*-*5**MV-1
-		
+				
 			
 			while ((line = in.readLine()) != null) {
 				String[] parteLine = line.split("\\*");
