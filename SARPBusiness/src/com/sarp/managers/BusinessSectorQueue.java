@@ -21,10 +21,10 @@ public class BusinessSectorQueue {
 	private LinkedList<BusinessNumero> atrasados;
 	private LinkedList<BusinessNumero> pausados;
 	private int proxNumero;
-	// private final String idSector;
+	private final String idSector;
 
 	public BusinessSectorQueue(String idSec) {
-		// this.idSector = idSec;
+		this.idSector = idSec;
 		this.colaPrioridad1 = new LinkedList<BusinessNumero>();
 		this.colaPrioridad2 = new LinkedList<BusinessNumero>();
 		this.atrasados = new LinkedList<BusinessNumero>();
@@ -180,7 +180,7 @@ public class BusinessSectorQueue {
 	public synchronized void agregarNumeroAtrasado(BusinessNumero numero) {
 		Integer tiempoProperties;
 		try{
-			tiempoProperties = UtilService.getIntegerProperty("LATE_TIME_MINUTES");
+			tiempoProperties = UtilService.getIntegerProperty("LATE_TIME_MINUTES_"+idSector);
 		}catch(Exception e){
 			tiempoProperties = 30;
 		}
