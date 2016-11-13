@@ -49,8 +49,7 @@ public class ValoresDePrueba {
 				s.setNombre("Sector " + id);
 				s.setRuta("ruta de ejemplo " + id);			
 				ctrlSector.crearSector(s);
-				
-				
+								
 				BusinessDisplay d = new BusinessDisplay();
 				d.setIdDisplay("iddisplay" + id);
 				ctrlDisplay.crearDisplay(d);

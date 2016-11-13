@@ -10,6 +10,8 @@ import com.sarp.dao.model.Tramite;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class DAOSector {
@@ -32,18 +34,20 @@ public class DAOSector {
 		s.setRutaSector(ruta);
 		s.setHoja(esHoja);
 		s.setHabilitado(true);
-		try{
-			Tramite t = em.find(Tramite.class, "1"); //Tramite generico asociado a todos los sectores
+		Tramite t = em.find(Tramite.class, "1"); //Tramite generico asociado a todos los sectores
+		if(t != null){
 			t.getSectors().add(s);
-			//s.getTramites().add(t);
+		}
+		else{ 
+			t = new Tramite();
+			t.setCodigo("1");
+			t.setNombre("Tramite Generico");
+			List<Sector> sectors = new LinkedList<Sector>();
+			sectors.add(s);
+			t.setSectors(sectors);
 			em.persist(t);
 		}
-		catch(Exception e){
-			System.out.print("No exsiste el Tramite Generico con ID '1'");
-		}
-		finally{
-			em.persist(s);
-		}
+		em.persist(s);
 	}
 	
 	/* Obtengo la entidad de Sector en la bd con su codigo */
