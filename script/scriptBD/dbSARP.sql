@@ -230,6 +230,13 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER actualizo_metrica_numero AFTER UPDATE ON numero
 	FOR EACH ROW EXECUTE PROCEDURE actualizo_metrica_numero();
 	
+--------------------------------------------------------TRAMITE DESVIAR--------------------------------------------------------
 insert into tramite values('1', 'Tramite Generico');
+CREATE OR REPLACE RULE tramite_desviar_delete_protect AS ON DELETE TO tramite 
+	WHERE codigo = '1'
+	DO INSTEAD NOTHING;
+CREATE OR REPLACE RULE tramite_desviar_update_protect AS ON UPDATE TO tramite 
+	WHERE old.codigo = '1' AND old.nombre != new.nombre
+	DO INSTEAD NOTHING;
 
 COMMIT;
