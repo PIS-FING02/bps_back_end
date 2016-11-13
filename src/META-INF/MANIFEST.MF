@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: SARPDAOService.jar 
- SARPClasses.jar 
- SARPBusiness.jar 
- SARPFacade.jar 
- SARPDAO.jar
-
