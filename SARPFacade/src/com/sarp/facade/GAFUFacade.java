@@ -15,6 +15,7 @@ import javax.xml.ws.BindingProvider;
 
 import com.sarp.classes.BusinessNodeGAFU;
 import com.sarp.classes.BusinessSectorRol;
+import com.sarp.utils.UtilService;
 
 import uy.gub.bps.apph.wsgafuservice.v001.AreaFuncional;
 import uy.gub.bps.apph.wsgafuservice.v001.ErrorNegocio;
@@ -39,28 +40,8 @@ public class GAFUFacade {
 	
 	public GAFUFacade(){
 		
-		/*String path_os;
-		String[] result;
-		String path;
-		String location = GAFUFacade.class.getProtectionDomain().getCodeSource().getLocation().getPath().toString();
-		result = location.split("/standalone");
-		path_os = "/modules/conf/config_base.properties";
-		path= result[0] + path_os;
-		Properties prop = new Properties();
-		InputStream input;
-		try {
-			input = new FileInputStream(path);
-			prop.load(input);
-			this.endpoint= prop.getProperty("ENDPOINT").toString();
-			this.areaFuncional =prop.getProperty("AREA_FUNCIONAL").toString();
-			this.codSistema = prop.getProperty("SISTEMA").toString();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		
-		this.endpoint = "http://52.52.100.160:8080/GAFU/WsGafuService";
+		this.endpoint = UtilService.getStringProperty("GAFU_ENDPOINT");
 		this.areaFuncional = "BPS";
 		this.codSistema = "GAP";
 	}
