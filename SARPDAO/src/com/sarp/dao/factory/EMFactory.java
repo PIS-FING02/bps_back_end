@@ -12,34 +12,31 @@ import javax.persistence.Persistence;
 
 public class EMFactory {
 
-	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgresUnit");
-	/*
-	 * Se trabaja con un �nico EntityManagerFactory que crea varios
-	 * EntityManager, uno por transacci�n
-	 */
+	private static  final String propertiesPath = "/home/ubuntu/EAP-6.4.0/modules/conf/config_base.properties";
+	private static EntityManagerFactory emf;
+	//emf =Persistence.createEntityManagerFactory("postgresUnit");
+	
+	
 	public static EntityManager getEntityManager() {
+		Properties prop = getProperty();
+		EMFactory.emf = Persistence.createEntityManagerFactory("postgresUnit", prop);
+		return EMFactory.emf.createEntityManager();
 		
-		/*String path_os;
-		String[] result;
-		String path;
-		String location = EMFactory.class.getProtectionDomain().getCodeSource().getLocation().getPath().toString();
-		result = location.split("/standalone");
-		path_os = "/modules/conf/config_base.properties";
-		path= result[0] + path_os;
-		Properties prop = new Properties();
-		InputStream input;
-		try {
-			input = new FileInputStream(path);
-			prop.load(input);
+	}
+	
+	private static Properties getProperty(){
+		Properties prop = new Properties(); 
+		  InputStream input; 
+		  try { 
+			  input = new FileInputStream(propertiesPath);
+			  prop.load(input);  
+		  } catch(FileNotFoundException e) { 
+				  System.out.println("No se encontro la configuracion de la base de datos");
+		  } catch (IOException e) {
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		emf = Persistence.createEntityManagerFactory("postgresUnit", prop);*/
-		
-		return emf.createEntityManager();
+		  return prop;
 	}
 
 }
