@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class UtilService {
 
-	private static final String propertiesPath = "/home/ubuntu/EAP-6.4.0/modules/conf/sarp_back.properties";  
+	private static final String propertiesPath = System.getProperty("jboss.home.dir")+"/modules/conf/sarp_back.properties";  
 
 	public static Integer getIntegerProperty(String key){    
 		return  Integer.valueOf(getProperty().getProperty(key));
