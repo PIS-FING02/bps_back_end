@@ -12,7 +12,7 @@ import javax.persistence.Persistence;
 
 public class EMFactory {
 
-	private static  final String propertiesPath = "/home/ubuntu/EAP-6.4.0/modules/conf/config_base.properties";
+	private static  final String propertiesPath = System.getProperty("jboss.home.dir")+"/modules/conf/config_base.properties";
 	private static EntityManagerFactory emf;
 	//emf =Persistence.createEntityManagerFactory("postgresUnit");
 	
