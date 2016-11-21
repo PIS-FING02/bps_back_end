@@ -1,5 +1,6 @@
 package com.sarp.managers;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +30,11 @@ public class GAFUManager {
 	    
 	private GAFUManager() {
 			GAFUFacade gf = GAFUFacade.getInstance();
-			this.arbol =  gf.crearArbolGAFU();
+			try {
+				this.arbol =  gf.crearArbolGAFU();
+			} catch (MalformedURLException e) {
+				System.out.println("ERROR CON GAFU");
+			}
 	    }
 
 	public void actualizarArbolGAFU() throws Exception{

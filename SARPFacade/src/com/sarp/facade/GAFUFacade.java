@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -55,8 +57,8 @@ public class GAFUFacade {
 		}
 	}
 	
-	private  ResultObtenerArbolAreaFuncional obtenerSectoresGAFU(){
-		WsGafuServiceService service1 = new WsGafuServiceService();
+	private  ResultObtenerArbolAreaFuncional obtenerSectoresGAFU() throws MalformedURLException{
+		WsGafuServiceService service1 = new WsGafuServiceService(new URL(endpoint+"?wsdl"));
 		WsGafuService port1 = service1.getWsGafuServicePort();
 		((BindingProvider) port1).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,this.endpoint);
 		ParamObtenerArbolAreaFuncional paramObtenerArbolAreaFuncional = new ParamObtenerArbolAreaFuncional();
@@ -90,15 +92,15 @@ public class GAFUFacade {
 		return treeRootNode;
 	}
 
-	public  BusinessNodeGAFU crearArbolGAFU(){
+	public  BusinessNodeGAFU crearArbolGAFU() throws MalformedURLException{
 		
 		ResultObtenerArbolAreaFuncional result;
 		result = obtenerSectoresGAFU();
 		return crearArbol(null,result.getAreaFuncional());
 	}
 	
-	public ResultObtenerAreasFuncionalesUsuario obtenerAreasFuncionalesUsuario( String idUsuario ) {
-		WsGafuServiceService service1 = new WsGafuServiceService();
+	public ResultObtenerAreasFuncionalesUsuario obtenerAreasFuncionalesUsuario( String idUsuario ) throws MalformedURLException {
+		WsGafuServiceService service1 = new WsGafuServiceService(new URL(endpoint+"?wsdl"));
 		WsGafuService port1 = service1.getWsGafuServicePort();
 		((BindingProvider) port1).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,this.endpoint);
 		ParamObtenerAreasFuncionalesUsuario paramObtenerAreasFuncionalesUsuario = new ParamObtenerAreasFuncionalesUsuario();
