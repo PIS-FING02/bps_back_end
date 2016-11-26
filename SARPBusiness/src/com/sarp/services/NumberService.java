@@ -41,8 +41,7 @@ public class NumberService {
 			
 		}else{
 			//ATRIL 
-			String externalID = numero.getCodSector().length() > 1 ? numero.getCodSector().substring(0, 2)
-					: numero.getCodSector();
+			String externalID = numero.getCodSector();
 			numero.setExternalId(externalID + "-" + Integer.toString(ctrl.obtenerProxNumero(numero.getCodSector())));
 		}
 			
