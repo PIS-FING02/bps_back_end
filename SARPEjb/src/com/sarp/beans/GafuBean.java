@@ -24,7 +24,7 @@ public class GafuBean {
 	public GafuBean() {
         // TODO Auto-generated constructor stub
 		Factory fac = Factory.getInstance();
-		//gafu = fac.GAFUController();
+		gafu = fac.GAFUController();
     }
     
  

@@ -39,7 +39,7 @@ import com.sarp.utils.UtilService;
 public class AdminService {
 	private final String ResponsableSectorGAFU = "RESPSEC";
 	
-	private static Logger logger = Logger.getLogger(AttentionsService.class);
+	private static Logger logger = Logger.getLogger(AdminService.class);
 	
 	private final String ConsultorGAFU = "CONSULTOR";
 	@Context ServletContext context;
@@ -258,7 +258,13 @@ public class AdminService {
 				//listo todos los sectores para los cuales tiene permisos EN GAFU
 				if (userRol.equals(RESPONSABLE_SECTOR)){
 					List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ResponsableSectorGAFU);	  			
-	  				return Response.ok(adminBean.listarSectores(respde)).build();
+	  				if(respde != null && !respde.isEmpty()){
+	  					return Response.ok(adminBean.listarSectores(respde)).build();
+	  				}else{
+	  					logger.info("LISTA VACIA DE SECOTORES. GET listarSectores - params: user-rol:" + userRol + " user: "+ user);
+	  					List<BusinessSectorRol> list = new ArrayList<BusinessSectorRol>();
+	  					return Response.ok(list).build();
+	  				}
 				}else{					
 					if (userRol.equals(CONSULTOR)){
 						List<BusinessSectorRol> respde =  gafu.obtenerSectorRolesUsuario(user,ConsultorGAFU);			  			
